@@ -1,14 +1,28 @@
 import React from 'react'
 import BoardPreview from './BoardPreview'
-import { Link } from 'react-router-dom'
+import BoardAdd from './BoardAdd'
 
 
-export default function BoardList(props) {
 
-    return (<section className="boards-list flex wrap">
-        {props.boards.map(board => <BoardPreview key={board._id} board={board} />)}
-        <Link to="/board/add" className="add-new-board board-item" >Create new board</Link>
-    </section>)
+export default class BoardList extends React.Component {
+    state = {
+        isAddOpen: false
+    }
+
+    toggleAddShown = () => {
+        this.setState(prevState => ({ isAddOpen: !prevState.isAddOpen }))
+    }
+
+    render() {
+        return (
+            <>
+                {this.state.isAddOpen && <BoardAdd />}
+                <section className="boards-list flex wrap">
+                    {this.props.boards.map(board => <BoardPreview key={board._id} board={board} />)}
+                    <button className="add-new-board board-item" onClick={this.toggleAddShown}>Create new board</button>
+                </section>
+            </>)
+    }
 }
 
 
