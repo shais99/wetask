@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="app">
       <NavBar />
-      <main>
+      <main className="main-content top-p">
         <Switch>
           <Route component={UserProfile} path="/user/:userId" />
           <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
