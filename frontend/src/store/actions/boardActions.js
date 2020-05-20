@@ -1,8 +1,8 @@
 import boardService from '../../services/boardService'
 
-export function loadBoards() {
+export function loadBoards(id) {
   return dispatch => {
-    boardService.query()
+    boardService.query({userId:id})
       .then(boards => dispatch({ type: 'SET_BOARDS', boards }))
   }
 }
@@ -22,7 +22,7 @@ export function removeBoard(boardId) {
   }
 }
 
-export function saveBoard(board) {
+export function save(board) {
   return dispatch => {
     const type = board._id ? 'UPDATE_BOARD' : 'ADD_BOARD';
     boardService.save(board)
