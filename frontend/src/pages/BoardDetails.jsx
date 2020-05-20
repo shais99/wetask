@@ -103,7 +103,7 @@ class BoardDetails extends React.Component {
 
     state = {
         data: [
-            getItems(10), 
+            getItems(10),
             getItems(5, 10)
         ]
     }
@@ -139,7 +139,7 @@ class BoardDetails extends React.Component {
             newState[sInd] = result[sInd];
             newState[dInd] = result[dInd];
 
-            this.setState({data: newState.filter(group => group.length)}, console.log(this.state.data));
+            this.setState({ data: newState.filter(group => group.length) }, console.log(this.state.data));
         }
     }
 
@@ -206,7 +206,7 @@ class BoardDetails extends React.Component {
                     <button
                         type="button"
                         onClick={() => {
-                            this.setState(({data}) => ({ data: [...data, []]}));
+                            this.setState(({ data }) => ({ data: [...data, []] }));
                         }}
                     >
                         Add new group
@@ -214,7 +214,7 @@ class BoardDetails extends React.Component {
                     <button
                         type="button"
                         onClick={() => {
-                            this.setState(({data}) => ({ data: [...data, getItems(1)]}));
+                            this.setState(({ data }) => ({ data: [...data, getItems(1)] }));
                         }}
                     >
                         Add new item
@@ -235,11 +235,9 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        
-        loadBoard: (id) => dispatch(loadBoard(id)),
-    }
+const mapDispatchToProps = {
+
+    loadBoard
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardDetails)

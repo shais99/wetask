@@ -4,6 +4,8 @@
     height: 100%;
     position: fixed;
     padding-top: 77px;
+    top: 0;
+    left: 0;
 
     .modal-container {
         background-color: $clr7;
@@ -12,7 +14,7 @@
         position: relative;
         z-index: 99;
         margin: 0 auto;
-        padding: 5px 15px 70px;
+        padding: 5px 15px 20px;
 
         .modal-header {
             margin-bottom: 25px;

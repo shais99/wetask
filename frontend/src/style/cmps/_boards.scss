@@ -1,17 +1,13 @@
-
-.boards-page{
+.boards-page {
     padding: 20px;
-    padding-top: 90px;
 
-    .boards-header{
+    .boards-header {
         margin: 10px;
     }
 }
 
-.boards-list{
-    
-
-    .board-item{
+.boards-list {
+    .board-item {
         width: rem(225px);
         height: 140px;
         border-radius: 5px;
@@ -19,15 +15,31 @@
         cursor: pointer;
         margin-right: 10px;
         margin-bottom: 20px;
-        background-color: $clr4;
+        // background-color: $clr4;
+        transition: 0.3s;
+        &:hover {
+            background-color: darken($clr4, 10%);
+        }
     }
 
-    .add-new-board{
+    .add-new-board {
         background-color: $clr6;
         border: none;
         color: $clr1;
+        &:hover{
+            background-color: darken($clr6, 10%);
+        }
     }
 }
 
 
 
+.add-board{
+    width: rem(300px);
+
+}
+
+.modal-footer{
+    margin-top: 20px;
+    border-top: 1px solid #d5d5d5;
+}
