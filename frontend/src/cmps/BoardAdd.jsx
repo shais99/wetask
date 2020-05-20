@@ -22,6 +22,7 @@ class BoardAdd extends React.Component {
     };
 
 
+
     render() {
         const { board } = this.state
         return <>
@@ -29,7 +30,7 @@ class BoardAdd extends React.Component {
                 <div className="modal-container" style={{ width: "35%" }}>
                     <div className="modal-header flex space-between">
                         <h3>Create Board</h3>
-                        <button className="close-modal">X</button>
+                        <button className="close-modal" onClick={this.props.onClose}>X</button>
                     </div>
                     <form className="" onSubmit={this.onHandleSubmit}>
                         <input name="title" className="borad-title" value={board.title}

@@ -6,20 +6,6 @@ import { connect } from 'react-redux'
 
 class Boards extends React.Component {
 
-    // state = {
-    //     boards: [
-    //         {
-    //             _id: "101",
-    //             title: "meshix board"
-    //         },
-    //         {
-    //             _id: "102",
-    //             title: "we task board"
-    //         }
-    //     ],
-    //     userLoggedIn: "Puki"
-    // }
-
     componentDidMount(){
         this.props.loadBoards('5ec5581139619913d9c4da56')
     }
