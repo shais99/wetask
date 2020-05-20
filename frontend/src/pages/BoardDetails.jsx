@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { loadBoard } from '../store/actions/boardActions.js';
 
+import { StackAdd } from '../cmps/StackAdd.jsx'
+
+
 const getItems = (count, offset = 0) =>
     Array.from({ length: count }, (v, k) => k).map(k => ({
         id: `item-${k + offset}-${new Date().getTime()}`,
@@ -56,44 +59,6 @@ const getListStyle = isDraggingOver => ({
     width: 250
 });
 
-const boardData = {
-    _id: "b101",
-    title: "wetask project",
-    members: [{ _id: 'u101', fullName: 'Tal Tarablus', imgUrl: 'https://www.google.com' }],
-    "stacks": [
-        {
-            id: 's101',
-            title: 'Stack 1',
-            cards: [
-                {
-                    id: 'c101',
-                    title: 'Remove the images from the website',
-                },
-                {
-                    id: 'c102',
-                    title: 'Add the images from the website',
-                }
-            ],
-            bgColor: '#fefefe'
-        },
-        {
-            id: 's102',
-            title: 'Stack 2',
-            cards: [
-                {
-                    id: 'c103',
-                    title: 'WHATTT the images from the website',
-                },
-                {
-                    id: 'c104',
-                    title: 'NO WAYYYY the images from the website',
-                }
-            ],
-            bgColor: '#fefefe'
-        }
-    ]
-}
-
 class BoardDetails extends React.Component {
 
     constructor() {
@@ -111,6 +76,11 @@ class BoardDetails extends React.Component {
     componentDidMount() {
 
 
+    }
+
+    onStackAdd = () => {
+
+        this.setState(({ data }) => ({ data: [...data, []] }));
     }
 
     onDragEnd = (result) => {
@@ -222,7 +192,7 @@ class BoardDetails extends React.Component {
                 </span>
 
                 {this.stacks()}
-
+                <StackAdd onStackAdd={this.onStackAdd} />
             </section>
         )
     }
