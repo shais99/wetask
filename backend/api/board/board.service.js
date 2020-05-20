@@ -16,7 +16,12 @@ async function query(filterBy = {}) {
     const collection = await dbService.getCollection('board')
     try {
         const boards = await collection.find().toArray();
-        const boardsToReturn = boards.filter(board => board.members._id === filterBy.userId)
+        console.log('HEYYY', filterBy)
+        const boardsToReturn = []
+        boards.filter(board => { // BOARDS --> memebers ==> 
+            return board.members.find(member => member._id === filterBy.userId)
+        })
+        
         return boardsToReturn
     } catch (err) {
         console.log('ERROR: cannot find boards')
