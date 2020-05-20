@@ -35,7 +35,7 @@ const boardRoutes = require('./api/board/board.routes')
 
 
 app.use('/api/auth', authRoutes)
-app.use('/api/board', boardRoutes)
+app.use('/api/boards', boardRoutes)
 
 
 
