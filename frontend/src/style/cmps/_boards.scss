@@ -1,0 +1,33 @@
+
+.boards-page{
+    padding: 20px;
+    padding-top: 90px;
+
+    .boards-header{
+        margin: 10px;
+    }
+}
+
+.boards-list{
+    
+
+    .board-item{
+        width: rem(225px);
+        height: 140px;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        margin-right: 10px;
+        margin-bottom: 20px;
+        background-color: $clr4;
+    }
+
+    .add-new-board{
+        background-color: $clr6;
+        border: none;
+        color: $clr1;
+    }
+}
+
+
+
