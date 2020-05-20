@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import CardDescription from '../cmps/CardDescription'
 import CardComments from '../cmps/CardComments'
-import {Link} from 'react-router-dom'
+import BoardDetails from '../pages/BoardDetails'
+import { Link } from 'react-router-dom'
 
 
 export default class CardDetails extends Component {
@@ -87,26 +88,47 @@ export default class CardDetails extends Component {
         }
     }
 
+    componentDidMount() {
+        // this.loadCard()
+    }
+
+    loadCard = () => {
+        const card = this.props.card
+        this.setState({ card })
+    }
+
     toggleDescShown = () => {
         this.setState(prevState => ({ isDescShown: !prevState.isDescShown }))
+    }
+
+    onBackBoard = (ev) => {
+        const { boardId } = this.props.match.params
+        this.props.history.push(`/boards/${boardId}`)
+    }
+
+    handleChange = ({ target }) => {
+        const field = target.name
+        const value = target.value
+
+        this.setState(prevState => ({ card: { ...prevState.user, [field]: value } }))
     }
 
     render() {
         const { card, isDescShown, description, comment } = this.state
         return (
             <>
-                <div className="screen">
-                    <div className="modal-container">
+                <BoardDetails />
+                <div className="screen" onClick={this.onBackBoard}>
+                    <div className="modal-container" onClick={(ev) => ev.stopPropagation()}>
                         <div className="modal-header flex space-between">
-                            <input name="title" className="card-title" value={card.title} />
-                            <button className="close-modal">X</button>
+                            <input name="title" className="card-title" onChange={this.handleChange} value={card.title} />
+                            <button className="close-modal" onClick={this.onBackBoard}>X</button>
                         </div>
-
 
                         <div className="card-container flex">
                             <aside className="card-content">
                                 <CardDescription description={description.txt} isShownToggle={this.toggleDescShown} isSubmitShown={isDescShown} />
-                                <CardComments comment={comment.txt} />
+                                <CardComments comments={card.comments} comment={comment.txt} />
                             </aside>
 
                             <aside className="card-actions">
@@ -117,6 +139,7 @@ export default class CardDetails extends Component {
                                     <Link><li>Due Date</li></Link>
                                 </ul>
                             </aside>
+
                         </div>
                     </div>
                 </div>
