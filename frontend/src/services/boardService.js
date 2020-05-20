@@ -8,8 +8,9 @@ export default {
     get
 }
 
-async function query({userId}) {
-    return await httpService.get(`${BASE_URL}`, { params: userId })
+async function query(userId) {
+    const queryStr = `?userId=${userId}`;
+    return await httpService.get(`${BASE_URL}${queryStr}`);
 }
 
 async function get(id) {

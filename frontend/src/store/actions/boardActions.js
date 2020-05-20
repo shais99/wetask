@@ -1,8 +1,8 @@
 import boardService from '../../services/boardService'
 
-export function loadBoards(id) {
+export function loadBoards(userId) {
   return dispatch => {
-    boardService.query({userId:id})
+    boardService.query(userId)
       .then(boards => dispatch({ type: 'SET_BOARDS', boards }))
   }
 }
