@@ -1,0 +1,28 @@
+.form-container {
+    background-color: lighten($clr6, 2%);
+    width: 70%;
+    height: 70vh;
+    border-radius: 10px;
+
+    .form-title {
+        margin: 0px 20px;
+        padding: 10px 15px;
+        width: 90%;
+        border-bottom: 1px solid darken($clr6, 15%);
+        font-family: openSansBold;
+        color: $clr2;
+    }
+
+    .login-signup-form {
+        margin-top: 20px;
+        margin-left: 35px;
+
+        & input {
+            width: 30%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+    }
+}

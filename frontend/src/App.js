@@ -20,6 +20,7 @@ function App() {
           <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
           <Route component={BoardDetails} path="/boards/:boardId" />
           <Route component={Boards} path="/boards" />
+          <Route component={LoginSignup} path="/login" />
           <Route component={LoginSignup} path="/signup" />
           <Route component={HomePage} path="/" />
         </Switch>
