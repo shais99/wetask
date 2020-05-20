@@ -1,0 +1,38 @@
+.home-container {
+    width: 100%;
+    height: 100vh;
+    padding-top: 90px;
+}
+
+.hero-container {
+    background-color: $clr2;
+}
+
+.second-container {
+    background-color: $clr4;
+}
+
+.third-container {
+    background-color: $clr5;
+}
+
+.nav-container {
+    background-color: rgba(0, 0, 0, 0.329);
+    padding: 20px;
+    position: fixed;
+    width: 100%;
+}
+
+.logo {
+    font-family: openSansBold;
+    font-size: rem(26px);
+    display: inline;
+
+    .logo-we {
+        background-color: $clr3;
+        padding: 0 3px;
+        margin-right: 3px;
+        color: darken($clr3, 25%);
+        border-radius: 3px;
+    }
+}
