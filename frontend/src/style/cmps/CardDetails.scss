@@ -1,0 +1,105 @@
+.screen {
+    background-color: rgba(0, 0, 0, 0.61);
+    width: 100vw;
+    height: 100%;
+    position: fixed;
+    padding-top: 77px;
+
+    .modal-container {
+        background-color: $clr7;
+        width: 55%;
+        min-height: 200px;
+        position: relative;
+        z-index: 99;
+        margin: 0 auto;
+        padding: 5px 15px 70px;
+
+        .modal-header {
+            margin-bottom: 25px;
+            border-bottom: 1px solid darken($clr6, 10%);
+            padding: 5px;
+        }
+
+        .card-title {
+            font-size: rem(20px);
+            font-family: openSansBold;
+            width: 80%;
+            height: fit-content;
+            border: none;
+            padding: 6px;
+            transition: 0.3s;
+            outline: none;
+            border-radius: 5px;
+
+            &:focus {
+                background-color: $clr6;
+                padding-left: 15px;
+            }
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            border-radius: 50%;
+            padding: 10px 12px;
+            color: darken($clr6, 40%);
+            transition: 0.3s;
+
+            &:hover {
+                background-color: $clr6;
+            }
+        }
+    }
+}
+
+.card-container {
+    .card-content {
+        width: 65%;
+        margin-right: 25px;
+
+        .card-desc {
+            width: 100%;
+            height: 150px;
+            padding: 5px;
+            resize: none;
+        }
+
+        .comment-input {
+            width: 70%;
+            margin-right: 5%;
+            padding: 8px 5px;
+        }
+
+        .comment-btn {
+            padding: 8px;
+        }
+
+        .comment-btn {
+            width: 25%;
+        }
+
+        .card-desc-container {
+            margin-bottom: 35px;
+        }
+
+        .card-mini-title {
+            margin-bottom: 12px;
+        }
+    }
+    .card-actions {
+        width: 30%;
+        & li {
+            background-color: $clr6;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: rem(14px);
+            transition: 0.3s;
+
+            &:hover {
+                background-color: $clr2;
+                color: $clr7;
+            }
+        }
+    }
+}
