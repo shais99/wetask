@@ -1,14 +1,12 @@
 
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import board from './reducers/boardReducers.js'
-import user from './reducers/userReducer.js'
-// import taskApp from './reducers/taskReducer'
-
 import thunk from 'redux-thunk';
+import userReducer from './reducers/userReducer.js';
+import boardReducer from './reducers/boardReducers.js';
 
 const rootReducer = combineReducers({
-    user,
-    board
+    user: userReducer,
+    board: boardReducer
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
