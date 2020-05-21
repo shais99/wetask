@@ -23,7 +23,6 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 const move = (source, destination, droppableSource, droppableDestination) => {
-    console.log('SOURCE', source, 'DEST', destination, 'dSource', droppableSource, 'dDest', droppableDestination);
     const sourceClone = { name: source.name, stack: Array.from(source.stack) };
     const destClone = { name: destination.name, stack: Array.from(destination.stack) };
     const [removed] = sourceClone.stack.splice(droppableSource.index, 1);
@@ -71,11 +70,10 @@ class BoardDetails extends React.Component {
 
     componentDidMount() {
 
-        const { id } = this.props.match.params;
-        this.props.loadBoard(id)
-            .then(board => {
-                console.log(this.props.currBoard);
-            })
+        const { boardId } = this.props.match.params;
+        this.props.loadBoard(boardId);
+        console.log(this.props.currBoard);
+
     }
 
     onStackAdd = (newStackTitle) => {
@@ -93,36 +91,30 @@ class BoardDetails extends React.Component {
         }
         const sIndex = +source.droppableId;
         const dIndex = +destination.droppableId;
-        console.log(sIndex, dIndex);
         if (sIndex === dIndex) {
-            console.log('here1');
             const items = reorder(this.state.data[sIndex].stack, source.index, destination.index);
             const newState = [...this.state.data];
             newState[sIndex].stack = items;
             this.setState({ data: newState });
             // this.data = newState;
         } else {
-            console.log('here2');
             const result = move(this.state.data[sIndex], this.state.data[dIndex], source, destination);
-            console.log(result);
             const newState = [...this.state.data];
-            console.log(newState);
             newState[sIndex] = result[sIndex];
             newState[dIndex] = result[dIndex];
-            console.log(newState);
             this.setState({ data: newState });
-            // this.setState({ data: newState.filter(group => group.length) }, console.log(this.state.data));
         }
     }
 
     stacks = () => {
+        const board = this.props.currBoard;
 
         return (
             <span className="stacks-section flex">
                 <DragDropContext
                     onDragEnd={this.onDragEnd}
                 >
-                    {this.state.data.map((el, ind) => (
+                    {board.stacks.map((stack, ind) => (
 
                         <Droppable key={ind} droppableId={`${ind}`}>
                             {(provided, snapshot) => (
@@ -131,11 +123,11 @@ class BoardDetails extends React.Component {
                                     style={getListStyle(snapshot.isDraggingOver)}
                                     {...provided.droppableProps}
                                 >
-                                    <p className="stack-title">{el.name}</p>
-                                    {el.stack.map((item, index) => (
+                                    <p className="stack-title">{stack.title}</p>
+                                    {stack.cards.map((card, index) => (
                                         <Draggable
-                                            key={item.id}
-                                            draggableId={item.id}
+                                            key={card.id}
+                                            draggableId={card.id}
                                             index={index}
                                         >
                                             {(provided, snapshot) => (
@@ -155,7 +147,7 @@ class BoardDetails extends React.Component {
                                                                 justifyContent: "space-around"
                                                             }}
                                                         >
-                                                            {item.content}
+                                                            {card.title}
                                                         </div>
                                                     </div>
                                                 </Link>
@@ -176,10 +168,13 @@ class BoardDetails extends React.Component {
     }
 
     render() {
+        console.log(this.props.currBoard);
+        const { currBoard } = this.props;
+
         return (
             <section className="board-content container flex column align-start space-between">
 
-                {this.stacks()}
+                {(currBoard) ? this.stacks() : null}
 
             </section>
         )
