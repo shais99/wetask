@@ -98,10 +98,15 @@
             margin-bottom: 10px;
             font-size: rem(14px);
             transition: 0.3s;
+            display: flex;
+            align-items: center;
 
             &:hover {
-                background-color: $clr2;
-                color: $clr7;
+                background-color: darken($clr6, 10%);
+            }
+            & img {
+                width: 14px;
+                margin-right: 10px;
             }
         }
     }

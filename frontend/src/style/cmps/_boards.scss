@@ -32,27 +32,67 @@
     }
 }
 
-.add-board {
-    width: rem(300px);
+.main-form-container {
+    color: white;
+
+    .borad-title {
+        margin-bottom:35px;
+        height: 30px !important;
+        font-size: rem(14px) !important;
+    }
+
+    .main-form {
+        width: 50%;
+        border-radius: 8px;
+        padding: 10px;
+
+        .main-form-header{
+            margin-bottom: 10px;
+            border-bottom: 1px solid darken($clr6, 10%);
+            padding: 5px;
+        }
+
+        .clean-link{
+            color: white;
+            text-decoration: none;
+        }
+        .close-btn{
+            background: none;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 7px;
+            color: white;
+            transition: 0.3s;
+
+            &:hover {
+                background-color: $clr6;
+                color: darken($clr6, 40%);
+
+            }
+        }
+    }
+
+    .bg-color-container {
+        width: 50%;
+
+        .bg-color-list {
+            width: 200px;
+            padding: 0;
+            margin: 0;
+            margin-left: 20px;
+            li {
+                width: 50px;
+                height: 50px;
+                margin: 0px 3px;
+                margin-bottom: 4px;
+                border-radius: 7px;
+                cursor: pointer;
+            }
+        }
+    }
 }
 
 .modal-footer {
-    margin-top: 20px;
-    border-top: 1px solid #d5d5d5;
-}
-
-.main-form{
-    width: 100%;
-    border-radius: 8px;
-    padding: 10px;
-}
-
-.bg-color-container {
-    width: 100px;
-    .bg-color-list {
-        li {
-            width: 20px;
-            height: 20px;
-        }
-    }
+    margin-top: 8px;
+    margin-left: 10px;
 }
