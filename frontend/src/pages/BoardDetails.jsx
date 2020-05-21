@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { loadBoard } from '../store/actions/boardActions.js';
-
-import { StackAdd } from '../cmps/StackAdd.jsx'
+import { AddContent } from '../cmps/AddContent.jsx';
+import { Link } from 'react-router-dom';
 
 
 const getItems = (count, offset = 0) =>
@@ -15,25 +15,25 @@ const getItems = (count, offset = 0) =>
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
+    console.log(list);
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-
     return result;
 };
 
 const move = (source, destination, droppableSource, droppableDestination) => {
     console.log('SOURCE', source, 'DEST', destination, 'dSource', droppableSource, 'dDest', droppableDestination);
-    const sourceClone = Array.from(source);
-    const destClone = Array.from(destination);
-    const [removed] = sourceClone.splice(droppableSource.index, 1);
+    const sourceClone = { name: source.name, stack: Array.from(source.stack) };
+    const destClone = { name: destination.name, stack: Array.from(destination.stack) };
+    const [removed] = sourceClone.stack.splice(droppableSource.index, 1);
     console.log(removed);
-    destClone.splice(droppableDestination.index, 0, removed);
+    destClone.stack.splice(droppableDestination.index, 0, removed);
 
     const result = {};
     result[droppableSource.droppableId] = sourceClone;
     result[droppableDestination.droppableId] = destClone;
-
+    console.log(result);
     return result;
 };
 
@@ -56,31 +56,31 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? 'lightblue' : 'lightgrey',
     padding: grid,
-    width: 250
+    width: 250,
+    transition: 'ease-in-out 0.15s'
 });
 
 class BoardDetails extends React.Component {
 
-    constructor() {
-        super();
-        this.data = [getItems(10), getItems(5, 10)];
-    }
-
     state = {
         data: [
-            getItems(10),
-            getItems(5, 10)
+            { name: 'NEVOhadnazer', stack: getItems(10) },
+            { name: 'MESHigena', stack: getItems(5, 10) },
         ]
     }
 
     componentDidMount() {
 
-
+        const { id } = this.props.match.params;
+        this.props.loadBoard(id)
+            .then(board => {
+                console.log(this.props.currBoard);
+            })
     }
 
-    onStackAdd = () => {
-
-        this.setState(({ data }) => ({ data: [...data, []] }));
+    onStackAdd = (newStackTitle) => {
+        console.log(newStackTitle);
+        this.setState(({ data }) => ({ data: [...data, { name: newStackTitle, stack: [] }] }));
     }
 
     onDragEnd = (result) => {
@@ -91,36 +91,38 @@ class BoardDetails extends React.Component {
         if (!destination) {
             return;
         }
-        const sInd = +source.droppableId;
-        const dInd = +destination.droppableId;
-        console.log(sInd, dInd);
-        if (sInd === dInd) {
+        const sIndex = +source.droppableId;
+        const dIndex = +destination.droppableId;
+        console.log(sIndex, dIndex);
+        if (sIndex === dIndex) {
             console.log('here1');
-            const items = reorder(this.state.data[sInd], source.index, destination.index);
+            const items = reorder(this.state.data[sIndex].stack, source.index, destination.index);
             const newState = [...this.state.data];
-            newState[sInd] = items;
+            newState[sIndex].stack = items;
             this.setState({ data: newState });
             // this.data = newState;
         } else {
             console.log('here2');
-            const result = move(this.state.data[sInd], this.state.data[dInd], source, destination);
+            const result = move(this.state.data[sIndex], this.state.data[dIndex], source, destination);
             console.log(result);
             const newState = [...this.state.data];
-            newState[sInd] = result[sInd];
-            newState[dInd] = result[dInd];
-
-            this.setState({ data: newState.filter(group => group.length) }, console.log(this.state.data));
+            console.log(newState);
+            newState[sIndex] = result[sIndex];
+            newState[dIndex] = result[dIndex];
+            console.log(newState);
+            this.setState({ data: newState });
+            // this.setState({ data: newState.filter(group => group.length) }, console.log(this.state.data));
         }
     }
 
-    stacks = (data, num) => {
+    stacks = () => {
 
         return (
             <span className="stacks-section flex">
                 <DragDropContext
                     onDragEnd={this.onDragEnd}
                 >
-                    {this.state.data.map((stack, ind) => (
+                    {this.state.data.map((el, ind) => (
 
                         <Droppable key={ind} droppableId={`${ind}`}>
                             {(provided, snapshot) => (
@@ -129,31 +131,34 @@ class BoardDetails extends React.Component {
                                     style={getListStyle(snapshot.isDraggingOver)}
                                     {...provided.droppableProps}
                                 >
-                                    {stack.map((item, index) => (
+                                    <p className="stack-title">{el.name}</p>
+                                    {el.stack.map((item, index) => (
                                         <Draggable
                                             key={item.id}
                                             draggableId={item.id}
                                             index={index}
                                         >
                                             {(provided, snapshot) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    style={getItemStyle(
-                                                        snapshot.isDragging,
-                                                        provided.draggableProps.style
-                                                    )}
-                                                >
+                                                <Link to="/boards/12312/card/c101">
                                                     <div
-                                                        style={{
-                                                            display: "flex",
-                                                            justifyContent: "space-around"
-                                                        }}
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        style={getItemStyle(
+                                                            snapshot.isDragging,
+                                                            provided.draggableProps.style
+                                                        )}
                                                     >
-                                                        {item.content}
+                                                        <div
+                                                            style={{
+                                                                display: "flex",
+                                                                justifyContent: "space-around"
+                                                            }}
+                                                        >
+                                                            {item.content}
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </Link>
                                             )}
                                         </Draggable>
                                     ))}
@@ -163,36 +168,19 @@ class BoardDetails extends React.Component {
                         </Droppable>
 
                     ))}
+
+                    <AddContent type="stack" onStackAdd={this.onStackAdd} />
                 </DragDropContext>
             </span>
         )
     }
 
     render() {
-        console.log(this.data);
         return (
             <section className="board-content container flex column align-start space-between">
-                <span>
-                    <button
-                        type="button"
-                        onClick={() => {
-                            this.setState(({ data }) => ({ data: [...data, []] }));
-                        }}
-                    >
-                        Add new group
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => {
-                            this.setState(({ data }) => ({ data: [...data, getItems(1)] }));
-                        }}
-                    >
-                        Add new item
-                    </button>
-                </span>
 
                 {this.stacks()}
-                <StackAdd onStackAdd={this.onStackAdd} />
+
             </section>
         )
     }
