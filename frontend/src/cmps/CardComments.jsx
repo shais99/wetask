@@ -6,12 +6,12 @@ export default class CardComments extends Component {
         return (
             <>
                 <div className="card-mini-title"><label htmlFor="cardComment">Comments:</label></div>
-                <form>
-                    <input name="comment" className="comment-input" id="cardComment" placeholder="Your comment..." value={this.props.comment} />
+                <form onSubmit={this.props.onAddComment}>
+                    <input name="comment" className="comment-input" onChange={this.props.handleChange} id="cardComment" placeholder="Your comment..." value={this.props.comment} />
                     <button className="comment-btn">Add Comment</button>
                 </form>
                 <div className="comments-container">
-                    {this.props.comments.map((comment, idx) => <div className="comment" key={idx}>
+                    {this.props.comments && this.props.comments.map((comment, idx) => <div className="comment" key={idx}>
                         <div>Comment By: {comment.byMember.fullName}, At {moment(comment.createdAt).fromNow()}</div>
                         <div>{comment.txt}</div>
                     </div>)}
