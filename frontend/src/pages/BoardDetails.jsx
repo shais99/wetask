@@ -70,16 +70,8 @@ class BoardDetails extends React.Component {
     }
 
     componentDidMount() {
-<<<<<<< HEAD
-
-        const { boardId } = this.props.match.params;
-        this.props.loadBoard(boardId);
-        console.log(this.props.currBoard);
-
-=======
         const { boardId } = this.props.match.params;
         this.props.loadBoard(boardId)
->>>>>>> c451978c7cdeb80890096c02695f703a861c78ab
     }
 
     onStackAdd = (newStackTitle) => {
@@ -182,11 +174,7 @@ class BoardDetails extends React.Component {
                 <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
                 <section className="board-content container flex column align-start space-between">
 
-<<<<<<< HEAD
                 {(currBoard) ? this.stacks() : null}
-=======
-                    {this.stacks()}
->>>>>>> c451978c7cdeb80890096c02695f703a861c78ab
 
                 </section>
             </>
