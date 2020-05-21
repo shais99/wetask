@@ -26,20 +26,33 @@
         background-color: $clr6;
         border: none;
         color: $clr1;
-        &:hover{
+        &:hover {
             background-color: darken($clr6, 10%);
         }
     }
 }
 
-
-
-.add-board{
+.add-board {
     width: rem(300px);
-
 }
 
-.modal-footer{
+.modal-footer {
     margin-top: 20px;
     border-top: 1px solid #d5d5d5;
+}
+
+.main-form{
+    width: 100%;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.bg-color-container {
+    width: 100px;
+    .bg-color-list {
+        li {
+            width: 20px;
+            height: 20px;
+        }
+    }
 }
