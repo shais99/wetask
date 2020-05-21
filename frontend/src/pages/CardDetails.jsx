@@ -3,7 +3,7 @@ import CardDescription from '../cmps/CardDescription'
 import CardComments from '../cmps/CardComments'
 import BoardDetails from '../pages/BoardDetails'
 import DueDate from '../cmps/DueDate'
-import { save, loadBoard } from '../store/actions/boardActions'
+import { save } from '../store/actions/boardActions'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { makeId } from '../services/utilService'
@@ -12,6 +12,7 @@ class CardDetails extends Component {
 
     state = {
         card: null,
+        prevCardDesc: '',
         comment: {
             txt: ''
         },
@@ -21,13 +22,13 @@ class CardDetails extends Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (this.props.currBoard !== prevProps.currBoard) this.loadCard()
     }
 
     loadCard = () => {
         const currCard = this.getCurrCard();
-        this.setState({ card: currCard })
+        this.setState({ card: currCard }, () => this.setState({ prevCardDesc: this.state.card.description }))
     }
 
     getCurrCard = () => {
@@ -40,8 +41,13 @@ class CardDetails extends Component {
         return card
     }
 
-    toggleDescShown = () => {
-        this.setState(prevState => ({ isDescShown: !prevState.isDescShown }))
+    onDescShown = (isShown, isPrevDesc) => {
+        this.setState({ isDescShown: isShown })
+        if (!isShown && isPrevDesc) this.setPrevDesc()
+    }
+
+    setPrevDesc = () => {
+        this.setState(prevState => ({ card: { ...prevState.card, description: this.state.prevCardDesc } }))
     }
 
     onBackBoard = (ev) => {
@@ -49,7 +55,13 @@ class CardDetails extends Component {
         this.props.history.push(`/boards/${boardId}`)
     }
 
-    onChangeDate = (dueDate) => this.setState(prevState => ({ dueDate: { ...prevState.dueDate, value: dueDate } }))
+    // @TODO: due date start from the DB, if got
+    onChangeDate = (dueDate) => {
+        const currCard = this.getCurrCard()
+        currCard.dueDate = this.state.dueDate.value
+        this.setState(prevState => ({ dueDate: { ...prevState.dueDate, value: dueDate } }), () => this.props.save(this.props.currBoard))
+        this.onToggleShowDate()
+    }
 
     handleChange = ({ target }) => {
         const field = target.name
@@ -89,7 +101,16 @@ class CardDetails extends Component {
             currCard.title = this.state.card.title;
             this.props.save(this.props.currBoard)
         })
+    }
 
+    onSaveDesc = (ev) => {
+        ev.preventDefault()
+
+        const currCard = this.getCurrCard()
+        currCard.description = this.state.card.description
+        this.setState({ prevCardDesc: this.state.card.description })
+        this.props.save(this.props.currBoard)
+        this.onDescShown(false)
     }
 
     render() {
@@ -106,7 +127,7 @@ class CardDetails extends Component {
 
                         <div className="card-container flex">
                             <aside className="card-content">
-                                <CardDescription description={card.description} handleChange={this.handleChange} isShownToggle={this.toggleDescShown} isSubmitShown={isDescShown} />
+                                <CardDescription description={card.description} onSaveDesc={this.onSaveDesc} handleChange={this.handleChange} isShown={this.onDescShown} isSubmitShown={isDescShown} />
                                 <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} />
                             </aside>
 
@@ -129,8 +150,7 @@ class CardDetails extends Component {
 }
 
 const mapDispatchToProps = {
-    save,
-    loadBoard
+    save
 }
 const mapStateToProps = (state) => {
     return {

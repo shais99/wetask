@@ -7,7 +7,7 @@ export default class CardComments extends Component {
             <>
                 <div className="card-mini-title"><label htmlFor="cardComment">Comments:</label></div>
                 <form onSubmit={this.props.onAddComment}>
-                    <input name="comment" className="comment-input" onChange={this.props.handleChange} id="cardComment" placeholder="Your comment..." value={this.props.comment} />
+                    <input name="comment" className="comment-input" autoComplete="off" onChange={this.props.handleChange} id="cardComment" placeholder="Your comment..." value={this.props.comment} />
                     <button className="comment-btn">Add Comment</button>
                 </form>
                 <div className="comments-container">
