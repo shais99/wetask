@@ -16,6 +16,7 @@
     .login-signup-form {
         margin-top: 20px;
         margin-left: 35px;
+        margin-bottom: 20px;
 
         & input {
             width: 30%;
@@ -25,4 +26,13 @@
             border: none;
         }
     }
+}
+
+.user-msg {
+    background-color: darken($clr4, 10%);
+    max-width: 50%;
+    min-width: fit-content;
+    padding: 10px;
+    color: white;
+    margin-left: 35px;
 }
