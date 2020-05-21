@@ -118,8 +118,8 @@ class CardDetails extends Component {
         const { card, isDescShown, comment, dueDate } = this.state
         return ((!card) ? 'Loading...' :
             <>
-                <div className="screen" onClick={this.onBackBoard}>
-                    <div className="modal-container shadow-drop-2-center" onClick={(ev) => ev.stopPropagation()}>
+                <div className="screen" onMouseDown={this.onBackBoard}>
+                    <div className="modal-container shadow-drop-2-center" onMouseDown={(ev) => ev.stopPropagation()}>
                         <div className="modal-header flex space-between">
                             <input type="text" name="title" className="card-title" onChange={this.onEditTitle} value={card.title} />
                             <button className="close-modal" onClick={this.onBackBoard}>X</button>
