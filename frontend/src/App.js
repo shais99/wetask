@@ -17,7 +17,6 @@ function App() {
       <main className="main-content top-p">
         <Switch>
           <Route component={UserProfile} path="/user/:userId" />
-          <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
           <Route component={BoardDetails} path="/boards/:boardId" />
           <Route component={Boards} path="/boards" />
           <Route component={LoginSignup} path="/login" />
