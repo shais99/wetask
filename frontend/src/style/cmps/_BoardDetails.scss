@@ -5,5 +5,39 @@
 
 .stacks-section >*:not(:last-child) {
 
-    margin-right: 1rem;
+    margin-right: rem(16px);
+}
+
+.add-content {
+    cursor: pointer;
+    height: fit-content;
+    width: rem(192px);
+    padding: rem(6px) 0;
+    width: 250px;
+    background-color: $clr2;
+}
+
+.add-content-container {
+    width: 95%;
+    margin: auto;
+}
+
+.add-content-buttons {
+
+    width: 100%;
+}
+
+.add-content input {
+    width: 100%;
+}
+
+.add-content-title::before {
+
+    content: "+";
+}
+
+.stack-title {
+    font-size: rem(14px);
+    font-family: openSansBold;
+    margin-bottom: 8px;
 }
