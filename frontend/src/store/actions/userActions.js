@@ -1,38 +1,33 @@
-import userService from '../../services/userService'
+import userService from '../../services/userService';
 
-
-export function login() {
-    return dispatch => {
-        userService.login()
-            .then(user => {
-                dispatch({ type: 'SET_USER', user })
-            })
+export function login(userCreds) {
+    try {
+        return async dispatch => {
+            const user = await userService.login(userCreds);
+            dispatch(setUser(user));
+        };
+    } catch (err) {
+        throw err
     }
 }
 
-export function signup() {
-    return dispatch => {
-        userService.signup()
-            .then(user => {
-                dispatch({ type: 'SET_USER', user })
-            })
-    }
+export function signup(userCreds) {
+    return async dispatch => {
+        const user = await userService.signup(userCreds);
+        dispatch(setUser(user));
+    };
 }
 
 export function logout() {
-    return dispatch => {
-        userService.logout()
-            .then(() => {
-                dispatch({ type: 'SET_USER', user: null })
-            })
-    }
+    return async dispatch => {
+        await userService.logout();
+        dispatch(setUser(null));
+    };
 }
 
-//getLoggedInUser??
-
-
-
-
-
-
-
+export function setUser(user) {
+    return {
+        type: 'SET_USER',
+        user
+    };
+}
