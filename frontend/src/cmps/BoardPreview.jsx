@@ -6,7 +6,7 @@ export default function BoardPreview({ board }) {
 
     return (
         <Link to={`/boards/${board._id}`}>
-            <section style={{ backgroundColor: "#eb3b5a" }} className="board-item" >
+            <section style={{ backgroundColor: board.bg, backgroundImage: `url(${board.bg})`} } className="board-item" >
                 <h3>{board.title}</h3>
             </section>
         </Link>

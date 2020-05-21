@@ -3,6 +3,19 @@
 
     .boards-header {
         margin: 10px;
+        .hello-btn{
+            margin-right: 5px;
+            border-style: none;
+            background-color: $clr1;
+            color: white;
+            border-radius: 3px;
+            padding: 10px;
+            &:hover{
+                background-color: #354c86;
+                color: white;
+                border-radius: 3px;
+            }
+        }
     }
 }
 
@@ -15,8 +28,10 @@
         cursor: pointer;
         margin-right: 10px;
         margin-bottom: 20px;
-        // background-color: $clr4;
+        color: white;
         transition: 0.3s;
+        background-size: cover;
+        background-position: center;
         &:hover {
             background-color: darken($clr4, 10%);
         }
@@ -34,9 +49,13 @@
 
 .main-form-container {
     color: white;
+    padding: 20px;
+    background-color: #d4d1d1a3;
+    border-radius: 10px;
+    
 
     .borad-title {
-        margin-bottom:35px;
+        margin-bottom: 35px;
         height: 30px !important;
         font-size: rem(14px) !important;
     }
@@ -46,17 +65,29 @@
         border-radius: 8px;
         padding: 10px;
 
-        .main-form-header{
+        .main-form-header {
             margin-bottom: 10px;
             border-bottom: 1px solid darken($clr6, 10%);
             padding: 5px;
         }
 
-        .clean-link{
+        .clean-link {
             color: white;
             text-decoration: none;
         }
-        .close-btn{
+        .bg-btn{
+            margin-right: 10px;
+            background-color: $clr6;
+            color: black;
+            border-radius: 5px;
+            padding: 5px;
+            &:hover{
+                background-color: darken($clr6, 20%);
+                color: black;
+                border-radius: 3px;
+            }
+        }
+        .close-btn {
             background: none;
             border: none;
             border-radius: 5px;
@@ -67,7 +98,6 @@
             &:hover {
                 background-color: $clr6;
                 color: darken($clr6, 40%);
-
             }
         }
     }
@@ -95,4 +125,17 @@
 .modal-footer {
     margin-top: 8px;
     margin-left: 10px;
+    button{
+        margin-right: 5px;
+        border-style: none;
+        background-color: $clr6;
+        border-radius: 3px;
+        padding: 5px;
+        &:hover{
+            background-color: darken($clr6, 20%);
+            color: black;
+            border-radius: 3px;
+        }
+    }
+
 }

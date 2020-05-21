@@ -70,11 +70,8 @@ class BoardDetails extends React.Component {
     }
 
     componentDidMount() {
-
         const { boardId } = this.props.match.params;
-        this.props.loadBoard(boardId);
-        console.log(this.props.currBoard);
-
+        this.props.loadBoard(boardId)
     }
 
     onStackAdd = (newStackTitle) => {
