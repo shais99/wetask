@@ -5,7 +5,9 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { loadBoard, save } from '../store/actions/boardActions.js';
 import { AddContent } from '../cmps/AddContent.jsx';
 import { Link, Route } from 'react-router-dom';
-import CardDetails from '../pages/CardDetails';
+import { CardPreview } from '../cmps/CardPreview.jsx';
+import { Stack } from '../cmps/Stack.jsx';
+import CardDetails from '../pages/CardDetails.jsx';
 
 import { makeId } from '../services/utilService';
 
@@ -80,7 +82,7 @@ class BoardDetails extends React.Component {
     }
 
     componentDidUpdate() {
-        if(this.props.currBoard !== this.state.currBoard) {
+        if (this.props.currBoard !== this.state.currBoard) {
             const currBoard = this.props.currBoard;
             this.setState({ currBoard });
         }
@@ -146,10 +148,12 @@ class BoardDetails extends React.Component {
 
                         <Droppable key={ind} droppableId={`${ind}`}>
                             {(provided, snapshot) => (
-                                <div
-                                    ref={provided.innerRef}
+                                <Stack
+                                    innerRef={provided.innerRef}
                                     style={getListStyle(snapshot.isDraggingOver)}
-                                    {...provided.droppableProps}
+                                    provided={provided}
+                                    // provided={provided.droppableProps}
+
                                 >
                                     <p className="stack-title">{stack.title}</p>
                                     {stack.cards.map((card, index) => (
@@ -160,30 +164,24 @@ class BoardDetails extends React.Component {
                                         >
                                             {(provided, snapshot) => (
                                                 <Link to={`/boards/${board._id}/card/${card.id}`}>
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
+                                                    <CardPreview
+                                                        title={card.title}
+                                                        innerRef={provided.innerRef}
+                                                        provided={provided}
+
                                                         style={getItemStyle(
                                                             snapshot.isDragging,
                                                             provided.draggableProps.style
                                                         )}
                                                     >
-                                                        <div
-                                                            style={{
-                                                                display: "flex",
-                                                                justifyContent: "space-around"
-                                                            }}
-                                                        >
-                                                            {card.title}
-                                                        </div>
-                                                    </div>
+
+                                                    </CardPreview>
                                                 </Link>
                                             )}
                                         </Draggable>
                                     ))}
                                     {provided.placeholder}
-                                </div>
+                                </Stack>
                             )}
                         </Droppable>
 

@@ -37,8 +37,16 @@
     content: "+";
 }
 
+.stack {
+    background-color: tomato;
+}
+
 .stack-title {
     font-size: rem(14px);
     font-family: openSansBold;
     margin-bottom: 8px;
+}
+
+.card-preview {
+    width: 100%;
 }

@@ -20,7 +20,7 @@ class Boards extends React.Component {
         return <div className="boards-page container">
             <header className="boards-header flex space-between">
                 <h2 className="boards-title">My Boards</h2>
-                <button className="hello btn" onClick={()=>this.onClickUser}>Hello {this.props.userLoggedIn}</button>
+                <button className="hello-btn" onClick={()=>this.onClickUser}>Hello {this.props.userLoggedIn}</button>
             </header>
             <BoardList boards={this.props.boards} />
         </div>

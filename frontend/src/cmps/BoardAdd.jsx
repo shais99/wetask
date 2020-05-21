@@ -29,7 +29,7 @@ class BoardAdd extends React.Component {
         ev.preventDefault()
         const { board } = this.state
         board.members = [{ _id: '5ec5581139619913d9c4da56', name: 'abi abambi' }];
-        board.stack = [];
+        board.stacks = [];
         board.createdAt = Date.now();
         board.createdBy = { _id: '5ec5581139619913d9c4da56', name: 'abi abambi' };
         board.activities = [];
@@ -63,16 +63,16 @@ class BoardAdd extends React.Component {
                                 </div>
 
                                 <input name="title" className="borad-title card-title" value={board.title}
-                                    placeholder="Add board title" onChange={this.handleChange} />
-                                <Link className="clean-link" to="#" onClick={() => this.onChangeBgBy('color')}> Color</Link>|
-                                    <Link className="clean-link" to="#" onClick={() => this.onChangeBgBy('image')}>Image</Link>
+                                    placeholder="Add board title" onChange={this.handleChange} autoComplete="off" />
+                                <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('color')}> Color</Link>
+                                <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('image')}>Image</Link>
 
                             </div>
                             <div className="bg-color-container flex ">
                                 <BoardBg bgs={bgBy === 'color' ? bgColors : bgImgs} type={bgBy} changeBgColor={this.changeBgColor} />
                             </div>
                         </div>
-                        <div className="modal-footer">
+                        <div className="modal-footer flex justify-end">
                             <button className="create-board-btn btn" > Create Board</button>
                         </div>
                     </form>
