@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import moment from 'moment'
 
 export default class CardComments extends Component {
     render() {
@@ -9,6 +10,12 @@ export default class CardComments extends Component {
                     <input name="comment" className="comment-input" id="cardComment" placeholder="Your comment..." value={this.props.comment} />
                     <button className="comment-btn">Add Comment</button>
                 </form>
+                <div className="comments-container">
+                    {this.props.comments.map((comment, idx) => <div className="comment" key={idx}>
+                        <div>Comment By: {comment.byMember.fullName}, At {moment(comment.createdAt).fromNow()}</div>
+                        <div>{comment.txt}</div>
+                    </div>)}
+                </div>
             </>
         )
     }

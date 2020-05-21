@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import CardDescription from '../cmps/CardDescription'
 import CardComments from '../cmps/CardComments'
 import BoardDetails from '../pages/BoardDetails'
+import DueDate from '../cmps/DueDate'
 import { Link } from 'react-router-dom'
 
 
@@ -15,10 +16,20 @@ export default class CardDetails extends Component {
             comments: [{
                 id: "c101",
                 txt: "A Comment",
-                createdAt: "TIME_STAMP",
+                createdAt: 1590043477032,
                 byMember: {
                     _id: "u101",
                     fullName: "Abi Abambi",
+                    imgUrl: "http://some-img"
+                }
+            },
+            {
+                id: "c102",
+                txt: "B Comment",
+                createdAt: 1590043496921,
+                byMember: {
+                    _id: "u102",
+                    fullName: "Ari Arari",
                     imgUrl: "http://some-img"
                 }
             }],
@@ -85,6 +96,10 @@ export default class CardDetails extends Component {
         },
         comment: {
             txt: ''
+        },
+        dueDate: {
+            value: new Date(),
+            isShown: false
         }
     }
 
@@ -106,6 +121,8 @@ export default class CardDetails extends Component {
         this.props.history.push(`/boards/${boardId}`)
     }
 
+    onChangeDate = (dueDate) => this.setState(prevState => ({ dueDate: { ...prevState.date, value: dueDate } }))
+
     handleChange = ({ target }) => {
         const field = target.name
         const value = target.value
@@ -113,13 +130,18 @@ export default class CardDetails extends Component {
         this.setState(prevState => ({ card: { ...prevState.user, [field]: value } }))
     }
 
+    onToggleShowDate = () => {
+
+        this.setState(prevState => ({ dueDate: { ...prevState.dueDate, isShown: !prevState.isShown } }))
+    }
+
     render() {
-        const { card, isDescShown, description, comment } = this.state
+        const { card, isDescShown, description, comment, dueDate } = this.state
         return (
             <>
                 <BoardDetails />
                 <div className="screen" onClick={this.onBackBoard}>
-                    <div className="modal-container" onClick={(ev) => ev.stopPropagation()}>
+                    <div className="modal-container shadow-drop-2-center" style={{ paddingBottom: '40px' }} onClick={(ev) => ev.stopPropagation()}>
                         <div className="modal-header flex space-between">
                             <input name="title" className="card-title" onChange={this.handleChange} value={card.title} />
                             <button className="close-modal" onClick={this.onBackBoard}>X</button>
@@ -133,10 +155,11 @@ export default class CardDetails extends Component {
 
                             <aside className="card-actions">
                                 <ul className="clean-list">
-                                    <Link><li>Members</li></Link>
-                                    <Link><li>Labels</li></Link>
-                                    <Link><li>Checklist</li></Link>
-                                    <Link><li>Due Date</li></Link>
+                                    <Link title="Add / Remove members"><li><img src="/assets/img/user-icon.png" alt="" />Members</li></Link>
+                                    <Link title="Add / Remove labels"><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
+                                    <Link title="Add checklist"><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
+                                    <Link title="Set due date" onClick={this.onToggleShowDate}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
+                                    {dueDate.isShown && <DueDate onChange={this.onChangeDate} value={dueDate.value} />}
                                 </ul>
                             </aside>
 

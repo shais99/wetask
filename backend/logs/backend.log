@@ -74,3 +74,5 @@ Wed, 20 May 2020 17:14:37 GMT - Debug - [{"_id":"5ec5545ff5ec791590b20dae","titl
 Wed, 20 May 2020 17:15:36 GMT - Debug - [{"_id":"5ec5545ff5ec791590b20dae","title":"sh","members":[{"_id":"5ec5581139619913d9c4da56","fullName":"Abi Abambi","imgUrl":"http://some-img"}]}]
 Wed, 20 May 2020 17:22:26 GMT - Info - Server is running on port: 3030
 Wed, 20 May 2020 17:23:59 GMT - Debug - [{"_id":"5ec5545ff5ec791590b20dae","title":"sh","members":[{"_id":"5ec5581139619913d9c4da56","fullName":"Abi Abambi","imgUrl":"http://some-img"}]}]
+Thu, 21 May 2020 05:29:11 GMT - Info - Server is running on port: 3030
+Thu, 21 May 2020 05:35:18 GMT - Debug - [{"_id":"5ec5545ff5ec791590b20dae","title":"sh","members":[{"_id":"5ec5581139619913d9c4da56","fullName":"Abi Abambi","imgUrl":"http://some-img"}]}]
