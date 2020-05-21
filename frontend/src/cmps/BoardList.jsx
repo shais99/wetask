@@ -8,10 +8,6 @@ export default class BoardList extends React.Component {
         isAddOpen: false
     }
 
-    componentDidMount() {
-        document.addEventListener('click', this.handleClickOutside);
-    }
-
 
     toggleAddShown = () => {
         this.setState(prevState => ({ isAddOpen: !prevState.isAddOpen }))

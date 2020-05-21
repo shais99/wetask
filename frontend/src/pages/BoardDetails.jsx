@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { loadBoard } from '../store/actions/boardActions.js';
 import { AddContent } from '../cmps/AddContent.jsx';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
+import CardDetails from '../pages/CardDetails'
 
 
 const getItems = (count, offset = 0) =>
@@ -63,17 +64,22 @@ class BoardDetails extends React.Component {
 
     state = {
         data: [
-            { name: 'NEVOhadnazer', stack: getItems(10) },
+            { name: 'NEVOhadnazer', stack: getItems(5) },
             { name: 'MESHigena', stack: getItems(5, 10) },
         ]
     }
 
     componentDidMount() {
+<<<<<<< HEAD
 
         const { boardId } = this.props.match.params;
         this.props.loadBoard(boardId);
         console.log(this.props.currBoard);
 
+=======
+        const { boardId } = this.props.match.params;
+        this.props.loadBoard(boardId)
+>>>>>>> c451978c7cdeb80890096c02695f703a861c78ab
     }
 
     onStackAdd = (newStackTitle) => {
@@ -172,17 +178,23 @@ class BoardDetails extends React.Component {
         const { currBoard } = this.props;
 
         return (
-            <section className="board-content container flex column align-start space-between">
+            <>
+                <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
+                <section className="board-content container flex column align-start space-between">
 
+<<<<<<< HEAD
                 {(currBoard) ? this.stacks() : null}
+=======
+                    {this.stacks()}
+>>>>>>> c451978c7cdeb80890096c02695f703a861c78ab
 
-            </section>
+                </section>
+            </>
         )
     }
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
         currBoard: state.board.currBoard
     }

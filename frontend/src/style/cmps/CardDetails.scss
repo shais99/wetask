@@ -4,9 +4,9 @@
     height: 100%;
     position: fixed;
     top: 0;
-    padding-top: 77px;
-    top: 0;
     left: 0;
+    overflow-y: auto;
+    padding: 77px 0;
 
     .modal-container {
         background-color: $clr7;
@@ -98,10 +98,15 @@
             margin-bottom: 10px;
             font-size: rem(14px);
             transition: 0.3s;
+            display: flex;
+            align-items: center;
 
             &:hover {
-                background-color: $clr2;
-                color: $clr7;
+                background-color: darken($clr6, 10%);
+            }
+            & img {
+                width: 14px;
+                margin-right: 10px;
             }
         }
     }
