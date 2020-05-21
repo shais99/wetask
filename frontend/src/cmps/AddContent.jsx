@@ -4,7 +4,7 @@ export class AddContent extends React.Component {
 
     state = {
         isOpen: true,
-        name: ''
+        title: ''
     };
 
     componentDidMount() {
@@ -19,15 +19,14 @@ export class AddContent extends React.Component {
         event.preventDefault();
         const stackTitle = event.target.name.value;
         this.props.onStackAdd(stackTitle);
-        this.setState({ isOpen: false, name: '' });
+        this.setState({ isOpen: false, title: '' });
     }
 
     handleChange = ({ target }) => {
 
-        // let property = target.name;
-        let name = target.value;
+        let title = target.value;
 
-        this.setState({ name }, console.log(this.state));
+        this.setState({ title }, console.log(this.state));
     }
 
     toggleOpen = (event) => {
@@ -37,7 +36,7 @@ export class AddContent extends React.Component {
     }
 
     render() {
-        const { name, isOpen } = this.state;
+        const { title, isOpen } = this.state;
         const { type } = this.props;
 
         return (
@@ -48,7 +47,7 @@ export class AddContent extends React.Component {
                     {(isOpen)
                         ?
                         <React.Fragment>
-                            <input name="name" onChange={this.handleChange} value={name} placeholder={`Enter ${type} title...`} />
+                            <input name="name" onChange={this.handleChange} value={title} placeholder={`Enter ${type} title...`} />
                             <span className="add-content-buttons flex space-between">
                                 {/* <p onClick={this.toggleOpen}>X</p> */}
                                 <button>{`Add ${type}`}</button>

@@ -2,10 +2,12 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { loadBoard } from '../store/actions/boardActions.js';
+import { loadBoard, save } from '../store/actions/boardActions.js';
 import { AddContent } from '../cmps/AddContent.jsx';
 import { Link, Route } from 'react-router-dom';
-import CardDetails from '../pages/CardDetails'
+import CardDetails from '../pages/CardDetails';
+
+import { makeId } from '../services/utilService';
 
 
 const getItems = (count, offset = 0) =>
@@ -24,11 +26,11 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 const move = (source, destination, droppableSource, droppableDestination) => {
-    const sourceClone = { name: source.name, stack: Array.from(source.stack) };
-    const destClone = { name: destination.name, stack: Array.from(destination.stack) };
-    const [removed] = sourceClone.stack.splice(droppableSource.index, 1);
+    const sourceClone = Array.from(source);
+    const destClone = Array.from(destination);
+    const [removed] = sourceClone.splice(droppableSource.index, 1);
     console.log(removed);
-    destClone.stack.splice(droppableDestination.index, 0, removed);
+    destClone.splice(droppableDestination.index, 0, removed);
 
     const result = {};
     result[droppableSource.droppableId] = sourceClone;
@@ -36,7 +38,6 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     console.log(result);
     return result;
 };
-
 
 const grid = 8;
 
@@ -63,6 +64,7 @@ const getListStyle = isDraggingOver => ({
 class BoardDetails extends React.Component {
 
     state = {
+        currBoard: null,
         data: [
             { name: 'NEVOhadnazer', stack: getItems(5) },
             { name: 'MESHigena', stack: getItems(5, 10) },
@@ -70,21 +72,35 @@ class BoardDetails extends React.Component {
     }
 
     componentDidMount() {
-<<<<<<< HEAD
 
         const { boardId } = this.props.match.params;
         this.props.loadBoard(boardId);
         console.log(this.props.currBoard);
 
-=======
-        const { boardId } = this.props.match.params;
-        this.props.loadBoard(boardId)
->>>>>>> c451978c7cdeb80890096c02695f703a861c78ab
+    }
+
+    componentDidUpdate() {
+        if(this.props.currBoard !== this.state.currBoard) {
+            const currBoard = this.props.currBoard;
+            this.setState({ currBoard });
+        }
     }
 
     onStackAdd = (newStackTitle) => {
         console.log(newStackTitle);
-        this.setState(({ data }) => ({ data: [...data, { name: newStackTitle, stack: [] }] }));
+        // this.setState(({ currBoard }) => ({ data: [...data, { name: newStackTitle, stack: [] }] }));
+        let currBoard = this.state.currBoard;
+        console.log(currBoard);
+        currBoard.stacks.push({
+            bgColor: "#fefefe",
+            cards: [],
+            id: makeId(),
+            title: newStackTitle,
+        });
+        console.log(currBoard);
+        this.setState({ currBoard }, () => {
+            this.props.save(this.state.currBoard);
+        });
     }
 
     onDragEnd = (result) => {
@@ -97,18 +113,24 @@ class BoardDetails extends React.Component {
         }
         const sIndex = +source.droppableId;
         const dIndex = +destination.droppableId;
+        let stacks = this.state.currBoard.stacks;
+
         if (sIndex === dIndex) {
-            const items = reorder(this.state.data[sIndex].stack, source.index, destination.index);
-            const newState = [...this.state.data];
-            newState[sIndex].stack = items;
-            this.setState({ data: newState });
-            // this.data = newState;
+            const items = reorder(stacks[sIndex].cards, source.index, destination.index);
+            const newState = { ...this.state.currBoard };
+            newState.stacks[sIndex].cards = items;
+            this.setState({ currBoard: newState }, () => {
+                this.props.save(this.state.currBoard);
+            });
+
         } else {
-            const result = move(this.state.data[sIndex], this.state.data[dIndex], source, destination);
-            const newState = [...this.state.data];
-            newState[sIndex] = result[sIndex];
-            newState[dIndex] = result[dIndex];
-            this.setState({ data: newState });
+            const result = move(stacks[sIndex].cards, stacks[dIndex].cards, source, destination);
+            const newState = { ...this.state.currBoard };
+            newState.stacks[sIndex].cards = result[sIndex];
+            newState.stacks[dIndex].cards = result[dIndex];
+            this.setState({ currBoard: newState }, () => {
+                this.props.save(this.state.currBoard);
+            });
         }
     }
 
@@ -120,7 +142,7 @@ class BoardDetails extends React.Component {
                 <DragDropContext
                     onDragEnd={this.onDragEnd}
                 >
-                    {board.stacks.map((stack, ind) => (
+                    {(board.stacks.length) ? board.stacks.map((stack, ind) => (
 
                         <Droppable key={ind} droppableId={`${ind}`}>
                             {(provided, snapshot) => (
@@ -137,7 +159,7 @@ class BoardDetails extends React.Component {
                                             index={index}
                                         >
                                             {(provided, snapshot) => (
-                                                <Link to="/boards/12312/card/c101">
+                                                <Link to={`/boards/${board._id}/card/${card.id}`}>
                                                     <div
                                                         ref={provided.innerRef}
                                                         {...provided.draggableProps}
@@ -165,7 +187,7 @@ class BoardDetails extends React.Component {
                             )}
                         </Droppable>
 
-                    ))}
+                    )) : null}
 
                     <AddContent type="stack" onStackAdd={this.onStackAdd} />
                 </DragDropContext>
@@ -182,11 +204,7 @@ class BoardDetails extends React.Component {
                 <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
                 <section className="board-content container flex column align-start space-between">
 
-<<<<<<< HEAD
-                {(currBoard) ? this.stacks() : null}
-=======
-                    {this.stacks()}
->>>>>>> c451978c7cdeb80890096c02695f703a861c78ab
+                    {(currBoard) ? this.stacks() : null}
 
                 </section>
             </>
@@ -202,7 +220,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
 
-    loadBoard
+    loadBoard,
+    save
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardDetails)
