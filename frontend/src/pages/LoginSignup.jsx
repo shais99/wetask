@@ -43,8 +43,6 @@ class LoginSignup extends Component {
         this.setState({ isLogin })
     }
 
-    // this.userMsgBg = (this.state.isLogin ? '#20bf6b' : '#e92447')
-
     onUploadImg = async ev => {
         this.setState({ isUploadImg: true })
         const imgUrl = await userService.uploadImg(ev)

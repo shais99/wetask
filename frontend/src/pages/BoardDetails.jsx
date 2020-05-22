@@ -68,14 +68,9 @@ class BoardDetails extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.currBoard !== this.props.currBoard) {
-            console.log('BOARD PROPS', this.props.currBoard);
+            // console.log('BOARD PROPS', this.props.currBoard);
             this.setState({ currBoard: this.props.currBoard }, () => console.log('BOARD STATE', this.state.currBoard));
-
         }
-        // if (this.props.currBoard !== this.state.currBoard) {
-
-        //     const currBoard = this.props.currBoard;
-        // }
     }
 
     onStackAdd = (newStackTitle) => {
@@ -113,7 +108,7 @@ class BoardDetails extends React.Component {
             console.log(items);
             const newState = { ...this.state.currBoard };
             newState.stacks = items;
-            
+
             this.setState({ currBoard: newState }, () => {
                 this.props.save(newState)
             })
@@ -158,7 +153,7 @@ class BoardDetails extends React.Component {
                             >
 
                                 {(board.stacks.length) ? board.stacks.map((stack, index) => (
-                                    <Draggable key={index + '-outter'}
+                                    <Draggable key={stack.id}
                                         draggableId={stack.id} index={index} type="STACK" >
 
                                         {(provided, snapshot) => (
