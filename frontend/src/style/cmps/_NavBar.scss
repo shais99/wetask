@@ -4,8 +4,13 @@
     padding-top: 90px;
 }
 
+.home-container:first-of-type {
+    margin-top: -90px;
+}
+
 .hero-container {
     background-color: $clr2;
+    height: 100vh;
 }
 
 .second-container {
@@ -17,22 +22,44 @@
 }
 
 .nav-container {
-    background-color: rgba(0, 0, 0, 0.329);
-    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.418);
     position: fixed;
     width: 100%;
+    height: 70px;
+
+    .main-nav {
+        & li a {
+            padding: 9px 25px;
+            margin-left: 15px;
+            display: flex;
+            align-items: center;
+            color: $clr7;
+            transition: 0.3s;
+
+            &:hover:not(.active) {
+                color: darken($clr6, 7%);
+            }
+        }
+
+        .active {
+            background-color: white;
+            color: $clr1;
+            border-radius: 3px;
+        }
+    }
 }
 
 .logo {
     font-family: openSansBold;
     font-size: rem(26px);
     display: inline;
+    color: $clr6;
 
     .logo-we {
         background-color: $clr3;
         padding: 0 3px;
         margin-right: 3px;
-        color: darken($clr3, 25%);
+        color: darken($clr3, 30%);
         border-radius: 3px;
     }
 }

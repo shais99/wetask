@@ -30,9 +30,33 @@ button {
 textarea,
 input,
 button {
-    font-family: openSans;
+    font-family: openSans, Arial, sans-serif;
 }
 
 p {
     margin: 0;
+}
+
+.main-content {
+    height: 100vh;
+}
+/* Scrollbar */
+
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: rgba(0, 0, 0, 0);
+    -webkit-border-radius: 100px;
+}
+
+::-webkit-scrollbar:hover {
+    background-color: rgba(0, 0, 0, 0.09);
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    background: rgba(0, 0, 0, 0.5);
+    -webkit-border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:vertical:active {
+    -webkit-border-radius: 100px;
 }
