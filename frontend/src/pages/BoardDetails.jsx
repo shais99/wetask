@@ -2,12 +2,13 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { loadBoard, save } from '../store/actions/boardActions.js';
-import { AddContent } from '../cmps/AddContent.jsx';
+import { loadBoard, save } from '../store/actions/boardActions';
+import { AddContent } from '../cmps/AddContent';
 import { Link, Route } from 'react-router-dom';
-import { CardPreview } from '../cmps/CardPreview.jsx';
-import { Stack } from '../cmps/Stack.jsx';
-import CardDetails from '../pages/CardDetails.jsx';
+import { CardPreview } from '../cmps/CardPreview';
+import { Stack } from '../cmps/Stack';
+import CardDetails from '../pages/CardDetails';
+import BoardOptions from '../cmps/BoardOptions'
 
 import { makeId } from '../services/utilService';
 
@@ -61,7 +62,6 @@ class BoardDetails extends React.Component {
     }
 
     componentDidMount() {
-
         const { boardId } = this.props.match.params;
         this.props.loadBoard(boardId);
     }
@@ -70,12 +70,19 @@ class BoardDetails extends React.Component {
         if (prevProps.currBoard !== this.props.currBoard) {
             console.log('BOARD PROPS', this.props.currBoard);
             this.setState({ currBoard: this.props.currBoard }, () => console.log('BOARD STATE', this.state.currBoard));
+            console.log(this.props.currBoard.bg);
+            document.body.style.backgroundImage = `url(/${this.props.currBoard.bg})`
+            document.body.style.backgroundColor = this.props.currBoard.bg
 
         }
         // if (this.props.currBoard !== this.state.currBoard) {
 
         //     const currBoard = this.props.currBoard;
         // }
+    }
+
+    componentWillUnmount() {
+        document.body.style = ''
     }
 
     onStackAdd = (newStackTitle) => {
@@ -138,7 +145,7 @@ class BoardDetails extends React.Component {
             console.log(items);
             const newState = { ...this.state.currBoard };
             newState.stacks = items;
-            
+
             this.setState({ currBoard: newState }, () => {
                 this.props.save(newState)
             })
@@ -257,9 +264,10 @@ class BoardDetails extends React.Component {
     render() {
         console.log(this.state.currBoard);
         const { currBoard } = this.state;
-
+        if (!currBoard) return 'Loading...'
         return (
             <>
+                <BoardOptions board={currBoard} />
                 <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
                 <section className="board-content container flex column align-start space-between">
 

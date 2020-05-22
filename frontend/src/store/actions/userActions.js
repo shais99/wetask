@@ -11,6 +11,17 @@ export function login(userCreds) {
     }
 }
 
+export function loadUsers() {
+    return async dispatch => {
+        try {
+            const users = await userService.query()
+            dispatch({ type: 'LOAD_USERS', users })
+        } catch (err) {
+            console.log('userActions: cannot load users!', err);
+        }
+    }
+}
+
 export function signup(userCreds) {
     return async dispatch => {
         const user = await userService.signup(userCreds);

@@ -2,7 +2,7 @@
 .board-content {
     padding: 0 20px;
     margin: 0;
-    height: 100%;
+    height: calc(100% - 60px);
 }
 
 .stacks-content >* {
