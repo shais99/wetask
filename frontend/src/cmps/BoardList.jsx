@@ -14,6 +14,8 @@ export default class BoardList extends React.Component {
     }
 
     render() {
+        console.log('board',this.props.boards);
+        
         return (
             <>
                 {this.state.isAddOpen && <BoardAdd onClose={this.toggleAddShown} />}

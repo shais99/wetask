@@ -1,7 +1,8 @@
 .form-container {
     background-color: lighten($clr6, 2%);
     width: 70%;
-    height: 70vh;
+    min-height: 70vh;
+    padding-bottom: 25px;
     border-radius: 10px;
 
     .form-title {
@@ -11,6 +12,30 @@
         border-bottom: 1px solid darken($clr6, 15%);
         font-family: openSansBold;
         color: $clr2;
+        margin-bottom: 20px;
+    }
+
+    .img-uploaded-msg {
+        margin-left: 20px;
+        margin-top: 20px;
+        background-color: $clr5;
+        color: $clr7;
+        width: 90%;
+        padding: 10px;
+    }
+
+    .signup-login-link {
+        font-size: rem(14px);
+        margin-left: 35px;
+
+        & a {
+            color: darken($clr6, 50%);
+
+            &:hover {
+                text-decoration: underline;
+                color: $clr1;
+            }
+        }
     }
 
     .login-signup-form {
@@ -30,9 +55,12 @@
 
 .user-msg {
     background-color: darken($clr4, 10%);
-    max-width: 50%;
-    min-width: fit-content;
+    max-width: 90%;
     padding: 10px;
     color: white;
-    margin-left: 35px;
+    margin-left: 20px;
+    font-family: openSansBold;
+}
+.small-icon {
+    width: 18px;
 }

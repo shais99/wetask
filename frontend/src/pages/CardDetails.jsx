@@ -3,6 +3,7 @@ import CardDescription from '../cmps/CardDescription'
 import CardComments from '../cmps/CardComments'
 import BoardDetails from '../pages/BoardDetails'
 import DueDate from '../cmps/DueDate'
+import LabelsPicker from '../cmps/LabelsPicker'
 import { save } from '../store/actions/boardActions'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -18,6 +19,10 @@ class CardDetails extends Component {
         },
         dueDate: {
             value: new Date(),
+            isShown: false
+        },
+        labels: {
+            value: [],
             isShown: false
         }
     }
@@ -78,6 +83,12 @@ class CardDetails extends Component {
         this.setState(prevState => ({ dueDate: { ...prevState.dueDate, isShown: !prevState.dueDate.isShown } }))
     }
 
+    //ToDo: check if one of the action is open 
+
+    onToggleShowLabels = () => {
+        this.setState(prevState => ({ labels: { ...prevState.labels, isShown: !prevState.labels.isShown } }))
+    }
+
     onAddComment = (ev) => {
         ev.preventDefault();
         const { comment } = this.state
@@ -113,9 +124,21 @@ class CardDetails extends Component {
         this.onDescShown(false)
     }
 
+    onAddLabel = (label) => {
+        let value = this.state.labels.value;
+        value.push(label);
+        this.setState(prevState => ({ labels: { ...prevState.labels, value } }), () => {
+            console.log('labels',this.state.labels.value);
+
+            const currCard = this.getCurrCard();
+            currCard.labels = this.state.labels.value;
+            this.props.save(this.props.currBoard);
+        })
+    }
+
     render() {
 
-        const { card, isDescShown, comment, dueDate } = this.state
+        const { card, isDescShown, comment, dueDate, labels } = this.state
         return ((!card) ? 'Loading...' :
             <>
                 <div className="screen" onMouseDown={this.onBackBoard}>
@@ -134,10 +157,11 @@ class CardDetails extends Component {
                             <aside className="card-actions">
                                 <ul className="clean-list">
                                     <Link title="Add / Remove members" to="#"><li><img src="/assets/img/user-icon.png" alt="" />Members</li></Link>
-                                    <Link title="Add / Remove labels" to="#"><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
+                                    <Link title="Add / Remove labels" to="#" onClick={this.onToggleShowLabels}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
                                     <Link title="Add checklist" to="#"><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
                                     <Link title="Set due date" to="#" onClick={this.onToggleShowDate}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
                                     {dueDate.isShown && <DueDate onChange={this.onChangeDate} value={dueDate.value} />}
+                                    {labels.isShown && <LabelsPicker addLabel={this.onAddLabel} />}
                                 </ul>
                             </aside>
 

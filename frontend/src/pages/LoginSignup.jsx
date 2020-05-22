@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import userService from '../services/userService'
 import { connect } from 'react-redux';
 import { login, signup } from '../store/actions/userActions';
+import { Link } from 'react-router-dom'
 
 class LoginSignup extends Component {
 
@@ -13,12 +14,31 @@ class LoginSignup extends Component {
             imgUrl: ''
         },
         isLogin: false,
-        msg: ''
+        msg: '',
+        isUploadImg: false,
+        isFinishUpload: false
     }
 
     componentDidMount() {
         if (this.props.loggedInUser) this.props.history.push('/boards')
-        console.log(this.props.match.path)
+        this.setCurrPage()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.match.params !== this.props.match.params) {
+            this.setState({
+                msg: '', isUploadImg: false, isFinishUpload: false,
+                user: { username: '', password: '', fullname: '', imgUrl: '' }
+            })
+            this.setCurrPage()
+        }
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timeoutFinishUpload)
+    }
+
+    setCurrPage = () => {
         const isLogin = (this.props.match.path === '/login') ? true : false
         this.setState({ isLogin })
     }
@@ -26,7 +46,12 @@ class LoginSignup extends Component {
     // this.userMsgBg = (this.state.isLogin ? '#20bf6b' : '#e92447')
 
     onUploadImg = async ev => {
+        this.setState({ isUploadImg: true })
         const imgUrl = await userService.uploadImg(ev)
+        this.setState({ isUploadImg: false, isFinishUpload: true })
+        this.timeoutFinishUpload = setTimeout(() => {
+            this.setState({ isFinishUpload: false })
+        }, 2500);
         this.setState(prevState => ({ user: { ...prevState.user, imgUrl } }))
     }
 
@@ -57,19 +82,25 @@ class LoginSignup extends Component {
     }
 
     render() {
-        const { isLogin, msg, user } = this.state
+        const { isLogin, msg, user, isUploadImg, isFinishUpload } = this.state
         return (
             <div className="container flex column align-center">
                 <div className="form-container">
                     <h2 className="form-title">{isLogin ? 'Login' : 'Signup'}</h2>
+
+                    {isLogin && <div className="signup-login-link"><Link to="/signup">Sign up for an account</Link></div>}
+                    {!isLogin && <div className="signup-login-link"><Link to="/login">Already have an account? Sign in</Link></div>}
+                    {isFinishUpload && <div className="img-uploaded-msg flex align-center space-between">Your image was uploaded successfully! <img src="assets/img/success.png" className="small-icon" alt="" /></div>}
+
                     <form className="login-signup-form flex column align-start" onSubmit={this.handleUserSubmit}>
                         <input type="text" onChange={this.handleChange} value={user.username} name="username" autoComplete="off" placeholder="Username" />
                         {!isLogin && <input type="text" onChange={this.handleChange} value={user.fullname} name="fullname" autoComplete="off" placeholder="Full name" />}
                         <input type="password" onChange={this.handleChange} value={user.password} name="password" placeholder="Password" />
                         {!isLogin && <input type="file" name="imgUrl" onChange={this.onUploadImg} />}
-                        <button>{isLogin ? 'Login' : 'Signup'}</button>
+                        <button className={`btn btn-primary ${isUploadImg ? 'disable' : ''}`} disabled={isUploadImg}>{isLogin ? 'Login' : 'Signup'}</button>
                     </form>
-                    {msg && <div className="user-msg">{msg}</div>}
+
+                    {msg && <div className="user-msg flex align-center space-between">{msg}<img src="assets/img/error-white.png" className="small-icon" alt="" /></div>}
                 </div>
             </div>
         )
