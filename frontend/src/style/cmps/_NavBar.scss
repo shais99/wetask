@@ -1,26 +1,3 @@
-.home-container {
-    width: 100%;
-    height: 100vh;
-    padding-top: 90px;
-}
-
-.home-container:first-of-type {
-    margin-top: -90px;
-}
-
-.hero-container {
-    background-color: $clr2;
-    height: 100vh;
-}
-
-.second-container {
-    background-color: $clr4;
-}
-
-.third-container {
-    background-color: $clr5;
-}
-
 .nav-container {
     background-color: rgba(0, 0, 0, 0.418);
     position: fixed;

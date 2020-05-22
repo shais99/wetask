@@ -5,8 +5,6 @@ export default function HomePage() {
         <>
             <section className="home-container hero-container">
                 <div className="container flex space-between">
-                    <h2>HOME PAGE</h2>
-                    <h2>HOME PAGE2</h2>
                 </div>
             </section>
             <section className="home-container second-container">

@@ -8,6 +8,7 @@ import { save } from '../store/actions/boardActions'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { makeId } from '../services/utilService'
+import ActionContainer from '../cmps/ActionContainer'
 
 class CardDetails extends Component {
 
@@ -23,9 +24,11 @@ class CardDetails extends Component {
         },
         dueDate: {
             value: new Date(),
-        },
-        labels: []
+        }
+    }
 
+    componentDidMount() {
+        if (this.props.currBoard) this.loadCard()
     }
 
     componentDidUpdate(prevProps) {
@@ -117,17 +120,12 @@ class CardDetails extends Component {
 
     onAddLabel = (currLabel) => {
         let currCard = this.getCurrCard();
-        if (currCard.labels.length) {
-            if (!currCard.labels.find(label => label.title === currLabel.title)) {
-                currCard.labels.push(currLabel);
-                this.props.save(this.props.currBoard);
-                console.log('currCard', currCard);
-            }
-        } else {
-            currCard.labels.push(currLabel);
-            this.props.save(this.props.currBoard);
-            console.log('currCard', currCard);
-        }
+        const labelIdx = currCard.labels.findIndex(label => label.title === currLabel.title);
+
+        if (labelIdx === -1) currCard.labels.push(currLabel)
+        else currCard.labels.splice(labelIdx, 1)
+
+        this.setState({ card: currCard }, () => this.props.save(this.props.currBoard))
     }
 
     onToggleAction = (action) => {
@@ -143,11 +141,11 @@ class CardDetails extends Component {
 
     render() {
 
-        const { card, isDescShown, comment, dueDate, labels, isShown } = this.state
+        const { card, isDescShown, comment, dueDate, isShown } = this.state
         const { onToggleAction } = this;
         return ((!card) ? 'Loading...' :
             <>
-                <div className="screen" onMouseDown={this.onBackBoard}>
+                <div className="screen" onMouseDown={this.onBackBoard} >
                     <div className="modal-container shadow-drop-2-center" onMouseDown={(ev) => ev.stopPropagation()}>
                         <div className="modal-header flex space-between">
                             <input type="text" name="title" className="card-title" onChange={this.onEditTitle} value={card.title} />
@@ -165,8 +163,9 @@ class CardDetails extends Component {
                                     <Link title="Add / Remove labels" to="#" onClick={() => onToggleAction('label')}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
                                     <Link title="Add checklist" to="#"><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
                                     <Link title="Set due date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
-                                    {isShown.dueDate && <DueDate onChange={this.onChangeDate} value={dueDate.value} />}
-                                    {isShown.label && <LabelsPicker addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
+                                    {isShown.dueDate && <ActionContainer isShown={isShown} action={'dueDate'} onChange={this.onChangeDate} value={dueDate.value} onToggleAction={onToggleAction} />}
+                                    {isShown.label && <ActionContainer isShown={isShown} action={'labels'} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
+
                                 </ul>
                             </aside>
 
