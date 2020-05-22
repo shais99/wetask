@@ -60,6 +60,8 @@ async function update(board) {
 async function add(board) {
     const collection = await dbService.getCollection('board')
     try {
+        board.members[0]._id = new ObjectId(board.members[0]._id)
+        board.createdBy._id = new ObjectId(board.createdBy._id)
         await collection.insertOne(board);
         return board;
     } catch (err) {

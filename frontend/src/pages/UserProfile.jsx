@@ -11,6 +11,7 @@ class UserProfile extends Component {
 
     render() {
         const { loggedInUser } = this.props
+        if (!loggedInUser) return 'Loading...'
         return (
             <div className="container flex justify-center">
                 <div className="form-container">

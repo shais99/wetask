@@ -28,10 +28,10 @@ class BoardAdd extends React.Component {
     onHandleSubmit = (ev) => {
         ev.preventDefault()
         const { board } = this.state
-        board.members = [{ _id: '5ec5581139619913d9c4da56', name: 'abi abambi' }];
+        board.members = [this.props.loggedInUser];
         board.stacks = [];
         board.createdAt = Date.now();
-        board.createdBy = { _id: '5ec5581139619913d9c4da56', name: 'abi abambi' };
+        board.createdBy = this.props.loggedInUser;
         board.activities = [];
         this.props.save(board)
         this.setState({ board: '' })
@@ -52,17 +52,17 @@ class BoardAdd extends React.Component {
         const { onClose } = this.props
         return <>
             <div className="screen" onClick={onClose}>
-                <div className="modal-container" onClick={(ev) => ev.stopPropagation()} style={{ backgroundColor: "unset" }}>
+                <div className="modal-container" onClick={(ev) => ev.stopPropagation()} style={{ backgroundColor: "unset", width: 'fit-content' }}>
+                    <button className="close-btn" onClick={onClose}>X</button>
                     <form onSubmit={this.onHandleSubmit}>
                         <div className="main-form-container flex wrap">
                             <div className="main-form"
                                 style={{ backgroundColor: board.bg, backgroundImage: `url(${board.bg})`, backgroundSize: "cover" }}>
                                 <div className="main-form-header flex space-between">
                                     <h3>Create Board</h3>
-                                    <button className="close-btn" onClick={onClose}>X</button>
                                 </div>
 
-                                <input name="title" className="borad-title card-title" value={board.title}
+                                <input name="title" className="borad-title" value={board.title}
                                     placeholder="Add board title" onChange={this.handleChange} autoComplete="off" />
                                 <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('color')}> Color</Link>
                                 <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('image')}>Image</Link>
@@ -85,9 +85,14 @@ class BoardAdd extends React.Component {
 
 
 
+const mapStateToProps = (state) => {
+    return {
+        loggedInUser: state.user.loggedInUser
+    }
+}
+
 const mapDispatchToProps = {
     save
 }
 
-
-export default connect(null, mapDispatchToProps)(BoardAdd);
+export default connect(mapStateToProps, mapDispatchToProps)(BoardAdd)

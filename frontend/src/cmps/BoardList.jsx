@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import BoardPreview from './BoardPreview'
 import BoardAdd from './BoardAdd'
 
@@ -14,8 +14,6 @@ export default class BoardList extends React.Component {
     }
 
     render() {
-        console.log('board',this.props.boards);
-        
         return (
             <>
                 {this.state.isAddOpen && <BoardAdd onClose={this.toggleAddShown} />}
