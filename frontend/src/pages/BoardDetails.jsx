@@ -67,22 +67,52 @@ class BoardDetails extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.currBoard !== this.props.currBoard) {
-            // console.log('BOARD PROPS', this.props.currBoard);
+            console.log('BOARD PROPS', this.props.currBoard);
             this.setState({ currBoard: this.props.currBoard }, () => console.log('BOARD STATE', this.state.currBoard));
+
         }
+        // if (this.props.currBoard !== this.state.currBoard) {
+
+        //     const currBoard = this.props.currBoard;
+        // }
     }
 
     onStackAdd = (newStackTitle) => {
 
         let currBoard = this.state.currBoard;
-        console.log(currBoard);
+
         currBoard.stacks.push({
             bgColor: "#fefefe",
             cards: [],
             id: makeId(),
             title: newStackTitle,
         });
+
+        this.setState({ currBoard }, () => {
+            this.props.save(this.state.currBoard);
+        });
+    }
+
+    onCardAdd = (newCardTitle, stackId) => {
+        console.log(stackId);
+        let currBoard = this.state.currBoard;
+        let stackIdx = currBoard.stacks.findIndex((stack) => {
+            return stackId === stack.id;
+        });
+        currBoard.stacks[stackIdx].cards.push({
+            id: makeId(),
+            title: newCardTitle,
+            description: "",
+            comments: [],
+            members: [],
+            labels: [],
+            byMember: this.props.loggedInUser,
+            createdAt: Date.now(),
+            dueDate: ''
+        });
+
         console.log(currBoard);
+
         this.setState({ currBoard }, () => {
             this.props.save(this.state.currBoard);
         });
@@ -107,7 +137,7 @@ class BoardDetails extends React.Component {
             console.log(items);
             const newState = { ...this.state.currBoard };
             newState.stacks = items;
-
+            
             this.setState({ currBoard: newState }, () => {
                 this.props.save(newState)
             })
@@ -136,7 +166,6 @@ class BoardDetails extends React.Component {
 
     stacks = () => {
         const board = this.state.currBoard;
-
         return (
             <span className="stacks-section flex">
                 <DragDropContext
@@ -204,6 +233,7 @@ class BoardDetails extends React.Component {
                                                                 </Draggable>
                                                             ))}
                                                             {provided.placeholder}
+                                                            <AddContent type="card" onCardAdd={this.onCardAdd} itemId={stack.id} />
                                                         </Stack>
                                                     )}
                                                 </Droppable>
@@ -242,7 +272,8 @@ class BoardDetails extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        currBoard: state.board.currBoard
+        currBoard: state.board.currBoard,
+        loggedInUser: state.user.loggedInUser
     }
 }
 

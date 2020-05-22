@@ -27,6 +27,10 @@ class CardDetails extends Component {
         }
     }
 
+    componentDidMount() {
+        if (this.props.currBoard) this.loadCard()
+    }
+
     componentDidUpdate(prevProps) {
         if (this.props.currBoard !== prevProps.currBoard) this.loadCard()
     }

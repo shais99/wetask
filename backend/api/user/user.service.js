@@ -16,8 +16,6 @@ async function query(filterBy = {}) {
     const collection = await dbService.getCollection('user')
     try {
         const users = await collection.find(criteria).toArray();
-        // users.forEach(user => delete user.password);
-
         return users
     } catch (err) {
         console.log('ERROR: cannot find users')
@@ -28,9 +26,9 @@ async function query(filterBy = {}) {
 async function getById(userId) {
     const collection = await dbService.getCollection('user')
     try {
-        const user = await collection.findOne({"_id":ObjectId(userId)})
+        const user = await collection.findOne({ "_id": ObjectId(userId) })
+        
         delete user.password
-
         return user
     } catch (err) {
         console.log(`ERROR: while finding user ${userId}`)
@@ -40,7 +38,7 @@ async function getById(userId) {
 async function getByUsername(username) {
     const collection = await dbService.getCollection('user')
     try {
-        const user = await collection.findOne({username})
+        const user = await collection.findOne({ username })
         return user
     } catch (err) {
         console.log(`ERROR: while finding user ${username}`)
@@ -51,7 +49,7 @@ async function getByUsername(username) {
 async function remove(userId) {
     const collection = await dbService.getCollection('user')
     try {
-        await collection.deleteOne({"_id":ObjectId(userId)})
+        await collection.deleteOne({ "_id": ObjectId(userId) })
     } catch (err) {
         console.log(`ERROR: cannot remove user ${userId}`)
         throw err;
@@ -63,7 +61,7 @@ async function update(user) {
     user._id = ObjectId(user._id);
 
     try {
-        await collection.replaceOne({"_id":user._id}, {$set : user})
+        await collection.replaceOne({ "_id": user._id }, { $set: user })
         return user
     } catch (err) {
         console.log(`ERROR: cannot update user ${user._id}`)
@@ -88,7 +86,7 @@ function _buildCriteria(filterBy) {
         criteria.username = filterBy.txt
     }
     if (filterBy.minBalance) {
-        criteria.balance = {$gte : +filterBy.minBalance}
+        criteria.balance = { $gte: +filterBy.minBalance }
     }
     return criteria;
 }

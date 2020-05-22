@@ -1,16 +1,17 @@
 import React from 'react'
 import BoardList from '../cmps/BoardList'
-import {loadBoards } from '../store/actions/boardActions'
+import { loadBoards } from '../store/actions/boardActions'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 
 class Boards extends React.Component {
 
-    componentDidMount(){
-        this.props.loadBoards('5ec5581139619913d9c4da56')
+    componentDidMount() {
+        this.props.loadBoards(this.props.loggedInUser._id)
     }
 
-    onClickUser(){
+    onClickUser() {
         return
     }
 
@@ -20,7 +21,7 @@ class Boards extends React.Component {
         return <div className="boards-page container">
             <header className="boards-header flex space-between">
                 <h2 className="boards-title">My Boards</h2>
-                <button className="hello-btn" onClick={()=>this.onClickUser}>Hello {this.props.userLoggedIn}</button>
+                <Link to="/profile" className="hello-btn" onClick={() => this.onClickUser}>Hello {this.props.loggedInUser.username}</Link>
             </header>
             <BoardList boards={this.props.boards} />
         </div>
@@ -30,7 +31,7 @@ class Boards extends React.Component {
 const mapStateToProps = (state) => {
     return {
         boards: state.board.boards,
-        userLoggedIn: state.user.userLoggedIn
+        loggedInUser: state.user.loggedInUser
     }
 }
 

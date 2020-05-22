@@ -67,7 +67,20 @@
 .card-preview {
     width: 100%;
     transition: ease-in-out 0.225s;
+    border: 1px solid;
+    margin-bottom: rem(4px);
     &:hover {
         background: darken($color: lightblue, $amount: 20);
     }
+}
+
+
+.close-add-icon {
+    width: rem(24px);
+    cursor: pointer;
+    transition: ease-in-out 0.15s;
+    border-radius: 50%;
+    &:hover {
+        background-color: tomato;
+    }   
 }

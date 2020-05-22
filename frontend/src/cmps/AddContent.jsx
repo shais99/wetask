@@ -1,9 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export class AddContent extends React.Component {
 
     state = {
-        isOpen: true,
+        isOpen: false,
         title: ''
     };
 
@@ -14,11 +15,21 @@ export class AddContent extends React.Component {
 
     }
 
-    addStack = (event) => {
+    addItem = (event) => {
         console.log(event);
         event.preventDefault();
-        const stackTitle = event.target.name.value;
-        this.props.onStackAdd(stackTitle);
+        const itemTitle = event.target.name.value;
+
+        switch (this.props.type) {
+            case 'stack':
+                this.props.onStackAdd(itemTitle);
+                break;
+            case 'card':
+                const parentId = this.props.itemId;
+                this.props.onCardAdd(itemTitle, parentId);
+                break;
+        }
+
         this.setState({ isOpen: false, title: '' });
     }
 
@@ -31,7 +42,8 @@ export class AddContent extends React.Component {
 
     toggleOpen = (event) => {
         event.preventDefault();
-        if (this.state.isOpen) return;
+        console.log('HEY');
+        // if (this.state.isOpen) return;
         this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
     }
 
@@ -41,26 +53,24 @@ export class AddContent extends React.Component {
 
         return (
             // onClick={this.toggleOpen} 
-            <form onSubmit={this.addStack} className="add-content flex column align-start">
-                <span className="add-content-container flex column align-start">
-
-                    {(isOpen)
-                        ?
-                        <React.Fragment>
+            <>
+                {(isOpen)
+                    ?
+                    <>
+                        <form onSubmit={this.addItem} className="add-content flex column align-start">
                             <input name="name" onChange={this.handleChange} value={title} placeholder={`Enter ${type} title...`} />
-                            <span className="add-content-buttons flex space-between">
-                                {/* <p onClick={this.toggleOpen}>X</p> */}
-                                <button>{`Add ${type}`}</button>
-                            </span>
-                        </React.Fragment>
-                        :
-                        <React.Fragment>
-                            <p className="add-content-title">{`Add ${type}`}</p>
-                        </React.Fragment>
-                    }
-
-                </span>
-            </form>
+                            {/* <span className="add-content-buttons flex space-between"> */}
+                            <button>{`Add ${type}`}</button>
+                            {/* </span> */}
+                        </form>
+                        <img src="/assets/img/close.png" onClick={this.toggleOpen} className="close-add-icon" />
+                    </>
+                    :
+                    <>
+                        <Link to="#" onClick={this.toggleOpen} className="add-content-title">{`Add ${type}`}</Link>
+                    </>
+                }
+            </>
         )
     }
 };
