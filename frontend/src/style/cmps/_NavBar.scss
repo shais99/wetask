@@ -18,21 +18,22 @@
 
 .nav-container {
     background-color: rgba(0, 0, 0, 0.329);
-    padding: 20px;
+    padding: 5px 20px;
     position: fixed;
     width: 100%;
 }
 
 .logo {
-    font-family: openSansBold;
-    font-size: rem(26px);
-    display: inline;
+    width: 12rem;
+    // font-family: openSansBold;
+    // font-size: rem(26px);
+    // display: inline;
 
-    .logo-we {
-        background-color: $clr3;
-        padding: 0 3px;
-        margin-right: 3px;
-        color: darken($clr3, 25%);
-        border-radius: 3px;
-    }
+    // .logo-we {
+    //     background-color: $clr3;
+    //     padding: 0 3px;
+    //     margin-right: 3px;
+    //     color: darken($clr3, 25%);
+    //     border-radius: 3px;
+    // }
 }
