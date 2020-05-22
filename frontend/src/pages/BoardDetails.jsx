@@ -8,7 +8,6 @@ import { Link, Route } from 'react-router-dom';
 import { CardPreview } from '../cmps/CardPreview.jsx';
 import { Stack } from '../cmps/Stack.jsx';
 import CardDetails from '../pages/CardDetails.jsx';
-
 import { makeId } from '../services/utilService';
 
 
