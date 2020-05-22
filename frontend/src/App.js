@@ -6,7 +6,6 @@ import LoginSignup from './pages/LoginSignup'
 import Boards from './pages/Boards'
 import BoardDetails from './pages/BoardDetails'
 import UserProfile from './pages/UserProfile'
-import CardDetails from './pages/CardDetails'
 import NavBar from './cmps/NavBar'
 
 
@@ -19,6 +18,7 @@ function App() {
           <Route component={UserProfile} path="/user/:userId" />
           <Route component={BoardDetails} path="/boards/:boardId" />
           <Route component={Boards} path="/boards" />
+          <Route component={UserProfile} path="/profile" />
           <Route component={LoginSignup} path="/login" />
           <Route component={LoginSignup} path="/signup" />
           <Route component={HomePage} path="/" />

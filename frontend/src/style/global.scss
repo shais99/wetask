@@ -8,6 +8,7 @@
 @import "basics/layout.scss";
 @import "basics/base.scss";
 @import "basics/links.scss";
+@import "basics/buttons.scss";
 
 // Components
 @import "cmps/NavBar.scss";
@@ -17,3 +18,4 @@
 @import "cmps/LoginSignup.scss";
 @import "cmps/CardDetails.scss";
 @import "cmps/CardComments.scss";
+@import "cmps/UserProfile.scss";
