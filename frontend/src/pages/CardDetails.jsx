@@ -14,17 +14,18 @@ class CardDetails extends Component {
     state = {
         card: null,
         prevCardDesc: '',
+        isShown: {
+            label: false,
+            dueDate: false
+        },
         comment: {
             txt: ''
         },
         dueDate: {
             value: new Date(),
-            isShown: false
         },
-        labels: {
-            value: [],
-            isShown: false
-        }
+        labels: []
+
     }
 
     componentDidUpdate(prevProps) {
@@ -79,16 +80,6 @@ class CardDetails extends Component {
         this.setState(prevState => ({ comment: { ...prevState.comment, txt: target.value } }))
     }
 
-    onToggleShowDate = () => {
-        this.setState(prevState => ({ dueDate: { ...prevState.dueDate, isShown: !prevState.dueDate.isShown } }))
-    }
-
-    //ToDo: check if one of the action is open 
-
-    onToggleShowLabels = () => {
-        this.setState(prevState => ({ labels: { ...prevState.labels, isShown: !prevState.labels.isShown } }))
-    }
-
     onAddComment = (ev) => {
         ev.preventDefault();
         const { comment } = this.state
@@ -124,21 +115,36 @@ class CardDetails extends Component {
         this.onDescShown(false)
     }
 
-    onAddLabel = (label) => {
-        let value = this.state.labels.value;
-        value.push(label);
-        this.setState(prevState => ({ labels: { ...prevState.labels, value } }), () => {
-            console.log('labels',this.state.labels.value);
-
-            const currCard = this.getCurrCard();
-            currCard.labels = this.state.labels.value;
+    onAddLabel = (currLabel) => {
+        let currCard = this.getCurrCard();
+        if (currCard.labels.length) {
+            if (!currCard.labels.find(label => label.title === currLabel.title)) {
+                currCard.labels.push(currLabel);
+                this.props.save(this.props.currBoard);
+                console.log('currCard', currCard);
+            }
+        } else {
+            currCard.labels.push(currLabel);
             this.props.save(this.props.currBoard);
-        })
+            console.log('currCard', currCard);
+        }
+    }
+
+    onToggleAction = (action) => {
+        let actions = this.state.isShown;
+        for (const key in actions) {
+            if (key !== action) {
+                actions[key] = false;
+            }
+        }
+        actions[action] = !actions[action];
+        this.setState({ isShown: actions });
     }
 
     render() {
 
-        const { card, isDescShown, comment, dueDate, labels } = this.state
+        const { card, isDescShown, comment, dueDate, labels, isShown } = this.state
+        const { onToggleAction } = this;
         return ((!card) ? 'Loading...' :
             <>
                 <div className="screen" onMouseDown={this.onBackBoard}>
@@ -153,15 +159,14 @@ class CardDetails extends Component {
                                 <CardDescription description={card.description} onSaveDesc={this.onSaveDesc} handleChange={this.handleChange} isShown={this.onDescShown} isSubmitShown={isDescShown} />
                                 <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} />
                             </aside>
-
                             <aside className="card-actions">
                                 <ul className="clean-list">
                                     <Link title="Add / Remove members" to="#"><li><img src="/assets/img/user-icon.png" alt="" />Members</li></Link>
-                                    <Link title="Add / Remove labels" to="#" onClick={this.onToggleShowLabels}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
+                                    <Link title="Add / Remove labels" to="#" onClick={() => onToggleAction('label')}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
                                     <Link title="Add checklist" to="#"><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
-                                    <Link title="Set due date" to="#" onClick={this.onToggleShowDate}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
-                                    {dueDate.isShown && <DueDate onChange={this.onChangeDate} value={dueDate.value} />}
-                                    {labels.isShown && <LabelsPicker addLabel={this.onAddLabel} />}
+                                    <Link title="Set due date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
+                                    {isShown.dueDate && <DueDate onChange={this.onChangeDate} value={dueDate.value} />}
+                                    {isShown.label && <LabelsPicker addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                 </ul>
                             </aside>
 
