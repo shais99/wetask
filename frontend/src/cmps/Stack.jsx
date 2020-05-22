@@ -19,7 +19,7 @@ export class Stack extends React.Component {
         const { innerRef, provided, style, children } = this.props;
         // console.log(provided);
         return (
-            <div className="stack flex column align-center space-start" ref={innerRef} style={style}
+            <div className="stack flex column space-start" ref={innerRef} style={style}
                 {...provided.droppableProps} >
                 {children}
             </div>
