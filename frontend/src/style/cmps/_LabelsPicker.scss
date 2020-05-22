@@ -6,6 +6,8 @@
     padding: 10px;
     border-radius: 3px;
     background-color: white;
+    top: 40px;
+    right: 40px;
     .labels-header {
         padding: 4px;
         border-bottom: 1px solid #d5d5d5;
@@ -13,11 +15,23 @@
         text-align: center;
     }
     .label-item {
-        padding: 8px;
+        padding: 8px 12px;
         margin: 5px;
         border-radius: 5px;
         color: white;
+        height: 35px;
         cursor: pointer;
+        font-size: rem(14px);
+        font-family: openSansBold;
+        transition: .3s;
+
+        &:hover {
+            filter: brightness(90%);
+        }
+
+        & img {
+            width: 18px;
+        }
     }
     .close-label {
         background: none;
@@ -26,7 +40,7 @@
         padding: 10px;
         color: #888888;
         transition: 0.3s;
-        &:hover{
+        &:hover {
             background-color: #eeeeee;
         }
     }
