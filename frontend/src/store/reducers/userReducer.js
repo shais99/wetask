@@ -2,7 +2,8 @@ let localLoggedinUser = null;
 if (sessionStorage.user) localLoggedinUser = JSON.parse(sessionStorage.user);
 
 const initialState = {
-    loggedInUser: localLoggedinUser
+    loggedInUser: localLoggedinUser,
+    users: []
 };
 
 export default function (state = initialState, action = {}) {
@@ -11,6 +12,11 @@ export default function (state = initialState, action = {}) {
             return {
                 ...state,
                 loggedInUser: action.user
+            }
+        case 'LOAD_USERS':
+            return {
+                ...state,
+                users: action.users
             }
         default:
             return state;

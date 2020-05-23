@@ -5,6 +5,6 @@ import 'react-calendar/dist/Calendar.css';
 
 export default function DueDate(props) {
     return (
-        <Calendar className="slide-bottom" onChange={props.onChange} value={props.value} calendarType="US" locale="en-GB" name="dueDate" />
+        <Calendar onChange={props.onChange} value={props.value} calendarType="US" locale="en-GB" name="dueDate" />
     )
 }

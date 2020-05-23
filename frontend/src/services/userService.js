@@ -10,7 +10,12 @@ export default {
     logout,
     signup,
     getById,
-    uploadImg
+    uploadImg,
+    query
+}
+
+async function query() {
+    return httpService.get('users')
 }
 
 async function login(userCred) {

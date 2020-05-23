@@ -16,6 +16,7 @@ async function query(filterBy = {}) {
     const collection = await dbService.getCollection('user')
     try {
         const users = await collection.find(criteria).toArray();
+        users.forEach(user => delete user.password)
         return users
     } catch (err) {
         console.log('ERROR: cannot find users')

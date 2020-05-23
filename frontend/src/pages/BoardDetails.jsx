@@ -2,12 +2,13 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { loadBoard, save } from '../store/actions/boardActions.js';
-import { AddContent } from '../cmps/AddContent.jsx';
+import { loadBoard, save } from '../store/actions/boardActions';
+import { AddContent } from '../cmps/AddContent';
 import { Link, Route } from 'react-router-dom';
-import { CardPreview } from '../cmps/CardPreview.jsx';
-import { Stack } from '../cmps/Stack.jsx';
-import CardDetails from '../pages/CardDetails.jsx';
+import { CardPreview } from '../cmps/CardPreview';
+import { Stack } from '../cmps/Stack';
+import CardDetails from '../pages/CardDetails';
+import BoardOptions from '../cmps/BoardOptions'
 
 import { makeId } from '../services/utilService';
 
@@ -35,48 +36,88 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     return result;
 };
 
-const getItemStyle = (isDragging, draggableStyle) => ({
-    // some basic styles to make the items look a bit nicer
-    userSelect: 'none',
-    paddingTop: 0,
-    // change background colour if dragging
-    background: isDragging ? 'lightgreen' : '#ebecf0',
 
-    // styles we need to apply on draggables
-    ...draggableStyle
-});
-
-const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? 'lightblue' : '#ebecf0',
-    padding: 8,
-
-    width: 250,
-    transition: 'ease-in-out 0.15s'
-});
 
 class BoardDetails extends React.Component {
 
+    constructor() {
+        super();
+        this.boardContent = React.createRef();
+    }
+
     state = {
         currBoard: null,
+        boardHeight: 'unset'
     }
 
     componentDidMount() {
-
         const { boardId } = this.props.match.params;
         this.props.loadBoard(boardId);
+        this.getBoardHeight();
+        window.addEventListener('resize', this.getBoardHeight);
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.currBoard !== this.props.currBoard) {
             console.log('BOARD PROPS', this.props.currBoard);
             this.setState({ currBoard: this.props.currBoard }, () => console.log('BOARD STATE', this.state.currBoard));
+            console.log(this.props.currBoard.bg);
+            document.body.style.backgroundImage = `url(/${this.props.currBoard.bg})`
+            document.body.style.backgroundColor = this.props.currBoard.bg
 
         }
+
+        if (this.boardContent.current &&
+            (this.boardContent.current.clientHeight !== this.state.boardHeight)) {
+
+            this.setState({ boardHeight: this.boardContent.current.clientHeight });
+        }
+
         // if (this.props.currBoard !== this.state.currBoard) {
 
         //     const currBoard = this.props.currBoard;
         // }
     }
+
+    componentWillUnmount() {
+        document.body.style = '';
+        window.removeEventListener('resize', this.getBoardHeight);
+    }
+
+    getBoardHeight = () => {
+
+        if(this.boardContent.current) {
+            console.log(this.boardContent.current.clientHeight);
+            let boardHeight = this.boardContent.current.clientHeight - 32;
+            boardHeight = (boardHeight < 150) ? 150 : boardHeight;
+            console.log(boardHeight);
+            this.setState({ boardHeight });
+        }
+
+    }
+
+
+    getItemStyle = (isDragging, draggableStyle) => {
+
+        return ({
+            // some basic styles to make the items look a bit nicer
+            userSelect: 'none',
+            paddingTop: 0,
+            // change background colour if dragging
+            background: isDragging ? 'lightgreen' : '#ebecf0',
+            // styles we need to apply on draggables
+            ...draggableStyle
+        });
+    }
+
+
+    getListStyle = isDraggingOver => ({
+        background: isDraggingOver ? 'lightblue' : '#ebecf0',
+        padding: 8,
+
+        width: 250,
+        transition: 'ease-in-out 0.15s'
+    });
 
     onStackAdd = (newStackTitle) => {
 
@@ -138,7 +179,7 @@ class BoardDetails extends React.Component {
             console.log(items);
             const newState = { ...this.state.currBoard };
             newState.stacks = items;
-            
+
             this.setState({ currBoard: newState }, () => {
                 this.props.save(newState)
             })
@@ -165,7 +206,7 @@ class BoardDetails extends React.Component {
         }
     }
 
-    stacks = () => {
+    stacks = (boardHeight) => {
         const board = this.state.currBoard;
         return (
             <span className="stacks-section flex">
@@ -176,7 +217,7 @@ class BoardDetails extends React.Component {
                         {(provided, snapshot) => (
                             <div
                                 ref={provided.innerRef}
-                                style={{ backgroundColor: snapshot.isDraggingOver ? 'forestgreen' : 'transparent' }}
+                                // style={{ backgroundColor: snapshot.isDraggingOver ? 'forestgreen' : 'transparent' }}
                                 {...provided.droppableProps}
                                 className="stacks-content flex "
                             >
@@ -189,10 +230,10 @@ class BoardDetails extends React.Component {
                                             <div
                                                 ref={provided.innerRef}
                                                 {...provided.draggableProps}
-                                                style={getItemStyle(
+                                                style={{...this.getItemStyle(
                                                     snapshot.isDragging,
-                                                    provided.draggableProps.style
-                                                )}
+                                                    provided.draggableProps.style,
+                                                ),  maxHeight: boardHeight }}
                                                 className="stack-content flex column"
                                             >
 
@@ -204,7 +245,7 @@ class BoardDetails extends React.Component {
                                                     {(provided, snapshot) => (
                                                         <Stack
                                                             innerRef={provided.innerRef}
-                                                            style={getListStyle(snapshot.isDraggingOver)}
+                                                            style={this.getListStyle(snapshot.isDraggingOver)}
                                                             provided={provided}
                                                         >
 
@@ -221,10 +262,10 @@ class BoardDetails extends React.Component {
                                                                                 title={card.title}
                                                                                 innerRef={provided.innerRef}
                                                                                 provided={provided}
-
-                                                                                style={getItemStyle(
+                                                                                card={card}
+                                                                                style={this.getItemStyle(
                                                                                     snapshot.isDragging,
-                                                                                    provided.draggableProps.style
+                                                                                    provided.draggableProps.style,
                                                                                 )}
                                                                             >
 
@@ -256,14 +297,17 @@ class BoardDetails extends React.Component {
 
     render() {
         console.log(this.state.currBoard);
-        const { currBoard } = this.state;
+        const { currBoard, boardHeight } = this.state;
+        if (!currBoard) return 'Loading...'
 
         return (
             <>
+                <BoardOptions board={currBoard} />
                 <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
-                <section className="board-content container flex column align-start space-between">
+                <section className="board-content container flex column align-start space-between"
+                    ref={this.boardContent}>
 
-                    {(currBoard) ? this.stacks() : null}
+                    {(currBoard) ? this.stacks(boardHeight) : null}
 
                 </section>
             </>

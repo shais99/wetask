@@ -1,0 +1,46 @@
+.add-member-container {
+    background-color: $clr7;
+    position: fixed;
+    right: 20px;
+    min-height: 250px;
+    min-width: 250px;
+    top: 140px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.45);
+
+    .add-member-title {
+        padding: 10px;
+        font-family: openSansBold;
+        color: $clr7;
+        background-color: $clr1;
+        margin-bottom: 5px;
+
+        & img {
+            width: 22px;
+            cursor: pointer;
+        }
+    }
+
+    .add-member-input {
+        padding: 10px 7px;
+        width: 100%;
+        border: none;
+        outline: none;
+        border-bottom: 1px solid darken($clr6, 10%);
+        transition: .3s;
+        margin-bottom: 10px;
+        
+        &:focus {
+            background-color: $clr6;
+            border-bottom: 1px solid $clr7;
+        }
+    }
+
+    .members-list {
+        height: 200px;
+        overflow-y: auto;
+        .single-member {
+            padding: 5px 10px;
+        }
+    }
+}

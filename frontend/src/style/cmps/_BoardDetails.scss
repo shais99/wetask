@@ -2,7 +2,7 @@
 .board-content {
     padding: 0 20px;
     margin: 0;
-    height: 100%;
+    height: calc(100% - 60px);
 }
 
 .stacks-content >* {
@@ -12,8 +12,12 @@
 
 .stacks-section {
     width: 100%;
+    
+
     &.stacks-content {
         width: 100%;
+        overflow: scroll;
+        
     }
 }
 
@@ -27,8 +31,8 @@
 }
 
 .add-content-container {
-    width: 95%;
-    margin: auto;
+    // width: 95%;
+    // margin: auto;
 }
 
 .add-content-buttons {
@@ -57,7 +61,7 @@
     align-self: flex-start;
     height: 2rem;
     width: 100%;
-    padding-left: 0.5rem;
+    padding: 0.5rem;
     transition: ease-in-out 0.225s;
     &:hover {
         background: $clr5;

@@ -15,7 +15,7 @@ async function query(filterBy = {}) {
 
     const collection = await dbService.getCollection('board')
     try {
-        const boards = await collection.find({ 'members._id': ObjectId(filterBy.userId) }).toArray();
+        const boards = await collection.find({ 'members._id': filterBy.userId }).toArray();
         return boards
     } catch (err) {
         console.log('ERROR: cannot find boards')
@@ -60,8 +60,6 @@ async function update(board) {
 async function add(board) {
     const collection = await dbService.getCollection('board')
     try {
-        board.members[0]._id = new ObjectId(board.members[0]._id)
-        board.createdBy._id = new ObjectId(board.createdBy._id)
         await collection.insertOne(board);
         return board;
     } catch (err) {
