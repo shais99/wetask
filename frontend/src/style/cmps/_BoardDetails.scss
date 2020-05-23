@@ -34,6 +34,10 @@
     // width: 95%;
     // margin: auto;
     height: fit-content;
+    width: 100%;
+    padding: 0.25rem;
+    border: 1px dashed rgba(0, 0, 0, 0.25);
+    background: cornflowerblue;
 }
 
 .add-content-buttons {
@@ -45,6 +49,10 @@
     width: 100%;
 }
 
+.add-content-title {
+    width: 100%;
+}
+
 .add-content-title::before {
 
     content: "+";
@@ -52,6 +60,7 @@
 
 .stack {
     background-color: tomato;
+    overflow-y: auto;
 }
 
 .stack-title {
@@ -77,10 +86,35 @@
     border-radius: 5px;
     font-size: 1.125rem;
     background: white;
+
     &:hover {
         background: darken($color: lightblue, $amount: 20);
     }
+
+    .card-preview-info {
+        border-top: 1px solid $clr6;
+
+        &>*:not(:last-child) {
+            margin-right: 20px;
+        }
+        .preview-info-span {
+            padding-top: 2px;
+    
+            .preview-info-img {
+                width: 1.5rem;
+                margin-right: 3px;
+            }
+            // .preview-info-count {
+            //     margin-right: 20px;
+            // }
+        }
+    }
+
 }
+
+
+
+
 
 
 .close-add-icon {
