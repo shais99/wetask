@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import DueDate from './DueDate'
 import LabelsPicker from './LabelsPicker'
-import { render } from '@testing-library/react'
+import CardMembers from './CardMembers'
+import OutsideClickHandler from 'react-outside-click-handler';
+
+
 
 export default class ActionContainer extends Component {
     state = {
@@ -27,25 +30,29 @@ export default class ActionContainer extends Component {
                 return 'Change Due Date'
             case 'label':
                 return 'Labels'
+            case 'members':
+                return 'Members'
             default:
                 break;
         }
     }
 
     render() {
-        const { isShown } = this.props;
+        const { isShown, card, onToggleAction } = this.props;
         const { props } = this;
         const { action } = this.state;
-        console.log(action);
         return (
+            <OutsideClickHandler onOutsideClick={() => onToggleAction(action)} display={'contents'}>
             < div className="labels-container" >
                 <div className="labels-header flex space-between">
                     <h3>{this.titleToReturn(action)}</h3>
-                    <button className="close-label" onClick={() => props.onToggleAction(action)}>X</button>
+                    <button className="close-label" onClick={() => onToggleAction(action)}>X</button>
                 </div>
-                {isShown.dueDate && <DueDate onToggleAction={props.onToggleAction} onChange={props.onChangeDate} value={props.value} />}
+                {isShown.dueDate && <DueDate onToggleAction={onToggleAction} onChange={props.onChangeDate} value={props.value} />}
                 {isShown.label && <LabelsPicker addLabel={props.addLabel} onToggleAction={props.onToggleAction} getCurrCard={props.getCurrCard} />}
+                {isShown.members && <CardMembers onToggleAction={onToggleAction} getCurrCard={props.getCurrCard} card={card} addMember={props.addMember} />}
             </div >
+            </OutsideClickHandler>
         )
     }
 }

@@ -1,10 +1,10 @@
 .add-member-container {
-    background-color: $clr7;
+    background-color: #f3f3f3;
     position: fixed;
-    right: 20px;
+    right: 80px;
+    top: 130px;
     min-height: 250px;
     min-width: 250px;
-    top: 140px;
     border-radius: 5px;
     box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.45);
 
@@ -13,7 +13,6 @@
         font-family: openSansBold;
         color: $clr7;
         background-color: $clr1;
-        margin-bottom: 5px;
 
         & img {
             width: 22px;
@@ -27,20 +26,27 @@
         border: none;
         outline: none;
         border-bottom: 1px solid darken($clr6, 10%);
-        transition: .3s;
+        transition: 0.3s;
         margin-bottom: 10px;
-        
+        background-color: transparent;
+
         &:focus {
-            background-color: $clr6;
-            border-bottom: 1px solid $clr7;
+            background-color: darken($clr6, 3%);
+            border-bottom: 1px solid #f3f3f3;
         }
     }
 
     .members-list {
         height: 200px;
         overflow-y: auto;
+
         .single-member {
-            padding: 5px 10px;
+            padding: 7px 10px;
+            transition: 0.3s;
+
+            &:hover {
+                background-color: darken($clr6, 3%);
+            }
         }
     }
 }

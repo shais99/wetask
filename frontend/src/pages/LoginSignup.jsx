@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import userService from '../services/userService'
 import { connect } from 'react-redux';
 import { login, signup } from '../store/actions/userActions';
+import { getRandomColor } from '../services/utilService'
 import { Link } from 'react-router-dom'
 
 class LoginSignup extends Component {
@@ -63,14 +64,19 @@ class LoginSignup extends Component {
     handleUserSubmit = async ev => {
         ev.preventDefault();
         const { username, password, fullname, imgUrl } = this.state.user
-        if (!username || !password) {
+        const {isLogin} = this.state
+        if (!username || !password && isLogin) {
             return this.setState({ msg: 'Please enter username and password' });
         }
+        if (!isLogin && !username && !password && !fullname) return this.setState({ msg: 'Please enter username, password and full name' });
 
         const userCred = { username, password, fullname, imgUrl }
         try {
             if (this.state.isLogin) await this.props.login(userCred)
-            else await this.props.signup(userCred)
+            else {
+                userCred.bgColor = getRandomColor()
+                await this.props.signup(userCred)
+            }
         } catch (err) {
             return this.setState({ msg: err })
         }

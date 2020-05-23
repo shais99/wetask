@@ -5,9 +5,9 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { loadBoard, save } from '../store/actions/boardActions';
 import { AddContent } from '../cmps/AddContent';
 import { Link, Route } from 'react-router-dom';
-import { CardPreview } from '../cmps/CardPreview';
-import { Stack } from '../cmps/Stack';
-import CardDetails from '../pages/CardDetails';
+import { CardPreview } from '../cmps/CardPreview.jsx';
+import { Stack } from '../cmps/Stack.jsx';
+import CardDetails from '../pages/CardDetails.jsx';
 import BoardOptions from '../cmps/BoardOptions'
 
 import { makeId } from '../services/utilService';
@@ -15,7 +15,6 @@ import { makeId } from '../services/utilService';
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
-    console.log(list);
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -26,7 +25,6 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
-    console.log(removed);
     destClone.splice(droppableDestination.index, 0, removed);
 
     const result = {};
@@ -56,6 +54,7 @@ class BoardDetails extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+
         if (prevProps.currBoard !== this.props.currBoard) {
             console.log('BOARD PROPS', this.props.currBoard);
             this.setState({ currBoard: this.props.currBoard }, () => console.log('BOARD STATE', this.state.currBoard));
@@ -295,6 +294,22 @@ stacks = (boardHeight) => {
     )
 }
 
+onSetBg = (bg, type) => {
+
+    if (type === 'img') {
+        const bgUrl = bg.slice(1, bg.length + 1)
+        document.body.style.backgroundImage = `url(/${bgUrl})`
+        document.body.style.backgroundColor = ''
+        document.body.style.backgroundSize = '100%'
+        this.props.currBoard.bg = bgUrl
+    } else {
+        document.body.style.backgroundImage = ''
+        document.body.style.backgroundColor = bg
+        this.props.currBoard.bg = bg
+    }
+    this.props.save(this.props.currBoard)
+}
+
 render() {
     console.log(this.state.currBoard);
     const { currBoard, boardHeight } = this.state;
@@ -302,7 +317,7 @@ render() {
 
     return (
         <>
-            <BoardOptions board={currBoard} />
+            <BoardOptions board={currBoard} onSetBg={this.onSetBg} />
             <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
             <section className="board-content container flex column align-start space-between"
                 ref={this.boardContent}>
@@ -323,7 +338,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-
     loadBoard,
     save
 }

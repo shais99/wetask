@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import CardDescription from '../cmps/CardDescription'
 import CardComments from '../cmps/CardComments'
-import BoardDetails from '../pages/BoardDetails'
-import DueDate from '../cmps/DueDate'
-import LabelsPicker from '../cmps/LabelsPicker'
-import { save } from '../store/actions/boardActions'
+import { save, loadBoard } from '../store/actions/boardActions'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { makeId } from '../services/utilService'
@@ -17,7 +14,9 @@ class CardDetails extends Component {
         prevCardDesc: '',
         isShown: {
             label: false,
-            dueDate: false
+            dueDate: false,
+            members: false,
+
         },
         comment: {
             txt: ''
@@ -32,7 +31,9 @@ class CardDetails extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.currBoard !== prevProps.currBoard) this.loadCard()
+        if (this.props.currBoard !== prevProps.currBoard){ 
+            this.loadCard()
+        }
     }
 
     loadCard = () => {
@@ -89,11 +90,7 @@ class CardDetails extends Component {
         if (!comment.txt) return;
         comment.id = makeId();
         comment.createdAt = Date.now();
-        comment.byMember = {
-            _id: '5ec5581139619913d9c4da56',
-            fullName: 'Abi Abambi',
-            imgUrl: 'http://some-img.jpg'
-        };
+        comment.byMember = this.props.loggedInUser;
         const currCard = this.getCurrCard()
         currCard.comments.unshift(comment)
         this.props.save(this.props.currBoard)
@@ -121,11 +118,23 @@ class CardDetails extends Component {
     onAddLabel = (currLabel) => {
         let currCard = this.getCurrCard();
         const labelIdx = currCard.labels.findIndex(label => label.title === currLabel.title);
-
+        
         if (labelIdx === -1) currCard.labels.push(currLabel)
         else currCard.labels.splice(labelIdx, 1)
 
         this.setState({ card: currCard }, () => this.props.save(this.props.currBoard))
+    }
+
+    onAddMember = (currMember) => {
+        let currCard = this.getCurrCard();
+        const memberIdx = currCard.members.findIndex(member => member._id === currMember._id);
+        console.log('member-idx',memberIdx);
+
+        if (memberIdx === -1) currCard.members.push(currMember)
+        else currCard.members.splice(memberIdx, 1)
+
+        this.props.save(this.props.currBoard)
+        this.props.loadBoard(this.props.currBoard._id)
     }
 
     onToggleAction = (action) => {
@@ -159,12 +168,13 @@ class CardDetails extends Component {
                             </aside>
                             <aside className="card-actions">
                                 <ul className="clean-list">
-                                    <Link title="Add / Remove members" to="#"><li><img src="/assets/img/user-icon.png" alt="" />Members</li></Link>
+                                    <Link title="Add / Remove members" to="#" onClick={() => onToggleAction('members')}><li><img src="/assets/img/user-icon.png" alt="" />Members</li></Link>
                                     <Link title="Add / Remove labels" to="#" onClick={() => onToggleAction('label')}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
                                     <Link title="Add checklist" to="#"><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
                                     <Link title="Set due date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
-                                    {isShown.dueDate && <ActionContainer isShown={isShown} action={'dueDate'} onChange={this.onChangeDate} value={dueDate.value} onToggleAction={onToggleAction} />}
-                                    {isShown.label && <ActionContainer isShown={isShown} action={'labels'} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
+                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} value={dueDate.value} onToggleAction={onToggleAction} />}
+                                    {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
+                                    {isShown.members && <ActionContainer isShown={isShown} onToggleAction={onToggleAction} card={card} addMember={this.onAddMember} getCurrCard={this.getCurrCard} />}
 
                                 </ul>
                             </aside>
@@ -178,11 +188,13 @@ class CardDetails extends Component {
 }
 
 const mapDispatchToProps = {
-    save
+    save,
+    loadBoard
 }
 const mapStateToProps = (state) => {
     return {
-        currBoard: state.board.currBoard
+        currBoard: state.board.currBoard,
+        loggedInUser: state.user.loggedInUser
     }
 }
 

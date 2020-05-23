@@ -12,11 +12,30 @@ module.exports = {
 }
 
 async function query(filterBy = {}) {
-    const criteria = _buildCriteria(filterBy)
-    const collection = await dbService.getCollection('user')
+    let criteria = _buildCriteria(filterBy)
+
+    let boardMembers;
+    const boardCollection = await dbService.getCollection('board')
+
     try {
-        const users = await collection.find(criteria).toArray();
+        const board = await boardCollection.findOne({ '_id': ObjectId(criteria.boardId) })
+        boardMembers = board.members
+    } catch {
+        console.log('ERROR: cannot find board');
+        throw err;
+    }
+
+    const userCollection = await dbService.getCollection('user')
+    try {
+        const boardMembersIds = boardMembers.map(member => ObjectId(member._id))
+        criteria.boardMembersIds = { $nin: boardMembersIds }
+        delete criteria.boardId
+
+        let users;
+        if (!criteria.q) users = await userCollection.find({ '_id': criteria.boardMembersIds }).toArray();
+        else users = await userCollection.find({ $and: [{ '_id': criteria.boardMembersIds }, { 'username': criteria.q }] }).toArray();
         users.forEach(user => delete user.password)
+
         return users
     } catch (err) {
         console.log('ERROR: cannot find users')
@@ -28,7 +47,7 @@ async function getById(userId) {
     const collection = await dbService.getCollection('user')
     try {
         const user = await collection.findOne({ "_id": ObjectId(userId) })
-        
+
         delete user.password
         return user
     } catch (err) {
@@ -83,11 +102,11 @@ async function add(user) {
 
 function _buildCriteria(filterBy) {
     const criteria = {};
-    if (filterBy.txt) {
-        criteria.username = filterBy.txt
+    if (filterBy.boardId) {
+        criteria.boardId = filterBy.boardId
     }
-    if (filterBy.minBalance) {
-        criteria.balance = { $gte: +filterBy.minBalance }
+    if (filterBy.q) {
+        criteria.q = { $regex: `.*${filterBy.q}.*`, $options: 'i' }
     }
     return criteria;
 }

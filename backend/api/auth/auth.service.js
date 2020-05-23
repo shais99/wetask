@@ -6,7 +6,7 @@ const saltRounds = 10
 
 async function login(username, password) {
     logger.debug(`auth.service - login with username: ${username}`)
-    if (!username || !password) return Promise.reject('username and password are required!')
+    if (!username || !password) return Promise.reject('username and password are required')
 
     const user = await userService.getByUsername(username)
     if (!user) return Promise.reject('Invalid username or password')
@@ -17,12 +17,12 @@ async function login(username, password) {
     return user;
 }
 
-async function signup(username, password, fullname, imgUrl) {
+async function signup(username, password, fullname, imgUrl, bgColor) {
     logger.debug(`auth.service - signup with username: ${username}`)
-    if (!username || !password) return Promise.reject('username and password are required!')
+    if (!username || !password || !fullname) return Promise.reject('username, password and fullname are required')
 
     const hash = await bcrypt.hash(password, saltRounds)
-    return userService.add({ username, password: hash, fullname, imgUrl })
+    return userService.add({ username, password: hash, fullname, imgUrl, bgColor })
 }
 
 module.exports = {
