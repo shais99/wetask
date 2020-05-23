@@ -10,6 +10,12 @@ class BoardOptions extends Component {
         isAddMemberShown: false
     }
 
+    componentDidUpdate(prevProps) {
+        const { currBoard } = this.props
+        if (prevProps.currBoard !== currBoard) this.props.loadBoard(currBoard._id)
+    }
+
+
     getTwoChars(str) {
         let twoChars;
         if (str.split(' ').length !== 2) twoChars = str?.charAt(0)

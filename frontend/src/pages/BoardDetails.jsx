@@ -15,7 +15,6 @@ import { makeId } from '../services/utilService';
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
-    console.log(list);
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -26,13 +25,11 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
-    console.log(removed);
     destClone.splice(droppableDestination.index, 0, removed);
 
     const result = {};
     result[droppableSource.droppableId] = sourceClone;
     result[droppableDestination.droppableId] = destClone;
-    console.log(result);
     return result;
 };
 
@@ -59,9 +56,7 @@ class BoardDetails extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.currBoard !== this.props.currBoard) {
-            console.log('BOARD PROPS', this.props.currBoard);
-            this.setState({ currBoard: this.props.currBoard }, () => console.log('BOARD STATE', this.state.currBoard));
-            console.log(this.props.currBoard.bg);
+            this.setState({ currBoard: this.props.currBoard });
             document.body.style.backgroundImage = `url(/${this.props.currBoard.bg})`
             document.body.style.backgroundColor = this.props.currBoard.bg
 
@@ -86,11 +81,9 @@ class BoardDetails extends React.Component {
 
     getBoardHeight = () => {
 
-        if(this.boardContent.current) {
-            console.log(this.boardContent.current.clientHeight);
+        if (this.boardContent.current) {
             let boardHeight = this.boardContent.current.clientHeight - 32;
             boardHeight = (boardHeight < 150) ? 150 : boardHeight;
-            console.log(boardHeight);
             this.setState({ boardHeight });
         }
 
@@ -136,7 +129,6 @@ class BoardDetails extends React.Component {
     }
 
     onCardAdd = (newCardTitle, stackId) => {
-        console.log(stackId);
         let currBoard = this.state.currBoard;
         let stackIdx = currBoard.stacks.findIndex((stack) => {
             return stackId === stack.id;
@@ -153,8 +145,6 @@ class BoardDetails extends React.Component {
             dueDate: ''
         });
 
-        console.log(currBoard);
-        
         this.setState({ currBoard }, () => {
             this.props.save(this.state.currBoard);
         });
@@ -162,7 +152,6 @@ class BoardDetails extends React.Component {
 
     onDragEnd = (result) => {
 
-        console.log(result);
         const { source, destination } = result;
 
         // Dropped outside the list
@@ -174,9 +163,7 @@ class BoardDetails extends React.Component {
 
         // Changed Stacks order
         if ((source.droppableId === destination.droppableId) && source.droppableId === 'board') {
-            console.log(stacks);
             const items = reorder(stacks, source.index, destination.index);
-            console.log(items);
             const newState = { ...this.state.currBoard };
             newState.stacks = items;
 
@@ -230,10 +217,12 @@ class BoardDetails extends React.Component {
                                             <div
                                                 ref={provided.innerRef}
                                                 {...provided.draggableProps}
-                                                style={{...this.getItemStyle(
-                                                    snapshot.isDragging,
-                                                    provided.draggableProps.style,
-                                                ),  maxHeight: boardHeight }}
+                                                style={{
+                                                    ...this.getItemStyle(
+                                                        snapshot.isDragging,
+                                                        provided.draggableProps.style,
+                                                    ),
+                                                }}
                                                 className="stack-content flex column"
                                             >
 
@@ -296,7 +285,6 @@ class BoardDetails extends React.Component {
     }
 
     render() {
-        console.log(this.state.currBoard);
         const { currBoard, boardHeight } = this.state;
         if (!currBoard) return 'Loading...'
 
@@ -323,7 +311,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-
     loadBoard,
     save
 }
