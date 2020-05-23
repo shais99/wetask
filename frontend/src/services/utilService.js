@@ -6,6 +6,14 @@ export function makeId(length = 5) {
         id += possible.charAt(Math.floor(Math.random() * possible.length));
     }
 
-    // return parseInt(id);
     return id;
+}
+
+export function getRandomColor() {
+    const letters = '0123456789ABCDEF'.split('');
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }

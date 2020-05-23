@@ -16,8 +16,11 @@ export class AddContent extends React.Component {
     }
 
     addItem = (event) => {
-        console.log(event);
+        console.log(event.target);
         event.preventDefault();
+
+        if(!event.target) return;
+
         const itemTitle = event.target.name.value;
 
         switch (this.props.type) {
@@ -42,8 +45,7 @@ export class AddContent extends React.Component {
 
     toggleOpen = (event) => {
         event.preventDefault();
-        console.log('HEY');
-        // if (this.state.isOpen) return;
+
         this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
     }
 
@@ -53,7 +55,7 @@ export class AddContent extends React.Component {
 
         return (
             // onClick={this.toggleOpen} 
-            <>
+            <div className="add-content-container flex align-start">
                 {(isOpen)
                     ?
                     <>
@@ -70,7 +72,7 @@ export class AddContent extends React.Component {
                         <Link to="#" onClick={this.toggleOpen} className="add-content-title">{`Add ${type}`}</Link>
                     </>
                 }
-            </>
+            </div>
         )
     }
 };

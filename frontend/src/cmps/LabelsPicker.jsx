@@ -15,18 +15,6 @@ export default class LabelsPicker extends Component {
         return false
     }
 
-    // labelTitle(title){
-    //     switch (title) {
-    //         case 'small':
-
-    //             break;
-
-    //         default:
-    //             break;
-    //     }
-
-    // }
-
     render() {
         const { addLabel } = this.props
         const { isLabelChecked } = this

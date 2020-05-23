@@ -31,11 +31,13 @@ if (process.env.NODE_ENV === 'production') {
 
 const authRoutes = require('./api/auth/auth.routes')
 const boardRoutes = require('./api/board/board.routes')
+const userRoutes = require('./api/user/user.routes')
 
 
 
 app.use('/api/auth', authRoutes)
 app.use('/api/boards', boardRoutes)
+app.use('/api/users', userRoutes)
 
 
 

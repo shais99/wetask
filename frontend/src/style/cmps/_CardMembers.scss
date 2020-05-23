@@ -1,0 +1,28 @@
+.card-members-container {
+    .members-list {
+        h4 {
+            font-size: rem(12px);
+            font-weight: 500;
+            font-family: openSansBold;
+            letter-spacing: 0.04em;
+            line-height: 16px;
+            margin-top: 4px;
+            margin-bottom: 10px;
+        }
+        .member-item {
+            height: 32px;
+            overflow: hidden;
+            padding: 4px;
+            margin-bottom: 2px;
+            font-size: rem(16px);
+            cursor: pointer;
+            &:hover{
+                background-color: rgba(8, 26, 58, 0.1);          
+            }
+            & img{
+                width: 18px;
+            }
+        }
+
+    }
+}

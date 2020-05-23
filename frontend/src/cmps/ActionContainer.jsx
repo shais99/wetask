@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import DueDate from './DueDate'
 import LabelsPicker from './LabelsPicker'
-import { render } from '@testing-library/react'
+import CardMembers from './CardMembers'
+
 
 export default class ActionContainer extends Component {
     state = {
@@ -27,13 +28,15 @@ export default class ActionContainer extends Component {
                 return 'Change Due Date'
             case 'label':
                 return 'Labels'
+            case 'members':
+                return 'Members'
             default:
                 break;
         }
     }
 
     render() {
-        const { isShown } = this.props;
+        const { isShown, card, onToggleAction } = this.props;
         const { props } = this;
         const { action } = this.state;
         return (
@@ -42,8 +45,9 @@ export default class ActionContainer extends Component {
                     <h3>{this.titleToReturn(action)}</h3>
                     <button className="close-label" onClick={() => props.onToggleAction(action)}>X</button>
                 </div>
-                {isShown.dueDate && <DueDate onToggleAction={props.onToggleAction} onChange={props.onChangeDate} value={props.value} />}
+                {isShown.dueDate && <DueDate onToggleAction={onToggleAction} onChange={props.onChangeDate} value={props.value} />}
                 {isShown.label && <LabelsPicker addLabel={props.addLabel} onToggleAction={props.onToggleAction} getCurrCard={props.getCurrCard} />}
+                {isShown.members && <CardMembers onToggleAction={onToggleAction} getCurrCard={props.getCurrCard} card={card} addMember={props.addMember} />}
             </div >
         )
     }

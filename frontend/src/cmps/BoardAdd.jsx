@@ -35,6 +35,7 @@ class BoardAdd extends React.Component {
         board.activities = [];
         this.props.save(board)
         this.setState({ board: '' })
+        this.props.onClose()
     };
 
     changeBgColor = (bg) => {
@@ -44,8 +45,6 @@ class BoardAdd extends React.Component {
     onChangeBgBy(bgBy) {
         this.setState({ bgBy });
     }
-
-
 
     render() {
         const { board, bgColors, bgImgs, bgBy } = this.state
