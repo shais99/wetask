@@ -76,7 +76,7 @@
     border: 2px solid rgba(0, 0, 0, 0.35);
     border-radius: 5px;
     font-size: 1.125rem;
-
+    background: white;
     &:hover {
         background: darken($color: lightblue, $amount: 20);
     }
