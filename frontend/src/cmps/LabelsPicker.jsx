@@ -10,7 +10,6 @@ export default class LabelsPicker extends Component {
 
     isLabelChecked = (labelName) => {
         const currCard = this.props.getCurrCard();
-        console.log('currCard', currCard);
         if (!currCard.labels) currCard.labels = [];
         if (currCard.labels.find(label => labelName === label.title)) return true
         return false
@@ -32,8 +31,8 @@ export default class LabelsPicker extends Component {
         const { addLabel } = this.props
         const { isLabelChecked } = this
         return <>
-            {this.state.labels.map(label => {
-                return <div className="label-item flex space-between" style={{ backgroundColor: label.color }}
+            {this.state.labels.map((label, idx) => {
+                return <div key={idx} className="label-item flex space-between" style={{ backgroundColor: label.color }}
                     onClick={() => addLabel({ title: label.title, color: label.color })}>
                     {label.title.charAt(0).toUpperCase() + label.title.slice(1)} {isLabelChecked(label.title) ? <img src="/assets/img/icon-checked.png" /> : ''}
                 </div>

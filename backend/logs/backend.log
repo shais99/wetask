@@ -1,5 +1,4 @@
 Fri, 22 May 2020 10:16:06 GMT - Debug - [{"_id":"5ec663de13b5e24eb049e6a4","title":"meshi's board","bg":"#122961","members":[{"_id":"5ec5581139619913d9c4da56","name":"abi abambi"}],"stacks":[{"bgColor":"#fefefe","cards":[],"id":null,"title":"zsfdg"}],"createdAt":1590059998034,"createdBy":{"_id":"5ec5581139619913d9c4da56","name":"abi abambi"},"activities":[]}]
-<<<<<<< HEAD
 Fri, 22 May 2020 10:19:00 GMT - Debug - auth.service - login with username: shais99
 Fri, 22 May 2020 10:19:01 GMT - Debug - [{"_id":"5ec663de13b5e24eb049e6a4","title":"meshi's board","bg":"#122961","members":[{"_id":"5ec5581139619913d9c4da56","name":"abi abambi"}],"stacks":[{"bgColor":"#fefefe","cards":[],"id":null,"title":"zsfdg"}],"createdAt":1590059998034,"createdBy":{"_id":"5ec5581139619913d9c4da56","name":"abi abambi"},"activities":[]}]
 Fri, 22 May 2020 10:19:10 GMT - Debug - [{"_id":"5ec663de13b5e24eb049e6a4","title":"meshi's board","bg":"#122961","members":[{"_id":"5ec5581139619913d9c4da56","name":"abi abambi"}],"stacks":[{"bgColor":"#fefefe","cards":[],"id":null,"title":"zsfdg"}],"createdAt":1590059998034,"createdBy":{"_id":"5ec5581139619913d9c4da56","name":"abi abambi"},"activities":[]}]
@@ -9,7 +8,6 @@ Fri, 22 May 2020 15:38:52 GMT - Debug - auth.service - login with username: admi
 Fri, 22 May 2020 15:38:53 GMT - Debug - auth.service - login with username: admin
 Fri, 22 May 2020 15:38:53 GMT - Debug - []
 Fri, 22 May 2020 15:40:07 GMT - Debug - []
-=======
 Fri, 22 May 2020 10:17:34 GMT - Debug - [{"_id":"5ec663de13b5e24eb049e6a4","title":"meshi's board","bg":"#122961","members":[{"_id":"5ec5581139619913d9c4da56","name":"abi abambi"}],"stacks":[{"bgColor":"#fefefe","cards":[],"id":null,"title":"zsfdg"}],"createdAt":1590059998034,"createdBy":{"_id":"5ec5581139619913d9c4da56","name":"abi abambi"},"activities":[]}]
 Fri, 22 May 2020 10:17:55 GMT - Debug - [{"_id":"5ec663de13b5e24eb049e6a4","title":"meshi's board","bg":"#122961","members":[{"_id":"5ec5581139619913d9c4da56","name":"abi abambi"}],"stacks":[{"bgColor":"#fefefe","cards":[],"id":null,"title":"zsfdg"}],"createdAt":1590059998034,"createdBy":{"_id":"5ec5581139619913d9c4da56","name":"abi abambi"},"activities":[]}]
 Fri, 22 May 2020 10:21:05 GMT - Debug - [{"_id":"5ec663de13b5e24eb049e6a4","title":"meshi's board","bg":"#122961","members":[{"_id":"5ec5581139619913d9c4da56","name":"abi abambi"}],"stacks":[{"bgColor":"#fefefe","cards":[],"id":null,"title":"zsfdg"}],"createdAt":1590059998034,"createdBy":{"_id":"5ec5581139619913d9c4da56","name":"abi abambi"},"activities":[]}]
@@ -123,5 +121,13 @@ Fri, 22 May 2020 14:00:05 GMT - Debug - auth.service - login with username: shai
 Fri, 22 May 2020 14:00:06 GMT - Debug - [{"_id":"5ec7cc8bcc921b7630a55c84","title":"hey","bg":"#eb3b5a","members":[{"_id":"5ec69681318b8185d0d37b05","username":"shais99","fullname":"Shai Sharakanski","imgUrl":"http://res.cloudinary.com/shaishar9/image/upload/v1590072957/oc5bjzwrbt7taztuikmi.jpg"}],"stacks":[],"createdAt":1590152331608,"createdBy":{"_id":"5ec69681318b8185d0d37b05","username":"shais99","fullname":"Shai Sharakanski","imgUrl":"http://res.cloudinary.com/shaishar9/image/upload/v1590072957/oc5bjzwrbt7taztuikmi.jpg"},"activities":[]}]
 Fri, 22 May 2020 14:04:32 GMT - Debug - [{"_id":"5ec7cc8bcc921b7630a55c84","title":"hey","bg":"#eb3b5a","members":[{"_id":"5ec69681318b8185d0d37b05","username":"shais99","fullname":"Shai Sharakanski","imgUrl":"http://res.cloudinary.com/shaishar9/image/upload/v1590072957/oc5bjzwrbt7taztuikmi.jpg"}],"stacks":[],"createdAt":1590152331608,"createdBy":{"_id":"5ec69681318b8185d0d37b05","username":"shais99","fullname":"Shai Sharakanski","imgUrl":"http://res.cloudinary.com/shaishar9/image/upload/v1590072957/oc5bjzwrbt7taztuikmi.jpg"},"activities":[]}]
 Fri, 22 May 2020 15:19:54 GMT - Info - Server is running on port: 3030
->>>>>>> 39827baa3c3ca3abfeb1d9b0716319e27580e8bb
 Fri, 22 May 2020 15:41:00 GMT - Info - Server is running on port: 3030
+Fri, 22 May 2020 15:44:41 GMT - Debug - auth.service - login with username: admin
+Fri, 22 May 2020 15:44:43 GMT - Debug - []
+Fri, 22 May 2020 15:48:43 GMT - Debug - []
+Fri, 22 May 2020 15:48:46 GMT - Debug - []
+Fri, 22 May 2020 15:49:01 GMT - Debug - [{"_id":"5ec7f46aafb93d1ec820a269","title":"new board","bg":"#eb3b5a","members":[{"_id":"5ec7f1e4afb93d1ec820a267","username":"admin","fullname":"admin Last","imgUrl":""}],"stacks":[],"createdAt":1590162538618,"createdBy":{"_id":"5ec7f1e4afb93d1ec820a267","username":"admin","fullname":"admin Last","imgUrl":""},"activities":[]}]
+Fri, 22 May 2020 15:49:14 GMT - Debug - []
+Fri, 22 May 2020 15:49:20 GMT - Debug - []
+Fri, 22 May 2020 16:24:08 GMT - Debug - []
+Fri, 22 May 2020 16:26:11 GMT - Debug - []

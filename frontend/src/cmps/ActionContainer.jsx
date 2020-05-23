@@ -36,7 +36,6 @@ export default class ActionContainer extends Component {
         const { isShown } = this.props;
         const { props } = this;
         const { action } = this.state;
-        console.log(action);
         return (
             < div className="labels-container" >
                 <div className="labels-header flex space-between">
