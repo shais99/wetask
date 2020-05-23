@@ -11,10 +11,10 @@ export function login(userCreds) {
     }
 }
 
-export function loadUsers() {
+export function loadUsers(filterBy = null) {
     return async dispatch => {
         try {
-            const users = await userService.query()
+            const users = await userService.query(filterBy)
             dispatch({ type: 'LOAD_USERS', users })
         } catch (err) {
             console.log('userActions: cannot load users!', err);

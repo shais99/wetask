@@ -39,8 +39,14 @@
     .members-list {
         height: 200px;
         overflow-y: auto;
+
         .single-member {
-            padding: 5px 10px;
+            padding: 7px 10px;
+            transition: .3s;
+
+            &:hover {
+                background-color: $clr6;
+            }
         }
     }
 }

@@ -15,24 +15,46 @@
 
     .member {
         border-radius: 50%;
-        padding: 9px;
+        width: 35px;
+        height: 35px;
         font-size: rem(13px);
         margin-right: 3px;
         background-size: 100%;
         font-family: openSansBold;
         text-transform: uppercase;
+
+        .remove-member {
+            width: 14px;
+            position: absolute;
+            top: 77px;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.3s;
+            background-color: $clr7;
+            padding: 3px;
+            border-radius: 50%;
+            cursor: pointer;
+
+            &:hover {
+                background-color: darken($clr4, 5%);
+            }
+        }
+
+        &:hover .remove-member {
+            opacity: 1;
+            visibility: visible;
+        }
     }
 
     .board-options {
-
         .option {
             background-color: $clr1;
             padding: 10px;
             color: white;
             border-radius: 5px;
             font-size: rem(14px);
-            transition: .3s;
-            opacity: .85;
+            transition: 0.3s;
+            opacity: 0.85;
             border: none;
             outline: none;
             margin-left: 20px;
@@ -52,4 +74,3 @@
         }
     }
 }
-

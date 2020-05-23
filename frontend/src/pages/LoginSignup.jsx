@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import userService from '../services/userService'
 import { connect } from 'react-redux';
 import { login, signup } from '../store/actions/userActions';
+import { getRandomColor } from '../services/utilService'
 import { Link } from 'react-router-dom'
 
 class LoginSignup extends Component {
@@ -70,7 +71,10 @@ class LoginSignup extends Component {
         const userCred = { username, password, fullname, imgUrl }
         try {
             if (this.state.isLogin) await this.props.login(userCred)
-            else await this.props.signup(userCred)
+            else {
+                userCred.bgColor = getRandomColor()
+                await this.props.signup(userCred)
+            }
         } catch (err) {
             return this.setState({ msg: err })
         }

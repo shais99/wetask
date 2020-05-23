@@ -1,19 +1,39 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { save, loadBoard } from '../store/actions/boardActions'
 import AddMember from '../cmps/AddMember'
 
 
-export default class BoardOptions extends Component {
+class BoardOptions extends Component {
 
     state = {
         isAddMemberShown: false
     }
 
     getTwoChars(str) {
-        return str.charAt(0) + str.split(' ')[0].charAt(0)
+        
+        let twoChars = str?.charAt(0) + str.split(' ')[1].charAt(0)
+        if (!twoChars) twoChars = ''
+        return twoChars
     }
 
     onToggleAddMember = () => {
         this.setState(prevState => ({ isAddMemberShown: !prevState.isAddMemberShown }))
+    }
+
+    onAddMember = member => {
+        const board = this.props.currBoard
+        board.members.unshift(member)
+        this.props.save(board)
+        this.onToggleAddMember()
+    }
+
+    onRemoveMember = async memberId => {
+        const board = this.props.currBoard
+        const memberIdx = board.members.findIndex(member => member._id === memberId);
+        board.members.splice(memberIdx, 1)
+        this.props.save(board)
+        this.props.loadBoard(board._id)
     }
 
     render() {
@@ -24,7 +44,7 @@ export default class BoardOptions extends Component {
                 <div className="board-title">{board.title}</div>
 
                 <div className="board-members flex">
-                    {board.members.map((member,idx) => <div key={idx} className="member" style={{ backgroundImage: `url(${member.imgUrl})`, backgroundColor: member.bgColor }}>{this.getTwoChars(member.fullname)}</div>)}
+                    {board.members.map((member, idx) => <div key={idx} className="member flex justify-center align-center" style={{ backgroundImage: `url(${member.imgUrl})`, backgroundColor: member.bgColor }}><img onClick={() => this.onRemoveMember(member._id)} src="/assets/img/close.png" className="remove-member" alt="" />{this.getTwoChars(member.fullname)}</div>)}
                 </div>
 
                 <div className="board-options flex">
@@ -32,9 +52,21 @@ export default class BoardOptions extends Component {
                         <img src="/assets/img/add-user.png" alt="" /> Add member
                     </button>
                 </div>
-                {isAddMemberShown && <AddMember onClose={this.onToggleAddMember} />}
+                {isAddMemberShown && <AddMember onClose={this.onToggleAddMember} onAddMember={this.onAddMember} />}
 
             </div>
         )
     }
 }
+
+const mapDispatchToProps = {
+    save,
+    loadBoard
+}
+const mapStateToProps = (state) => {
+    return {
+        currBoard: state.board.currBoard
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BoardOptions);
