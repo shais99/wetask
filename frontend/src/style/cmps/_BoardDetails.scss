@@ -33,6 +33,7 @@
 .add-content-container {
     // width: 95%;
     // margin: auto;
+    height: fit-content;
 }
 
 .add-content-buttons {
@@ -55,7 +56,6 @@
 
 .stack-title {
 
-    font-size: rem(14px);
     font-family: openSansBold;
     margin-bottom: 8px;
     align-self: flex-start;
@@ -71,8 +71,12 @@
 .card-preview {
     width: 100%;
     transition: ease-in-out 0.225s;
-    border: 1px solid;
     margin-bottom: rem(4px);
+    padding: 0.35rem;
+    border: 2px solid rgba(0, 0, 0, 0.35);
+    border-radius: 5px;
+    font-size: 1.125rem;
+
     &:hover {
         background: darken($color: lightblue, $amount: 20);
     }
@@ -84,6 +88,7 @@
     cursor: pointer;
     transition: ease-in-out 0.15s;
     border-radius: 50%;
+    align-self: center;
     &:hover {
         background-color: tomato;
     }   

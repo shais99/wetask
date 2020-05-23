@@ -55,7 +55,7 @@ export class AddContent extends React.Component {
 
         return (
             // onClick={this.toggleOpen} 
-            <div className="add-content-container flex column align-start">
+            <div className="add-content-container flex align-start">
                 {(isOpen)
                     ?
                     <>
