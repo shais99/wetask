@@ -5,9 +5,9 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { loadBoard, save } from '../store/actions/boardActions';
 import { AddContent } from '../cmps/AddContent';
 import { Link, Route } from 'react-router-dom';
-import { CardPreview } from '../cmps/CardPreview';
-import { Stack } from '../cmps/Stack';
-import CardDetails from '../pages/CardDetails';
+import { CardPreview } from '../cmps/CardPreview.jsx';
+import { Stack } from '../cmps/Stack.jsx';
+import CardDetails from '../pages/CardDetails.jsx';
 import BoardOptions from '../cmps/BoardOptions'
 
 import { makeId } from '../services/utilService';
@@ -154,7 +154,7 @@ class BoardDetails extends React.Component {
         });
 
         console.log(currBoard);
-
+        
         this.setState({ currBoard }, () => {
             this.props.save(this.state.currBoard);
         });
