@@ -16,7 +16,6 @@ export class AddContent extends React.Component {
     }
 
     addItem = (event) => {
-        console.log(event.target);
         event.preventDefault();
 
         if(!event.target) return;
@@ -40,7 +39,7 @@ export class AddContent extends React.Component {
 
         let title = target.value;
 
-        this.setState({ title }, console.log(this.state));
+        this.setState({ title });
     }
 
     toggleOpen = (event) => {

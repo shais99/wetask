@@ -22,7 +22,6 @@ class CardMembers extends React.Component {
     getMembers = () => {
         let searchBy = this.state.byMember;
         if (searchBy) return this.props.currBoard.members.filter(member => member.username.includes(searchBy))
-        console.log(this.props.currBoard.members);
 
         return this.props.currBoard.members;
     }
