@@ -67,11 +67,11 @@ class BoardDetails extends React.Component {
 
         }
 
-        if (this.boardContent.current &&
-            (this.boardContent.current.clientHeight !== this.state.boardHeight)) {
+        // if (this.boardContent.current &&
+        //     (this.boardContent.current.clientHeight !== this.state.boardHeight)) {
 
-            this.setState({ boardHeight: this.boardContent.current.clientHeight });
-        }
+        //     this.setState({ boardHeight: this.boardContent.current.clientHeight });
+        // }
 
         // if (this.props.currBoard !== this.state.currBoard) {
 
