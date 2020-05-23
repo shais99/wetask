@@ -8,7 +8,7 @@ export function CardPreview(props) {
             {...provided.draggableProps} {...provided.dragHandleProps} >
             {props.title}
         </div>
-        
+        // TODO: add dynamic info show for card details (comments icon, description, todos)
     )
 
 }
