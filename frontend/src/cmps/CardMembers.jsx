@@ -22,7 +22,6 @@ class CardMembers extends React.Component {
     getMembers = () => {
         let searchBy = this.state.byMember;
         if (searchBy) return this.props.currBoard.members.filter(member => member.username.includes(searchBy))
-        console.log(this.props.currBoard.members);
 
         return this.props.currBoard.members;
     }
@@ -36,13 +35,15 @@ class CardMembers extends React.Component {
                     <input type="text" className="input" value={this.state.byMember} autoComplete="off"
                         placeholder="Search member" onChange={this.handleChange} />
                 </div>
-                <div className="members-list">
+                <div className="members-list-container">
                     <h4>BOARD MEMBERS</h4>
-                    {getMembers().map(member => {
-                        return <div key={member._id} className="member-item flex space-between" onClick={() => addMember(member)}>
-                            {member.username} {this.isMemberChecked(member._id) ? <img src="/assets/img/icon-checked-black.png" /> : ''}
-                        </div>
-                    })}
+                    <div className="members-list">
+                        {getMembers().map(member => {
+                            return <div key={member._id} className="member-item flex space-between" onClick={() => addMember(member)}>
+                                {member.username} {this.isMemberChecked(member._id) ? <img src="/assets/img/icon-checked-black.png" /> : ''}
+                            </div>
+                        })}
+                    </div>
                 </div>
             </div>
         )

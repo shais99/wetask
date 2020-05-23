@@ -1,5 +1,5 @@
 .card-members-container {
-    .members-list {
+    .members-list-container {
         h4 {
             font-size: rem(12px);
             font-weight: 500;
@@ -9,20 +9,23 @@
             margin-top: 4px;
             margin-bottom: 10px;
         }
-        .member-item {
-            height: 32px;
-            overflow: hidden;
-            padding: 4px;
-            margin-bottom: 2px;
-            font-size: rem(16px);
-            cursor: pointer;
-            &:hover{
-                background-color: rgba(8, 26, 58, 0.1);          
-            }
-            & img{
-                width: 18px;
+        .members-list {
+            height: 120px;
+            overflow-y: auto;
+            .member-item {
+                height: 32px;
+                overflow: hidden;
+                padding: 4px;
+                margin-bottom: 2px;
+                font-size: rem(16px);
+                cursor: pointer;
+                &:hover {
+                    background-color: rgba(8, 26, 58, 0.1);
+                }
+                & img {
+                    width: 18px;
+                }
             }
         }
-
     }
 }

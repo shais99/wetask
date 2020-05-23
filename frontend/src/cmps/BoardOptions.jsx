@@ -11,8 +11,9 @@ class BoardOptions extends Component {
     }
 
     getTwoChars(str) {
-        
-        let twoChars = str?.charAt(0) + str.split(' ')[1].charAt(0)
+        let twoChars;
+        if (str.split(' ').length !== 2) twoChars = str?.charAt(0)
+        else twoChars = str?.charAt(0) + str.split(' ')[1].charAt(0)
         if (!twoChars) twoChars = ''
         return twoChars
     }

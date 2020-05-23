@@ -4,7 +4,6 @@ export function CardPreview(props) {
 
     const { card, innerRef, provided, style } = props;
     const showInfo = (card.comments.length || card.description !== '');
-    console.log(card);
     return (
         <>
             <div className="card-preview" ref={innerRef} style={style}

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import DueDate from './DueDate'
 import LabelsPicker from './LabelsPicker'
 import CardMembers from './CardMembers'
+import OutsideClickHandler from 'react-outside-click-handler';
+
 
 
 export default class ActionContainer extends Component {
@@ -40,15 +42,17 @@ export default class ActionContainer extends Component {
         const { props } = this;
         const { action } = this.state;
         return (
+            <OutsideClickHandler onOutsideClick={() => onToggleAction(action)} display={'contents'}>
             < div className="labels-container" >
                 <div className="labels-header flex space-between">
                     <h3>{this.titleToReturn(action)}</h3>
-                    <button className="close-label" onClick={() => props.onToggleAction(action)}>X</button>
+                    <button className="close-label" onClick={() => onToggleAction(action)}>X</button>
                 </div>
                 {isShown.dueDate && <DueDate onToggleAction={onToggleAction} onChange={props.onChangeDate} value={props.value} />}
                 {isShown.label && <LabelsPicker addLabel={props.addLabel} onToggleAction={props.onToggleAction} getCurrCard={props.getCurrCard} />}
                 {isShown.members && <CardMembers onToggleAction={onToggleAction} getCurrCard={props.getCurrCard} card={card} addMember={props.addMember} />}
             </div >
+            </OutsideClickHandler>
         )
     }
 }

@@ -31,7 +31,9 @@ class CardDetails extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.currBoard !== prevProps.currBoard) this.loadCard()
+        if (this.props.currBoard !== prevProps.currBoard){ 
+            this.loadCard()
+        }
     }
 
     loadCard = () => {
@@ -116,7 +118,7 @@ class CardDetails extends Component {
     onAddLabel = (currLabel) => {
         let currCard = this.getCurrCard();
         const labelIdx = currCard.labels.findIndex(label => label.title === currLabel.title);
-
+        
         if (labelIdx === -1) currCard.labels.push(currLabel)
         else currCard.labels.splice(labelIdx, 1)
 
@@ -126,6 +128,7 @@ class CardDetails extends Component {
     onAddMember = (currMember) => {
         let currCard = this.getCurrCard();
         const memberIdx = currCard.members.findIndex(member => member._id === currMember._id);
+        console.log('member-idx',memberIdx);
 
         if (memberIdx === -1) currCard.members.push(currMember)
         else currCard.members.splice(memberIdx, 1)
