@@ -55,11 +55,11 @@ class BoardDetails extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+
         if (prevProps.currBoard !== this.props.currBoard) {
             this.setState({ currBoard: this.props.currBoard });
             document.body.style.backgroundImage = `url(/${this.props.currBoard.bg})`
             document.body.style.backgroundColor = this.props.currBoard.bg
-
         }
 
         // if (this.boardContent.current &&
@@ -284,13 +284,29 @@ class BoardDetails extends React.Component {
         )
     }
 
+    onSetBg = (bg, type) => {
+
+        if (type === 'img') {
+            const bgUrl = bg.slice(1, bg.length + 1)
+            document.body.style.backgroundImage = `url(/${bgUrl})`
+            document.body.style.backgroundColor = ''
+            document.body.style.backgroundSize = '100%'
+            this.props.currBoard.bg = bgUrl
+        } else {
+            document.body.style.backgroundImage = ''
+            document.body.style.backgroundColor = bg
+            this.props.currBoard.bg = bg
+        }
+        this.props.save(this.props.currBoard)
+    }
+
     render() {
         const { currBoard, boardHeight } = this.state;
         if (!currBoard) return 'Loading...'
 
         return (
             <>
-                <BoardOptions board={currBoard} />
+                <BoardOptions board={currBoard} onSetBg={this.onSetBg} />
                 <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
                 <section className="board-content container flex column align-start space-between"
                     ref={this.boardContent}>

@@ -2,19 +2,20 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { save, loadBoard } from '../store/actions/boardActions'
 import AddMember from '../cmps/AddMember'
+import BoardMenu from '../cmps/BoardMenu'
 
 
 class BoardOptions extends Component {
 
     state = {
-        isAddMemberShown: false
+        isAddMemberShown: false,
+        isBoardMenuShown: false,
+        currBoard: null
     }
 
-    componentDidUpdate(prevProps) {
-        const { currBoard } = this.props
-        if (prevProps.currBoard !== currBoard) this.props.loadBoard(currBoard._id)
+    componentDidMount() {
+        this.setState({ currBoard: this.props.currBoard })
     }
-
 
     getTwoChars(str) {
         let twoChars;
@@ -24,9 +25,12 @@ class BoardOptions extends Component {
         return twoChars
     }
 
-    onToggleAddMember = () => {
-        this.setState(prevState => ({ isAddMemberShown: !prevState.isAddMemberShown }))
-    }
+
+    // @TODO: MAKE IT ONE FUNCTION!!!
+    onToggleAddMember = () => this.setState(prevState => ({ isAddMemberShown: !prevState.isAddMemberShown }))
+
+    onToggleBoardMenu = () => this.setState(prevState => ({ isBoardMenuShown: !prevState.isBoardMenuShown }))
+    // ***********
 
     onAddMember = member => {
         const board = this.props.currBoard
@@ -35,17 +39,17 @@ class BoardOptions extends Component {
         this.onToggleAddMember()
     }
 
-    onRemoveMember = async memberId => {
+    onRemoveMember = memberId => {
         const board = this.props.currBoard
         const memberIdx = board.members.findIndex(member => member._id === memberId);
         board.members.splice(memberIdx, 1)
         this.props.save(board)
-        this.props.loadBoard(board._id)
+        this.setState({ currBoard: this.props.currBoard })
     }
 
     render() {
-        const { board } = this.props
-        const { isAddMemberShown } = this.state
+        const { board, onSetBg } = this.props
+        const { isAddMemberShown, isBoardMenuShown } = this.state
         return (
             <div className="board-options-container flex align-center space-between">
                 <div className="board-title">{board.title}</div>
@@ -56,10 +60,14 @@ class BoardOptions extends Component {
 
                 <div className="board-options flex">
                     <button className="option flex align-center" onClick={() => this.onToggleAddMember()}>
-                        <img src="/assets/img/add-user.png" alt="" /> Add member
+                        <img src="/assets/img/add-user.png" alt="" />
+                    </button>
+                    <button className="option flex align-center" onClick={() => this.onToggleBoardMenu()}>
+                        <img src="/assets/img/menu.png" alt="" />
                     </button>
                 </div>
                 {isAddMemberShown && <AddMember onClose={this.onToggleAddMember} onAddMember={this.onAddMember} />}
+                {isBoardMenuShown && <BoardMenu onSetBg={onSetBg} board={board} onClose={this.onToggleBoardMenu} />}
 
             </div>
         )
