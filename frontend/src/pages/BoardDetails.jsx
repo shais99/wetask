@@ -154,7 +154,7 @@ class BoardDetails extends React.Component {
         });
 
         console.log(currBoard);
-
+        
         this.setState({ currBoard }, () => {
             this.props.save(this.state.currBoard);
         });
