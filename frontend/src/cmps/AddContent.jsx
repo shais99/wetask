@@ -16,10 +16,11 @@ export class AddContent extends React.Component {
     }
 
     addItem = (event) => {
-        console.log(event.target);
+        console.log(event.target.value);
         event.preventDefault();
 
-        if(!event.target) return;
+        if (!event.target) return;
+        if (event.target.name.value === '' || event.target.name.value === undefined) return;
 
         const itemTitle = event.target.name.value;
 
@@ -54,18 +55,29 @@ export class AddContent extends React.Component {
         const { type } = this.props;
 
         return (
-            // onClick={this.toggleOpen} 
-            <div className="add-content-container flex align-start">
+
+            <div className={`add-content-container flex align-start add-${type}`} style={{
+                
+                padding: (type === 'stack') ? '10px 20px' : '7.5px 15px',
+                fontSize: (type === 'stack') ? 18 : 14,
+                // background: (type === 'stack') ? 'lightgreen' : 'cornflowerblue',
+                width: (type === 'stack') ? 250 : '100%',
+                borderTopLeftRadius: (type === 'stack') ? 3 : 0,
+                borderTopRightRadius: (type === 'stack') ? 3 : 0
+
+            }}>
                 {(isOpen)
                     ?
                     <>
                         <form onSubmit={this.addItem} className="add-content flex column align-start">
-                            <input name="name" onChange={this.handleChange} value={title} placeholder={`Enter ${type} title...`} />
-                            {/* <span className="add-content-buttons flex space-between"> */}
-                            <button>{`Add ${type}`}</button>
-                            {/* </span> */}
+                            <input name="name" autoComplete="off" onChange={this.handleChange}
+                                value={title} placeholder={`Enter ${type} title...`}
+                                className={`input ${(type === 'stack') ? 'stack-input' : 'card-input'}`} autoFocus={true} />
+                            <span className="add-content-buttons flex space-between">
+                            <button className={`btn btn-${(type === 'stack') ? 'primary' : 'success'} btn-small`}>{`Add ${type}`}</button>
+                            <img src="/assets/img/close-white.png" onClick={this.toggleOpen} className="close-add-icon" />
+                            </span>
                         </form>
-                        <img src="/assets/img/close.png" onClick={this.toggleOpen} className="close-add-icon" />
                     </>
                     :
                     <>
