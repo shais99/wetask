@@ -1,4 +1,5 @@
 import boardService from '../../services/boardService'
+import socketService from '../../services/socketService'
 
 export function loadBoards(userId) {
   return dispatch => {
@@ -17,6 +18,7 @@ export function loadBoard(id) {
 export function saveCard(card) {
   return (dispatch, getState) => {
     dispatch({ type: 'SET_CARD', card });
+    socketService.emit('updateBoard', getState().board.currBoard);
     boardService.save(getState().board.currBoard)
   }
 }
@@ -39,10 +41,10 @@ export function addBoard(board) {
 export function save(board) {
   return dispatch => {
     dispatch({ type: 'SET_BOARD', board })
+    socketService.emit('updateBoard', board);
     boardService.save(board)
   }
 }
-
-
-
-
+export function setBoard(board) {
+  return dispatch => dispatch({ type: 'SET_BOARD', board })
+}

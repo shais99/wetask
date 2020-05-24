@@ -2,7 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { loadBoard, save } from '../store/actions/boardActions';
+import { loadBoard, save, setBoard } from '../store/actions/boardActions';
 import { AddContent } from '../cmps/AddContent';
 import { Route } from 'react-router-dom';
 import { CardPreview } from '../cmps/CardPreview.jsx';
@@ -47,7 +47,7 @@ class BoardDetails extends React.Component {
 
     componentDidMount() {
         console.log('mounted');
-        
+
         if (!this.props.loggedInUser) return this.props.history.push('/signup')
         const { boardId } = this.props.match.params;
 
@@ -75,7 +75,7 @@ class BoardDetails extends React.Component {
         socketService.terminate()
     }
 
-    setBoard = (currBoard) => this.props.save(currBoard)
+    setBoard = (currBoard) => this.props.setBoard(currBoard)
 
     onToggleLabels = () => {
 
@@ -131,7 +131,6 @@ class BoardDetails extends React.Component {
         });
 
         this.props.save(currBoard);
-        socketService.emit('updateBoard', this.props.currBoard);
     }
 
     onCardAdd = (newCardTitle, stackId) => {
@@ -154,7 +153,6 @@ class BoardDetails extends React.Component {
         });
 
         this.props.save(this.props.currBoard);
-        socketService.emit('updateBoard', this.props.currBoard);
     }
 
     onDragEnd = (result) => {
@@ -176,7 +174,7 @@ class BoardDetails extends React.Component {
             newState.stacks = items;
 
             this.props.save(newState)
-            socketService.emit('updateBoard', newState);
+            // socketService.emit('updateBoard', newState);
         } else {
             const sIndex = +source.droppableId;
             const dIndex = +destination.droppableId;
@@ -195,15 +193,15 @@ class BoardDetails extends React.Component {
                 newState.stacks[dIndex].cards = result[dIndex];
             }
             this.props.save(newState);
-            socketService.emit('updateBoard', newState);
+            // socketService.emit('updateBoard', newState);
         }
-        
+
     }
 
     stacks = (areLabelsOpen) => {
         const board = this.props.currBoard;
-        console.log('render',board);
-        
+        console.log('render', board);
+
         return (
             <span className="stacks-section flex">
                 <DragDropContext
@@ -351,7 +349,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     loadBoard,
-    save
+    save,
+    setBoard
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardDetails)

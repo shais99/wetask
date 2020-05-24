@@ -96,7 +96,6 @@ class CardDetails extends Component {
         comment.byMember = this.props.loggedInUser;
         const currCard = this.getCurrCard()
         currCard.comments.unshift(comment)
-        // this.props.save(this.props.currBoard)
         this.setState({ comment: { txt: '' } }, () => {
             this.props.saveCard(this.state.card)
         })
@@ -129,7 +128,6 @@ class CardDetails extends Component {
     onAddMember = (currMember) => {
         let currCard = this.getCurrCard();
         const memberIdx = currCard.members.findIndex(member => member._id === currMember._id);
-        console.log('member-idx', memberIdx);
 
         if (memberIdx === -1) currCard.members.push(currMember)
         else currCard.members.splice(memberIdx, 1)
