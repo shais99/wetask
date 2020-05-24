@@ -7,6 +7,7 @@ async function addBoard(req, res) {
     res.send(board)
 }
 
+
 async function getBoard(req, res) {
     const board = await boardService.getById(req.params.id)
     res.send(board)
@@ -29,10 +30,16 @@ async function updateBoard(req, res) {
     res.send(board)
 }
 
+async function socketUpdateBoard(board) {
+    const updatedBoard = await boardService.update(board)
+    return updatedBoard
+}
+
 module.exports = {
     getBoard,
     getBoards,
     deleteBoard,
     updateBoard,
-    addBoard
+    addBoard,
+    socketUpdateBoard
 }

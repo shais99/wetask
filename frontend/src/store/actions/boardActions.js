@@ -14,6 +14,12 @@ export function loadBoard(id) {
       })
   }
 }
+export function saveCard(card) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'SET_CARD', card });
+    boardService.save(getState().board.currBoard)
+  }
+}
 export function removeBoard(boardId) {
   return dispatch => {
     boardService.remove(boardId)
@@ -23,12 +29,17 @@ export function removeBoard(boardId) {
       })
   }
 }
+export function addBoard(board) {
+  return dispatch => {
+    boardService.save(board)
+      .then(savedBoard => dispatch({ type: 'ADD_BOARD', board: savedBoard }))
+  }
+}
 
 export function save(board) {
   return dispatch => {
-    const type = board._id ? 'UPDATE_BOARD' : 'ADD_BOARD';
+    dispatch({ type: 'SET_BOARD', board })
     boardService.save(board)
-      .then(savedBoard => dispatch({ type, board: savedBoard }))
   }
 }
 
