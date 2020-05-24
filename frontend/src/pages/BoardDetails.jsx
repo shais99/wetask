@@ -105,9 +105,6 @@ class BoardDetails extends React.Component {
 
     getListStyle = isDraggingOver => ({
         background: '#ebecf0',
-        padding: 8,
-        paddingTop: 0,
-
         width: 250,
         transition: 'ease-in-out 0.15s'
     });
