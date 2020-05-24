@@ -182,16 +182,30 @@
 }
 
 .card-labels {
-    padding-top: 5px;
-    overflow-y: scroll;
+    // height: 16px;
+    padding-top: 4px;
+    // color: $clr6;
+    font-family: openSansBold;
+    // overflow-y: scroll;
 }
 
 .card-label {
-    height: 6px;
+    height: 7.5px;
     width: 30px;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
+    transition: ease-in-out 0.1s;
+    font-size: rem(10px);
 
+    &.label-expand {
+        height: fit-content;
+        width: fit-content;
+        // margin-bottom: ;
+        // width: 40px;
+        padding: 3px 5px;
+        border-radius: 2px;
+        margin-bottom: 3px;
+    }
 }
 .card-label:not(:last-of-type) {
     margin-right: 2.5px;
