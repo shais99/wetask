@@ -27,7 +27,7 @@ class AddMember extends Component {
     }
 
     render() {
-        const { users, onClose } = this.props
+        const { users, onClose, onAddMember } = this.props
         const { filterBy } = this.state
 
         return ((!users) ? 'Loading...' :
@@ -39,7 +39,7 @@ class AddMember extends Component {
                     </div>
                     <input type="text" placeholder="Enter user name" autoComplete="off" name="q" value={filterBy.q} onChange={this.handleChange} className="add-member-input" />
                     <div className="members-list flex column">
-                        {users.map((user, idx) => <Link to="#" key={idx} onClick={() => this.props.onAddMember(user)} className="single-member">{user.username}</Link>)}
+                        {users.map((user, idx) => <Link to="#" key={idx} onClick={() => onAddMember(user)} className="single-member">{user.username}</Link>)}
                     </div>
                 </div>
             </OutsideClickHandler>

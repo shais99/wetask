@@ -6,7 +6,7 @@ body {
     margin: 0;
     font-family: openSans, serif;
     color: $clr1;
-    background-size: 100%;
+    background-size: cover;
 }
 
 h1,
@@ -39,7 +39,7 @@ p {
 }
 
 .input {
-    width: 30%;
+    width: 100%;
     padding: 12px;
     margin-bottom: 10px;
     border-radius: 5px;
@@ -47,7 +47,7 @@ p {
 }
 
 .main-content {
-    height: 100vh;
+    height: 98vh;
 }
 /* Scrollbar */
 
