@@ -12,7 +12,7 @@ class BoardOptions extends Component {
 
     componentDidUpdate(prevProps) {
         const { currBoard } = this.props
-        if (prevProps.currBoard !== currBoard) this.props.loadBoard(currBoard._id)
+        // if (prevProps.currBoard !== currBoard) this.props.loadBoard(currBoard._id)
     }
 
 

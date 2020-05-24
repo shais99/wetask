@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { makeId } from '../services/utilService'
 import ActionContainer from '../cmps/ActionContainer'
+import CardChecklist from '../cmps/CardChecklist'
+
 
 class CardDetails extends Component {
 
@@ -23,15 +25,17 @@ class CardDetails extends Component {
         },
         dueDate: {
             value: new Date(),
-        }
+        },
+        currBoard: null
     }
 
     componentDidMount() {
+        this.setState({ currBoard: this.props.currBoard })
         if (this.props.currBoard) this.loadCard()
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.currBoard !== prevProps.currBoard){ 
+        if (this.props.currBoard !== prevProps.currBoard) {
             this.loadCard()
         }
     }
@@ -118,7 +122,7 @@ class CardDetails extends Component {
     onAddLabel = (currLabel) => {
         let currCard = this.getCurrCard();
         const labelIdx = currCard.labels.findIndex(label => label.title === currLabel.title);
-        
+
         if (labelIdx === -1) currCard.labels.push(currLabel)
         else currCard.labels.splice(labelIdx, 1)
 
@@ -128,13 +132,26 @@ class CardDetails extends Component {
     onAddMember = (currMember) => {
         let currCard = this.getCurrCard();
         const memberIdx = currCard.members.findIndex(member => member._id === currMember._id);
-        console.log('member-idx',memberIdx);
 
         if (memberIdx === -1) currCard.members.push(currMember)
         else currCard.members.splice(memberIdx, 1)
 
         this.props.save(this.props.currBoard)
-        this.props.loadBoard(this.props.currBoard._id)
+        this.setState({ currBoard: this.props.currBoard })
+    }
+
+    onAddTodo = (currTodo) => {
+        let currCard = this.getCurrCard();
+        currCard.checklist.push(currTodo);
+        this.props.save(this.props.currBoard)
+        this.setState({ currBoard: this.props.currBoard })
+    }
+
+    onUpdateTodo = (checklist) => {
+        let currCard = this.getCurrCard();
+        currCard.checklist = checklist;
+        this.props.save(this.props.currBoard)
+        this.setState({ currBoard: this.props.currBoard })
     }
 
     onToggleAction = (action) => {
@@ -148,9 +165,14 @@ class CardDetails extends Component {
         this.setState({ isShown: actions });
     }
 
+    onAddChecklist = () => {
+        let currCard = this.getCurrCard();
+        currCard.checklist = [];
+    }
+
     render() {
 
-        const { card, isDescShown, comment, dueDate, isShown } = this.state
+        const { card, isDescShown, comment, dueDate, isShown, currBoard } = this.state
         const { onToggleAction } = this;
         return ((!card) ? 'Loading...' :
             <>
@@ -164,17 +186,18 @@ class CardDetails extends Component {
                         <div className="card-container flex">
                             <aside className="card-content">
                                 <CardDescription description={card.description} onSaveDesc={this.onSaveDesc} handleChange={this.handleChange} isShown={this.onDescShown} isSubmitShown={isDescShown} />
+                                {card.checklist && <CardChecklist card={card} addTodo={this.onAddTodo} />}
                                 <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} />
                             </aside>
                             <aside className="card-actions">
                                 <ul className="clean-list">
                                     <Link title="Add / Remove members" to="#" onClick={() => onToggleAction('members')}><li><img src="/assets/img/user-icon.png" alt="" />Members</li></Link>
                                     <Link title="Add / Remove labels" to="#" onClick={() => onToggleAction('label')}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
-                                    <Link title="Add checklist" to="#"><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
+                                    <Link title="Add checklist" to="#" onClick={this.onAddChecklist}><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
                                     <Link title="Set due date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
                                     {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} value={dueDate.value} onToggleAction={onToggleAction} />}
                                     {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
-                                    {isShown.members && <ActionContainer isShown={isShown} onToggleAction={onToggleAction} card={card} addMember={this.onAddMember} getCurrCard={this.getCurrCard} />}
+                                    {isShown.members && <ActionContainer board={currBoard} isShown={isShown} onToggleAction={onToggleAction} card={card} addMember={this.onAddMember} getCurrCard={this.getCurrCard} />}
 
                                 </ul>
                             </aside>
