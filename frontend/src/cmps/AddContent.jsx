@@ -57,7 +57,7 @@ export class AddContent extends React.Component {
         return (
 
             <div className={`add-content-container flex align-start add-${type}`} style={{
-                
+
                 padding: (type === 'stack') ? '10px 20px' : '7.5px 15px',
                 fontSize: (type === 'stack') ? 18 : 14,
                 // background: (type === 'stack') ? 'lightgreen' : 'cornflowerblue',
@@ -74,8 +74,8 @@ export class AddContent extends React.Component {
                                 value={title} placeholder={`Enter ${type} title...`}
                                 className={`input ${(type === 'stack') ? 'stack-input' : 'card-input'}`} autoFocus={true} />
                             <span className="add-content-buttons flex space-between">
-                            <button className={`btn btn-${(type === 'stack') ? 'primary' : 'success'} btn-small`}>{`Add ${type}`}</button>
-                            <img src="/assets/img/close-white.png" onClick={this.toggleOpen} className="close-add-icon" />
+                                <button className={`btn btn-${(type === 'stack') ? 'primary' : 'success'} btn-small`}>{`Add ${type}`}</button>
+                                <img src="/assets/img/close.png" onClick={this.toggleOpen} className="close-add-icon" />
                             </span>
                         </form>
                     </>
