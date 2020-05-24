@@ -211,14 +211,14 @@
     padding: 0 3px 1.5px 3px;
     color: $clr7;
 
-    &.due-date-past {
-        background: $clr4;
-    }
     &.due-date-future {
-        background: $clr5;
+        background: darken($color: $clr5, $amount: 10);
     }
     &.due-date-now {
         background: $clr2;
+    }
+    &.due-date-past {
+        background: $clr4;
     }
 
 }

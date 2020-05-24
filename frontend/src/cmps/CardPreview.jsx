@@ -28,9 +28,7 @@ export function CardPreview(props) {
     function getDueDateType() {
 
         const now = Date.now();
-        if (card.dueDate > now) return 'due-date-future';
-        else if (card.dueDate < now) return 'due-date-past';
-        else return 'due-date-now';
+        return (card.dueDate > now) ? 'future' : (card.dueDate < now) ? 'past' : 'now';
     }
 
     const { card, innerRef, provided, style, link, labelsOpen } = props;
@@ -43,7 +41,7 @@ export function CardPreview(props) {
 
     let dueDateClass = '';
     if (card.dueDate && card.dueDate != '') {
-        dueDateClass = getDueDateType();
+        dueDateClass = 'due-date-' + getDueDateType();
     }
 
     // console.log(card);
@@ -104,7 +102,7 @@ export function CardPreview(props) {
                                 :
                                 null
                             }
-                            {(card.checklists && card.checklists.length)
+                            {(card.checklists && todosCount)
                                 ?
                                 <span className="preview-info-span flex align-center">
                                     <img className="preview-info-img" src="/assets/img/todos.png" />
