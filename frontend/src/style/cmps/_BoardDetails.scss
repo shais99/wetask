@@ -60,9 +60,9 @@
 // }
 
 .stack {
+    background-color: tomato;
     overflow-y: auto;
-    padding: 0 8px;
-    max-height: 60vh;
+    padding: 8px;
 }
 
 
@@ -159,6 +159,7 @@
 
 .stack-content {
     background: $clr6;
+    max-height: 98%;
 }
 
 
