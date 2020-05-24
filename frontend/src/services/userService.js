@@ -48,8 +48,6 @@ function getById(userId) {
     return httpService.get(`user/${userId}`)
 }
 
-
-// @TODO: Make it "async-await" function
 function uploadImg(ev) {
     const CLOUD_NAME = 'shaishar9'; // find it in your cloudinary account (main page)
     const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;

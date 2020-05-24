@@ -22,9 +22,6 @@ class CardDetails extends Component {
         },
         comment: {
             txt: ''
-        },
-        dueDate: {
-            value: new Date()
         }
     }
 
@@ -69,11 +66,7 @@ class CardDetails extends Component {
 
     // @TODO: due date start from the DB, if got
     onChangeDate = (dueDate) => {
-        const currCard = this.getCurrCard()
-        currCard.dueDate = this.state.dueDate.value
-        this.setState(prevState => ({ dueDate: { ...prevState.dueDate, value: dueDate } }), () =>
-            this.props.saveCard(this.props.card))
-        this.onToggleShowDate()
+        this.setState(prevState => ({ card: { ...prevState.card, dueDate } }), () => this.props.saveCard(this.state.card))
     }
 
     handleChange = ({ target }) => {
@@ -203,8 +196,9 @@ class CardDetails extends Component {
 
     render() {
 
-        const { card, isDescShown, comment, dueDate, isShown } = this.state
+        const { card, isDescShown, comment, isShown } = this.state
         const { onToggleAction } = this;
+
         return ((!card) ? 'Loading...' :
             <>
                 <div className="screen" onMouseDown={this.onBackBoard} >
@@ -226,7 +220,7 @@ class CardDetails extends Component {
                                     <Link title="Add / Remove labels" to="#" onClick={() => onToggleAction('label')}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
                                     <Link title="Add checklist" to="#" onClick={this.onAddChecklist}><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
                                     <Link title="Set due date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
-                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} value={dueDate.value} onToggleAction={onToggleAction} />}
+                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} value={card.dueDate} onToggleAction={onToggleAction} />}
                                     {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} onToggleAction={onToggleAction} card={card} addMember={this.onAddMember} getCurrCard={this.getCurrCard} />}
                                 </ul>

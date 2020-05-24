@@ -12,7 +12,8 @@ class LoginSignup extends Component {
             username: '',
             password: '',
             fullname: '',
-            imgUrl: ''
+            imgUrl: '',
+            confirmPassword: ''
         },
         isLogin: false,
         msg: '',
@@ -63,11 +64,13 @@ class LoginSignup extends Component {
 
     handleUserSubmit = async ev => {
         ev.preventDefault();
-        const { username, password, fullname, imgUrl } = this.state.user
-        const {isLogin} = this.state
-        if (!username || !password && isLogin) {
-            return this.setState({ msg: 'Please enter username and password' });
-        }
+        const { username, password, fullname, imgUrl, confirmPassword } = this.state.user
+        const { isLogin } = this.state
+
+        if (!username || !password && !confirmPassword && isLogin) return this.setState({ msg: 'Please enter username and password' })
+
+        if (!isLogin && password !== confirmPassword) return this.setState({ msg: 'Passwords don\'t match!' })
+
         if (!isLogin && !username && !password && !fullname) return this.setState({ msg: 'Please enter username, password and full name' });
 
         const userCred = { username, password, fullname, imgUrl }
@@ -100,6 +103,7 @@ class LoginSignup extends Component {
                         <input type="text" onChange={this.handleChange} value={user.username} name="username" autoComplete="off" placeholder="Username" />
                         {!isLogin && <input type="text" onChange={this.handleChange} value={user.fullname} name="fullname" autoComplete="off" placeholder="Full name" />}
                         <input type="password" onChange={this.handleChange} value={user.password} name="password" placeholder="Password" />
+                        {!isLogin && <input type="password" onChange={this.handleChange} value={user.confirmPassword} name="confirmPassword" placeholder="Confirm password" />}
                         {!isLogin && <input type="file" name="imgUrl" onChange={this.onUploadImg} />}
                         <button className={`btn btn-primary ${isUploadImg ? 'disable' : ''}`} disabled={isUploadImg}>{isLogin ? 'Login' : 'Signup'}</button>
                     </form>
