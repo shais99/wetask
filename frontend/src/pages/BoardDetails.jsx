@@ -43,14 +43,14 @@ class BoardDetails extends React.Component {
 
     state = {
         currBoard: null,
-        boardHeight: 'unset'
+        // boardHeight: 'unset'
     }
 
     componentDidMount() {
         const { boardId } = this.props.match.params;
         this.props.loadBoard(boardId);
-        this.getBoardHeight();
-        window.addEventListener('resize', this.getBoardHeight);
+        // this.getBoardHeight();
+        // window.addEventListener('resize', this.getBoardHeight);
     }
 
     componentDidUpdate(prevProps) {
@@ -72,7 +72,7 @@ class BoardDetails extends React.Component {
 
     componentWillUnmount() {
         document.body.style = '';
-        window.removeEventListener('resize', this.getBoardHeight);
+        // window.removeEventListener('resize', this.getBoardHeight);
     }
 
     getBoardHeight = () => {
@@ -97,7 +97,7 @@ class BoardDetails extends React.Component {
             userSelect: 'none',
             paddingTop: 0,
             // change background colour if dragging
-            background: isDragging ? 'lightgreen' : '#ebecf0',
+            // background: isDragging ? 'lightgreen' : '#ebecf0',
             // styles we need to apply on draggables
             borderRadius: 3,
 
@@ -232,7 +232,7 @@ stacks = (boardHeight) => {
                                                     snapshot.isDragging,
                                                     provided.draggableProps.style,
                                                 ), 
-                                                maxHeight: boardHeight,
+                                                // maxHeight: boardHeight,
                                                 width: 250
                                             }}
                                             className="stack-content flex column"
@@ -319,7 +319,7 @@ render() {
         <>
             <BoardOptions board={currBoard} onSetBg={this.onSetBg} />
             <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
-            <section className="board-content container flex column align-start space-between"
+            <section className="board-content flex column align-start space-between"
                 ref={this.boardContent}>
 
                 {(currBoard) ? this.stacks(boardHeight) : null}

@@ -6,10 +6,30 @@ export function CardPreview(props) {
     const showInfo = (card.comments.length || card.description !== '');
     return (
         <>
-            <div className="card-preview" ref={innerRef} style={style}
+            <div className="card-preview flex column align-center space-center" ref={innerRef} style={style}
                 {...provided.draggableProps} {...provided.dragHandleProps} >
-                <p className="card-preview-title">{props.title}</p>
-        
+                {(card.labels.length)
+                    ?
+                    <div className="card-labels flex align-center space-center">
+                        {
+                            card.labels.map((label) => {
+                                return (
+                                    <div className="card-label" style={{
+                                        background: label.color,
+                                        height: 6,
+                                        width: 30,
+                                        borderBottomLeftRadius: 2,
+                                        borderBottomRightRadius: 2
+                                    }}></div>
+                                )
+                            })
+                        }
+                    </div>
+                    : null
+
+                }
+                <p className={`card-preview-title ${(card.labels.length) ? 'top-margin' : ''}`}>{props.title}</p>
+
                 {(showInfo)
                     ?
                     <div className="card-preview-info flex align-center space-start">
