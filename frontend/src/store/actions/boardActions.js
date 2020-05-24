@@ -14,6 +14,12 @@ export function loadBoard(id) {
       })
   }
 }
+export function saveCard(card) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'SET_CARD', card });
+    boardService.save(getState().board.currBoard)
+  }
+}
 export function removeBoard(boardId) {
   return dispatch => {
     boardService.remove(boardId)

@@ -3,21 +3,25 @@
     padding: 10px 20px;
     border-radius: 4px;
     transition: 0.3s;
+
+    &.btn-small {
+        padding: 5px 10px;
+    }
 }
 
 .btn-primary {
     background-color: $clr2;
     color: $clr7;
     &:hover {
-        background-color: darken($clr2, 10%);
+        background-color: darken($clr2, 5%);
     }
 }
 
 .btn-success {
-    background-color: $clr5;
+    background-color: darken($clr5, 20%);
     color: $clr7;
     &:hover {
-        background-color: darken($clr5, 10%);
+        background-color: darken($clr5, 22.5%);
     }
 }
 
@@ -28,6 +32,8 @@
         background-color: darken($clr4, 10%);
     }
 }
+
+
 
 .disable {
     cursor: no-drop;

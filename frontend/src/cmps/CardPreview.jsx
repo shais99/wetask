@@ -8,8 +8,8 @@ export function CardPreview(props) {
         <>
             <div className="card-preview" ref={innerRef} style={style}
                 {...provided.draggableProps} {...provided.dragHandleProps} >
-                {props.title}
-
+                <p className="card-preview-title">{props.title}</p>
+        
                 {(showInfo)
                     ?
                     <div className="card-preview-info flex align-center space-start">
@@ -24,8 +24,17 @@ export function CardPreview(props) {
                         {(card.comments.length)
                             ?
                             <span className="preview-info-span flex align-center">
-                                <img className="preview-info-img" src="/assets/img/comments.png" />
+                                <img className="preview-info-img" src="/assets/img/comment.png" />
                                 <p className="preview-info-count">{card.comments.length}</p>
+                            </span>
+                            :
+                            null
+                        }
+                        {(card.checklists && card.checklists.length)
+                            ?
+                            <span className="preview-info-span flex align-center">
+                                <img className="preview-info-img" src="/assets/img/todos.png" />
+                                <p className="preview-info-count">{card.checklists.length}</p>
                             </span>
                             :
                             null

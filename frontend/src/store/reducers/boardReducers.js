@@ -15,6 +15,19 @@ export default function boardReducer(state = initialState, action) {
                 ...state,
                 currBoard: action.board
             }
+        case 'SET_CARD':
+            return {
+                ...state,
+                currBoard: {
+                    ...state.currBoard, stacks: state.currBoard.stacks.map(stack => {
+                        stack.cards = stack.cards.map(card => {
+                            if (card.id === action.card.id) return action.card;
+                            return card;
+                        })
+                        return stack
+                    })
+                }
+            }
         case 'ADD_BOARD':
             return {
                 ...state,

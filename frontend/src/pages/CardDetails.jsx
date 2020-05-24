@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import CardDescription from '../cmps/CardDescription'
 import CardComments from '../cmps/CardComments'
-import { save, loadBoard } from '../store/actions/boardActions'
+import { save, loadBoard, saveCard } from '../store/actions/boardActions'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { makeId } from '../services/utilService'
@@ -26,11 +26,9 @@ class CardDetails extends Component {
         dueDate: {
             value: new Date(),
         },
-        currBoard: null
     }
 
     componentDidMount() {
-        this.setState({ currBoard: this.props.currBoard })
         if (this.props.currBoard) this.loadCard()
     }
 
@@ -73,7 +71,8 @@ class CardDetails extends Component {
     onChangeDate = (dueDate) => {
         const currCard = this.getCurrCard()
         currCard.dueDate = this.state.dueDate.value
-        this.setState(prevState => ({ dueDate: { ...prevState.dueDate, value: dueDate } }), () => this.props.save(this.props.currBoard))
+        this.setState(prevState => ({ dueDate: { ...prevState.dueDate, value: dueDate } }), () =>
+            this.props.saveCard(this.props.card))
         this.onToggleShowDate()
     }
 
@@ -97,26 +96,24 @@ class CardDetails extends Component {
         comment.byMember = this.props.loggedInUser;
         const currCard = this.getCurrCard()
         currCard.comments.unshift(comment)
-        this.props.save(this.props.currBoard)
-        this.setState({ comment: { txt: '' } })
+        // this.props.save(this.props.currBoard)
+        this.setState({ comment: { txt: '' } }, () => {
+            this.props.saveCard(this.state.card)
+        })
     }
 
     onEditTitle = ({ target }) => {
-        const currCard = this.getCurrCard()
         this.setState(prevState => ({ card: { ...prevState.card, title: target.value } }), () => {
-            currCard.title = this.state.card.title;
-            this.props.save(this.props.currBoard)
+            this.props.saveCard(this.state.card)
         })
     }
 
     onSaveDesc = (ev) => {
         ev.preventDefault()
-
-        const currCard = this.getCurrCard()
-        currCard.description = this.state.card.description
-        this.setState({ prevCardDesc: this.state.card.description })
-        this.props.save(this.props.currBoard)
-        this.onDescShown(false)
+        this.setState({ prevCardDesc: this.state.card.description }, () => {
+            this.props.saveCard(this.state.card)
+            this.onDescShown(false)
+        })
     }
 
     onAddLabel = (currLabel) => {
@@ -126,7 +123,7 @@ class CardDetails extends Component {
         if (labelIdx === -1) currCard.labels.push(currLabel)
         else currCard.labels.splice(labelIdx, 1)
 
-        this.setState({ card: currCard }, () => this.props.save(this.props.currBoard))
+        this.setState({ card: currCard }, () => this.props.saveCard(this.state.card))
     }
 
     onAddMember = (currMember) => {
@@ -136,23 +133,63 @@ class CardDetails extends Component {
         if (memberIdx === -1) currCard.members.push(currMember)
         else currCard.members.splice(memberIdx, 1)
 
-        this.props.save(this.props.currBoard)
-        this.setState({ currBoard: this.props.currBoard })
+        this.setState({ card: currCard }, () => this.props.saveCard(this.state.card))
     }
 
-    onAddTodo = (currTodo) => {
-        let currCard = this.getCurrCard();
-        currCard.checklist.push(currTodo);
-        this.props.save(this.props.currBoard)
-        this.setState({ currBoard: this.props.currBoard })
+    onAddChecklist = () => {
+        let newChecklist = {
+            id: makeId(),
+            title: 'Checklist',
+            todos: []
+        }
+        this.setState(prevState => ({
+            card: {
+                ...prevState.card,
+                checklists: [...prevState.card.checklists, newChecklist]
+            }
+        }), () => {
+            this.props.saveCard(this.state.card)
+        })
     }
 
-    onUpdateTodo = (checklist) => {
-        let currCard = this.getCurrCard();
-        currCard.checklist = checklist;
-        this.props.save(this.props.currBoard)
-        this.setState({ currBoard: this.props.currBoard })
+    onEditChecklistTitle = (checklistId, title) => {
+        this.setState(prevState => ({
+            card: {
+                ...prevState.card,
+                checklists: prevState.card.checklists.map(checklist => {
+                    if (checklist.id === checklistId) checklist.title = title
+                    return checklist
+                })
+            }
+        }), () => {
+            this.props.saveCard(this.state.card)
+        })
     }
+
+    onAddTodo = (checklistId, newTodo) => {
+        this.setState(prevState => ({
+            card: {
+                ...prevState.card,
+                checklists: prevState.card.checklists.map(checklist => {
+                    if (checklist.id === checklistId) {
+                        if (!newTodo.id) {
+                            checklist.todos.push(newTodo)
+                            newTodo.id = makeId();
+                        } else {
+                            checklist.todos = checklist.todos.map(todo => {
+                                if (todo.id === newTodo.id) return newTodo
+                                return todo
+                            })
+                        }
+                    }
+                    return checklist
+                })
+            }
+        }), () => {
+            this.props.saveCard(this.state.card)
+        })
+    }
+
 
     onToggleAction = (action) => {
         let actions = this.state.isShown;
@@ -165,14 +202,9 @@ class CardDetails extends Component {
         this.setState({ isShown: actions });
     }
 
-    onAddChecklist = () => {
-        let currCard = this.getCurrCard();
-        currCard.checklist = [];
-    }
-
     render() {
 
-        const { card, isDescShown, comment, dueDate, isShown, currBoard } = this.state
+        const { card, isDescShown, comment, dueDate, isShown } = this.state
         const { onToggleAction } = this;
         return ((!card) ? 'Loading...' :
             <>
@@ -186,7 +218,7 @@ class CardDetails extends Component {
                         <div className="card-container flex">
                             <aside className="card-content">
                                 <CardDescription description={card.description} onSaveDesc={this.onSaveDesc} handleChange={this.handleChange} isShown={this.onDescShown} isSubmitShown={isDescShown} />
-                                {card.checklist && <CardChecklist card={card} addTodo={this.onAddTodo} />}
+                                {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} />)}
                                 <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} />
                             </aside>
                             <aside className="card-actions">
@@ -197,8 +229,7 @@ class CardDetails extends Component {
                                     <Link title="Set due date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
                                     {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} value={dueDate.value} onToggleAction={onToggleAction} />}
                                     {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
-                                    {isShown.members && <ActionContainer board={currBoard} isShown={isShown} onToggleAction={onToggleAction} card={card} addMember={this.onAddMember} getCurrCard={this.getCurrCard} />}
-
+                                    {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} onToggleAction={onToggleAction} card={card} addMember={this.onAddMember} getCurrCard={this.getCurrCard} />}
                                 </ul>
                             </aside>
 
@@ -212,7 +243,8 @@ class CardDetails extends Component {
 
 const mapDispatchToProps = {
     save,
-    loadBoard
+    loadBoard,
+    saveCard
 }
 const mapStateToProps = (state) => {
     return {

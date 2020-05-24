@@ -16,8 +16,7 @@
 
     &.stacks-content {
         width: 100%;
-        overflow: scroll;
-        
+        overflow: auto;
     }
 }
 
@@ -27,17 +26,13 @@
     width: rem(192px);
     padding: rem(6px) 0;
     width: 250px;
-    background-color: $clr2;
 }
 
 .add-content-container {
-    // width: 95%;
-    // margin: auto;
     height: fit-content;
-    width: 100%;
-    padding: 0.25rem;
-    border: 1px dashed rgba(0, 0, 0, 0.25);
-    background: cornflowerblue;
+    color: white;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 
 .add-content-buttons {
@@ -51,57 +46,79 @@
 
 .add-content-title {
     width: 100%;
+    color: $clr7;
+    font-family: openSansBold;
 }
 
-.add-content-title::before {
+// .add-content-title::before {
 
-    content: "+";
-}
+//     content: "+";
+//     padding-right: 3px;
+// }
 
 .stack {
     background-color: tomato;
     overflow-y: auto;
-    max-height: 70vh;
 }
 
+
 .stack-title {
+
     font-family: openSansBold;
     margin-bottom: 8px;
     align-self: flex-start;
     height: 2rem;
     width: 100%;
-    padding: 0.5rem;
+    padding: 20px 8px;
     transition: ease-in-out 0.225s;
+    font-size: rem(18px);
     &:hover {
-        background: $clr5;
+        background: darken($color: $clr6, $amount: 7.5)  ;
     }
 }
 
+.add-stack {
+
+    background: $clr1;
+}
+.add-card {
+    
+    background-color: $clr2;
+}
+
 .card-preview {
-    width: 100%;
-    transition: ease-in-out 0.225s;
-    margin-bottom: rem(4px);
-    padding: 0.35rem;
-    border: 2px solid rgba(0, 0, 0, 0.35);
-    border-radius: 5px;
-    font-size: 1.125rem;
-    background: white;
+
+    background-color: rgb(255, 255, 255);
+    border-radius: 3px;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 0px;
+    cursor: pointer;
+    display: block;
+    margin-bottom: 8px;
+    max-width: 300px;
+    min-height: 20px;
+    text-decoration: none;
+    padding: 0.5rem;
+    // transition: ease-in-out 0.15s;
 
     &:hover {
-        background: darken($color: lightblue, $amount: 20);
+        background: lighten($color: $clr3, $amount: 40);
+        transition: ease-in-out 0.15s;
     }
 
     .card-preview-info {
         border-top: 1px solid $clr6;
+        margin-top: 3px;
+        padding-top: 2px;
+        // filter: opacity(0.75);
 
         &>*:not(:last-child) {
-            margin-right: 20px;
+            margin-right: 10px;
         }
         .preview-info-span {
             padding-top: 2px;
     
             .preview-info-img {
-                width: 1.5rem;
+                width: 12px;
                 margin-right: 3px;
             }
             // .preview-info-count {
@@ -112,7 +129,18 @@
 
 }
 
+.card-input {
+    padding: 8px;
+    font-size: rem(14px);
+}
 
+.stack-input {
+    font-size: rem(18px);
+}
+
+.stack-content {
+    background: $clr6;
+}
 
 
 
@@ -123,6 +151,7 @@
     transition: ease-in-out 0.15s;
     border-radius: 50%;
     align-self: center;
+
     &:hover {
         background-color: tomato;
     }   

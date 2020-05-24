@@ -17,6 +17,7 @@ async function get(id) {
     return await httpService.get(`${BASE_URL}/${id}`)
 }
 
+
 async function remove(id) {
     return await httpService.delete(`${BASE_URL}/${id}`)
 }

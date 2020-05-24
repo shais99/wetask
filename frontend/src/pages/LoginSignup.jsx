@@ -64,9 +64,11 @@ class LoginSignup extends Component {
     handleUserSubmit = async ev => {
         ev.preventDefault();
         const { username, password, fullname, imgUrl } = this.state.user
-        if (!username || !password) {
+        const {isLogin} = this.state
+        if (!username || !password && isLogin) {
             return this.setState({ msg: 'Please enter username and password' });
         }
+        if (!isLogin && !username && !password && !fullname) return this.setState({ msg: 'Please enter username, password and full name' });
 
         const userCred = { username, password, fullname, imgUrl }
         try {
