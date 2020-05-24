@@ -69,6 +69,7 @@ class BoardDetails extends React.Component {
     }
 
     componentWillUnmount() {
+        if (!this.props.loggedInUser) return
         document.body.style = '';
         socketService.off('loadBoard', this.setBoard)
         socketService.terminate()
