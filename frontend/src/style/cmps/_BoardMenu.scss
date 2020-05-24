@@ -1,12 +1,17 @@
 .board-menu-container {
     background-color: #f3f3f3;
     width: 23%;
-    height: 75vh;
+    height: 82vh;
     position: absolute;
     right: 0px;
     top: 60px;
     animation: slide-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.6);
+
+    .board-menu-content {
+        height: 90%;
+        overflow-y: auto;
+    }
 
     .board-menu-title {
         padding: 10px 15px;
@@ -30,11 +35,11 @@
             font-family: openSansBold;
             font-size: rem(14px);
             padding: 15px 10px;
-            border-bottom: 1px solid darken($clr6,7%);
-            transition: .3s;
+            border-bottom: 1px solid darken($clr6, 7%);
+            transition: 0.3s;
 
             &:hover {
-                background-color: darken($clr6,7%);
+                background-color: darken($clr6, 7%);
             }
 
             & img {
@@ -43,13 +48,14 @@
             }
 
             &.remove-board {
-                color: darken($clr4,10%);
+                color: darken($clr4, 10%);
             }
         }
     }
 
     .activities-container {
         padding: 0 35px;
+        height: 100%;
 
         .activities-title {
             font-family: openSansBold;
@@ -58,15 +64,13 @@
         .activities {
             padding: 0;
             margin: 5px 0;
-            overflow-y: auto;
-            max-height: 250px;
 
             & li {
                 font-size: rem(13.5px);
                 margin-bottom: 12px;
 
                 & .activity-at {
-                    font-size: rem(11px)
+                    font-size: rem(11px);
                 }
             }
         }
@@ -74,9 +78,8 @@
 }
 
 .board-styling-container {
-    
     .board-styling-title {
-        background-color: darken($clr6,5%);
+        background-color: darken($clr6, 5%);
         padding: 15px;
         font-family: openSansBold;
 
@@ -89,7 +92,6 @@
 
     .backgrounds-container {
         padding-top: 20px;
-        overflow-y: auto;
         max-height: 54vh;
 
         .background {
@@ -108,7 +110,7 @@
         outline: none;
         padding: 0;
         margin-bottom: 15px;
-        
+
         &:not(:last-of-type) {
             margin-top: 15px;
         }
@@ -125,15 +127,51 @@
     }
 
     .img-choose {
-        background: url('/assets/img/bg-view5.jpg');
+        background: url("/assets/img/bg-view5.jpg");
         background-size: 100%;
     }
 
     .color-choose {
-        background: linear-gradient(to right, rgb(95, 44, 130), rgb(73, 160, 157))
+        background: linear-gradient(to right, rgb(95, 44, 130), rgb(73, 160, 157));
     }
 }
 
+.remove-board-container {
+    background-color: $clr7;
+    width: 250px;
+    height: 150px;
+    position: absolute;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
+    border: 1px solid darken($clr6, 5%);
+    border-radius: 3px;
+    margin-left: 30px;
+    margin-top: -10px;
+    text-align: center;
+
+    .remove-board-title {
+        background-color: $clr6;
+        border-bottom: 1px solid darken($clr6, 10%);
+        padding: 10px;
+        font-family: openSansBold;
+
+        & img {
+            width: 13px;
+            cursor: pointer;
+            filter: invert(40%);
+        }
+    }
+
+    & p {
+        font-size: rem(14px);
+        padding: 10px;
+    }
+
+    & button {
+        width: 90%;
+        text-transform: uppercase;
+        font-family: openSansBold;
+    }
+}
 
 @keyframes slide-left {
     0% {

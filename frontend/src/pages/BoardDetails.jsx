@@ -204,96 +204,96 @@ class BoardDetails extends React.Component {
         }
     }
 
-stacks = (boardHeight) => {
-    const board = this.state.currBoard;
-    return (
-        <span className="stacks-section flex">
-            <DragDropContext
-                onDragEnd={this.onDragEnd}
-            >
-                <Droppable droppableId="board" isCombineEnabled={false} type="STACK" direction='horizontal'>
-                    {(provided, snapshot) => (
-                        <div
-                            ref={provided.innerRef}
-                            // style={{ backgroundColor: snapshot.isDraggingOver ? 'forestgreen' : 'transparent' }}
-                            {...provided.droppableProps}
-                            className="stacks-content flex "
-                        >
+    stacks = (boardHeight) => {
+        const board = this.state.currBoard;
+        return (
+            <span className="stacks-section flex">
+                <DragDropContext
+                    onDragEnd={this.onDragEnd}
+                >
+                    <Droppable droppableId="board" isCombineEnabled={false} type="STACK" direction='horizontal'>
+                        {(provided, snapshot) => (
+                            <div
+                                ref={provided.innerRef}
+                                // style={{ backgroundColor: snapshot.isDraggingOver ? 'forestgreen' : 'transparent' }}
+                                {...provided.droppableProps}
+                                className="stacks-content flex "
+                            >
 
-                            {(board.stacks.length) ? board.stacks.map((stack, index) => (
-                                <Draggable key={stack.id}
-                                    draggableId={stack.id} index={index} type="STACK" >
+                                {(board.stacks.length) ? board.stacks.map((stack, index) => (
+                                    <Draggable key={stack.id}
+                                        draggableId={stack.id} index={index} type="STACK" >
 
-                                    {(provided, snapshot) => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            style={{
-                                                ...this.getItemStyle(
-                                                    snapshot.isDragging,
-                                                    provided.draggableProps.style,
-                                                ), 
-                                                // maxHeight: boardHeight,
-                                                width: 250
-                                            }}
-                                            className="stack-content flex column"
-                                        >
+                                        {(provided, snapshot) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                style={{
+                                                    ...this.getItemStyle(
+                                                        snapshot.isDragging,
+                                                        provided.draggableProps.style,
+                                                    ),
+                                                    // maxHeight: boardHeight,
+                                                    width: 250
+                                                }}
+                                                className="stack-content flex column"
+                                            >
 
-                                            <p className="stack-title flex align-center" {...provided.dragHandleProps} >{stack.title}</p>
+                                                <p className="stack-title flex align-center" {...provided.dragHandleProps} >{stack.title}</p>
 
-                                            <Droppable key={index}
-                                                droppableId={`${index}`} isCombineEnabled={false}
-                                                type="CARD">
-                                                {(provided, snapshot) => (
-                                                    <Stack
-                                                        innerRef={provided.innerRef}
-                                                        style={this.getListStyle(snapshot.isDraggingOver)}
-                                                        provided={provided}
-                                                    >
+                                                <Droppable key={index}
+                                                    droppableId={`${index}`} isCombineEnabled={false}
+                                                    type="CARD">
+                                                    {(provided, snapshot) => (
+                                                        <Stack
+                                                            innerRef={provided.innerRef}
+                                                            style={this.getListStyle(snapshot.isDraggingOver)}
+                                                            provided={provided}
+                                                        >
 
-                                                        {stack.cards.map((card, index) => (
-                                                            <Draggable
-                                                                key={card.id}
-                                                                draggableId={card.id}
-                                                                index={index}
-                                                                type="CARD"
-                                                            >
-                                                                {(provided, snapshot) => (
-                                                                    <Link to={`/boards/${board._id}/card/${card.id}`}>
-                                                                        <CardPreview
-                                                                            title={card.title}
-                                                                            innerRef={provided.innerRef}
-                                                                            provided={provided}
-                                                                            card={card}
-                                                                            style={this.getItemStyle(
-                                                                                snapshot.isDragging,
-                                                                                provided.draggableProps.style,
-                                                                            )}
-                                                                        >
+                                                            {stack.cards.map((card, index) => (
+                                                                <Draggable
+                                                                    key={card.id}
+                                                                    draggableId={card.id}
+                                                                    index={index}
+                                                                    type="CARD"
+                                                                >
+                                                                    {(provided, snapshot) => (
+                                                                        <Link to={`/boards/${board._id}/card/${card.id}`}>
+                                                                            <CardPreview
+                                                                                title={card.title}
+                                                                                innerRef={provided.innerRef}
+                                                                                provided={provided}
+                                                                                card={card}
+                                                                                style={this.getItemStyle(
+                                                                                    snapshot.isDragging,
+                                                                                    provided.draggableProps.style,
+                                                                                )}
+                                                                            >
 
-                                                                        </CardPreview>
-                                                                    </Link>
-                                                                )}
-                                                            </Draggable>
-                                                        ))}
-                                                        {provided.placeholder}
-                                                    </Stack>
-                                                )}
-                                            </Droppable>
-                                            <AddContent type="card" onCardAdd={this.onCardAdd} itemId={stack.id} />
-                                        </div>
-                                    )}
-                                </Draggable>
-                            )) : null}
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
-                <AddContent type="stack" onStackAdd={this.onStackAdd} />
-            </DragDropContext>
-        </span>
-    )
-}
+                                                                            </CardPreview>
+                                                                        </Link>
+                                                                    )}
+                                                                </Draggable>
+                                                            ))}
+                                                            {provided.placeholder}
+                                                        </Stack>
+                                                    )}
+                                                </Droppable>
+                                                <AddContent type="card" onCardAdd={this.onCardAdd} itemId={stack.id} />
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                )) : null}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                    <AddContent type="stack" onStackAdd={this.onStackAdd} />
+                </DragDropContext>
+            </span>
+        )
+    }
 
     onSetBg = (bg, type) => {
         if (type === 'img') {
@@ -314,14 +314,15 @@ stacks = (boardHeight) => {
     render() {
         console.log(this.state.currBoard);
         const { currBoard, boardHeight } = this.state;
+        const { history } = this.props
         if (!currBoard) return 'Loading...'
 
-    return (
-        <>
-            <BoardOptions board={currBoard} onSetBg={this.onSetBg} />
-            <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
-            <section className="board-content flex column align-start space-between"
-                ref={this.boardContent}>
+        return (
+            <>
+                <BoardOptions history={history} board={currBoard} onSetBg={this.onSetBg} />
+                <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
+                <section className="board-content flex column align-start space-between"
+                    ref={this.boardContent}>
 
                     {(currBoard) ? this.stacks(boardHeight) : null}
 
