@@ -44,7 +44,6 @@ export function CardPreview(props) {
         dueDateClass = 'due-date-' + getDueDateType();
     }
 
-    // console.log(card);
     const showInfo = (card.comments.length || card.description !== '' || todosCount || card.dueDate !== '');
 
     return (

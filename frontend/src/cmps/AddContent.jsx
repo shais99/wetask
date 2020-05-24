@@ -16,7 +16,6 @@ export class AddContent extends React.Component {
     }
 
     addItem = (event) => {
-        console.log(event.target.value);
         event.preventDefault();
 
         if (!event.target) return;

@@ -46,8 +46,6 @@ class BoardDetails extends React.Component {
     }
 
     componentDidMount() {
-        console.log('mounted');
-
         if (!this.props.loggedInUser) return this.props.history.push('/signup')
         const { boardId } = this.props.match.params;
 
@@ -141,7 +139,6 @@ class BoardDetails extends React.Component {
         // Changed Stacks order
         if ((source.droppableId === destination.droppableId) && source.droppableId === 'board') {
             const items = reorder(stacks, source.index, destination.index);
-            console.log(items);
             const newState = { ...this.props.currBoard };
             newState.stacks = items;
 
@@ -172,7 +169,6 @@ class BoardDetails extends React.Component {
 
     stacks = (areLabelsOpen) => {
         const board = this.props.currBoard;
-        console.log('render', board);
 
         return (
             <span className="stacks-section flex">

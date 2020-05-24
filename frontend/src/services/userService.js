@@ -15,7 +15,6 @@ export default {
 }
 
 function query(filterBy) {
-    console.log('filterBy',filterBy);
     
     if (!filterBy) return httpService.get('users')
     return httpService.get(`users?q=${filterBy.q}&boardId=${filterBy.board._id}`)

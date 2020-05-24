@@ -11,8 +11,6 @@ export default function boardReducer(state = initialState, action) {
                 boards: action.boards
             }
         case 'SET_BOARD':
-            console.log('ACTIONS BOARD',action.board);
-            
             return {
                 ...state,
                 currBoard: action.board
