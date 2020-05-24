@@ -54,9 +54,12 @@
 }
 
 .stack {
-    background-color: tomato;
     overflow-y: auto;
     padding: 8px;
+    background: #ebecf0;
+    width: 250px;
+    // transition: ease-in-out 0.15s;
+
 }
 
 .stack-title {
@@ -68,7 +71,7 @@
     width: 100%;
     padding: 20px 8px;
     transition: ease-in-out 0.225s;
-    font-size: rem(18px);
+    // font-size: rem(18px);
     &:hover {
         background: darken($color: $clr6, $amount: 7.5);
     }
@@ -97,7 +100,12 @@
     min-height: 20px;
     text-decoration: none;
     padding: 0 8px 8px;
-    // transition: ease-in-out 0.15s;
+
+    height: 'fit-content';
+    user-select: 'none';
+    padding-top: 0;
+    border-radius: 3;
+    box-shadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.75)';
 
     .card-preview-title {
         padding-top: 5px;
@@ -115,7 +123,7 @@
     .card-preview-info {
         border-top: 1px solid $clr6;
         margin-top: 3px;
-        padding-top: 2px;
+        padding-top: 3px;
         // filter: opacity(0.75);
 
         & > *:not(:last-child) {
@@ -132,9 +140,7 @@
             .preview-info-count {
                 font-size: rem(12px);
             }
-            // .preview-info-count {
-            //     margin-right: 20px;
-            // }
+
         }
     }
 }
@@ -151,6 +157,12 @@
 .stack-content {
     background: $clr6;
     max-height: 98%;
+
+    height: fit-content;
+    user-select: none;
+    padding-top: 0;
+    border-radius: 3px;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.75);
 }
 
 .close-add-icon {
@@ -183,8 +195,6 @@
     &.label-expand {
         height: fit-content;
         width: fit-content;
-        // margin-bottom: ;
-        // width: 40px;
         padding: 3px 5px;
         border-radius: 2px;
         margin-bottom: 3px;
@@ -194,6 +204,27 @@
 .card-label:not(:last-of-type) {
     margin-right: 2.5px;
 }
+
+.due-date {
+
+    border-radius: 5px;
+    padding: 0 3px 1.5px 3px;
+    color: $clr7;
+
+    &.due-date-future {
+        background: darken($color: $clr5, $amount: 10);
+    }
+    &.due-date-now {
+        background: $clr2;
+    }
+    &.due-date-past {
+        background: $clr4;
+    }
+
+}
+
+
+
 
 // Scroll bar
 

@@ -65,7 +65,6 @@ class BoardDetails extends React.Component {
             document.body.style.backgroundImage = `url(/${this.props.currBoard.bg})`;
             document.body.style.backgroundColor = this.props.currBoard.bg;
         }
-
     }
 
     componentWillUnmount() {
@@ -82,42 +81,15 @@ class BoardDetails extends React.Component {
         this.setState(({ areLabelsOpen }) => ({ areLabelsOpen: !areLabelsOpen }));
     }
 
-    getBoardHeight = () => {
-
-        let boardHeight;
-        if (this.boardContent.current) {
-            console.log(this.boardContent.current.clientHeight);
-            boardHeight = this.boardContent.current.clientHeight - 32;
-            boardHeight = (boardHeight < 150) ? 150 : boardHeight;
-            console.log(boardHeight);
-        }
-        this.setState({ boardHeight });
-    }
-
-
     getItemStyle = (isDragging, draggableStyle) => {
 
         return ({
             // some basic styles to make the items look a bit nicer
             ...draggableStyle,
-            height: 'fit-content',
-            userSelect: 'none',
-            paddingTop: 0,
             // change background colour if dragging
             background: isDragging ? 'rgb(219, 219, 219)' : '#ebecf0',
-            // styles we need to apply on draggables
-            borderRadius: 3,
-
-            boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.75)'
         });
     }
-
-
-    getListStyle = isDraggingOver => ({
-        background: '#ebecf0',
-        width: 250,
-        transition: 'ease-in-out 0.15s'
-    });
 
     onStackAdd = (newStackTitle) => {
 
@@ -211,7 +183,6 @@ class BoardDetails extends React.Component {
                         {(provided, snapshot) => (
                             <div
                                 ref={provided.innerRef}
-                                // style={{ backgroundColor: snapshot.isDraggingOver ? 'forestgreen' : 'transparent' }}
                                 {...provided.droppableProps}
                                 className="stacks-content flex "
                             >
@@ -221,7 +192,6 @@ class BoardDetails extends React.Component {
                                         draggableId={stack.id} index={index} type="STACK" >
 
                                         {(provided, snapshot) => {
-                                            // console.log(snapshot)
                                             return (
                                                 <div
                                                     ref={provided.innerRef}
@@ -231,9 +201,7 @@ class BoardDetails extends React.Component {
                                                             snapshot.isDragging,
                                                             provided.draggableProps.style,
                                                         ),
-                                                        // maxHeight: boardHeight,
                                                         width: 250,
-                                                        // transform: (snapshot.isDragging) ? 'rotate(20deg)' : 'rotate(0deg)'
 
                                                     }}
                                                     className="stack-content flex column"
@@ -247,7 +215,6 @@ class BoardDetails extends React.Component {
                                                         {(provided, snapshot) => (
                                                             <Stack
                                                                 innerRef={provided.innerRef}
-                                                                style={this.getListStyle(snapshot.isDraggingOver)}
                                                                 provided={provided}
                                                             >
 
@@ -261,7 +228,6 @@ class BoardDetails extends React.Component {
                                                                         {(provided, snapshot) => (
 
                                                                             <span>
-
                                                                                 <CardPreview
                                                                                     title={card.title}
                                                                                     innerRef={provided.innerRef}
@@ -275,7 +241,6 @@ class BoardDetails extends React.Component {
                                                                                         provided.draggableProps.style,
                                                                                     )}
                                                                                 >
-
                                                                                 </CardPreview>
                                                                             </span>
 
