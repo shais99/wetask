@@ -7,8 +7,8 @@ export default function BoardActivities(props) {
         <div className="activities-container">
             <h2 className="activities-title">Activities</h2>
             <ul className="activities clean-list">
-                {board.activities.map(activity => {
-                    return <li>
+                {board.activities.map((activity, idx) => {
+                    return <li key={idx}>
                         <span className="bold">{activity.byMember.username}</span> {activity.txt}
                         <p className="activity-at">{moment(activity.createdAt).fromNow()}</p>
                     </li>

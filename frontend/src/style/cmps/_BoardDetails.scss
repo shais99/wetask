@@ -21,11 +21,6 @@
     width: 100%;
     height: 100%;
     overflow-x: scroll;
-
-    .stacks-content {
-        // width: 100%;
-        overflow: auto;
-    }
 }
 
 .add-content {
@@ -182,6 +177,8 @@
 }
 
 .card-labels {
+    color: white;
+    letter-spacing: .5px;
     // height: 16px;
     padding-top: 4px;
     // color: $clr6;
@@ -194,8 +191,9 @@
     width: 30px;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
-    transition: ease-in-out 0.1s;
+    transition: ease-in-out 0.15s;
     font-size: rem(10px);
+    cursor: pointer;
 
     &.label-expand {
         height: fit-content;
@@ -207,6 +205,8 @@
         margin-bottom: 3px;
     }
 }
+
+
 .card-label:not(:last-of-type) {
     margin-right: 2.5px;
 }

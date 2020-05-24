@@ -12,19 +12,13 @@ class Boards extends React.Component {
         this.props.loadBoards(this.props.loggedInUser._id)
     }
 
-    onClickUser() {
-        return
-    }
-
-
-
     render() {
         const { loggedInUser, boards } = this.props
         return ((!loggedInUser) ? 'Loading...' :
             <div className="boards-page container">
                 <header className="boards-header flex space-between">
                     <h2 className="boards-title">My Boards</h2>
-                    <Link to="/profile" className="hello-btn" onClick={() => this.onClickUser}>Hello {loggedInUser.username}</Link>
+                    <Link to="/profile" className="hello-btn">Hello {loggedInUser.username}</Link>
                 </header>
                 <BoardList boards={boards} />
             </div>
