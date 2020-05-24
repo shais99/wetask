@@ -17,7 +17,6 @@ export default class CardChecklist extends React.Component {
 
     handleChange = (ev) => {
         let { name, value } = ev.target;
-        console.log('name:', name, 'value:', value);
 
         this.setState(prevState => ({ newTodo: { ...prevState.newTodo, [name]: value } }))
     }

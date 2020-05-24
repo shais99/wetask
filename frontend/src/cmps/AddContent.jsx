@@ -16,7 +16,6 @@ export class AddContent extends React.Component {
     }
 
     addItem = (event) => {
-        console.log(event.target.value);
         event.preventDefault();
 
         if (!event.target) return;
@@ -76,7 +75,7 @@ export class AddContent extends React.Component {
                                 className={`input ${(type === 'stack') ? 'stack-input' : 'card-input'}`} autoFocus={true} />
                             <span className="add-content-buttons flex space-between">
                                 <button className={`btn btn-${(type === 'stack') ? 'primary' : 'success'} btn-small`}>{`Add ${type}`}</button>
-                                <img src="/assets/img/close.png" onClick={this.toggleOpen} className="close-add-icon" />
+                                <img src={`/assets/img/close${(type === 'stack') ? 'stack' : ''}.png`} onClick={this.toggleOpen} className="close-add-icon" />
                             </span>
                         </form>
                     </>

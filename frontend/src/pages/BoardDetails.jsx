@@ -2,7 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { loadBoard, save } from '../store/actions/boardActions';
+import { loadBoard, save, setBoard } from '../store/actions/boardActions';
 import { AddContent } from '../cmps/AddContent';
 import { Route } from 'react-router-dom';
 import { CardPreview } from '../cmps/CardPreview.jsx';
@@ -46,8 +46,6 @@ class BoardDetails extends React.Component {
     }
 
     componentDidMount() {
-        console.log('mounted');
-        
         if (!this.props.loggedInUser) return this.props.history.push('/signup')
         const { boardId } = this.props.match.params;
 
@@ -65,58 +63,31 @@ class BoardDetails extends React.Component {
             document.body.style.backgroundImage = `url(/${this.props.currBoard.bg})`;
             document.body.style.backgroundColor = this.props.currBoard.bg;
         }
-
     }
 
     componentWillUnmount() {
+        if (!this.props.loggedInUser) return
         document.body.style = '';
         socketService.off('loadBoard', this.setBoard)
         socketService.terminate()
     }
 
-    setBoard = (currBoard) => this.props.save(currBoard)
+    setBoard = (currBoard) => this.props.setBoard(currBoard)
 
     onToggleLabels = () => {
 
         this.setState(({ areLabelsOpen }) => ({ areLabelsOpen: !areLabelsOpen }));
     }
 
-    getBoardHeight = () => {
-
-        let boardHeight;
-        if (this.boardContent.current) {
-            console.log(this.boardContent.current.clientHeight);
-            boardHeight = this.boardContent.current.clientHeight - 32;
-            boardHeight = (boardHeight < 150) ? 150 : boardHeight;
-            console.log(boardHeight);
-        }
-        this.setState({ boardHeight });
-    }
-
-
     getItemStyle = (isDragging, draggableStyle) => {
 
         return ({
             // some basic styles to make the items look a bit nicer
             ...draggableStyle,
-            height: 'fit-content',
-            userSelect: 'none',
-            paddingTop: 0,
             // change background colour if dragging
             background: isDragging ? 'rgb(219, 219, 219)' : '#ebecf0',
-            // styles we need to apply on draggables
-            borderRadius: 3,
-
-            boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.75)'
         });
     }
-
-
-    getListStyle = isDraggingOver => ({
-        background: '#ebecf0',
-        width: 250,
-        transition: 'ease-in-out 0.15s'
-    });
 
     onStackAdd = (newStackTitle) => {
 
@@ -130,7 +101,6 @@ class BoardDetails extends React.Component {
         });
 
         this.props.save(currBoard);
-        socketService.emit('updateBoard', this.props.currBoard);
     }
 
     onCardAdd = (newCardTitle, stackId) => {
@@ -153,7 +123,6 @@ class BoardDetails extends React.Component {
         });
 
         this.props.save(this.props.currBoard);
-        socketService.emit('updateBoard', this.props.currBoard);
     }
 
     onDragEnd = (result) => {
@@ -170,12 +139,11 @@ class BoardDetails extends React.Component {
         // Changed Stacks order
         if ((source.droppableId === destination.droppableId) && source.droppableId === 'board') {
             const items = reorder(stacks, source.index, destination.index);
-            console.log(items);
             const newState = { ...this.props.currBoard };
             newState.stacks = items;
 
             this.props.save(newState)
-            socketService.emit('updateBoard', newState);
+            // socketService.emit('updateBoard', newState);
         } else {
             const sIndex = +source.droppableId;
             const dIndex = +destination.droppableId;
@@ -194,15 +162,14 @@ class BoardDetails extends React.Component {
                 newState.stacks[dIndex].cards = result[dIndex];
             }
             this.props.save(newState);
-            socketService.emit('updateBoard', newState);
+            // socketService.emit('updateBoard', newState);
         }
-        
+
     }
 
     stacks = (areLabelsOpen) => {
         const board = this.props.currBoard;
-        console.log('render',board);
-        
+
         return (
             <span className="stacks-section flex">
                 <DragDropContext
@@ -212,7 +179,6 @@ class BoardDetails extends React.Component {
                         {(provided, snapshot) => (
                             <div
                                 ref={provided.innerRef}
-                                // style={{ backgroundColor: snapshot.isDraggingOver ? 'forestgreen' : 'transparent' }}
                                 {...provided.droppableProps}
                                 className="stacks-content flex "
                             >
@@ -222,7 +188,6 @@ class BoardDetails extends React.Component {
                                         draggableId={stack.id} index={index} type="STACK" >
 
                                         {(provided, snapshot) => {
-                                            // console.log(snapshot)
                                             return (
                                                 <div
                                                     ref={provided.innerRef}
@@ -232,9 +197,7 @@ class BoardDetails extends React.Component {
                                                             snapshot.isDragging,
                                                             provided.draggableProps.style,
                                                         ),
-                                                        // maxHeight: boardHeight,
                                                         width: 250,
-                                                        // transform: (snapshot.isDragging) ? 'rotate(20deg)' : 'rotate(0deg)'
 
                                                     }}
                                                     className="stack-content flex column"
@@ -248,7 +211,6 @@ class BoardDetails extends React.Component {
                                                         {(provided, snapshot) => (
                                                             <Stack
                                                                 innerRef={provided.innerRef}
-                                                                style={this.getListStyle(snapshot.isDraggingOver)}
                                                                 provided={provided}
                                                             >
 
@@ -262,7 +224,6 @@ class BoardDetails extends React.Component {
                                                                         {(provided, snapshot) => (
 
                                                                             <span>
-
                                                                                 <CardPreview
                                                                                     title={card.title}
                                                                                     innerRef={provided.innerRef}
@@ -276,7 +237,6 @@ class BoardDetails extends React.Component {
                                                                                         provided.draggableProps.style,
                                                                                     )}
                                                                                 >
-
                                                                                 </CardPreview>
                                                                             </span>
 
@@ -350,7 +310,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     loadBoard,
-    save
+    save,
+    setBoard
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardDetails)

@@ -12,7 +12,7 @@ export default class CardComments extends Component {
                 </form>
                 <div className="comments-container">
                     {this.props.comments && this.props.comments.map((comment, idx) => <div className="comment" key={idx}>
-                        <div>Comment By: {comment.byMember.fullName}, At {moment(comment.createdAt).fromNow()}</div>
+                        <div>Comment By: {comment.byMember.fullname}, At {moment(comment.createdAt).fromNow()}</div>
                         <div>{comment.txt}</div>
                     </div>)}
                 </div>
