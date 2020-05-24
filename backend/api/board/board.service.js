@@ -47,7 +47,7 @@ async function remove(boardId) {
 async function update(board) {
     const collection = await dbService.getCollection('board')
     board._id = ObjectId(board._id);
-
+    
     try {
         await collection.replaceOne({ "_id": board._id }, { $set: board })
         return board

@@ -1,18 +1,41 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { moment } from 'moment'
 
 
 export function CardPreview(props) {
-    
+
     function onLabelsPress() {
-        // console.log('PRESSED');
         props.onToggleLabels();
     }
-    
+
+    function getTodosInfo () {
+
+        let doneTodosCount = 0;
+
+        card.checklists.forEach(checklist => {
+            todosCount += checklist.todos.length;
+
+            checklist.todos.forEach(todo => {
+
+                if(todo.isDone) doneTodosCount += 1;
+            })
+        })
+
+        return `${doneTodosCount}/${todosCount}`;
+    }
 
     const { card, innerRef, provided, style, link, labelsOpen } = props;
-    const showInfo = (card.comments.length || card.description !== '');
+    
+    let todosStatus = '';
+    let todosCount = 0;
+    if (card.checklists && card.checklists.length) {
+        todosStatus = getTodosInfo();
+    }
+    
+    console.log(todosStatus);
+    const showInfo = (card.comments.length || card.description !== '' || todosCount);
+
     return (
         <>
             <div className="card-preview flex column align-center justify-center" ref={innerRef} style={style}
@@ -62,7 +85,7 @@ export function CardPreview(props) {
                                 ?
                                 <span className="preview-info-span flex align-center">
                                     <img className="preview-info-img" src="/assets/img/todos.png" />
-                                    <p className="preview-info-count">{card.checklists.length}</p>
+                                    <p className="preview-info-count">{todosStatus}</p>
                                 </span>
                                 :
                                 null

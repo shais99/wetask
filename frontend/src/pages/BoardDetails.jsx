@@ -9,6 +9,7 @@ import { CardPreview } from '../cmps/CardPreview.jsx';
 import { Stack } from '../cmps/Stack.jsx';
 import CardDetails from '../pages/CardDetails.jsx';
 import BoardOptions from '../cmps/BoardOptions'
+import socketService from '../services/socketService'
 
 import { makeId } from '../services/utilService';
 
@@ -41,22 +42,24 @@ class BoardDetails extends React.Component {
     }
 
     state = {
-        currBoard: null,
         areLabelsOpen: false
     }
 
     componentDidMount() {
         if (!this.props.loggedInUser) return this.props.history.push('/signup')
         const { boardId } = this.props.match.params;
+
+        socketService.setup();
+        socketService.emit('setBoard', boardId);
+        socketService.on('loadBoard', this.setBoard)
+
         this.props.loadBoard(boardId);
     }
 
     componentDidUpdate(prevProps) {
 
         if (prevProps.currBoard !== this.props.currBoard) {
-            // console.log('BOARD PROPS', this.props.currBoard);
-            this.setState({ currBoard: this.props.currBoard }, () => console.log('BOARD STATE', this.state.currBoard));
-            // console.log(this.props.currBoard.bg);
+            // this.setState({ currBoard: this.props.currBoard });
             document.body.style.backgroundImage = `url(/${this.props.currBoard.bg})`;
             document.body.style.backgroundColor = this.props.currBoard.bg;
         }
@@ -65,7 +68,11 @@ class BoardDetails extends React.Component {
 
     componentWillUnmount() {
         document.body.style = '';
+        socketService.off('loadBoard', this.setBoard)
+        socketService.terminate()
     }
+
+    setBoard = (currBoard) => this.props.save(currBoard)
 
     onToggleLabels = () => {
 
@@ -111,7 +118,8 @@ class BoardDetails extends React.Component {
 
     onStackAdd = (newStackTitle) => {
 
-        let currBoard = this.state.currBoard;
+        // @TODO: ADD THIS TO ACTIONS
+        let currBoard = this.props.currBoard;
 
         currBoard.stacks.push({
             bgColor: "#fefefe",
@@ -120,14 +128,13 @@ class BoardDetails extends React.Component {
             title: newStackTitle,
         });
 
-        this.setState({ currBoard }, () => {
-            this.props.save(this.state.currBoard);
-        });
+        this.props.save(currBoard);
+        socketService.emit('updateBoard', this.props.currBoard);
     }
 
     onCardAdd = (newCardTitle, stackId) => {
-        console.log(stackId);
-        let currBoard = this.state.currBoard;
+        
+        let currBoard = this.props.currBoard;
         let stackIdx = currBoard.stacks.findIndex((stack) => {
             return stackId === stack.id;
         });
@@ -144,11 +151,8 @@ class BoardDetails extends React.Component {
             dueDate: ''
         });
 
-        console.log(currBoard);
-
-        this.setState({ currBoard }, () => {
-            this.props.save(this.state.currBoard);
-        });
+        this.props.save(this.props.currBoard);
+        socketService.emit('updateBoard', this.props.currBoard);
     }
 
     onDragEnd = (result) => {

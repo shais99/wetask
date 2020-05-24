@@ -11,7 +11,7 @@
 }
 
 .stacks-content:first-child {
-    margin-left: rem(16px);
+    margin-left: rem(20px);
 }
 
 .stacks-section {
@@ -44,7 +44,8 @@
 
 .add-content-title {
     width: 100%;
-    color: darken($clr6, 40%);
+    color: inherit;
+    // color: darken($clr6, 40%);
 }
 
 .add-content-title::before {
