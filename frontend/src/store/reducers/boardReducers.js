@@ -11,6 +11,8 @@ export default function boardReducer(state = initialState, action) {
                 boards: action.boards
             }
         case 'SET_BOARD':
+            console.log('ACTIONS BOARD',action.board);
+            
             return {
                 ...state,
                 currBoard: action.board
@@ -42,8 +44,6 @@ export default function boardReducer(state = initialState, action) {
                 })
             }
         case 'REMOVE_BOARD':
-            console.log('ACTIONS',action.boardId);
-            
             return {
                 ...state,
                 boards: state.boards.filter(board => board._id !== action.boardId)

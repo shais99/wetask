@@ -30,10 +30,16 @@ async function updateBoard(req, res) {
     res.send(board)
 }
 
+async function socketUpdateBoard(board) {
+    const updatedBoard = await boardService.update(board)
+    return updatedBoard
+}
+
 module.exports = {
     getBoard,
     getBoards,
     deleteBoard,
     updateBoard,
-    addBoard
+    addBoard,
+    socketUpdateBoard
 }

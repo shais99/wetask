@@ -128,6 +128,10 @@ class CardDetails extends Component {
     onAddMember = (currMember) => {
         let currCard = this.getCurrCard();
         const memberIdx = currCard.members.findIndex(member => member._id === currMember._id);
+<<<<<<< HEAD
+=======
+        console.log('member-idx', memberIdx);
+>>>>>>> 019aae8b7b7fb5a87e9db3aa436dbc150ce3b77f
 
         if (memberIdx === -1) currCard.members.push(currMember)
         else currCard.members.splice(memberIdx, 1)
