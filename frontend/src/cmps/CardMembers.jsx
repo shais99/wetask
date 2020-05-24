@@ -1,8 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
-
-class CardMembers extends React.Component {
+export default class CardMembers extends React.Component {
     state = {
         byMember: ''
     }
@@ -21,9 +19,9 @@ class CardMembers extends React.Component {
 
     getMembers = () => {
         let searchBy = this.state.byMember;
-        if (searchBy) return this.props.currBoard.members.filter(member => member.username.includes(searchBy))
+        if (searchBy) return this.props.board.members.filter(member => member.username.includes(searchBy))
 
-        return this.props.currBoard.members;
+        return this.props.board.members;
     }
 
     render() {
@@ -50,12 +48,4 @@ class CardMembers extends React.Component {
     }
 
 }
-
-const mapStateToProps = (state) => {
-    return {
-        currBoard: state.board.currBoard
-    }
-}
-export default connect(mapStateToProps)(CardMembers);
-
 

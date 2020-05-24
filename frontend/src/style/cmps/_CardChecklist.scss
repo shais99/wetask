@@ -1,0 +1,38 @@
+.card-checklist-container {
+    margin: 10px;
+    .checklist-title {
+        font-size: rem(14px);
+        font-family: openSansBold;
+        width: 80%;
+        border: none;
+        padding: 6px;
+        transition: 0.3s;
+        outline: none;
+        border-radius: 5px;
+        height: 30px;
+        background-color: transparent;
+        color: $clr1;
+        &:focus {
+            background-color: #fffbfb;
+            box-shadow: inset 0 0 0 2px #dfe1e6;
+            color: #122961b5;
+            box-sizing: border-box;
+            padding-left: 15px;
+        }
+    }
+
+    .todo-title {
+        font-family: openSans, serif;
+        font-size: rem(14px);
+        &:focus {
+            background-color: #fffbfb;
+            box-shadow: inset 0 0 0 2px #dfe1e6;
+            color: #122961b5;
+            box-sizing: border-box;
+            padding-left: 15px;
+        }
+    }
+    .checklist-todos-container {
+        margin-bottom: 30px;
+    }
+}

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { loadBoard, save } from '../store/actions/boardActions';
 import { AddContent } from '../cmps/AddContent';
-import { Link, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { CardPreview } from '../cmps/CardPreview.jsx';
 import { Stack } from '../cmps/Stack.jsx';
 import CardDetails from '../pages/CardDetails.jsx';
@@ -46,6 +46,8 @@ class BoardDetails extends React.Component {
     }
 
     componentDidMount() {
+        console.log('mounted');
+        
         if (!this.props.loggedInUser) return this.props.history.push('/signup')
         const { boardId } = this.props.match.params;
 
@@ -118,8 +120,7 @@ class BoardDetails extends React.Component {
 
     onStackAdd = (newStackTitle) => {
 
-        // @TODO: ADD THIS TO ACTIONS
-        let currBoard = this.props.currBoard;
+        let currBoard = { ...this.props.currBoard };
 
         currBoard.stacks.push({
             bgColor: "#fefefe",
@@ -133,8 +134,8 @@ class BoardDetails extends React.Component {
     }
 
     onCardAdd = (newCardTitle, stackId) => {
-        
-        let currBoard = this.props.currBoard;
+
+        let currBoard = { ...this.props.currBoard };
         let stackIdx = currBoard.stacks.findIndex((stack) => {
             return stackId === stack.id;
         });
@@ -157,7 +158,6 @@ class BoardDetails extends React.Component {
 
     onDragEnd = (result) => {
 
-        console.log(result);
         const { source, destination } = result;
 
         // Dropped outside the list
@@ -165,24 +165,22 @@ class BoardDetails extends React.Component {
             return;
         }
 
-        let stacks = this.state.currBoard.stacks;
+        let stacks = [...this.props.currBoard.stacks];
 
         // Changed Stacks order
         if ((source.droppableId === destination.droppableId) && source.droppableId === 'board') {
-            console.log(stacks);
             const items = reorder(stacks, source.index, destination.index);
             console.log(items);
-            const newState = { ...this.state.currBoard };
+            const newState = { ...this.props.currBoard };
             newState.stacks = items;
 
-            this.setState({ currBoard: newState }, () => {
-                this.props.save(newState)
-            })
+            this.props.save(newState)
+            socketService.emit('updateBoard', newState);
         } else {
             const sIndex = +source.droppableId;
             const dIndex = +destination.droppableId;
 
-            const newState = { ...this.state.currBoard };
+            const newState = { ...this.props.currBoard };
 
             // Changed index in same Stack
             if (sIndex === dIndex) {
@@ -195,14 +193,16 @@ class BoardDetails extends React.Component {
                 newState.stacks[sIndex].cards = result[sIndex];
                 newState.stacks[dIndex].cards = result[dIndex];
             }
-            this.setState({ currBoard: newState }, () => {
-                this.props.save(this.state.currBoard);
-            });
+            this.props.save(newState);
+            socketService.emit('updateBoard', newState);
         }
+        
     }
 
     stacks = (areLabelsOpen) => {
-        const board = this.state.currBoard;
+        const board = this.props.currBoard;
+        console.log('render',board);
+        
         return (
             <span className="stacks-section flex">
                 <DragDropContext
@@ -315,15 +315,16 @@ class BoardDetails extends React.Component {
             this.props.currBoard.bg = bg
         }
         const { loggedInUser } = this.props
-        this.state.currBoard.activities.unshift({ id: makeId(), txt: `has changed the board background`, createdAt: Date.now(), byMember: loggedInUser })
-        this.props.save(this.state.currBoard)
+        // @TODO: ACTIONS - ADD ACTIVITY!
+        this.props.currBoard.activities.unshift({ id: makeId(), txt: `has changed the board background`, createdAt: Date.now(), byMember: loggedInUser })
+        this.props.save(this.props.currBoard)
     }
 
     render() {
-        console.log(this.state.currBoard);
         const { history } = this.props
-        const { currBoard, areLabelsOpen } = this.state;
-        // console.log(areLabelsOpen);
+        const { currBoard } = this.props;
+        const { areLabelsOpen } = this.state
+
         if (!currBoard) return 'Loading...'
 
         return (

@@ -38,20 +38,19 @@ export default class ActionContainer extends Component {
     }
 
     render() {
-        const { isShown, card, onToggleAction } = this.props;
-        const { props } = this;
+        const { isShown, card, onToggleAction, board, onChangeDate, value, getCurrCard, addLabel, addMember } = this.props;
         const { action } = this.state;
         return (
             <OutsideClickHandler onOutsideClick={() => onToggleAction(action)} display={'contents'}>
-            < div className="labels-container" >
-                <div className="labels-header flex space-between">
-                    <h3>{this.titleToReturn(action)}</h3>
-                    <button className="close-label" onClick={() => onToggleAction(action)}>X</button>
-                </div>
-                {isShown.dueDate && <DueDate onToggleAction={onToggleAction} onChange={props.onChangeDate} value={props.value} />}
-                {isShown.label && <LabelsPicker addLabel={props.addLabel} onToggleAction={props.onToggleAction} getCurrCard={props.getCurrCard} />}
-                {isShown.members && <CardMembers onToggleAction={onToggleAction} getCurrCard={props.getCurrCard} card={card} addMember={props.addMember} />}
-            </div >
+                < div className="labels-container" >
+                    <div className="labels-header flex space-between">
+                        <h3>{this.titleToReturn(action)}</h3>
+                        <button className="close-label" onClick={() => onToggleAction(action)}>X</button>
+                    </div>
+                    {isShown.dueDate && <DueDate onToggleAction={onToggleAction} onChange={onChangeDate} value={value} />}
+                    {isShown.label && <LabelsPicker addLabel={addLabel} onToggleAction={onToggleAction} getCurrCard={getCurrCard} />}
+                    {isShown.members && <CardMembers board={board} onToggleAction={onToggleAction} getCurrCard={getCurrCard} card={card} addMember={addMember} />}
+                </div >
             </OutsideClickHandler>
         )
     }

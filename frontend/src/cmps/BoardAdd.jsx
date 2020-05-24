@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { save } from '../store/actions/boardActions'
+import { addBoard } from '../store/actions/boardActions'
 import { Link } from 'react-router-dom'
 import BoardBg from './BoardBg'
 
@@ -33,7 +33,7 @@ class BoardAdd extends React.Component {
         board.createdAt = Date.now();
         board.createdBy = this.props.loggedInUser;
         board.activities = [];
-        this.props.save(board)
+        this.props.addBoard(board)
         this.setState({ board: '' })
         this.props.onClose()
     };
@@ -91,7 +91,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-    save
+    addBoard
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardAdd)
