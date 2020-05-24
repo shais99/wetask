@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { moment } from 'moment'
+import moment from 'moment'
 
 
 export function CardPreview(props) {
@@ -9,7 +9,7 @@ export function CardPreview(props) {
         props.onToggleLabels();
     }
 
-    function getTodosInfo () {
+    function getTodosInfo() {
 
         let doneTodosCount = 0;
 
@@ -18,23 +18,36 @@ export function CardPreview(props) {
 
             checklist.todos.forEach(todo => {
 
-                if(todo.isDone) doneTodosCount += 1;
+                if (todo.isDone) doneTodosCount += 1;
             })
         })
 
         return `${doneTodosCount}/${todosCount}`;
     }
 
+    function getDueDateType() {
+
+        const now = Date.now();
+        if (card.dueDate > now) return 'due-date-future';
+        else if (card.dueDate < now) return 'due-date-past';
+        else return 'due-date-now';
+    }
+
     const { card, innerRef, provided, style, link, labelsOpen } = props;
-    
+
     let todosStatus = '';
     let todosCount = 0;
     if (card.checklists && card.checklists.length) {
         todosStatus = getTodosInfo();
     }
-    
-    console.log(todosStatus);
-    const showInfo = (card.comments.length || card.description !== '' || todosCount);
+
+    let dueDateClass = '';
+    if (card.dueDate && card.dueDate != '') {
+        dueDateClass = getDueDateType();
+    }
+
+    // console.log(card);
+    const showInfo = (card.comments.length || card.description !== '' || todosCount || card.dueDate !== '');
 
     return (
         <>
@@ -42,7 +55,7 @@ export function CardPreview(props) {
                 {...provided.draggableProps} {...provided.dragHandleProps} >
                 {(card.labels.length)
                     ?
-                    <div className={`card-labels flex wrap align-center `} onClick={onLabelsPress}>
+                    <div className={`card-labels flex wrap align-center`} onClick={onLabelsPress}>
                         {
                             card.labels.map((label) => {
                                 return (
@@ -64,6 +77,16 @@ export function CardPreview(props) {
                     {(showInfo)
                         ?
                         <div className="card-preview-info flex align-center space-start">
+
+                            {(card.dueDate && card.dueDate != '')
+                                ?
+                                <span className={`preview-info-span flex align-center due-date ${dueDateClass}`}>
+                                    <img className="preview-info-img" src="/assets/img/clock.png" />
+                                    <p className="preview-info-count">{moment(card.dueDate).format("MMM DD")}</p>
+                                </span>
+                                :
+                                null
+                            }
                             {(card.description !== '')
                                 ?
                                 <span className="preview-info-span flex align-center">
@@ -90,6 +113,7 @@ export function CardPreview(props) {
                                 :
                                 null
                             }
+
                         </div>
                         : null}
                 </Link>
