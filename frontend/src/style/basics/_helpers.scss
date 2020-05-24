@@ -22,6 +22,9 @@
     &.space-between {
         justify-content: space-between;
     }
+    &.space-evenly {
+        justify-content: space-evenly;;
+    }
     &.space-around {
         justify-content: space-around;
     }
@@ -43,7 +46,11 @@
 }
 
 .top-p {
-    padding-top: 90px;
+    padding-top: 80px;
+}
+
+.bold {
+    font-weight: bold;
 }
 
 

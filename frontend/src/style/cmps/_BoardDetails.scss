@@ -1,23 +1,23 @@
-
 .board-content {
-    padding: 0 20px;
+    // padding: 0 20px 0 0;
     margin: 0;
     height: calc(100% - 60px);
+    overflow-x: hidden;
+    margin-top: 60px;
 }
 
-.stacks-content >* {
-
+.stacks-content > * {
     margin-right: rem(16px);
+}
+
+.stacks-content:first-child {
+    margin-left: rem(20px);
 }
 
 .stacks-section {
     width: 100%;
-    
-
-    &.stacks-content {
-        width: 100%;
-        overflow: auto;
-    }
+    height: 100%;
+    overflow-x: scroll;
 }
 
 .add-content {
@@ -30,13 +30,11 @@
 
 .add-content-container {
     height: fit-content;
-    color: white;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 }
 
 .add-content-buttons {
-
     width: 100%;
 }
 
@@ -46,26 +44,25 @@
 
 .add-content-title {
     width: 100%;
-    color: $clr7;
-    font-family: openSansBold;
+    color: inherit;
+    // color: darken($clr6, 40%);
 }
 
-// .add-content-title::before {
-
-//     content: "+";
-//     padding-right: 3px;
-// }
+.add-content-title::before {
+    content: "+";
+    padding-right: 10px;
+}
 
 .stack {
     background-color: tomato;
     overflow-y: auto;
+    padding: 8px;
 }
 
-
 .stack-title {
-
     font-family: openSansBold;
     margin-bottom: 8px;
+
     align-self: flex-start;
     height: 2rem;
     width: 100%;
@@ -73,21 +70,23 @@
     transition: ease-in-out 0.225s;
     font-size: rem(18px);
     &:hover {
-        background: darken($color: $clr6, $amount: 7.5)  ;
+        background: darken($color: $clr6, $amount: 7.5);
     }
 }
 
 .add-stack {
-
     background: $clr1;
 }
 .add-card {
-    
-    background-color: $clr2;
+    // background-color: $clr6;
+    transition: 0.3s;
+
+    &:hover {
+        background-color: darken($clr6, 10%);
+    }
 }
 
 .card-preview {
-
     background-color: rgb(255, 255, 255);
     border-radius: 3px;
     box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 0px;
@@ -97,8 +96,16 @@
     max-width: 300px;
     min-height: 20px;
     text-decoration: none;
-    padding: 0.5rem;
+    padding: 0 8px 8px;
     // transition: ease-in-out 0.15s;
+
+    .card-preview-title {
+        padding-top: 5px;
+        &.top-margin {
+            margin-top: 5px;
+            padding-top: 0;
+        }
+    }
 
     &:hover {
         background: lighten($color: $clr3, $amount: 40);
@@ -111,22 +118,25 @@
         padding-top: 2px;
         // filter: opacity(0.75);
 
-        &>*:not(:last-child) {
+        & > *:not(:last-child) {
             margin-right: 10px;
         }
         .preview-info-span {
             padding-top: 2px;
-    
+
             .preview-info-img {
                 width: 12px;
                 margin-right: 3px;
+            }
+
+            .preview-info-count {
+                font-size: rem(12px);
             }
             // .preview-info-count {
             //     margin-right: 20px;
             // }
         }
     }
-
 }
 
 .card-input {
@@ -140,19 +150,60 @@
 
 .stack-content {
     background: $clr6;
+    max-height: 98%;
 }
 
-
-
-
 .close-add-icon {
-    width: rem(24px);
+    width: rem(16px);
     cursor: pointer;
     transition: ease-in-out 0.15s;
     border-radius: 50%;
     align-self: center;
+}
 
-    &:hover {
-        background-color: tomato;
-    }   
+.card-labels {
+    color: white;
+    letter-spacing: 0.5px;
+    // height: 16px;
+    padding-top: 4px;
+    // color: $clr6;
+    font-family: openSansBold;
+    // overflow-y: scroll;
+}
+
+.card-label {
+    height: 7.5px;
+    width: 30px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    transition: ease-in-out 0.15s;
+    font-size: rem(10px);
+    cursor: pointer;
+
+    &.label-expand {
+        height: fit-content;
+        width: fit-content;
+        // margin-bottom: ;
+        // width: 40px;
+        padding: 3px 5px;
+        border-radius: 2px;
+        margin-bottom: 3px;
+    }
+}
+
+.card-label:not(:last-of-type) {
+    margin-right: 2.5px;
+}
+
+// Scroll bar
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }

@@ -23,8 +23,10 @@ export function saveCard(card) {
 export function removeBoard(boardId) {
   return dispatch => {
     boardService.remove(boardId)
-      .then(() => dispatch({ type: 'REMOVE_BOARD', boardId }))
-
+      .then(() => {
+        dispatch({ type: 'REMOVE_BOARD', boardId })
+        return Promise.resolve()
+      })
   }
 }
 
@@ -33,7 +35,6 @@ export function save(board) {
     const type = board._id ? 'UPDATE_BOARD' : 'ADD_BOARD';
     boardService.save(board)
       .then(savedBoard => dispatch({ type, board: savedBoard }))
-
   }
 }
 

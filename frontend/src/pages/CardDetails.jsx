@@ -24,8 +24,13 @@ class CardDetails extends Component {
             txt: ''
         },
         dueDate: {
+<<<<<<< HEAD
             value: new Date(),
         },
+=======
+            value: new Date()
+        }
+>>>>>>> 6069511876e5d70679dbabf71ee3dc4d51c70a85
     }
 
     componentDidMount() {
@@ -129,6 +134,10 @@ class CardDetails extends Component {
     onAddMember = (currMember) => {
         let currCard = this.getCurrCard();
         const memberIdx = currCard.members.findIndex(member => member._id === currMember._id);
+<<<<<<< HEAD
+=======
+        console.log('member-idx', memberIdx);
+>>>>>>> 6069511876e5d70679dbabf71ee3dc4d51c70a85
 
         if (memberIdx === -1) currCard.members.push(currMember)
         else currCard.members.splice(memberIdx, 1)

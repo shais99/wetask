@@ -8,23 +8,21 @@ import { Link } from 'react-router-dom'
 class Boards extends React.Component {
 
     componentDidMount() {
+        if (!this.props.loggedInUser) return this.props.history.push('/signup')
         this.props.loadBoards(this.props.loggedInUser._id)
     }
 
-    onClickUser() {
-        return
-    }
-
-
-
     render() {
-        return <div className="boards-page container">
-            <header className="boards-header flex space-between">
-                <h2 className="boards-title">My Boards</h2>
-                <Link to="/profile" className="hello-btn" onClick={() => this.onClickUser}>Hello {this.props.loggedInUser.username}</Link>
-            </header>
-            <BoardList boards={this.props.boards} />
-        </div>
+        const { loggedInUser, boards } = this.props
+        return ((!loggedInUser) ? 'Loading...' :
+            <div className="boards-page container">
+                <header className="boards-header flex space-between">
+                    <h2 className="boards-title">My Boards</h2>
+                    <Link to="/profile" className="hello-btn">Hello {loggedInUser.username}</Link>
+                </header>
+                <BoardList boards={boards} />
+            </div>
+        )
     }
 }
 
