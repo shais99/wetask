@@ -5,6 +5,7 @@
     margin-top: -20px;
     margin-bottom: 20px;
     padding: 25px;
+    position: fixed;
 
     .board-title {
         font-family: openSansBold;
@@ -26,7 +27,7 @@
         .remove-member {
             width: 14px;
             position: absolute;
-            top: 77px;
+            top: 6px;
             visibility: hidden;
             opacity: 0;
             transition: 0.3s;

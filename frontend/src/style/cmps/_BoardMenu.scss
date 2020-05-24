@@ -4,7 +4,7 @@
     height: 75vh;
     position: absolute;
     right: 0px;
-    top: 130px;
+    top: 60px;
     animation: slide-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.6);
 
@@ -47,6 +47,30 @@
             }
         }
     }
+
+    .activities-container {
+        padding: 0 35px;
+
+        .activities-title {
+            font-family: openSansBold;
+        }
+
+        .activities {
+            padding: 0;
+            margin: 5px 0;
+            overflow-y: auto;
+            max-height: 250px;
+
+            & li {
+                font-size: rem(13.5px);
+                margin-bottom: 12px;
+
+                & .activity-at {
+                    font-size: rem(11px)
+                }
+            }
+        }
+    }
 }
 
 .board-styling-container {
@@ -66,13 +90,14 @@
     .backgrounds-container {
         padding-top: 20px;
         overflow-y: auto;
-        max-height: 60vh;
+        max-height: 54vh;
 
         .background {
             width: 140px;
             height: 80px;
             border-radius: 20px;
             margin-bottom: 20px;
+            cursor: pointer;
         }
     }
 

@@ -4,6 +4,7 @@
     margin: 0;
     height: calc(100% - 60px);
     overflow-x: hidden;
+    margin-top: 60px;
 }
 
 .stacks-content >* {
@@ -181,10 +182,17 @@
 }
 
 .card-labels {
-    // margin-bottom: 5px;
+    padding-top: 5px;
     overflow-y: scroll;
 }
 
+.card-label {
+    height: 6px;
+    width: 30px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+
+}
 .card-label:not(:last-of-type) {
     margin-right: 2.5px;
 }

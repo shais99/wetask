@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { save, loadBoard } from '../store/actions/boardActions'
 import AddMember from '../cmps/AddMember'
 import BoardMenu from '../cmps/BoardMenu'
+import { makeId } from '../services/utilService'
 
 
 class BoardOptions extends Component {
@@ -28,23 +29,26 @@ class BoardOptions extends Component {
 
     // @TODO: MAKE IT ONE FUNCTION!!!
     onToggleAddMember = () => this.setState(prevState => ({ isAddMemberShown: !prevState.isAddMemberShown }))
-
     onToggleBoardMenu = () => this.setState(prevState => ({ isBoardMenuShown: !prevState.isBoardMenuShown }))
     // ***********
 
     onAddMember = member => {
-        const board = this.props.currBoard
-        board.members.unshift(member)
-        this.props.save(board)
+        const { loggedInUser, currBoard } = this.props
+
+        currBoard.members.unshift(member)
+        currBoard.activities.unshift({ id: makeId(), txt: `added ${member.username} to the board`, createdAt: Date.now(), byMember: loggedInUser })
+        this.props.save(currBoard)
         this.onToggleAddMember()
     }
 
-    onRemoveMember = memberId => {
-        const board = this.props.currBoard
-        const memberIdx = board.members.findIndex(member => member._id === memberId);
-        board.members.splice(memberIdx, 1)
-        this.props.save(board)
-        this.setState({ currBoard: this.props.currBoard })
+    onRemoveMember = member => {
+        const { loggedInUser, currBoard } = this.props
+
+        const memberIdx = currBoard.members.findIndex(member => member._id === member._id);
+        currBoard.members.splice(memberIdx, 1)
+        currBoard.activities.unshift({ id: makeId(), txt: `removed ${member.username} from the board`, createdAt: Date.now(), byMember: loggedInUser })
+        this.props.save(currBoard)
+        this.setState({ currBoard })
     }
 
     render() {
@@ -55,7 +59,7 @@ class BoardOptions extends Component {
                 <div className="board-title">{board.title}</div>
 
                 <div className="board-members flex">
-                    {board.members.map((member, idx) => <div key={idx} className="member flex justify-center align-center" style={{ backgroundImage: `url(${member.imgUrl})`, backgroundColor: member.bgColor }}><img onClick={() => this.onRemoveMember(member._id)} src="/assets/img/close.png" className="remove-member" alt="" />{this.getTwoChars(member.fullname)}</div>)}
+                    {board.members.map((member, idx) => <div key={idx} className="member flex justify-center align-center" style={{ backgroundImage: `url(${member.imgUrl})`, backgroundColor: member.bgColor }}><img onClick={() => this.onRemoveMember(member)} src="/assets/img/close.png" className="remove-member" alt="" />{this.getTwoChars(member.fullname)}</div>)}
                 </div>
 
                 <div className="board-options flex">
@@ -80,7 +84,8 @@ const mapDispatchToProps = {
 }
 const mapStateToProps = (state) => {
     return {
-        currBoard: state.board.currBoard
+        currBoard: state.board.currBoard,
+        loggedInUser: state.user.loggedInUser
     }
 }
 
