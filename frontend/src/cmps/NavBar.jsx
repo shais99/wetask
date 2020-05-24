@@ -10,7 +10,7 @@ function NavBar(props) {
     }
     return (
         <div className="nav-container">
-            <div className="container flex space-between align-center">
+            <div className="nav-content flex space-between align-center">
                 {/* <Link to="/"><img src="/assets/img/logomain2.png"  alt=""/></Link> */}
                 <Link to="/"><h1 className="logo"><span className="logo-we">we</span>task</h1></Link>
                 <ul className="main-nav clean-list flex">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { moment } from 'moment'
 
 
 export function CardPreview(props) {
@@ -9,12 +9,8 @@ export function CardPreview(props) {
         props.onToggleLabels();
     }
 
+    function getTodosInfo () {
 
-    const { card, innerRef, provided, style, link, labelsOpen } = props;
-    
-    let todosStatus = '';
-    let todosCount = 0;
-    if (card.checklists && card.checklists.length) {
         let doneTodosCount = 0;
 
         card.checklists.forEach(checklist => {
@@ -26,7 +22,15 @@ export function CardPreview(props) {
             })
         })
 
-        todosStatus = `${doneTodosCount}/${todosCount}`
+        return `${doneTodosCount}/${todosCount}`;
+    }
+
+    const { card, innerRef, provided, style, link, labelsOpen } = props;
+    
+    let todosStatus = '';
+    let todosCount = 0;
+    if (card.checklists && card.checklists.length) {
+        todosStatus = getTodosInfo();
     }
     
     console.log(todosStatus);
