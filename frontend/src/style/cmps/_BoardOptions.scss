@@ -14,8 +14,6 @@
         border-radius: 5px;
     }
 
-    
-
         .remove-member {
             width: 14px;
             position: absolute;
@@ -31,11 +29,6 @@
             &:hover {
                 background-color: darken($clr4, 5%);
             }
-        }
-
-        &:hover .remove-member {
-            opacity: 1;
-            visibility: visible;
         }
     
 
@@ -75,4 +68,10 @@
     margin-right: 3px;
     background-size: 100%;
     font-family: openSansBold;
-    text-transform: uppercase;}
+    text-transform: uppercase;
+    
+    &:hover .remove-member {
+        opacity: 1;
+        visibility: visible;
+    }
+}

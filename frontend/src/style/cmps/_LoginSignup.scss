@@ -24,6 +24,25 @@
         padding: 10px;
     }
 
+    .img-submit-container {
+        width: 40%;
+    }
+
+    .upload-img {
+        padding: 10.5px 15px;
+        border-radius: 5px;
+        background-color: lighten($color: $clr1, $amount: 7) ;
+        margin-bottom: 20px;
+        cursor: pointer;
+        color: $clr7;
+        font-size: rem(12px);
+        transition: .3s;
+
+        &:hover {
+            background-color: $clr1;
+        }
+    }
+
     .signup-login-link {
         font-size: rem(14px);
         margin-left: 35px;
@@ -44,9 +63,9 @@
         margin-bottom: 20px;
 
         & input {
-            width: 30%;
+            width: 40%;
             padding: 12px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             border-radius: 5px;
             border: none;
         }

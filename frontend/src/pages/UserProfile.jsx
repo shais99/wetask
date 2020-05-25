@@ -65,6 +65,10 @@ class UserProfile extends Component {
         })
     }
 
+    onOpenUpload = () => {
+        this.inputElement.click();
+    }
+
     render() {
         const { user, msg, isErrorMsg, isUploadImg } = this.state
 
@@ -84,9 +88,11 @@ class UserProfile extends Component {
                                 <input type="text" placeholder="Full name" autoComplete="off" onChange={this.handleChange} className="profile-input input" name="fullname" value={user.fullname} />
                                 <input type="password" placeholder="Password" autoComplete="off" onChange={this.handleChange} className="profile-input input" name="password" />
                                 <input type="password" placeholder="Confirm Password" autoComplete="off" onChange={this.handleChange} className="profile-input input" name="confirmPassword" />
-                                <input type="file" name="imgUrl" className="profile-input" onChange={this.onUploadImg} />
-
-                                <button className={`btn btn-primary ${isUploadImg ? 'disable' : ''}`} disabled={isUploadImg}>Save Changes</button>
+                                <input type="file" name="imgUrl" ref={input => this.inputElement = input} onChange={this.onUploadImg} hidden />
+                                <div className="img-submit-container flex space-between align-start">
+                                    <span className="upload-img" onClick={() => this.onOpenUpload()}>Upload Profile Image</span>
+                                    <button className={`btn btn-success ${isUploadImg ? 'disable' : ''}`} disabled={isUploadImg}>Save Changes</button>
+                                </div>
 
                             </form>
                             {msg && <div style={msgStyle} className="user-msg flex align-center space-between">{msg}<img src="assets/img/error-white.png" className="small-icon" alt="" /></div>}
