@@ -3,6 +3,7 @@ import userService from '../services/userService'
 import { connect } from 'react-redux';
 import { login, signup } from '../store/actions/userActions';
 import { getRandomColor } from '../services/utilService'
+import { uploadImg } from '../services/cloudinaryService'
 import { Link } from 'react-router-dom'
 
 class LoginSignup extends Component {
@@ -12,7 +13,8 @@ class LoginSignup extends Component {
             username: '',
             password: '',
             fullname: '',
-            imgUrl: ''
+            imgUrl: '',
+            confirmPassword: ''
         },
         isLogin: false,
         msg: '',
@@ -46,7 +48,7 @@ class LoginSignup extends Component {
 
     onUploadImg = async ev => {
         this.setState({ isUploadImg: true })
-        const imgUrl = await userService.uploadImg(ev)
+        const imgUrl = await uploadImg(ev)
         this.setState({ isUploadImg: false, isFinishUpload: true })
         this.timeoutFinishUpload = setTimeout(() => {
             this.setState({ isFinishUpload: false })
@@ -63,11 +65,11 @@ class LoginSignup extends Component {
 
     handleUserSubmit = async ev => {
         ev.preventDefault();
-        const { username, password, fullname, imgUrl } = this.state.user
-        const {isLogin} = this.state
-        if (!username || !password && isLogin) {
-            return this.setState({ msg: 'Please enter username and password' });
-        }
+        const { username, password, fullname, imgUrl, confirmPassword } = this.state.user
+        const { isLogin } = this.state
+
+        if (!username || !password && !confirmPassword && isLogin) return this.setState({ msg: 'Please enter username and password' })
+        if (!isLogin && password !== confirmPassword) return this.setState({ msg: 'Passwords don\'t match!' })
         if (!isLogin && !username && !password && !fullname) return this.setState({ msg: 'Please enter username, password and full name' });
 
         const userCred = { username, password, fullname, imgUrl }
@@ -100,6 +102,7 @@ class LoginSignup extends Component {
                         <input type="text" onChange={this.handleChange} value={user.username} name="username" autoComplete="off" placeholder="Username" />
                         {!isLogin && <input type="text" onChange={this.handleChange} value={user.fullname} name="fullname" autoComplete="off" placeholder="Full name" />}
                         <input type="password" onChange={this.handleChange} value={user.password} name="password" placeholder="Password" />
+                        {!isLogin && <input type="password" onChange={this.handleChange} value={user.confirmPassword} name="confirmPassword" placeholder="Confirm password" />}
                         {!isLogin && <input type="file" name="imgUrl" onChange={this.onUploadImg} />}
                         <button className={`btn btn-primary ${isUploadImg ? 'disable' : ''}`} disabled={isUploadImg}>{isLogin ? 'Login' : 'Signup'}</button>
                     </form>

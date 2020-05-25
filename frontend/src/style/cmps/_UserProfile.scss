@@ -10,17 +10,35 @@
         width: 22px;
         margin-right: 15px;
     }
-
 }
 
 .user-profile-container {
-
     padding: 25px;
-    .user-img {
-        max-width: 250px;
-        max-height: 250px;
-        min-height: 250px;
-    }
-    
-}
 
+    .user-content {
+        flex: 1;
+    }
+
+    .user-img {
+        & img {
+            max-width: 250px;
+            min-height: 250px;
+        }
+    }
+
+    .user-profile-form {
+        margin-left: 20px;
+
+        .profile-input {
+            width: 65%;
+            margin-bottom: 20px;
+            outline: none;
+
+            &[type="file"] {
+                border: 1px solid darken($clr6, 7%);
+                padding: 10px;
+                border-radius: 5px;
+            }
+        }
+    }
+}
