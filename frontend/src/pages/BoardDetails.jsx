@@ -10,7 +10,7 @@ import { Stack } from '../cmps/Stack.jsx';
 import CardDetails from '../pages/CardDetails.jsx';
 import BoardOptions from '../cmps/BoardOptions'
 import socketService from '../services/socketService'
-
+import BoardStatistics from '../pages/BoardStatistics'
 import { makeId } from '../services/utilService';
 
 
@@ -135,36 +135,31 @@ class BoardDetails extends React.Component {
         }
 
         let stacks = [...this.props.currBoard.stacks];
+        const newState = { ...this.props.currBoard };
 
         // Changed Stacks order
         if ((source.droppableId === destination.droppableId) && source.droppableId === 'board') {
             const items = reorder(stacks, source.index, destination.index);
-            const newState = { ...this.props.currBoard };
             newState.stacks = items;
-
-            this.props.save(newState)
-            // socketService.emit('updateBoard', newState);
+        
+        // Changed Cards order
         } else {
             const sIndex = +source.droppableId;
             const dIndex = +destination.droppableId;
 
-            const newState = { ...this.props.currBoard };
-
-            // Changed index in same Stack
+            // Changed Card index in current Stack
             if (sIndex === dIndex) {
                 const items = reorder(stacks[sIndex].cards, source.index, destination.index);
                 newState.stacks[sIndex].cards = items;
 
-                // Changed Stack
+                // Changed Card between Stacks
             } else {
                 const result = move(stacks[sIndex].cards, stacks[dIndex].cards, source, destination);
                 newState.stacks[sIndex].cards = result[sIndex];
                 newState.stacks[dIndex].cards = result[dIndex];
             }
-            this.props.save(newState);
-            // socketService.emit('updateBoard', newState);
         }
-
+        this.props.save(newState)
     }
 
     stacks = (areLabelsOpen) => {
@@ -291,6 +286,7 @@ class BoardDetails extends React.Component {
             <>
                 <BoardOptions history={history} board={currBoard} onSetBg={this.onSetBg} />
                 <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
+                <Route component={BoardStatistics} path="/boards/:boardId/statistics" />
                 <section className="board-content flex column align-start space-between">
 
                     {(currBoard) ? this.stacks(areLabelsOpen) : null}

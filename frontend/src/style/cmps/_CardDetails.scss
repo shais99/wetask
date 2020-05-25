@@ -57,6 +57,10 @@
             }
         }
     }
+
+    &.stats {
+        overflow-y: hidden;
+    }
 }
 
 .card-container {
