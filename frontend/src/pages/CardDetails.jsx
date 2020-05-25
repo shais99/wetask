@@ -9,6 +9,7 @@ import ActionContainer from '../cmps/ActionContainer'
 import CardChecklist from '../cmps/CardChecklist'
 import CardPreviewActions from '../cmps/CardPreviewActions'
 import { uploadImg } from '../services/cloudinaryService'
+import CardImg from '../cmps/CardImg'
 
 
 
@@ -25,7 +26,9 @@ class CardDetails extends Component {
         },
         comment: {
             txt: ''
-        }
+        },
+        isUploadImg: false,
+        isFinishUpload: false
     }
 
     componentDidMount() {
@@ -215,13 +218,15 @@ class CardDetails extends Component {
     }
 
     onUploadImg = async ev => {
+        this.setState({ isUploadImg: true })
         const imgUrl = await uploadImg(ev)
-        console.log(imgUrl);
+        this.setState({ isUploadImg: false, isFinishUpload: true })
+        this.setState(prevState => ({ card: { ...prevState.card, imgUrl } }), () => this.props.saveCard(this.state.card))
     }
 
     render() {
 
-        const { card, isDescShown, comment, isShown } = this.state
+        const { card, isDescShown, comment, isShown, isFinishUpload, isUploadImg } = this.state
         const { onToggleAction } = this;
 
         return ((!card) ? 'Loading...' :
@@ -237,8 +242,11 @@ class CardDetails extends Component {
                             <aside className="card-content">
                                 <CardPreviewActions card={card} getTwoChars={this.getTwoChars} />
                                 <CardDescription description={card.description} onSaveDesc={this.onSaveDesc} handleChange={this.handleChange} isShown={this.onDescShown} isSubmitShown={isDescShown} />
+                             
+                                {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} />}
                                 {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} />)}
                                 <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} />
+
                             </aside>
                             <aside className="card-actions">
                                 <ul className="clean-list">
@@ -246,9 +254,7 @@ class CardDetails extends Component {
                                     <Link title="Add / Remove labels" to="#" onClick={() => onToggleAction('label')}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
                                     <Link title="Add checklist" to="#" onClick={this.onAddChecklist}><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
                                     <Link title="Set due date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
-
-
-                                    <Link title="Set Card Cover" to="#" onClick={() => this.onOpenUpload()}><li><img src="/assets/img/style.png" alt="" />Set Image Cover</li></Link>
+                                    <Link title="Set Card Cover" to="#" onClick={() => this.onOpenUpload()}><li><img src="/assets/img/style.png" alt="" />Add Image</li></Link>
                                     <input type="file" ref={input => this.inputElement = input} name="imgUrl" onChange={this.onUploadImg} hidden />
 
 
