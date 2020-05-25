@@ -5,15 +5,47 @@
 }
 
 .home-container:first-of-type {
-    margin-top: -90px;
+    margin-top: -80px;
 }
 
 .hero-container {
-    background: url('../img/hero-bg.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    // background-color: $clr2;
-    height: 100vh;
+    background: linear-gradient(to bottom, $clr2, darken($clr2, 10%));
+    padding-right: 110px;
+    padding-left: 70px;
+    width: 100%;
+
+    .hero-content {
+        width: 50%;
+        text-align: center;
+
+        .hero-txt {
+            color: $clr7;
+            font-size: rem(42px);
+            font-family: openSansBold;
+            text-shadow: 0px 2px 2px #1a3c8ae7;
+            margin-bottom: 50px;
+        }
+
+        .hero-btn {
+            background: linear-gradient(to bottom, $clr3, darken($clr3, 15%));
+            padding: 15px 35px;
+            text-transform: uppercase;
+            font-size: rem(26px);
+            border-radius: 50px;
+            font-family: openSansBold;
+            box-shadow: 0px 0px 5px #1a3c8ae7;
+            transition: 0.3s;
+            
+            &:hover {
+                padding: 15px 50px;
+                box-shadow: 0px 4px 5px #1a3c8ae7;
+            }
+        }
+    }
+
+    .hero-img {
+        width: 45%;
+    }
 }
 
 .second-container {

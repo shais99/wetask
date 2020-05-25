@@ -96,6 +96,10 @@ async function update(user) {
 async function add(user) {
     const collection = await dbService.getCollection('user')
     try {
+        const dbUsers = await collection.find().toArray();
+        const isTakenUsername = dbUsers.some(dbUser => dbUser.username === user.username)
+        if (isTakenUsername) return Promise.reject('The username is already exists')
+
         await collection.insertOne(user);
         return user;
     } catch (err) {

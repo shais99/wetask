@@ -1,8 +1,11 @@
+.scrolled {
+    background-color: #0000006b;
+}
+
 .nav-container {
-    background-color: rgba(0, 0, 0, 0.418);
     position: fixed;
     width: 100%;
-    // height: 70px;
+    transition: .5s;
 
     .nav-content {
         padding-left: 20px;
