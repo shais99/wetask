@@ -14,15 +14,7 @@
         border-radius: 5px;
     }
 
-    .member {
-        border-radius: 50%;
-        width: 35px;
-        height: 35px;
-        font-size: rem(13px);
-        margin-right: 3px;
-        background-size: 100%;
-        font-family: openSansBold;
-        text-transform: uppercase;
+    
 
         .remove-member {
             width: 14px;
@@ -45,7 +37,7 @@
             opacity: 1;
             visibility: visible;
         }
-    }
+    
 
     .board-options {
         .option {
@@ -74,3 +66,13 @@
         }
     }
 }
+
+.member {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: rem(13px);
+    margin-right: 3px;
+    background-size: 100%;
+    font-family: openSansBold;
+    text-transform: uppercase;}

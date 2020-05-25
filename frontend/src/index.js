@@ -6,8 +6,6 @@ import { store } from './store/store.js';
 import { Provider } from 'react-redux'
 import { Router } from "react-router-dom";
 import history from './history'
-import '../node_modules/font-awesome/css/font-awesome.min.css'; 
-// import {fint} from '../node_modules/font-awesome/css'
 
 
 
