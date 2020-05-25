@@ -38,7 +38,7 @@ export default class CardMembers extends React.Component {
                     <div className="members-list">
                         {getMembers().map(member => {
                             return <div key={member._id} className="member-item flex space-between" onClick={() => addMember(member)}>
-                                {member.username} {this.isMemberChecked(member._id) ? <img src="/assets/img/icon-checked-black.png" /> : ''}
+                                {member.username} {this.isMemberChecked(member._id) ? <img src="/assets/img/icon-checked.png" /> : ''}
                             </div>
                         })}
                     </div>

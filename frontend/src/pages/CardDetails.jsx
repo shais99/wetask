@@ -201,6 +201,8 @@ class CardDetails extends Component {
         this.setState({ isShown: actions });
     }
 
+ 
+
     render() {
 
         const { card, isDescShown, comment, dueDate, isShown } = this.state
