@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 class Boards extends React.Component {
 
     componentDidMount() {
-        if (!this.props.loggedInUser) return this.props.history.push('/signup')
+        if (!this.props.loggedInUser) return this.props.history.push('/boards')
         this.props.loadBoards(this.props.loggedInUser._id)
     }
 

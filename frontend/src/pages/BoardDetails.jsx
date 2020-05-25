@@ -46,7 +46,7 @@ class BoardDetails extends React.Component {
     }
 
     componentDidMount() {
-        if (!this.props.loggedInUser) return this.props.history.push('/signup')
+        if (!this.props.loggedInUser) return this.props.history.push('/boards')
         const { boardId } = this.props.match.params;
 
         socketService.setup();

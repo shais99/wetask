@@ -14,8 +14,6 @@ async function getUsers(req, res) {
 
 async function updateUser(req, res) {
     const user = req.body;
-    console.log(user);
-    
     await userService.update(user)
     res.send(user)
 }

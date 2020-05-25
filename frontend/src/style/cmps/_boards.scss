@@ -2,6 +2,11 @@
     padding: 20px;
 
     .boards-header {
+        .boards-title {
+            color: $clr7;
+            font-family: openSansBold;
+        }
+
         margin: 10px;
         .hello-btn {
             margin-right: 5px;

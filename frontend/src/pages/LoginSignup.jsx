@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import userService from '../services/userService'
 import { connect } from 'react-redux';
 import { login, signup } from '../store/actions/userActions';
 import { getRandomColor } from '../services/utilService'
@@ -23,7 +22,7 @@ class LoginSignup extends Component {
     }
 
     componentDidMount() {
-        if (this.props.loggedInUser) this.props.history.push('/boards')
+        // if (!this.props.loggedInUser?.isGuest) this.props.history.push('/boards')
         this.setCurrPage()
     }
 
@@ -31,7 +30,7 @@ class LoginSignup extends Component {
         if (prevProps.match.params !== this.props.match.params) {
             this.setState({
                 msg: '', isUploadImg: false, isFinishUpload: false,
-                user: { username: '', password: '', fullname: '', imgUrl: '' }
+                user: { username: '', password: '', confirmPassword: '', fullname: '', imgUrl: '' }
             })
             this.setCurrPage()
         }
@@ -83,7 +82,6 @@ class LoginSignup extends Component {
             return this.setState({ msg: err })
         }
 
-        this.setState({ user: { username: '', password: '' } })
         this.props.history.push('/boards')
     }
 
