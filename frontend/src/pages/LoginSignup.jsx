@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import userService from '../services/userService'
 import { connect } from 'react-redux';
 import { login, signup } from '../store/actions/userActions';
 import { getRandomColor } from '../services/utilService'
+import { uploadImg } from '../services/cloudinaryService'
 import { Link } from 'react-router-dom'
 
 class LoginSignup extends Component {
@@ -12,7 +12,8 @@ class LoginSignup extends Component {
             username: '',
             password: '',
             fullname: '',
-            imgUrl: ''
+            imgUrl: '',
+            confirmPassword: ''
         },
         isLogin: false,
         msg: '',
@@ -21,7 +22,7 @@ class LoginSignup extends Component {
     }
 
     componentDidMount() {
-        if (this.props.loggedInUser) this.props.history.push('/boards')
+        // if (!this.props.loggedInUser?.isGuest) this.props.history.push('/boards')
         this.setCurrPage()
     }
 
@@ -29,7 +30,7 @@ class LoginSignup extends Component {
         if (prevProps.match.params !== this.props.match.params) {
             this.setState({
                 msg: '', isUploadImg: false, isFinishUpload: false,
-                user: { username: '', password: '', fullname: '', imgUrl: '' }
+                user: { username: '', password: '', confirmPassword: '', fullname: '', imgUrl: '' }
             })
             this.setCurrPage()
         }
@@ -46,7 +47,7 @@ class LoginSignup extends Component {
 
     onUploadImg = async ev => {
         this.setState({ isUploadImg: true })
-        const imgUrl = await userService.uploadImg(ev)
+        const imgUrl = await uploadImg(ev)
         this.setState({ isUploadImg: false, isFinishUpload: true })
         this.timeoutFinishUpload = setTimeout(() => {
             this.setState({ isFinishUpload: false })
@@ -63,11 +64,11 @@ class LoginSignup extends Component {
 
     handleUserSubmit = async ev => {
         ev.preventDefault();
-        const { username, password, fullname, imgUrl } = this.state.user
-        const {isLogin} = this.state
-        if (!username || !password && isLogin) {
-            return this.setState({ msg: 'Please enter username and password' });
-        }
+        const { username, password, fullname, imgUrl, confirmPassword } = this.state.user
+        const { isLogin } = this.state
+
+        if (!username || !password && !confirmPassword && isLogin) return this.setState({ msg: 'Please enter username and password' })
+        if (!isLogin && password !== confirmPassword) return this.setState({ msg: 'Passwords don\'t match!' })
         if (!isLogin && !username && !password && !fullname) return this.setState({ msg: 'Please enter username, password and full name' });
 
         const userCred = { username, password, fullname, imgUrl }
@@ -81,8 +82,11 @@ class LoginSignup extends Component {
             return this.setState({ msg: err })
         }
 
-        this.setState({ user: { username: '', password: '' } })
         this.props.history.push('/boards')
+    }
+
+    onOpenUpload = () => {
+        this.inputElement.click();
     }
 
     render() {
@@ -100,8 +104,12 @@ class LoginSignup extends Component {
                         <input type="text" onChange={this.handleChange} value={user.username} name="username" autoComplete="off" placeholder="Username" />
                         {!isLogin && <input type="text" onChange={this.handleChange} value={user.fullname} name="fullname" autoComplete="off" placeholder="Full name" />}
                         <input type="password" onChange={this.handleChange} value={user.password} name="password" placeholder="Password" />
-                        {!isLogin && <input type="file" name="imgUrl" onChange={this.onUploadImg} />}
-                        <button className={`btn btn-primary ${isUploadImg ? 'disable' : ''}`} disabled={isUploadImg}>{isLogin ? 'Login' : 'Signup'}</button>
+                        {!isLogin && <input type="password" onChange={this.handleChange} value={user.confirmPassword} name="confirmPassword" placeholder="Confirm password" />}
+                        {!isLogin && <input type="file" ref={input => this.inputElement = input} name="imgUrl" onChange={this.onUploadImg} hidden />}
+                        <div className="img-submit-container flex align-start space-between">
+                            {!isLogin && <span className="upload-img" onClick={() => this.onOpenUpload()}>Upload Profile Image</span>}
+                            <button className={`btn btn-success ${isUploadImg ? 'disable' : ''}`} disabled={isUploadImg}>{isLogin ? 'Login' : 'Signup'}</button>
+                        </div>
                     </form>
 
                     {msg && <div className="user-msg flex align-center space-between">{msg}<img src="assets/img/error-white.png" className="small-icon" alt="" /></div>}

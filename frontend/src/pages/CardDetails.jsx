@@ -7,6 +7,10 @@ import { connect } from 'react-redux'
 import { makeId } from '../services/utilService'
 import ActionContainer from '../cmps/ActionContainer'
 import CardChecklist from '../cmps/CardChecklist'
+import CardPreviewActions from '../cmps/CardPreviewActions'
+import { uploadImg } from '../services/cloudinaryService'
+import CardImg from '../cmps/CardImg'
+
 
 
 class CardDetails extends Component {
@@ -23,9 +27,8 @@ class CardDetails extends Component {
         comment: {
             txt: ''
         },
-        dueDate: {
-            value: new Date()
-        }
+        isUploadImg: false,
+        isFinishUpload: false
     }
 
     componentDidMount() {
@@ -69,11 +72,12 @@ class CardDetails extends Component {
 
     // @TODO: due date start from the DB, if got
     onChangeDate = (dueDate) => {
-        const currCard = this.getCurrCard()
-        currCard.dueDate = this.state.dueDate.value
-        this.setState(prevState => ({ dueDate: { ...prevState.dueDate, value: dueDate } }), () =>
-            this.props.saveCard(this.props.card))
-        this.onToggleShowDate()
+        this.setState(prevState => ({ card: { ...prevState.card, dueDate } }), () => this.props.saveCard(this.state.card))
+    }
+
+    removeDuedate = () => {
+        const dueDate = '';
+        this.setState(prevState => ({ card: { ...prevState.card, dueDate } }), () => this.props.saveCard(this.state.card))
     }
 
     handleChange = ({ target }) => {
@@ -131,8 +135,16 @@ class CardDetails extends Component {
 
         if (memberIdx === -1) currCard.members.push(currMember)
         else currCard.members.splice(memberIdx, 1)
-
+        console.log('members', this.state.card.members);
         this.setState({ card: currCard }, () => this.props.saveCard(this.state.card))
+    }
+
+    getTwoChars(str) {
+        let twoChars;
+        if (str.split(' ').length !== 2) twoChars = str?.charAt(0)
+        else twoChars = str?.charAt(0) + str.split(' ')[1].charAt(0)
+        if (!twoChars) twoChars = ''
+        return twoChars
     }
 
     onAddChecklist = () => {
@@ -201,10 +213,22 @@ class CardDetails extends Component {
         this.setState({ isShown: actions });
     }
 
+    onOpenUpload = () => {
+        this.inputElement.click();
+    }
+
+    onUploadImg = async ev => {
+        this.setState({ isUploadImg: true })
+        const imgUrl = await uploadImg(ev)
+        this.setState({ isUploadImg: false, isFinishUpload: true })
+        this.setState(prevState => ({ card: { ...prevState.card, imgUrl } }), () => this.props.saveCard(this.state.card))
+    }
+
     render() {
 
-        const { card, isDescShown, comment, dueDate, isShown } = this.state
+        const { card, isDescShown, comment, isShown, isFinishUpload, isUploadImg } = this.state
         const { onToggleAction } = this;
+
         return ((!card) ? 'Loading...' :
             <>
                 <div className="screen" onMouseDown={this.onBackBoard} >
@@ -216,9 +240,13 @@ class CardDetails extends Component {
 
                         <div className="card-container flex">
                             <aside className="card-content">
+                                <CardPreviewActions card={card} getTwoChars={this.getTwoChars} />
                                 <CardDescription description={card.description} onSaveDesc={this.onSaveDesc} handleChange={this.handleChange} isShown={this.onDescShown} isSubmitShown={isDescShown} />
+                             
+                                {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} />}
                                 {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} />)}
-                                <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} />
+                                <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} />
+
                             </aside>
                             <aside className="card-actions">
                                 <ul className="clean-list">
@@ -226,9 +254,14 @@ class CardDetails extends Component {
                                     <Link title="Add / Remove labels" to="#" onClick={() => onToggleAction('label')}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
                                     <Link title="Add checklist" to="#" onClick={this.onAddChecklist}><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
                                     <Link title="Set due date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
-                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} value={dueDate.value} onToggleAction={onToggleAction} />}
+                                    <Link title="Set Card Cover" to="#" onClick={() => this.onOpenUpload()}><li><img src="/assets/img/style.png" alt="" />Add Image</li></Link>
+                                    <input type="file" ref={input => this.inputElement = input} name="imgUrl" onChange={this.onUploadImg} hidden />
+
+
+                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} value={card.dueDate} onToggleAction={onToggleAction} removeDuedate={this.removeDuedate} />}
                                     {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} onToggleAction={onToggleAction} card={card} addMember={this.onAddMember} getCurrCard={this.getCurrCard} />}
+
                                 </ul>
                             </aside>
 

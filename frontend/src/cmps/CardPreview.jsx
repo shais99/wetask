@@ -26,9 +26,8 @@ export function CardPreview(props) {
     }
 
     function getDueDateType() {
-
         const now = Date.now();
-        return (card.dueDate > now) ? 'future' : (card.dueDate < now) ? 'past' : 'now';
+        return (Date.parse(card.dueDate) > now) ? 'future' : 'past'
     }
 
     const { card, innerRef, provided, style, link, labelsOpen } = props;

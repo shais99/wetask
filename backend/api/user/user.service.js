@@ -1,6 +1,9 @@
 
 const dbService = require('../../services/db.service')
+const bcrypt = require('bcryptjs')
 const ObjectId = require('mongodb').ObjectId
+
+const saltRounds = 10
 
 module.exports = {
     query,
@@ -81,6 +84,7 @@ async function update(user) {
     user._id = ObjectId(user._id);
 
     try {
+        user.password = await bcrypt.hash(user.password, saltRounds)
         await collection.replaceOne({ "_id": user._id }, { $set: user })
         return user
     } catch (err) {
@@ -92,6 +96,10 @@ async function update(user) {
 async function add(user) {
     const collection = await dbService.getCollection('user')
     try {
+        const dbUsers = await collection.find().toArray();
+        const isTakenUsername = dbUsers.some(dbUser => dbUser.username === user.username)
+        if (isTakenUsername) return Promise.reject('The username is already exists')
+
         await collection.insertOne(user);
         return user;
     } catch (err) {

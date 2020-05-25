@@ -11,6 +11,13 @@ export function login(userCreds) {
     }
 }
 
+export function update(user) {
+    return async dispatch => {
+        const updatedUser = await userService.update(user)
+        dispatch({ type: 'UPDATE_USER', updatedUser })
+    }
+}
+
 export function loadUsers(filterBy = null) {
     return async dispatch => {
         try {

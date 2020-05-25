@@ -8,14 +8,14 @@ import { Link } from 'react-router-dom'
 class Boards extends React.Component {
 
     componentDidMount() {
-        if (!this.props.loggedInUser) return this.props.history.push('/signup')
+        if (!this.props.loggedInUser) return this.props.history.push('/boards')
         this.props.loadBoards(this.props.loggedInUser._id)
     }
 
     render() {
         const { loggedInUser, boards } = this.props
         return ((!loggedInUser) ? 'Loading...' :
-            <div className="boards-page container">
+            <div className="form-container boards-page container">
                 <header className="boards-header flex space-between">
                     <h2 className="boards-title">My Boards</h2>
                     <Link to="/profile" className="hello-btn">Hello {loggedInUser.username}</Link>

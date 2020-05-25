@@ -14,16 +14,6 @@
         border-radius: 5px;
     }
 
-    .member {
-        border-radius: 50%;
-        width: 35px;
-        height: 35px;
-        font-size: rem(13px);
-        margin-right: 3px;
-        background-size: 100%;
-        font-family: openSansBold;
-        text-transform: uppercase;
-
         .remove-member {
             width: 14px;
             position: absolute;
@@ -40,12 +30,7 @@
                 background-color: darken($clr4, 5%);
             }
         }
-
-        &:hover .remove-member {
-            opacity: 1;
-            visibility: visible;
-        }
-    }
+    
 
     .board-options {
         .option {
@@ -72,5 +57,21 @@
                 opacity: 1;
             }
         }
+    }
+}
+
+.member {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: rem(13px);
+    margin-right: 3px;
+    background-size: 100%;
+    font-family: openSansBold;
+    text-transform: uppercase;
+    
+    &:hover .remove-member {
+        opacity: 1;
+        visibility: visible;
     }
 }

@@ -18,6 +18,14 @@ export default function (state = initialState, action = {}) {
                 ...state,
                 users: action.users
             }
+        case 'UPDATE_USER':
+            return {
+                ...state,
+                users: state.users.map(user => {
+                    if (user._id === action.user._id) return action.user;
+                    return user;
+                })
+            }
         default:
             return state;
     }

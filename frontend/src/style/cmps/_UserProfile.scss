@@ -10,17 +10,54 @@
         width: 22px;
         margin-right: 15px;
     }
-
 }
 
 .user-profile-container {
-
     padding: 25px;
-    .user-img {
-        max-width: 250px;
-        max-height: 250px;
-        min-height: 250px;
-    }
-    
-}
 
+    .user-content {
+        flex: 1;
+    }
+
+    .user-img {
+        & img {
+            max-width: 250px;
+            min-height: 250px;
+        }
+    }
+
+    .user-profile-form {
+        margin-left: 20px;
+
+        .profile-input {
+            width: 65%;
+            margin-bottom: 20px;
+            outline: none;
+
+            &[type="file"] {
+                border: 1px solid darken($clr6, 7%);
+                padding: 10px;
+                border-radius: 5px;
+            }
+        }
+
+        .img-submit-container {
+            width: 65%;
+        }
+
+        .upload-img {
+            padding: 10.5px 15px;
+            border-radius: 5px;
+            background-color: lighten($color: $clr1, $amount: 7) ;
+            margin-bottom: 20px;
+            cursor: pointer;
+            color: $clr7;
+            font-size: rem(12px);
+            transition: .3s;
+
+            &:hover {
+                background-color: $clr1;
+            }
+        }
+    }
+}

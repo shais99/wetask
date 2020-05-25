@@ -2,6 +2,10 @@
     padding: 20px;
 
     .boards-header {
+        .boards-title {
+            font-family: openSansBold;
+        }
+
         margin: 10px;
         .hello-btn {
             margin-right: 5px;
@@ -10,6 +14,7 @@
             color: white;
             border-radius: 3px;
             padding: 10px;
+            transition: .3s;
             &:hover {
                 background-color: #354c86;
                 color: white;
@@ -29,7 +34,7 @@
         margin-right: 10px;
         margin-bottom: 20px;
         color: white;
-        transition: 0.3s;
+        transition: .3s;
         background-size: cover;
         background-position: center;
         &:hover {
@@ -38,11 +43,12 @@
     }
 
     .add-new-board {
-        background-color: $clr6;
+        background-color: darken($clr6,10%);
         border: none;
         color: $clr1;
+        font-family: openSansBold;
         &:hover {
-            background-color: darken($clr6, 10%);
+            background-color: darken($clr6, 15%);
         }
     }
 }
@@ -53,12 +59,12 @@
     background-color: #d4d1d1a3;
     border-radius: 10px;
 
-    .borad-title {
+    .board-title {
         margin-bottom: 35px;
         height: 30px;
         font-size: rem(14px);
         font-family: openSansBold;
-        width: 80%;
+        width: 84%;
         border: none;
         padding: 6px;
         transition: 0.3s;
@@ -81,20 +87,17 @@
             padding: 5px;
         }
 
-        .clean-link {
-            color: white;
-            text-decoration: none;
-        }
         .bg-btn {
             margin-right: 10px;
             background-color: $clr6;
             color: black;
             border-radius: 5px;
-            padding: 5px;
+            padding: 5px 10px;
+            font-size: rem(14px);
+            transition: .3s;
             &:hover {
-                background-color: darken($clr6, 20%);
+                background-color: darken($clr6, 10%);
                 color: black;
-                border-radius: 3px;
             }
         }
     }
@@ -127,9 +130,7 @@
         border-radius: 3px;
         padding: 5px;
         &:hover {
-            background-color: darken($clr6, 20%);
-            color: black;
-            border-radius: 3px;
+            background-color: darken($clr6, 15%);
         }
     }
 }
