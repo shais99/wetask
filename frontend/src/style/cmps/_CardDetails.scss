@@ -59,6 +59,50 @@
     }
 }
 
+.members-labels-container {
+    margin: 0px 0px 25px 21px;
+    h3 {
+        font-size: rem(14px);
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        line-height: 16px;
+        margin-top: 4px;
+        margin-bottom: 15px;
+    }
+    .member-card-container {
+        margin-bottom: 10px;
+        margin-right: 15px;
+    }
+    .labels-card-container {
+        margin-bottom: 10px;
+        margin-right: 15px;
+        .card-label-item {
+            margin-right: 5px;
+            margin-bottom: 5px;
+            border-radius: 3px;
+            text-align: center;
+            padding: 5px;
+            font-family: openSansBold;
+            color: white;
+            font-size: 12px;
+            min-width: 50px;
+            min-height: 26px;
+        }
+    }
+
+    .due-date-container {
+        // max-width: 33%;
+        margin-bottom: 10px;
+        .time-container {
+            background-color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: inset 0 0 0 1px #dfe1e6;
+            font-size: 0.75rem;
+        }
+    }
+}
+
 .card-container {
     .card-content {
         width: 65%;
@@ -66,37 +110,45 @@
 
         .card-desc {
             width: 100%;
-            height: 150px;
-            padding: 5px;
+            font-size: rem(14px);
+            border: none;
+            padding: 6px;
+            transition: 0.3s;
+            outline: none;
+            border-radius: 5px;
+            background-color: transparent;
+            color: #122961;
             resize: none;
-        }
-
-        .comment-input {
-            width: 70%;
-            margin-right: 5%;
-            padding: 8px 5px;
-        }
-
-        .comment-btn {
-            padding: 8px;
-        }
-
-        .comment-btn {
-            width: 25%;
+            &:focus {
+                background-color: #fffbfb;
+                box-shadow: inset 0 0 0 2px #0079bf;
+                color: #122961b5;
+                box-sizing: border-box;
+            }
         }
 
         .card-desc-container {
             margin-bottom: 35px;
+            .btn-save-desc {
+                padding: 5px 10px;
+            }
         }
 
         .card-mini-title {
             margin-bottom: 12px;
+            img {
+                width: 16px;
+                height: 16px;
+            }
+            .card-txt-title {
+                margin-left: 10px;
+            }
         }
     }
     .card-actions {
         width: 30%;
         & li {
-            background-color: $clr6;
+            background-color: #eaecf0;
             padding: 8px 15px;
             border-radius: 5px;
             margin-bottom: 10px;
@@ -114,4 +166,18 @@
             }
         }
     }
+
+    .main-content-card-action {
+        margin-left: 23px;
+        .cancel-changes {
+            .close-btn-desc {
+                margin-left: 10px;
+                width: 15px;
+            }
+        }
+    }
+}
+
+.btns-container {
+    margin-top: 10px;
 }

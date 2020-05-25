@@ -1,4 +1,10 @@
 .card-checklist-container {
+    .card-checklist-title {
+        img {
+            width: 16px;
+            height: 16px;
+        }
+    }
     .checklist-title {
         font-size: rem(16px);
         // font-family: openSansBold;
@@ -12,12 +18,17 @@
         background-color: transparent;
         color: $clr1;
         &:focus {
+            margin-left: 5px;
             background-color: #fffbfb;
             box-shadow: inset 0 0 0 2px #dfe1e6;
             color: #122961b5;
             box-sizing: border-box;
             padding-left: 15px;
         }
+    }
+
+    .checklist-main {
+        margin-left: 10px;
     }
 
     .todo-title {
@@ -45,36 +56,38 @@
             }
         }
         .todo-item {
-            padding-left: 10px;
+            padding-left: 12px;
+            margin-bottom: 5px;
             &:hover {
                 background-color: darken(#f4f5f7, 5%);
             }
-            .done-decoration{
+            .done-decoration {
                 text-decoration: line-through;
             }
+        }
+        .add-todo {
+            margin-left: 8px;
         }
     }
     .checklist-progress-bar-container {
         display: flex;
         padding-left: 6px;
         align-items: center;
-        margin:6px;
-        span{
+        margin: 6px;
+        span {
             margin-right: 6px;
             font-size: rem(12px);
         }
         .checklist-progress-bar {
-            background-color: grey;
+            background-color: #e2e4e9;
             width: 100%;
             height: 8px;
             border-radius: 3px;
 
             .progress-bar {
-                background-color: #5ba4cf;
                 transition: 0.3s;
                 height: 8px;
                 border-radius: 3px;
-
             }
         }
     }

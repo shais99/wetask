@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import { makeId } from '../services/utilService'
 import ActionContainer from '../cmps/ActionContainer'
 import CardChecklist from '../cmps/CardChecklist'
+import CardPreviewActions from '../cmps/CardPreviewActions'
+
 
 
 class CardDetails extends Component {
@@ -69,6 +71,11 @@ class CardDetails extends Component {
         this.setState(prevState => ({ card: { ...prevState.card, dueDate } }), () => this.props.saveCard(this.state.card))
     }
 
+    removeDuedate = () => {
+        const dueDate = '';
+        this.setState(prevState => ({ card: { ...prevState.card, dueDate } }), () => this.props.saveCard(this.state.card))
+    }
+
     handleChange = ({ target }) => {
         const field = target.name
         const value = target.value
@@ -124,8 +131,16 @@ class CardDetails extends Component {
 
         if (memberIdx === -1) currCard.members.push(currMember)
         else currCard.members.splice(memberIdx, 1)
-
+        console.log('members', this.state.card.members);
         this.setState({ card: currCard }, () => this.props.saveCard(this.state.card))
+    }
+
+    getTwoChars(str) {
+        let twoChars;
+        if (str.split(' ').length !== 2) twoChars = str?.charAt(0)
+        else twoChars = str?.charAt(0) + str.split(' ')[1].charAt(0)
+        if (!twoChars) twoChars = ''
+        return twoChars
     }
 
     onAddChecklist = () => {
@@ -194,7 +209,7 @@ class CardDetails extends Component {
         this.setState({ isShown: actions });
     }
 
- 
+
 
     render() {
 
@@ -212,9 +227,10 @@ class CardDetails extends Component {
 
                         <div className="card-container flex">
                             <aside className="card-content">
+                                <CardPreviewActions card={card} getTwoChars={this.getTwoChars} />
                                 <CardDescription description={card.description} onSaveDesc={this.onSaveDesc} handleChange={this.handleChange} isShown={this.onDescShown} isSubmitShown={isDescShown} />
                                 {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} />)}
-                                <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} />
+                                <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} />
                             </aside>
                             <aside className="card-actions">
                                 <ul className="clean-list">
@@ -222,7 +238,7 @@ class CardDetails extends Component {
                                     <Link title="Add / Remove labels" to="#" onClick={() => onToggleAction('label')}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
                                     <Link title="Add checklist" to="#" onClick={this.onAddChecklist}><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
                                     <Link title="Set due date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
-                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} value={card.dueDate} onToggleAction={onToggleAction} />}
+                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} value={card.dueDate} onToggleAction={onToggleAction} removeDuedate={this.removeDuedate} />}
                                     {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} onToggleAction={onToggleAction} card={card} addMember={this.onAddMember} getCurrCard={this.getCurrCard} />}
                                 </ul>
