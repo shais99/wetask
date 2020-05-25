@@ -8,6 +8,7 @@ import { makeId } from '../services/utilService'
 import ActionContainer from '../cmps/ActionContainer'
 import CardChecklist from '../cmps/CardChecklist'
 import CardPreviewActions from '../cmps/CardPreviewActions'
+import { uploadImg } from '../services/cloudinaryService'
 
 
 
@@ -209,7 +210,14 @@ class CardDetails extends Component {
         this.setState({ isShown: actions });
     }
 
+    onOpenUpload = () => {
+        this.inputElement.click();
+    }
 
+    onUploadImg = async ev => {
+        const imgUrl = await uploadImg(ev)
+        console.log(imgUrl);
+    }
 
     render() {
 
@@ -238,9 +246,16 @@ class CardDetails extends Component {
                                     <Link title="Add / Remove labels" to="#" onClick={() => onToggleAction('label')}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
                                     <Link title="Add checklist" to="#" onClick={this.onAddChecklist}><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
                                     <Link title="Set due date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
+
+
+                                    <Link title="Set Card Cover" to="#" onClick={() => this.onOpenUpload()}><li><img src="/assets/img/style.png" alt="" />Set Image Cover</li></Link>
+                                    <input type="file" ref={input => this.inputElement = input} name="imgUrl" onChange={this.onUploadImg} hidden />
+
+
                                     {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} value={card.dueDate} onToggleAction={onToggleAction} removeDuedate={this.removeDuedate} />}
                                     {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} onToggleAction={onToggleAction} card={card} addMember={this.onAddMember} getCurrCard={this.getCurrCard} />}
+
                                 </ul>
                             </aside>
 

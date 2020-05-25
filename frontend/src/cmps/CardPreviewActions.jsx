@@ -21,7 +21,7 @@ export default function CardPreviewActions(props) {
                     <div className="labels-card-container">
                         <h3>Labels</h3>
                         <div className=" flex wrap">
-                            {card.labels.map(label => <div className="card-label-item" style={{ backgroundColor: `${label.color}` }}>
+                            {card.labels.map((label,idx) => <div key={idx} className="card-label-item" style={{ backgroundColor: `${label.color}` }}>
                                 {label.title}
                             </div>)}
                         </div>
