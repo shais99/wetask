@@ -3,6 +3,7 @@ import userService from '../services/userService'
 import { connect } from 'react-redux';
 import { login, signup } from '../store/actions/userActions';
 import { getRandomColor } from '../services/utilService'
+import { uploadImg } from '../services/cloudinaryService'
 import { Link } from 'react-router-dom'
 
 class LoginSignup extends Component {
@@ -47,7 +48,7 @@ class LoginSignup extends Component {
 
     onUploadImg = async ev => {
         this.setState({ isUploadImg: true })
-        const imgUrl = await userService.uploadImg(ev)
+        const imgUrl = await uploadImg(ev)
         this.setState({ isUploadImg: false, isFinishUpload: true })
         this.timeoutFinishUpload = setTimeout(() => {
             this.setState({ isFinishUpload: false })
@@ -68,9 +69,7 @@ class LoginSignup extends Component {
         const { isLogin } = this.state
 
         if (!username || !password && !confirmPassword && isLogin) return this.setState({ msg: 'Please enter username and password' })
-
         if (!isLogin && password !== confirmPassword) return this.setState({ msg: 'Passwords don\'t match!' })
-
         if (!isLogin && !username && !password && !fullname) return this.setState({ msg: 'Please enter username, password and full name' });
 
         const userCred = { username, password, fullname, imgUrl }

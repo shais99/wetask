@@ -1,6 +1,9 @@
 
 const dbService = require('../../services/db.service')
+const bcrypt = require('bcryptjs')
 const ObjectId = require('mongodb').ObjectId
+
+const saltRounds = 10
 
 module.exports = {
     query,
@@ -81,6 +84,7 @@ async function update(user) {
     user._id = ObjectId(user._id);
 
     try {
+        user.password = await bcrypt.hash(user.password, saltRounds)
         await collection.replaceOne({ "_id": user._id }, { $set: user })
         return user
     } catch (err) {

@@ -12,7 +12,16 @@ async function getUsers(req, res) {
     res.send(users)
 }
 
+async function updateUser(req, res) {
+    const user = req.body;
+    console.log(user);
+    
+    await userService.update(user)
+    res.send(user)
+}
+
 module.exports = {
     getUser,
-    getUsers
+    getUsers,
+    updateUser
 }
