@@ -8,13 +8,6 @@ export class AddContent extends React.Component {
         title: ''
     };
 
-    componentDidMount() {
-
-    }
-    componentDidUpdate() {
-
-    }
-
     addItem = (event) => {
         event.preventDefault();
 
@@ -83,7 +76,7 @@ export class AddContent extends React.Component {
                     </>
                     :
                     <>
-                        <Link to="#" onClick={this.toggleOpen} className="add-content-title">{`Add ${type}`}</Link>
+                        <Link to="#" onClick={this.toggleOpen} className="add-content-title">{`Add ${(type === 'stack') ? 'list' : 'card'}`}</Link>
                     </>
                 }
             </div>

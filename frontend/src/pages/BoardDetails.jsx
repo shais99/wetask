@@ -12,33 +12,14 @@ import BoardOptions from '../cmps/BoardOptions'
 import socketService from '../services/socketService'
 import BoardStatistics from '../pages/BoardStatistics'
 import { makeId } from '../services/utilService';
-
-
-// a little function to help us with reordering the result
-const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
-};
-
-const move = (source, destination, droppableSource, droppableDestination) => {
-    const sourceClone = Array.from(source);
-    const destClone = Array.from(destination);
-    const [removed] = sourceClone.splice(droppableSource.index, 1);
-    destClone.splice(droppableDestination.index, 0, removed);
-
-    const result = {};
-    result[droppableSource.droppableId] = sourceClone;
-    result[droppableDestination.droppableId] = destClone;
-    return result;
-};
+import { reorder, move } from '../services/boardDetailsUtils';
 
 
 class BoardDetails extends React.Component {
 
     constructor() {
         super();
+        this.stackTitleFocus = [];
     }
 
     state = {
@@ -78,6 +59,15 @@ class BoardDetails extends React.Component {
     onToggleLabels = () => {
 
         this.setState(({ areLabelsOpen }) => ({ areLabelsOpen: !areLabelsOpen }));
+    }
+
+    onEditTitle = ({ target }) => {
+
+        // console.log(target);
+
+        let currBoard = { ...this.props.currBoard };
+        currBoard.stacks[target.dataset.idx].title = target.value;
+        this.props.save(currBoard);
     }
 
     getItemStyle = (isDragging, draggableStyle) => {
@@ -163,6 +153,11 @@ class BoardDetails extends React.Component {
         this.props.save(newState)
     }
 
+    onStackTitleFocus = (index) => {
+        
+        this.stackTitleFocus[index].focus();
+    }
+
     stacks = (areLabelsOpen) => {
         const board = this.props.currBoard;
 
@@ -176,12 +171,12 @@ class BoardDetails extends React.Component {
                             <div
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
-                                className="stacks-content flex "
+                                className="stacks-content flex"
                             >
 
                                 {(board.stacks.length) ? board.stacks.map((stack, index) => (
                                     <Draggable key={stack.id}
-                                        draggableId={stack.id} index={index} type="STACK" >
+                                        draggableId={stack.id} disableInteractiveElementBlocking index={index} type="STACK" >
 
                                         {(provided, snapshot) => {
                                             return (
@@ -198,8 +193,13 @@ class BoardDetails extends React.Component {
                                                     }}
                                                     className="stack-content flex column"
                                                 >
-
-                                                    <p className="stack-title flex align-center" {...provided.dragHandleProps} >{stack.title}</p>
+                                                    <div className="stack-header flex space-between" {...provided.dragHandleProps}>
+                                                        <input type="text" name="title" className="stack-title-input" data-idx={index} onChange={this.onEditTitle} 
+                                                        value={stack.title} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input}/>
+                                                        <button className="stack-header-menu">. . .</button>
+                                                    </div>
+                                                    
+                                                    {/* <p className="stack-title flex align-center"  ></p> */}
 
                                                     <Droppable key={index}
                                                         droppableId={`${index}`} isCombineEnabled={false}
