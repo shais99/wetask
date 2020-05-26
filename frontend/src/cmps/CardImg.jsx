@@ -11,12 +11,12 @@ export default function CardImg(props) {
                 <button className="btn btn-delete" onClick={() => props.onRemoveImg()}>Delete</button>
             </div>
             <div className="card-img">
-                {props.isUploadImg ? <div className="loading">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
+                {props.isUploadImg? <div className="loading">
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
                 </div> : <img src={`${props.card.imgUrl}`} />}
 
             </div>

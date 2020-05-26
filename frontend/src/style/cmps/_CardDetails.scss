@@ -161,7 +161,7 @@
         .btn-delete {
             background-color: #eaecf0;
             padding: 7px 13px;
-            &:hover{
+            &:hover {
                 background-color: darken($color: #eaecf0, $amount: 10%);
             }
         }
@@ -185,9 +185,22 @@
             &:hover {
                 background-color: darken(#eaecf0, 10%);
             }
+
             & img {
                 width: 14px;
                 margin-right: 10px;
+            }
+        }
+        .li-last-child:hover {
+            background-color: lighten($clr4, 10%);
+        }
+        .remove-card {
+            margin: 0px;
+            width: 100%;
+            position: unset;
+            .btn-remove-card {
+                padding: 6px 19px;
+                width: auto;
             }
         }
     }

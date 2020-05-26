@@ -31,12 +31,12 @@
     .upload-img {
         padding: 10.5px 15px;
         border-radius: 5px;
-        background-color: lighten($color: $clr1, $amount: 7) ;
+        background-color: lighten($color: $clr1, $amount: 7);
         margin-bottom: 20px;
         cursor: pointer;
         color: $clr7;
         font-size: rem(12px);
-        transition: .3s;
+        transition: 0.3s;
 
         &:hover {
             background-color: $clr1;
@@ -69,6 +69,10 @@
             border-radius: 5px;
             border: none;
         }
+
+        .btn-success {
+            font-family: openSansBold;
+        }
     }
 }
 
@@ -82,4 +86,50 @@
 }
 .small-icon {
     width: 18px;
+}
+
+@media (max-width: 900px) {
+    .form-container {
+        .login-signup-form {
+            & input {
+                width: 93%;
+            }
+        }
+
+        .img-submit-container {
+            width: 93%;
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .form-container {
+        text-align: center;
+        .login-signup-form {
+            margin-left: 0;
+            align-items: center;
+        }
+
+        .signup-login-link {
+            margin-left: 0;
+        }
+
+        .form-title {
+            padding: 10px 0;
+        }
+
+        .img-submit-container {
+            flex-direction: column;
+
+            .upload-img {
+                width: 60%;
+                margin: auto;
+                margin-bottom: 15px;
+            }
+
+            .btn-success {
+                width: 100%;
+            }
+        }
+    }
 }

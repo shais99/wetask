@@ -10,6 +10,7 @@ import CardChecklist from '../cmps/CardChecklist'
 import CardPreviewActions from '../cmps/CardPreviewActions'
 import { uploadImg } from '../services/cloudinaryService'
 import CardImg from '../cmps/CardImg'
+import ReomveCard from '../cmps/RemoveCard'
 
 
 
@@ -28,7 +29,8 @@ class CardDetails extends Component {
             txt: ''
         },
         isUploadImg: false,
-        isFinishUpload: false
+        isFinishUpload: false,
+        isOpenModalRemove: false
     }
 
     componentDidMount() {
@@ -53,6 +55,7 @@ class CardDetails extends Component {
             card = stack.cards.find(card => card.id === cardId)
             return card
         })
+        if (!card) return this.props.history.push('/boards')
         return card
     }
 
@@ -267,7 +270,6 @@ class CardDetails extends Component {
     }
 
     moveCardToStack = (stackDest) => {
-        // let newBoard;
         this.props.currBoard.stacks.forEach(stack => {
             let cardIdx = stack.cards.findIndex(card => card.id === this.state.card.id)
             if (cardIdx !== -1) {
@@ -277,21 +279,28 @@ class CardDetails extends Component {
                 stack.cards.push(this.state.card)
             }
         })
-
-        //  newBoard = this.props.currBoard.stacks.forEach(stack => {
-        //     if (stack.title === stackDest.title) {
-        //         stack.cards.push(this.state.card)
-        //     }
-        // })
-
-        console.log('stacks', this.props.currBoard.stacks);
-
         this.props.save(this.props.currBoard)
     }
 
+    onToggleRemoveCard = () => {
+        this.setState(prevState => ({ isOpenModalRemove: !prevState.isOpenModalRemove }))
+    }
+
+    onRemoveCard = () => {
+        this.props.currBoard.stacks.forEach(stack => {
+            let cardIdx = stack.cards.findIndex(card => card.id === this.state.card.id)
+            if (cardIdx !== -1) {
+                stack.cards.splice(cardIdx, 1);
+            }
+        })
+        this.props.save(this.props.currBoard);
+        this.props.history.push(`/boards/${this.props.currBoard._id}`);
+    }
+
+
     render() {
 
-        const { card, isDescShown, comment, isShown, isFinishUpload, isUploadImg } = this.state
+        const { card, isDescShown, comment, isShown, isUploadImg, isOpenModalRemove } = this.state
         const { onToggleAction } = this;
 
         return ((!card) ? 'Loading...' :
@@ -311,7 +320,6 @@ class CardDetails extends Component {
                                 {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} onRemoveImg={this.onRemoveImg} />}
                                 {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} onRemoveTodo={this.onRemoveTodo} onRemoveChecklist={this.onRemoveChecklist} />)}
                                 <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} removeComment={this.removeComment} />
-
                             </aside>
                             <aside className="card-actions">
                                 <ul className="clean-list">
@@ -322,7 +330,7 @@ class CardDetails extends Component {
                                     <Link title="Add Image" to="#" onClick={() => this.onOpenUpload()}><li><img src="/assets/img/style.png" alt="" />Add Image</li></Link>
                                     <input type="file" ref={input => this.inputElement = input} name="imgUrl" onChange={this.onUploadImg} hidden />
                                     <Link title="Move Card" to="#" onClick={() => this.onToggleAction('move')}><li><img src="/assets/img/back.png" className="img-rotate" alt="" />Move Card</li></Link>
-
+                                    <Link title="Remove Card" to="#" onClick={this.onToggleRemoveCard}><li className="li-last-child"><img src="/assets/img/trash.png" alt="" />Remove Card</li></Link>
 
                                     {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} onToggleAction={onToggleAction} value={card.dueDate} removeDuedate={this.removeDuedate} />}
                                     {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
@@ -330,6 +338,9 @@ class CardDetails extends Component {
                                     {isShown.move && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onToggleAction={onToggleAction} moveCardToStack={this.moveCardToStack} />}
 
                                 </ul>
+                                {isOpenModalRemove && <ReomveCard onToggleRemoveCard={this.onToggleRemoveCard} onRemoveCard={this.onRemoveCard} />}
+
+
                             </aside>
 
                         </div>
