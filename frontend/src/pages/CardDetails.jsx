@@ -30,7 +30,8 @@ class CardDetails extends Component {
         },
         isUploadImg: false,
         isFinishUpload: false,
-        isOpenModalRemove: false
+        isOpenModalRemove: false,
+        dueDateNotSave: ''
     }
 
     componentDidMount() {
@@ -75,7 +76,13 @@ class CardDetails extends Component {
 
     // @TODO: due date start from the DB, if got
     onChangeDate = (dueDate) => {
-        this.setState(prevState => ({ card: { ...prevState.card, dueDate } }), () => this.props.saveCard(this.state.card))
+        this.setState({ dueDateNotSave: dueDate })
+    }
+
+    onSubmit = () => {
+        this.setState(prevState => ({ card: { ...prevState.card, dueDate: this.state.dueDateNotSave } }), () => {
+            this.props.saveCard(this.state.card)
+        })
     }
 
     removeDuedate = () => {
@@ -332,7 +339,7 @@ class CardDetails extends Component {
                                     <Link title="Move Card" to="#" onClick={() => this.onToggleAction('move')}><li><img src="/assets/img/back.png" className="img-rotate" alt="" />Move Card</li></Link>
                                     <Link title="Remove Card" to="#" onClick={this.onToggleRemoveCard}><li className="li-last-child"><img src="/assets/img/trash.png" alt="" />Remove Card</li></Link>
 
-                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} onToggleAction={onToggleAction} value={card.dueDate} removeDuedate={this.removeDuedate} />}
+                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} onSubmit={this.onSubmit} onToggleAction={onToggleAction} value={card.dueDate} removeDuedate={this.removeDuedate} />}
                                     {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} addMember={this.onAddMember} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.move && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onToggleAction={onToggleAction} moveCardToStack={this.moveCardToStack} />}

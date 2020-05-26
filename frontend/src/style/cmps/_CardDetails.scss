@@ -191,13 +191,22 @@
                 margin-right: 10px;
             }
         }
-        .li-last-child:hover {
-            background-color: lighten($clr4, 10%);
+        .li-last-child {
+            background-color: $clr4;
+            color: white;
+            font-family: openSansBold;
+            &:hover {
+                background-color: darken($clr4, 10%);
+            }
         }
         .remove-card {
             margin: 0px;
-            width: 100%;
-            position: unset;
+            width: 36%;
+            height: unset;
+            padding-bottom: 10px;
+            .remove-card-title {
+                font-size: rem(14px);
+            }
             .btn-remove-card {
                 padding: 6px 19px;
                 width: auto;
