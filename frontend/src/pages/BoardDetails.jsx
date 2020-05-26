@@ -14,6 +14,8 @@ import BoardStatistics from '../pages/BoardStatistics'
 import { makeId } from '../services/utilService';
 
 
+// GO TO FILE -->
+
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -37,9 +39,9 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
 class BoardDetails extends React.Component {
 
-    constructor() {
-        super();
-    }
+    // constructor() {
+    //     super();
+    // }
 
     state = {
         areLabelsOpen: false
@@ -118,6 +120,7 @@ class BoardDetails extends React.Component {
             checklists: [],
             members: [],
             labels: [],
+            activities: [],
             byMember: this.props.loggedInUser,
             createdAt: Date.now(),
             dueDate: ''
@@ -128,20 +131,30 @@ class BoardDetails extends React.Component {
 
     onDragEnd = (result) => {
 
+        console.log(result);
+
+        const { loggedInUser, currBoard } = this.props
         const { source, destination } = result;
+
+
 
         // Dropped outside the list
         if (!destination) {
             return;
         }
 
-        let stacks = [...this.props.currBoard.stacks];
-        const newState = { ...this.props.currBoard };
+        let stacks = [...currBoard.stacks];
+        const newState = { ...currBoard };
 
         // Changed Stacks order
         if ((source.droppableId === destination.droppableId) && source.droppableId === 'board') {
             const items = reorder(stacks, source.index, destination.index);
             newState.stacks = items;
+
+            const stackSourceTitle = currBoard.stacks[source.index].title;
+            const stackPlace = destination.index + 1
+            currBoard.activities.unshift({ id: makeId(), txt: `moved stack ${stackSourceTitle} to place number ${stackPlace}`, createdAt: Date.now(), byMember: loggedInUser })
+
 
             // Changed Cards order
         } else {
@@ -155,6 +168,11 @@ class BoardDetails extends React.Component {
 
                 // Changed Card between Stacks
             } else {
+                const sourceTitle = currBoard.stacks[+source.droppableId].title
+                const destTitle = currBoard.stacks[+destination.droppableId].title
+                const cardMovedTitle = currBoard.stacks[+source.droppableId].cards[source.index].title
+                currBoard.activities.unshift({ id: makeId(), txt: `moved card ${cardMovedTitle} from ${sourceTitle} to ${destTitle}`, createdAt: Date.now(), byMember: loggedInUser })
+
                 const result = move(stacks[sIndex].cards, stacks[dIndex].cards, source, destination);
                 newState.stacks[sIndex].cards = result[sIndex];
                 newState.stacks[dIndex].cards = result[dIndex];
@@ -254,7 +272,9 @@ class BoardDetails extends React.Component {
                             </div>
                         )}
                     </Droppable>
-                    <AddContent type="stack" onStackAdd={this.onStackAdd} />
+                    <div className="add-stack-container">
+                        <AddContent type="stack" onStackAdd={this.onStackAdd} />
+                    </div>
                 </DragDropContext>
             </span>
         )
