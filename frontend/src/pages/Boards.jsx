@@ -16,7 +16,7 @@ class Boards extends React.Component {
         const { loggedInUser, boards } = this.props
         return ((!loggedInUser) ? 'Loading...' :
             <div className="form-container boards-page container">
-                <header className="boards-header flex space-between">
+                <header className="boards-header wrap flex space-between">
                     <h2 className="boards-title">My Boards</h2>
                     <Link to="/profile" className="hello-btn">Hello {loggedInUser.username}</Link>
                 </header>

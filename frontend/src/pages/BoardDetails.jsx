@@ -52,6 +52,7 @@ class BoardDetails extends React.Component {
         socketService.setup();
         socketService.emit('setBoard', boardId);
         socketService.on('loadBoard', this.setBoard)
+        document.body.style.backgroundSize = 'cover'
 
         this.props.loadBoard(boardId);
     }
@@ -141,8 +142,8 @@ class BoardDetails extends React.Component {
         if ((source.droppableId === destination.droppableId) && source.droppableId === 'board') {
             const items = reorder(stacks, source.index, destination.index);
             newState.stacks = items;
-        
-        // Changed Cards order
+
+            // Changed Cards order
         } else {
             const sIndex = +source.droppableId;
             const dIndex = +destination.droppableId;
@@ -231,6 +232,7 @@ class BoardDetails extends React.Component {
                                                                                         snapshot.isDragging,
                                                                                         provided.draggableProps.style,
                                                                                     )}
+                                                                                    history={this.props.history}
                                                                                 >
                                                                                 </CardPreview>
                                                                             </span>
@@ -252,7 +254,9 @@ class BoardDetails extends React.Component {
                             </div>
                         )}
                     </Droppable>
-                    <AddContent type="stack" onStackAdd={this.onStackAdd} />
+                    <div className="add-stack-container">
+                        <AddContent type="stack" onStackAdd={this.onStackAdd} />
+                    </div>
                 </DragDropContext>
             </span>
         )

@@ -2,11 +2,10 @@
     padding: 20px;
 
     .boards-header {
+        margin-bottom: 25px;
         .boards-title {
             font-family: openSansBold;
         }
-
-        margin: 10px;
         .hello-btn {
             margin-right: 5px;
             border-style: none;
@@ -14,7 +13,7 @@
             color: white;
             border-radius: 3px;
             padding: 10px;
-            transition: .3s;
+            transition: 0.3s;
             &:hover {
                 background-color: #354c86;
                 color: white;
@@ -24,29 +23,40 @@
     }
 }
 
+@media (max-width: 500px) {
+    .boards-page.form-container {
+        width: 95%;
+    }
+}
+
 .boards-list {
     .board-item {
-        width: rem(225px);
+        width: 225px;
         height: 140px;
         border-radius: 5px;
-        padding: 10px;
         cursor: pointer;
         margin-right: 10px;
         margin-bottom: 20px;
+        transition: 0.3s;
+        background-size: 100%;
+    }
+    
+    h3 {
+        font-family: openSansBold;
+        background-color: rgba(0, 0, 0, .3);
+        padding: 7px 10px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
         color: white;
-        transition: .3s;
-        background-size: cover;
-        background-position: center;
-        &:hover {
-            background-color: darken($clr4, 10%);
-        }
     }
 
     .add-new-board {
-        background-color: darken($clr6,10%);
+        outline: none;
+        background-color: darken($clr6, 10%);
         border: none;
         color: $clr1;
         font-family: openSansBold;
+        min-width: 225px;
         &:hover {
             background-color: darken($clr6, 15%);
         }
@@ -60,7 +70,7 @@
     border-radius: 10px;
 
     .board-title {
-        margin-bottom: 35px;
+        margin-bottom: 25px;
         height: 30px;
         font-size: rem(14px);
         font-family: openSansBold;
@@ -83,8 +93,8 @@
 
         .main-form-header {
             margin-bottom: 10px;
-            border-bottom: 1px solid darken($clr6, 10%);
             padding: 5px;
+            font-family: openSansBold;
         }
 
         .bg-btn {
@@ -94,7 +104,7 @@
             border-radius: 5px;
             padding: 5px 10px;
             font-size: rem(14px);
-            transition: .3s;
+            transition: 0.3s;
             &:hover {
                 background-color: darken($clr6, 10%);
                 color: black;
@@ -104,7 +114,7 @@
 
     .bg-color-container {
         .bg-color-list {
-            max-width: 200px;
+            max-width: 180px;
             padding: 0;
             margin: 0;
             margin-left: 20px;
@@ -136,19 +146,15 @@
 }
 
 .close-btn {
-    background: none;
-    border: none;
-    border-radius: 10px;
-    padding: 5px 7px;
+    border-radius: 50%;
     color: white;
     transition: 0.3s;
     margin-bottom: 5px;
     font-size: rem(17px);
     position: absolute;
-    right: 15px;
-
-    &:hover {
-        background-color: $clr6;
-        color: darken($clr6, 40%);
-    }
+    right: 20px;
+    top: 10px;
+    cursor: pointer;
+    padding: 5px;
+    width: 23px;
 }

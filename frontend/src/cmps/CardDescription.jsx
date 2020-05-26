@@ -13,7 +13,7 @@ export default function CardDescription(props) {
 
             <form className="main-content-card-action" onSubmit={props.onSaveDesc}>
                 <textarea name="description" value={props.description} onChange={props.handleChange} 
-                onFocus={() => props.isShown(true)} className="card-desc" id="cardDesc" placeholder="Add youre card descriptaion...">
+                onFocus={() => props.isShown(true)} className="card-desc" id="cardDesc" placeholder="Add your card descriptaion...">
                 </textarea>
                 {props.isSubmitShown && <div className="desc-btns-container flex align-center">
                     <button className="btn btn-primary btn-save-desc">Save Changes</button>

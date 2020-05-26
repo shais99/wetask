@@ -49,7 +49,7 @@ export default class CardChecklist extends React.Component {
     }
 
     render() {
-        const { title, todos } = this.props.checklist
+        const { title, todos, id, } = this.props.checklist
         const width = this.calculateProgBarWidth();
         const bgc = this.calculateProgBarBgc();
         return (
@@ -57,11 +57,12 @@ export default class CardChecklist extends React.Component {
                 <div className="card-checklist-title flex align-center">
                     <img src="/assets/img/todos.png" />
                     <input type="text" name="title" className="checklist-title" autoComplete="off" onChange={this.onEditChecklistTitle} value={title} />
+                    <button className="btn btn-delete-checklist" onClick={() => this.props.onRemoveChecklist(id)}>Delete</button>
                 </div>
                 <div className="checklist-main">
                     <div className="checklist-progress-bar-container"><span>{`${width}%`}</span>
                         <div className="checklist-progress-bar">
-                            <div className="progress-bar" style={{ width: `${width}%`,backgroundColor:`${bgc}` }}>
+                            <div className="progress-bar" style={{ width: `${width}%`, backgroundColor: `${bgc}` }}>
                             </div>
                         </div>
                     </div>
@@ -71,6 +72,7 @@ export default class CardChecklist extends React.Component {
                             </div>
                             <input name="title" className={`checklist-title todo-title ${todo.isDone ? 'done-decoration' : 'd'}`}
                                 value={todo.title} onChange={(event) => this.onUpdateTodo(event, todo)} />
+                            <div className="todo-delete-btn-container"><img className="todo-delete-btn" src="/assets/img/close.png" onClick={() => this.props.onRemoveTodo(id, todo.id)} /></div>
                         </div>
                         )}
                         <form onSubmit={this.onAddTodo}>
