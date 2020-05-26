@@ -60,6 +60,32 @@
     }
 }
 
+@media (max-width: 500px) {
+    .board-options-container {
+
+        .board-members {
+            overflow-x: scroll;
+            max-width: 114px;
+            margin-left: 10px;
+
+            &::-webkit-scrollbar {
+                display: none;
+              }
+    
+            .member {
+                min-width: 35px;
+                min-height: 35px;
+            }
+        }
+
+        .board-title {
+            height: 40px;
+            font-size: rem(13px);
+            padding: 3px;
+        }
+    }
+}
+
 .member {
     border-radius: 50%;
     width: 35px;

@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { loadBoard, save, setBoard } from '../store/actions/boardActions';
-import { AddContent } from '../cmps/AddContent';
+import AddContent from '../cmps/AddContent';
 import { Route } from 'react-router-dom';
 import { CardPreview } from '../cmps/CardPreview.jsx';
 import { Stack } from '../cmps/Stack.jsx';
@@ -142,8 +142,8 @@ class BoardDetails extends React.Component {
         if ((source.droppableId === destination.droppableId) && source.droppableId === 'board') {
             const items = reorder(stacks, source.index, destination.index);
             newState.stacks = items;
-        
-        // Changed Cards order
+
+            // Changed Cards order
         } else {
             const sIndex = +source.droppableId;
             const dIndex = +destination.droppableId;
