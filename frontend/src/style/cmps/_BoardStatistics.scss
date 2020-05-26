@@ -2,7 +2,7 @@
     .board-statistics {
         width: 75%;
         height: 80vh;
-        top: 60px;
+        top: 30px;
         animation: slide-up 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
         box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.6);
         overflow-y: auto;
@@ -21,9 +21,9 @@
         .board-statistics-content {
             height: 100%;
             overflow-x: hidden;
-            grid-template-columns: 50% 50%;
-            grid-auto-flow: dense;
-            place-items: center;
+            // grid-template-columns: 50% 50%;
+            // grid-auto-flow: dense;
+            // place-items: center;
 
             .board-stats-title {
                 margin-bottom: 10px;

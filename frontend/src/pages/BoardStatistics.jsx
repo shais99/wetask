@@ -11,6 +11,7 @@ class BoardStatistics extends React.Component {
     constructor() {
         super();
         this.elStats = React.createRef();
+        this.statsTimeOut = null;
     }
 
     state = {
@@ -20,8 +21,10 @@ class BoardStatistics extends React.Component {
     componentDidMount() {
 
         if (this.props.currBoard) {
-
-            this.setState({ board: this.props.currBoard });
+            this.statsTimeOut = setTimeout(() => {
+                
+                this.setState({ board: this.props.currBoard });
+            }, 250)
         }
 
     }
@@ -30,6 +33,10 @@ class BoardStatistics extends React.Component {
         if (this.props.currBoard !== prevProps.currBoard) {
             this.setState({ board: this.props.currBoard });
         }
+    }
+
+    componentWillUnmount() {
+        if(this.statsTimeOut) clearTimeout(this.statsTimeOut);
     }
 
 
@@ -181,7 +188,7 @@ class BoardStatistics extends React.Component {
                             {/* <p className="secondary">stats</p> */}
                         </header>
                         {(boardStats) ?
-                            <section className="board-statistics-content grid">
+                            <section className="board-statistics-content">
 
                                 {(boardStats.byLabels) ?
                                     < div className="stat-item flex column justify-center align-center">
