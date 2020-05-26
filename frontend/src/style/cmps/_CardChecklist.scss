@@ -4,6 +4,13 @@
             width: 16px;
             height: 16px;
         }
+        .btn-delete-checklist {
+            background-color: #eaecf0;
+            padding: 7px 13px;
+            &:hover{
+                background-color: darken($color: #eaecf0, $amount: 10%);
+            }
+        }
     }
     .checklist-title {
         font-size: rem(16px);
@@ -58,11 +65,24 @@
         .todo-item {
             padding-left: 12px;
             margin-bottom: 5px;
+
             &:hover {
                 background-color: darken(#f4f5f7, 5%);
+                .todo-delete-btn-container{
+                    display: block;
+                }
             }
             .done-decoration {
                 text-decoration: line-through;
+            }
+            .todo-delete-btn-container {
+                cursor: pointer;
+                padding: 3px 9px;
+                border-radius: 2px;
+                display: none;
+                .todo-delete-btn {
+                    width: 10px;
+                }
             }
         }
         .add-todo {

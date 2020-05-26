@@ -201,6 +201,33 @@ class CardDetails extends Component {
         })
     }
 
+    onRemoveTodo = (checklistId, todoId) => {
+        this.setState(prevState => ({
+            card: {
+                ...prevState.card,
+                checklists: prevState.card.checklists.map(checklist => {
+                    if (checklist.id === checklistId) {
+                        checklist.todos = checklist.todos.filter(todo => todo.id !== todoId)
+                    }
+                    return checklist
+                })
+            }
+        }), () => {
+            this.props.saveCard(this.state.card)
+        })
+    }
+
+    onRemoveChecklist = (checklistId) => {
+        this.setState(prevState => ({
+            card: {
+                ...prevState.card,
+                checklists: prevState.card.checklists.filter(checklist => checklist.id !== checklistId)
+            }
+        }), () => {
+            this.props.saveCard(this.state.card)
+        })
+    }
+
 
     onToggleAction = (action) => {
         let actions = this.state.isShown;
@@ -242,9 +269,9 @@ class CardDetails extends Component {
                             <aside className="card-content">
                                 <CardPreviewActions card={card} getTwoChars={this.getTwoChars} />
                                 <CardDescription description={card.description} onSaveDesc={this.onSaveDesc} handleChange={this.handleChange} isShown={this.onDescShown} isSubmitShown={isDescShown} />
-                             
+
                                 {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} />}
-                                {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} />)}
+                                {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} onRemoveTodo={this.onRemoveTodo} onRemoveChecklist={this.onRemoveChecklist} />)}
                                 <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} />
 
                             </aside>
