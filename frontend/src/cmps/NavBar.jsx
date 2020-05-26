@@ -8,7 +8,8 @@ import { getRandomColor, makeId } from '../services/utilService'
 class NavBar extends Component {
 
     state = {
-        isScroll: false
+        isScroll: false,
+        isMenuOpen: false
     }
 
     componentDidMount() {
@@ -51,25 +52,35 @@ class NavBar extends Component {
         this.props.signup(userCred)
     }
 
+    toggleMenu = () => {
+        this.setState(prevState => ({ isMenuOpen: !prevState.isMenuOpen }))
+    }
+
     render() {
         const user = this.props.loggedInUser
+        const { isMenuOpen, isScroll } = this.state
 
         return (
-            <div className={`nav-container ${(this.state.isScroll || !this.isHomepage) ? 'scrolled' : ''}`} style={(this.isHomepage) ? {marginTop: '10px'} : {}}>
-                <div className={`${(this.isHomepage) ? 'container' : ''}`}>
-                    <div className="nav-content flex space-between align-center">
-                        <Link to="/"><h1 className="logo"><span className="logo-we">we</span>task</h1></Link>
-                        <ul className="main-nav clean-list flex">
-                            <li><NavLink exact to="/">Home</NavLink></li>
-                            {user && <li><NavLink to="/boards">Boards</NavLink></li>}
-                            {user && <li><NavLink to="/profile">Profile</NavLink></li>}
-                            {user?.isGuest && <li><NavLink to="/signup">Signup</NavLink></li>}
-                            {user?.isGuest && <li><NavLink to="/login">Login</NavLink></li>}
-                            {!user?.isGuest && <li><Link to="/" onClick={this.onLogout}>Logout</Link></li>}
-                        </ul>
+            <>
+                {isMenuOpen && <div className="screen" onClick={this.toggleMenu}></div>}
+                <div className={`nav-container ${(isScroll || !this.isHomepage) ? 'scrolled' : ''} ${(isMenuOpen) ? 'menu-open' : ''}`} style={(this.isHomepage) ? { marginTop: '10px' } : {}}>
+                    <div className={`${(this.isHomepage) ? 'container' : ''}`}>
+                        <div className="nav-content flex space-between align-center">
+                            <Link to="/"><h1 className="logo"><span className="logo-we">we</span>task</h1></Link>
+                            <ul className="main-nav clean-list flex">
+                                <li className="quit-menu"><button onClick={() => this.toggleMenu()}></button></li>
+                                <li><NavLink onClick={this.toggleMenu} exact to="/">Home</NavLink></li>
+                                {user && <li><NavLink onClick={this.toggleMenu} to="/boards">Boards</NavLink></li>}
+                                {user && <li><NavLink onClick={this.toggleMenu} to="/profile">Profile</NavLink></li>}
+                                {user?.isGuest && <li><NavLink onClick={this.toggleMenu} to="/signup">Signup</NavLink></li>}
+                                {user?.isGuest && <li><NavLink onClick={this.toggleMenu} to="/login">Login</NavLink></li>}
+                                {!user?.isGuest && <li><Link onClick={this.toggleMenu} to="/" onClick={this.onLogout}>Logout</Link></li>}
+                            </ul>
+                            <button onClick={() => this.toggleMenu()} className="btn-menu"></button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </>
         )
     }
 }
