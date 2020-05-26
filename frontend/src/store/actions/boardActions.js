@@ -24,10 +24,10 @@ export function saveCard(card) {
 }
 export function removeBoard(boardId) {
   return dispatch => {
-    boardService.remove(boardId)
+    return boardService.remove(boardId)
       .then(() => {
         dispatch({ type: 'REMOVE_BOARD', boardId })
-        return Promise.resolve()
+        // return Promise.resolve()
       })
   }
 }

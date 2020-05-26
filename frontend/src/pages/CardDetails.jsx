@@ -11,8 +11,7 @@ import CardPreviewActions from '../cmps/CardPreviewActions'
 import { uploadImg } from '../services/cloudinaryService'
 import CardImg from '../cmps/CardImg'
 import ReomveCard from '../cmps/RemoveCard'
-
-
+import moment from 'moment'
 
 class CardDetails extends Component {
 
@@ -76,6 +75,7 @@ class CardDetails extends Component {
 
     // @TODO: due date start from the DB, if got
     onChangeDate = (dueDate) => {
+<<<<<<< HEAD
         this.setState({ dueDateNotSave: dueDate })
     }
 
@@ -83,9 +83,14 @@ class CardDetails extends Component {
         this.setState(prevState => ({ card: { ...prevState.card, dueDate: this.state.dueDateNotSave } }), () => {
             this.props.saveCard(this.state.card)
         })
+=======
+        const { currBoard, loggedInUser } = this.props
+        currBoard.activities.unshift({ id: makeId(), txt: `set card due date to ${moment(dueDate).format("MMM DD")}`, createdAt: Date.now(), byMember: loggedInUser })
+        this.setState(prevState => ({ card: { ...prevState.card, dueDate } }), () => this.props.saveCard(this.state.card))
+>>>>>>> 5a1504f04df16a910429c949845328112c8b080f
     }
 
-    removeDuedate = () => {
+    removeDueDate = () => {
         const dueDate = '';
         this.setState(prevState => ({ card: { ...prevState.card, dueDate } }), () => this.props.saveCard(this.state.card))
     }
@@ -294,14 +299,18 @@ class CardDetails extends Component {
     }
 
     onRemoveCard = () => {
-        this.props.currBoard.stacks.forEach(stack => {
-            let cardIdx = stack.cards.findIndex(card => card.id === this.state.card.id)
+        const { currBoard, save, history, loggedInUser } = this.props
+        currBoard.stacks.forEach(stack => {
+            let cardIdx = stack.cards.findIndex(card => {
+                return card.id === this.state.card.id
+            })
             if (cardIdx !== -1) {
                 stack.cards.splice(cardIdx, 1);
             }
         })
-        this.props.save(this.props.currBoard);
-        this.props.history.push(`/boards/${this.props.currBoard._id}`);
+        currBoard.activities.unshift({ id: makeId(), txt: `has removed a card`, createdAt: Date.now(), byMember: loggedInUser })
+        save(this.props.currBoard);
+        history.push(`/boards/${this.props.currBoard._id}`);
     }
 
 
@@ -339,7 +348,11 @@ class CardDetails extends Component {
                                     <Link title="Move Card" to="#" onClick={() => this.onToggleAction('move')}><li><img src="/assets/img/back.png" className="img-rotate" alt="" />Move Card</li></Link>
                                     <Link title="Remove Card" to="#" onClick={this.onToggleRemoveCard}><li className="li-last-child"><img src="/assets/img/trash.png" alt="" />Remove Card</li></Link>
 
+<<<<<<< HEAD
                                     {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} onSubmit={this.onSubmit} onToggleAction={onToggleAction} value={card.dueDate} removeDuedate={this.removeDuedate} />}
+=======
+                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} onToggleAction={onToggleAction} value={card.dueDate} removeDueDate={this.removeDueDate} />}
+>>>>>>> 5a1504f04df16a910429c949845328112c8b080f
                                     {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} addMember={this.onAddMember} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.move && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onToggleAction={onToggleAction} moveCardToStack={this.moveCardToStack} />}
