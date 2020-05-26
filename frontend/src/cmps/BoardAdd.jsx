@@ -10,7 +10,7 @@ class BoardAdd extends React.Component {
     state = {
         board: {
             title: '',
-            bg: '#eb3b5a'
+            bg: '#122961'
         },
         bgColors: ['blue', 'red', 'pink', 'black', 'yellow', '#122961', '#3867d6', '#fed330', '#eb3b5a'],
         bgImgs: ['assets/img/bg-beach.jpg', 'assets/img/bg-flowers.jpg',
@@ -61,10 +61,10 @@ class BoardAdd extends React.Component {
                                     <h3>Create Board</h3>
                                 </div>
 
-                                <input name="title" className="borad-title" value={board.title}
+                                <input name="title" className="board-title" value={board.title}
                                     placeholder="Add board title" onChange={this.handleChange} autoComplete="off" />
-                                <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('color')}> Color</Link>
-                                <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('image')}>Image</Link>
+                                <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('color')}>Background Color</Link>
+                                <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('image')}>Background    Image</Link>
 
                             </div>
                             <div className="bg-color-container flex ">

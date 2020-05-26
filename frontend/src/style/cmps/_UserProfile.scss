@@ -40,5 +40,24 @@
                 border-radius: 5px;
             }
         }
+
+        .img-submit-container {
+            width: 65%;
+        }
+
+        .upload-img {
+            padding: 10.5px 15px;
+            border-radius: 5px;
+            background-color: lighten($color: $clr1, $amount: 7) ;
+            margin-bottom: 20px;
+            cursor: pointer;
+            color: $clr7;
+            font-size: rem(12px);
+            transition: .3s;
+
+            &:hover {
+                background-color: $clr1;
+            }
+        }
     }
 }

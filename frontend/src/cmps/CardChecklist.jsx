@@ -39,7 +39,7 @@ export default class CardChecklist extends React.Component {
             if (todo.isDone) countIsDone++;
         })
         if (!this.props.checklist.todos.length) return 0;
-        return (countIsDone / this.props.checklist.todos.length) * 100;
+        return ((countIsDone / this.props.checklist.todos.length) * 100).toFixed(0);
     }
 
     calculateProgBarBgc = () => {

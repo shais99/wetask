@@ -72,7 +72,7 @@ export class AddContent extends React.Component {
                         <form onSubmit={this.addItem} className="add-content flex column align-start">
                             <input name="name" autoComplete="off" onChange={this.handleChange}
                                 value={title} placeholder={`Enter ${type} title...`}
-                                className={`input ${(type === 'stack') ? 'stack-input' : 'card-input'}`} autoFocus={true} />
+                                className={`input ${(type === 'stack') ? 'stack-input' : 'card-input'}`} style={{padding: '8px 12px'}} autoFocus={true} />
                             <span className="add-content-buttons flex space-between">
                                 <button className={`btn btn-${(type === 'stack') ? 'primary' : 'success'} btn-small`}>{`Add ${type}`}</button>
                                 <img src={`/assets/img/close${(type === 'stack') ? '-stack' : ''}.png`} onClick={this.toggleOpen} className="close-add-icon" />

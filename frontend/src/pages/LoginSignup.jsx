@@ -85,6 +85,10 @@ class LoginSignup extends Component {
         this.props.history.push('/boards')
     }
 
+    onOpenUpload = () => {
+        this.inputElement.click();
+    }
+
     render() {
         const { isLogin, msg, user, isUploadImg, isFinishUpload } = this.state
         return (
@@ -101,8 +105,11 @@ class LoginSignup extends Component {
                         {!isLogin && <input type="text" onChange={this.handleChange} value={user.fullname} name="fullname" autoComplete="off" placeholder="Full name" />}
                         <input type="password" onChange={this.handleChange} value={user.password} name="password" placeholder="Password" />
                         {!isLogin && <input type="password" onChange={this.handleChange} value={user.confirmPassword} name="confirmPassword" placeholder="Confirm password" />}
-                        {!isLogin && <input type="file" name="imgUrl" onChange={this.onUploadImg} />}
-                        <button className={`btn btn-primary ${isUploadImg ? 'disable' : ''}`} disabled={isUploadImg}>{isLogin ? 'Login' : 'Signup'}</button>
+                        {!isLogin && <input type="file" ref={input => this.inputElement = input} name="imgUrl" onChange={this.onUploadImg} hidden />}
+                        <div className="img-submit-container flex align-start space-between">
+                            {!isLogin && <span className="upload-img" onClick={() => this.onOpenUpload()}>Upload Profile Image</span>}
+                            <button className={`btn btn-success ${isUploadImg ? 'disable' : ''}`} disabled={isUploadImg}>{isLogin ? 'Login' : 'Signup'}</button>
+                        </div>
                     </form>
 
                     {msg && <div className="user-msg flex align-center space-between">{msg}<img src="assets/img/error-white.png" className="small-icon" alt="" /></div>}

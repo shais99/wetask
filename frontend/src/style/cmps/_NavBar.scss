@@ -20,17 +20,17 @@
             display: flex;
             align-items: center;
             color: $clr7;
-            transition: 0.3s;
 
             &:hover:not(.active) {
                 color: darken($clr6, 7%);
+                transition: 1s;
             }
         }
 
         .active {
             background-color: white;
             color: $clr1;
-            border-radius: 3px;
+            border-radius: 20px;
         }
     }
 }
@@ -45,7 +45,7 @@
         background-color: $clr3;
         padding: 0 3px;
         margin-right: 3px;
-        color: darken($clr3, 30%);
+        color: $clr1;
         border-radius: 3px;
     }
 }

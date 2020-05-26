@@ -37,7 +37,7 @@ class NavBar extends Component {
         else this.setState({ isScroll: true })
     }
 
-    async onLogout() {
+    onLogout = async () => {
         await this.props.logout()
 
         const userCred = {
@@ -53,20 +53,21 @@ class NavBar extends Component {
 
     render() {
         const user = this.props.loggedInUser
-        
+
         return (
-            <div className={`nav-container ${(this.state.isScroll || !this.isHomepage) ? 'scrolled' : ''}`}>
-                <div className="nav-content flex space-between align-center">
-                    {/* <Link to="/"><img src="/assets/img/logomain2.png"  alt=""/></Link> */}
-                    <Link to="/"><h1 className="logo"><span className="logo-we">we</span>task</h1></Link>
-                    <ul className="main-nav clean-list flex">
-                        <li><NavLink exact to="/">Home</NavLink></li>
-                        {user && <li><NavLink to="/boards">Boards</NavLink></li>}
-                        {user && <li><NavLink to="/profile">Profile</NavLink></li>}
-                        {user?.isGuest && <li><NavLink to="/signup">Signup</NavLink></li>}
-                        {user?.isGuest && <li><NavLink to="/login">Login</NavLink></li>}
-                        {!user?.isGuest && <li><Link to="/" onClick={this.onLogout}>Logout</Link></li>}
-                    </ul>
+            <div className={`nav-container ${(this.state.isScroll || !this.isHomepage) ? 'scrolled' : ''}`} style={(this.isHomepage) ? {marginTop: '10px'} : {}}>
+                <div className={`${(this.isHomepage) ? 'container' : ''}`}>
+                    <div className="nav-content flex space-between align-center">
+                        <Link to="/"><h1 className="logo"><span className="logo-we">we</span>task</h1></Link>
+                        <ul className="main-nav clean-list flex">
+                            <li><NavLink exact to="/">Home</NavLink></li>
+                            {user && <li><NavLink to="/boards">Boards</NavLink></li>}
+                            {user && <li><NavLink to="/profile">Profile</NavLink></li>}
+                            {user?.isGuest && <li><NavLink to="/signup">Signup</NavLink></li>}
+                            {user?.isGuest && <li><NavLink to="/login">Login</NavLink></li>}
+                            {!user?.isGuest && <li><Link to="/" onClick={this.onLogout}>Logout</Link></li>}
+                        </ul>
+                    </div>
                 </div>
             </div>
         )
