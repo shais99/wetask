@@ -7,11 +7,11 @@
 }
 
 .stacks-content > * {
-    margin-right: rem(16px);
+    margin-right: 16px;
 }
 
 .stacks-content:first-child {
-    margin-left: rem(20px);
+    margin-left: 20px;
 }
 
 .stacks-section {
@@ -184,6 +184,10 @@
     &.due-date-past {
         background: $clr4;
     }
+}
+
+.add-stack-container {
+    padding-right: 16px;
 }
 
 // Scroll bar
