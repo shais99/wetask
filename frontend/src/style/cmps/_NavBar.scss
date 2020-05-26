@@ -2,14 +2,14 @@
     background-color: #0000006b;
 }
 
+.screen {
+    display: none;
+}
+
 .nav-container {
     position: fixed;
     width: 100%;
     transition: 0.5s;
-
-    .screen {
-        display: none;
-    }
 
     .nav-content {
         padding-left: 20px;
@@ -21,6 +21,10 @@
 
     .main-nav {
         margin: 10px 0;
+
+        .quit-menu {
+            display: none;
+        }
 
         & li a {
             padding: 9px 25px;
@@ -91,6 +95,7 @@
             .quit-menu {
                 align-self: flex-end;
                 margin: 8px;
+                display: block;
                 button {
                     background: url("../img/small-close.png");
                     width: 20px;
