@@ -8,7 +8,7 @@ export default function ReomveCard(props) {
                 <img src="/assets/img/close.png" className="close-icon" onClick={() => props.onToggleRemoveCard()} alt="" />
             </div>
             <p>Are you sure?</p>
-            <button className="btn btn-danger btn-remove-card" onClick={() => props.onRemoveBoard()}>Yes, remove!</button>
+            <button className="btn btn-danger btn-remove-card" onClick={() => props.onRemoveCard()}>Yes, remove!</button>
         </div>
     )
 }
