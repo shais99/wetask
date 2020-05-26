@@ -57,6 +57,10 @@
             }
         }
     }
+
+    &.stats {
+        overflow-y: hidden;
+    }
 }
 
 .members-labels-container {
@@ -164,7 +168,7 @@
             align-items: center;
 
             &:hover {
-                background-color: darken($clr6, 10%);
+                background-color: darken(#eaecf0, 10%);
             }
             & img {
                 width: 14px;

@@ -52,11 +52,11 @@ class BoardAdd extends React.Component {
         return <>
             <div className="screen" onClick={onClose}>
                 <div className="modal-container" onClick={(ev) => ev.stopPropagation()} style={{ backgroundColor: "unset", width: 'fit-content' }}>
-                    <button className="close-btn" onClick={onClose}>X</button>
+                    <img src="assets/img/close.png" onClick={onClose} className="close-btn" alt=""/>
                     <form onSubmit={this.onHandleSubmit}>
                         <div className="main-form-container flex wrap">
                             <div className="main-form"
-                                style={{ backgroundColor: board.bg, backgroundImage: `url(${board.bg})`, backgroundSize: "cover" }}>
+                                style={{ width: 'unset', backgroundColor: board.bg, backgroundImage: `url(${board.bg})`, backgroundSize: "cover" }}>
                                 <div className="main-form-header flex space-between">
                                     <h3>Create Board</h3>
                                 </div>
@@ -64,7 +64,7 @@ class BoardAdd extends React.Component {
                                 <input name="title" className="board-title" value={board.title}
                                     placeholder="Add board title" onChange={this.handleChange} autoComplete="off" />
                                 <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('color')}>Background Color</Link>
-                                <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('image')}>Background    Image</Link>
+                                <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('image')}>Background Image</Link>
 
                             </div>
                             <div className="bg-color-container flex ">

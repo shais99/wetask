@@ -9,11 +9,11 @@ export default function CardImg(props) {
             </div>
             <div className="card-img">
                 {props.isUploadImg? <div className="loading">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
                 </div> : <img src={`${props.card.imgUrl}`} />}
                 
             </div>

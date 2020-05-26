@@ -20,56 +20,20 @@
     overflow-x: scroll;
 }
 
-.add-content {
-    cursor: pointer;
-    height: fit-content;
-    width: rem(192px);
-    padding: rem(6px) 0;
-    width: 250px;
-}
-
-.add-content-container {
-    height: fit-content;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-}
-
-.add-content-buttons {
-    width: 100%;
-}
-
-.add-content input {
-    width: 100%;
-}
-
-.add-content-title {
-    width: 100%;
-    color: inherit;
-    // color: darken($clr6, 40%);
-}
-
-.add-content-title::before {
-    content: "+";
-    padding-right: 10px;
-}
-
 .stack {
     overflow-y: auto;
-    padding: 8px;
+    padding: 0px 8px 8px 8px;
     background: #ebecf0;
     width: 250px;
     // transition: ease-in-out 0.15s;
-
 }
 
 .stack-title {
     font-family: openSansBold;
-    margin-bottom: 8px;
-
     align-self: flex-start;
     height: 2rem;
     width: 100%;
-    padding: 20px 8px;
+    padding: 20px 10px;
     transition: ease-in-out 0.225s;
     // font-size: rem(18px);
     &:hover {
@@ -90,22 +54,25 @@
 }
 
 .card-preview {
+    outline: none;
     background-color: rgb(255, 255, 255);
     border-radius: 3px;
     box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 0px;
-    cursor: pointer;
     display: block;
     margin-bottom: 8px;
     max-width: 300px;
     min-height: 20px;
     text-decoration: none;
     padding: 0 8px 8px;
-
-    height: 'fit-content';
-    user-select: 'none';
     padding-top: 0;
-    border-radius: 3;
-    box-shadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.75)';
+
+    &.flex {
+        cursor: pointer;
+    }
+
+    .card-img {
+        margin-top: 10px;
+    }
 
     .card-preview-title {
         padding-top: 5px;
@@ -138,9 +105,8 @@
             }
 
             .preview-info-count {
-                font-size: rem(12px);
+                font-size: rem(11px);
             }
-
         }
     }
 }
@@ -177,11 +143,9 @@
 .card-labels {
     color: white;
     letter-spacing: 0.5px;
-    // height: 16px;
     padding-top: 4px;
-    // color: $clr6;
     font-family: openSansBold;
-    // overflow-y: scroll;
+    width: fit-content;
 }
 
 .card-label {
@@ -207,9 +171,8 @@
 }
 
 .due-date {
-
     border-radius: 5px;
-    padding: 0 3px 1.5px 3px;
+    padding: 4px 6px;
     color: $clr7;
 
     &.due-date-future {
@@ -221,11 +184,7 @@
     &.due-date-past {
         background: $clr4;
     }
-
 }
-
-
-
 
 // Scroll bar
 

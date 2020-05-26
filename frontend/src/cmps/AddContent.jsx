@@ -58,7 +58,7 @@ export class AddContent extends React.Component {
             <div className={`add-content-container flex align-start add-${type}`} style={{
 
                 padding: (type === 'stack') ? '10px 20px' : '7.5px 15px',
-                fontSize: (type === 'stack') ? 18 : 14,
+                fontSize: (type === 'stack') ? 16 : 14,
                 color: (type === 'stack') ? '#ffffff' : '#888888',
                 // background: (type === 'stack') ? 'lightgreen' : 'cornflowerblue',
                 width: (type === 'stack') ? 250 : '100%',
