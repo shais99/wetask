@@ -131,12 +131,8 @@ class BoardDetails extends React.Component {
 
     onDragEnd = (result) => {
 
-        console.log(result);
-
         const { loggedInUser, currBoard } = this.props
         const { source, destination } = result;
-
-
 
         // Dropped outside the list
         if (!destination) {

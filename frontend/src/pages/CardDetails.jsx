@@ -75,7 +75,7 @@ class CardDetails extends Component {
     // @TODO: due date start from the DB, if got
     onChangeDate = (dueDate) => {
         const { currBoard, loggedInUser } = this.props
-        currBoard.activities.unshift({ id: makeId(), txt: `set due date to ${moment(dueDate).format("MMM DD")}`, createdAt: Date.now(), byMember: loggedInUser })
+        currBoard.activities.unshift({ id: makeId(), txt: `set card due date to ${moment(dueDate).format("MMM DD")}`, createdAt: Date.now(), byMember: loggedInUser })
         this.setState(prevState => ({ card: { ...prevState.card, dueDate } }), () => this.props.saveCard(this.state.card))
     }
 
