@@ -22,7 +22,7 @@ class CardDetails extends Component {
             label: false,
             dueDate: false,
             members: false,
-
+            move: false
         },
         comment: {
             txt: ''
@@ -101,6 +101,17 @@ class CardDetails extends Component {
         const currCard = this.getCurrCard()
         currCard.comments.unshift(comment)
         this.setState({ comment: { txt: '' } }, () => {
+            this.props.saveCard(this.state.card)
+        })
+    }
+
+    removeComment = (commentId) => {
+        this.setState(prevState => ({
+            card: {
+                ...prevState.card,
+                comments: prevState.card.comments.filter(comment => comment.id !== commentId)
+            }
+        }), () => {
             this.props.saveCard(this.state.card)
         })
     }
@@ -251,6 +262,33 @@ class CardDetails extends Component {
         this.setState(prevState => ({ card: { ...prevState.card, imgUrl } }), () => this.props.saveCard(this.state.card))
     }
 
+    onRemoveImg = () => {
+        this.setState(prevState => ({ card: { ...prevState.card, imgUrl: null } }), () => this.props.saveCard(this.state.card))
+    }
+
+    moveCardToStack = (stackDest) => {
+        // let newBoard;
+        this.props.currBoard.stacks.forEach(stack => {
+            let cardIdx = stack.cards.findIndex(card => card.id === this.state.card.id)
+            if (cardIdx !== -1) {
+                stack.cards.splice(cardIdx, 1);
+            }
+            if (stack.title === stackDest.title) {
+                stack.cards.push(this.state.card)
+            }
+        })
+
+        //  newBoard = this.props.currBoard.stacks.forEach(stack => {
+        //     if (stack.title === stackDest.title) {
+        //         stack.cards.push(this.state.card)
+        //     }
+        // })
+
+        console.log('stacks', this.props.currBoard.stacks);
+
+        this.props.save(this.props.currBoard)
+    }
+
     render() {
 
         const { card, isDescShown, comment, isShown, isFinishUpload, isUploadImg } = this.state
@@ -262,7 +300,7 @@ class CardDetails extends Component {
                     <div className="modal-container shadow-drop-2-center" onMouseDown={(ev) => ev.stopPropagation()}>
                         <div className="modal-header flex space-between">
                             <input type="text" name="title" className="card-title" onChange={this.onEditTitle} value={card.title} />
-                            <button className="close-modal" onClick={this.onBackBoard}>X</button>
+                            <button className="close-modal" onClick={this.onBackBoard}></button>
                         </div>
 
                         <div className="card-container flex">
@@ -270,24 +308,26 @@ class CardDetails extends Component {
                                 <CardPreviewActions card={card} getTwoChars={this.getTwoChars} />
                                 <CardDescription description={card.description} onSaveDesc={this.onSaveDesc} handleChange={this.handleChange} isShown={this.onDescShown} isSubmitShown={isDescShown} />
 
-                                {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} />}
+                                {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} onRemoveImg={this.onRemoveImg} />}
                                 {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} onRemoveTodo={this.onRemoveTodo} onRemoveChecklist={this.onRemoveChecklist} />)}
-                                <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} />
+                                <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} removeComment={this.removeComment} />
 
                             </aside>
                             <aside className="card-actions">
                                 <ul className="clean-list">
-                                    <Link title="Add / Remove members" to="#" onClick={() => onToggleAction('members')}><li><img src="/assets/img/user-icon.png" alt="" />Members</li></Link>
-                                    <Link title="Add / Remove labels" to="#" onClick={() => onToggleAction('label')}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
-                                    <Link title="Add checklist" to="#" onClick={this.onAddChecklist}><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
-                                    <Link title="Set due date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
-                                    <Link title="Set Card Cover" to="#" onClick={() => this.onOpenUpload()}><li><img src="/assets/img/style.png" alt="" />Add Image</li></Link>
+                                    <Link title="Edit Card Members" to="#" onClick={() => onToggleAction('members')}><li><img src="/assets/img/user-icon.png" alt="" />Members</li></Link>
+                                    <Link title="Edit Card Labels" to="#" onClick={() => onToggleAction('label')}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
+                                    <Link title="Add Checklist" to="#" onClick={this.onAddChecklist}><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
+                                    <Link title="Set Due Date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
+                                    <Link title="Add Image" to="#" onClick={() => this.onOpenUpload()}><li><img src="/assets/img/style.png" alt="" />Add Image</li></Link>
                                     <input type="file" ref={input => this.inputElement = input} name="imgUrl" onChange={this.onUploadImg} hidden />
+                                    <Link title="Move Card" to="#" onClick={() => this.onToggleAction('move')}><li><img src="/assets/img/back.png" className="img-rotate" alt="" />Move Card</li></Link>
 
 
-                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} value={card.dueDate} onToggleAction={onToggleAction} removeDuedate={this.removeDuedate} />}
+                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} onToggleAction={onToggleAction} value={card.dueDate} removeDuedate={this.removeDuedate} />}
                                     {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
-                                    {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} onToggleAction={onToggleAction} card={card} addMember={this.onAddMember} getCurrCard={this.getCurrCard} />}
+                                    {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} addMember={this.onAddMember} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
+                                    {isShown.move && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onToggleAction={onToggleAction} moveCardToStack={this.moveCardToStack} />}
 
                                 </ul>
                             </aside>

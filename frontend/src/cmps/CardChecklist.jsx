@@ -57,7 +57,7 @@ export default class CardChecklist extends React.Component {
                 <div className="card-checklist-title flex align-center">
                     <img src="/assets/img/todos.png" />
                     <input type="text" name="title" className="checklist-title" autoComplete="off" onChange={this.onEditChecklistTitle} value={title} />
-                    <button className="btn btn-delete-checklist" onClick={() => this.props.onRemoveChecklist(id)}>Delete</button>
+                    <button className="btn btn-delete" onClick={() => this.props.onRemoveChecklist(id)}>Delete</button>
                 </div>
                 <div className="checklist-main">
                     <div className="checklist-progress-bar-container"><span>{`${width}%`}</span>

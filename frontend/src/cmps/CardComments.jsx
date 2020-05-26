@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
+import { Link } from 'react-router-dom'
+
 
 export default class CardComments extends Component {
     render() {
@@ -27,6 +29,7 @@ export default class CardComments extends Component {
                                 </div>
                             </div>
                             <div className="comment-txt">{comment.txt}</div>
+                            <Link className="delete-comment" to="#" onClick={()=>this.props.removeComment(comment.id)}>Delete</Link>
                         </div>)}
                     </div>
                 </div>

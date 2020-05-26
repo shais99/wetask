@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import DueDate from './DueDate'
 import LabelsPicker from './LabelsPicker'
 import CardMembers from './CardMembers'
+import CardMove from './CardMove'
 import OutsideClickHandler from 'react-outside-click-handler';
 
 
@@ -32,14 +33,16 @@ export default class ActionContainer extends Component {
                 return 'Labels'
             case 'members':
                 return 'Members'
+            case 'move':
+                return 'Move'
             default:
                 break;
         }
     }
 
     render() {
-        const { isShown, card, onToggleAction, board, onChange, value, getCurrCard, addLabel, addMember, removeDuedate } = this.props;
-        
+        const { isShown, card, onToggleAction, board, onChange, value, getCurrCard, addLabel, addMember, removeDuedate, moveCardToStack } = this.props;
+
         const { action } = this.state;
         return (
             <OutsideClickHandler onOutsideClick={() => onToggleAction(action)} display={'contents'}>
@@ -48,9 +51,10 @@ export default class ActionContainer extends Component {
                         <h3>{this.titleToReturn(action)}</h3>
                         <button className="close-label" onClick={() => onToggleAction(action)}>X</button>
                     </div>
-                    {isShown.dueDate && <DueDate onToggleAction={onToggleAction} onChange={onChange} value={value} removeDuedate={removeDuedate} />}
-                    {isShown.label && <LabelsPicker addLabel={addLabel} onToggleAction={onToggleAction} getCurrCard={getCurrCard} />}
-                    {isShown.members && <CardMembers board={board} onToggleAction={onToggleAction} getCurrCard={getCurrCard} card={card} addMember={addMember} />}
+                    {isShown.dueDate && <DueDate onChange={onChange} value={value} onToggleAction={onToggleAction} removeDuedate={removeDuedate} />}
+                    {isShown.label && <LabelsPicker addLabel={addLabel} getCurrCard={getCurrCard} />}
+                    {isShown.members && <CardMembers board={board} getCurrCard={getCurrCard} card={card} addMember={addMember} />}
+                    {isShown.move && <CardMove board={board} card={card} moveCardToStack={moveCardToStack} />}
                 </div >
             </OutsideClickHandler>
         )

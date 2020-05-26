@@ -4,17 +4,10 @@
             width: 16px;
             height: 16px;
         }
-        .btn-delete-checklist {
-            background-color: #eaecf0;
-            padding: 7px 13px;
-            &:hover{
-                background-color: darken($color: #eaecf0, $amount: 10%);
-            }
-        }
+      
     }
     .checklist-title {
         font-size: rem(16px);
-        // font-family: openSansBold;
         width: 80%;
         border: none;
         padding: 6px;

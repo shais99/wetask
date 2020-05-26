@@ -10,13 +10,12 @@
             margin-bottom: 10px;
         }
         .members-list {
-            height: 120px;
+            height: 160px;
             overflow-y: auto;
             .member-item {
-                height: 32px;
-                overflow: hidden;
+                height: 44px;
                 padding: 4px;
-                margin-bottom: 2px;
+                margin-bottom: 10px;
                 font-size: rem(16px);
                 cursor: pointer;
                 &:hover {
@@ -38,5 +37,6 @@
         background-color: #fafbfc;
         box-shadow: inset 0 0 0 2px #dfe1e6;
         color: #172b4d;
+        outline: none;
     }
 }
