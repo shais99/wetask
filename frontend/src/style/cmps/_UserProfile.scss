@@ -15,6 +15,10 @@
 .user-profile-container {
     padding: 25px;
 
+    .btn-success {
+        font-family: openSansBold;
+    }
+
     .user-content {
         flex: 1;
     }
@@ -46,18 +50,76 @@
         }
 
         .upload-img {
-            padding: 10.5px 15px;
+            padding: 11px 15px;
             border-radius: 5px;
-            background-color: lighten($color: $clr1, $amount: 7) ;
+            background-color: lighten($color: $clr1, $amount: 7);
             margin-bottom: 20px;
             cursor: pointer;
             color: $clr7;
             font-size: rem(12px);
-            transition: .3s;
+            transition: 0.3s;
 
             &:hover {
                 background-color: $clr1;
             }
         }
+    }
+}
+
+@media (max-width: 1060px) {
+    .user-profile-container {
+        .user-profile-form {
+            .profile-input {
+                width: 90%;
+            }
+
+            .img-submit-container {
+                width: 90%;
+            }
+        }
+    }
+    .user-profile-title {
+        width: 86%;
+    }
+}
+
+@media (max-width: 900px) {
+    .user-profile-container {
+        .user-profile-form {
+            .img-submit-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .upload-img {
+                margin-bottom: 10px;
+                width: 100%;
+                text-align: center;
+            }
+        }
+    }
+}
+
+@media (max-width: 760px) {
+    .form-container {
+        width: 90%;
+        .user-profile-container {
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .user-content {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+    }
+    
+}
+
+@media (max-width: 500px) {
+    .form-container {
+        width: 95%;
     }
 }
