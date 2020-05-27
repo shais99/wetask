@@ -51,8 +51,8 @@ class BoardAdd extends React.Component {
         const { onClose } = this.props
         return <>
             <div className="screen" onClick={onClose}>
-                <div className="modal-container" onClick={(ev) => ev.stopPropagation()} style={{ backgroundColor: "unset", width: 'fit-content' }}>
-                    <img src="assets/img/close.png" onClick={onClose} className="close-btn" alt=""/>
+                <div className="add-board-container modal-container" onClick={(ev) => ev.stopPropagation()} style={{ backgroundColor: "unset", width: 'fit-content' }}>
+                    <img src="assets/img/close.png" onClick={onClose} className="close-btn" alt="" />
                     <form onSubmit={this.onHandleSubmit}>
                         <div className="main-form-container flex wrap">
                             <div className="main-form"
@@ -63,8 +63,10 @@ class BoardAdd extends React.Component {
 
                                 <input name="title" className="board-title" value={board.title}
                                     placeholder="Add board title" onChange={this.handleChange} autoComplete="off" />
-                                <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('color')}>Background Color</Link>
-                                <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('image')}>Background Image</Link>
+                                <div className="bg-btns-container">
+                                    <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('color')}>Background Color</Link>
+                                    <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('image')}>Background Image</Link>
+                                </div>
 
                             </div>
                             <div className="bg-color-container flex ">
@@ -72,7 +74,7 @@ class BoardAdd extends React.Component {
                             </div>
                         </div>
                         <div className="modal-footer flex justify-end">
-                            <button className="create-board-btn btn" > Create Board</button>
+                            <button className="create-board-btn btn btn-success">Create Board</button>
                         </div>
                     </form>
 
