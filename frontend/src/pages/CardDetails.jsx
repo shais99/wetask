@@ -208,7 +208,6 @@ class CardDetails extends Component {
             })
             currCard.members.splice(memberIdx, 1)
         }
-        console.log('members', this.state.card.members);
         this.setState({ card: currCard }, () => {
 
             this.props.saveCard(this.state.card)

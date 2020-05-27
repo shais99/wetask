@@ -71,10 +71,8 @@ class BoardStatistics extends React.Component {
 
             })
         })
-        console.log(labels);
         let labelStatsData = Object.keys(labels).map((labelTitle) => {
             const labelInfo = labels[labelTitle];
-            console.log(labelInfo);
             return ({
                 id: labelTitle,
                 label: labelTitle,
@@ -104,7 +102,6 @@ class BoardStatistics extends React.Component {
                 }
             })
         })
-        console.log(users);
         let userStatsData = Object.keys(users).map((username) => {
             const userInfo = users[username];
             console.log(userInfo);

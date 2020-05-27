@@ -63,8 +63,6 @@ class BoardDetails extends React.Component {
 
     onEditTitle = ({ target }) => {
 
-        // console.log(target);
-
         let currBoard = { ...this.props.currBoard };
         currBoard.stacks[target.dataset.idx].title = target.value;
         this.props.save(currBoard);
