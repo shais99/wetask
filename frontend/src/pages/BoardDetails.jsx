@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { loadBoard, save, setBoard } from '../store/actions/boardActions';
 import AddContent from '../cmps/AddContent';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import { CardPreview } from '../cmps/CardPreview.jsx';
 import { Stack } from '../cmps/Stack.jsx';
 import CardDetails from '../pages/CardDetails.jsx';
@@ -13,6 +13,7 @@ import socketService from '../services/socketService'
 import BoardStatistics from '../pages/BoardStatistics'
 import { makeId } from '../services/utilService';
 import { reorder, move } from '../services/boardDetailsUtils';
+import ActionContainer from '../cmps/ActionContainer';
 import ScrollContainer from 'react-indiana-drag-scroll'
 
 class BoardDetails extends React.Component {
@@ -23,7 +24,9 @@ class BoardDetails extends React.Component {
     }
 
     state = {
-        areLabelsOpen: false
+        areLabelsOpen: false,
+        stackTitles: {},
+        stackMenus: {}
     }
 
     componentDidMount() {
@@ -38,19 +41,35 @@ class BoardDetails extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        const { stackTitles } = this.state;
 
         if (prevProps.currBoard !== this.props.currBoard) {
             // this.setState({ currBoard: this.props.currBoard });
             document.body.style.backgroundImage = `url(/${this.props.currBoard.bg})`;
             document.body.style.backgroundColor = this.props.currBoard.bg;
         }
+
+        if (this.props.currBoard && this.props.currBoard.stacks.length &&
+            !Object.keys(stackTitles).length && stackTitles.constructor === Object) {
+            this.populateStacksInfo(this.props.currBoard);
+        }
     }
 
     componentWillUnmount() {
-        if (!this.props.loggedInUser) return
+        if (!this.props.loggedInUser) return;
         document.body.style = '';
-        socketService.off('loadBoard', this.setBoard)
-        socketService.terminate()
+        socketService.off('loadBoard', this.setBoard);
+        socketService.terminate();
+    }
+
+    populateStacksInfo = (board) => {
+        let stackTitles = {};
+        let stackMenus = {};
+        board.stacks.forEach((stack) => {
+            stackTitles[stack.id] = stack.title;
+            stackMenus[stack.id] = false;
+        });
+        this.setState({ stackTitles, stackMenus });
     }
 
     setBoard = (currBoard) => this.props.setBoard(currBoard)
@@ -60,10 +79,18 @@ class BoardDetails extends React.Component {
         this.setState(({ areLabelsOpen }) => ({ areLabelsOpen: !areLabelsOpen }));
     }
 
-    onEditTitle = ({ target }) => {
-
+    onEditStackTitle = ({ target }) => {
         let currBoard = { ...this.props.currBoard };
-        currBoard.stacks[target.dataset.idx].title = target.value;
+        this.setState({ stackTitles: { [currBoard.stacks[target.dataset.idx].id]: target.value } }, () => {
+            console.log(this.state.stackTitles);
+        });
+    }
+
+    onNewStackTitle = ({ target }) => {
+        let currBoard = { ...this.props.currBoard };
+        const { stackTitles } = this.state;
+
+        currBoard.stacks[target.dataset.idx].title = stackTitles[currBoard.stacks[target.dataset.idx].id];
         this.props.save(currBoard);
     }
 
@@ -75,6 +102,18 @@ class BoardDetails extends React.Component {
             // change background colour if dragging
             background: isDragging ? 'rgb(219, 219, 219)' : '#ebecf0',
         });
+    }
+
+    onStackRemove = (stackId) => {
+
+        // console.log(stackId);
+        let currBoard = { ...this.props.currBoard };
+        let stackIdx = currBoard.stacks.findIndex(stack => {
+            return stack.id === stackId;
+        })
+
+        currBoard.stacks.splice(stackIdx, 1);
+        this.props.save(currBoard);
     }
 
     onStackAdd = (newStackTitle) => {
@@ -162,14 +201,34 @@ class BoardDetails extends React.Component {
         this.props.save(newState)
     }
 
-    onStackTitleFocus = (index) => {
+    // onWheel = (e) => {
+    //     e.preventDefault()
+    //     var container = document.querySelector('.board-content')
+    //     var containerScrollPosition = document.querySelector('.board-content').scrollLeft
+    //     container.scrollTo({
+    //         top: 0,
+    //         left: containerScrollPosition + e.deltaY,
+    //         behaviour: 'smooth' //if you want smooth scrolling
+    //     })
+    // }
 
-        this.stackTitleFocus[index].focus();
+    onStackTitleFocus = (index) => this.stackTitleFocus[index].focus();
+
+    onToggleAction = (action) => {
+
+        let actions = this.state.stackMenus;
+        for (const key in actions) {
+            if (key !== action) {
+                actions[key] = false;
+            }
+        }
+        actions[action] = !actions[action];
+        this.setState({ isShown: actions });
     }
 
-    stacks = (areLabelsOpen) => {
+    stacks = (areLabelsOpen, stackTitles) => {
         const board = this.props.currBoard;
-
+        const { isShown } = this.state;
         return (
             <span className="stacks-section flex">
                 <DragDropContext
@@ -203,9 +262,12 @@ class BoardDetails extends React.Component {
                                                     className="stack-content flex column"
                                                 >
                                                     <div className="stack-header flex space-between" {...provided.dragHandleProps}>
-                                                        <input type="text" name="title" className="stack-title-input" data-idx={index} onChange={this.onEditTitle}
-                                                            value={stack.title} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input} />
-                                                        <button className="stack-header-menu">. . .</button>
+                                                        <input autoComplete="off" type="text" name="title" className="stack-title-input" data-idx={index} onChange={this.onEditStackTitle}
+                                                            value={stackTitles[stack.id]} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input}
+                                                            onBlur={this.onNewStackTitle} />
+                                                        <Link title="Options" to="#" onClick={() => this.onToggleAction(stack.id)}><button className="stack-header-menu">. . .</button></Link>
+                                                        {(isShown && isShown[stack.id]) && <ActionContainer onStackRemove={this.onStackRemove} stackInfo={{ id: stack.id, title: stack.title }} isShown={{ stack: true }}
+                                                            onToggleAction={this.onToggleAction} />}
                                                     </div>
 
                                                     {/* <p className="stack-title flex align-center"  ></p> */}
@@ -275,7 +337,6 @@ class BoardDetails extends React.Component {
         if (type === 'img') {
             const bgUrl = bg.slice(1, bg.length + 1)
             document.body.style.backgroundImage = `url(/${bgUrl})`
-            document.body.style.backgroundPosition = 'center'
             document.body.style.backgroundColor = ''
             this.props.currBoard.bg = bgUrl
         } else {
@@ -290,9 +351,8 @@ class BoardDetails extends React.Component {
     }
 
     render() {
-        const { history } = this.props
-        const { currBoard } = this.props;
-        const { areLabelsOpen } = this.state
+        const { history, currBoard } = this.props;
+        const { areLabelsOpen, stackTitles } = this.state;
 
         if (!currBoard) return 'Loading...'
 
@@ -302,11 +362,11 @@ class BoardDetails extends React.Component {
                 <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
                 <Route component={BoardStatistics} path="/boards/:boardId/statistics" />
                 {/* <ScrollContainer horizontal={true} className="scroll-container"> */}
-                    <section className="board-content flex column align-start space-between">
+                <section className="board-content flex column align-start space-between">
 
-                        {(currBoard) ? this.stacks(areLabelsOpen) : null}
+                    {(currBoard && stackTitles) ? this.stacks(areLabelsOpen, stackTitles) : null}
 
-                    </section>
+                </section>
                 {/* </ScrollContainer> */}
             </>
         )

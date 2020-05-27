@@ -53,9 +53,11 @@ export default class CardChecklist extends React.Component {
         const bgc = this.calculateProgBarBgc();
         return (
             <div className="card-checklist-container">
-                <div className="card-checklist-title flex align-center">
-                    <img src="/assets/img/todos.png" />
-                    <input type="text" name="title" className="checklist-title" autoComplete="off" onChange={this.onEditChecklistTitle} value={title} />
+                <div className="card-checklist-title flex align-center space-between">
+                    <div>
+                        <img src="/assets/img/todos.png" />
+                        <input type="text" name="title" className="checklist-title" autoComplete="off" onChange={this.onEditChecklistTitle} value={title} />
+                    </div>
                     <button className="btn btn-delete" onClick={() => this.props.onRemoveChecklist(this.props.checklist)}>Delete</button>
                 </div>
                 <div className="checklist-main">
