@@ -33,7 +33,8 @@ class CardDetails extends Component {
         isUploadImg: false,
         isFinishUpload: false,
         isOpenModalRemove: false,
-        dueDateNotSave: ''
+        dueDateNotSave: '',
+        isFocusComment: false
     }
 
     componentDidMount() {
@@ -432,13 +433,14 @@ class CardDetails extends Component {
         })
     }
 
-    onCommentTimeEstimation = () => {
-
+    onFocusComment = () => {
+        this.setState(prevState => ({ isFocusComment: !prevState.isFocusComment }), () => {
+            this.setState({ comment: { txt: 'Comment on time estimation: ' } })
+        })
     }
 
-
     render() {
-        const { card, isDescShown, comment, isShown, isUploadImg, isOpenModalRemove } = this.state
+        const { card, isDescShown, comment, isShown, isUploadImg, isOpenModalRemove, isFocusComment } = this.state
         const { onToggleAction } = this;
         return ((!card) ? 'Loading...' :
             <>
@@ -452,7 +454,7 @@ class CardDetails extends Component {
                             <div className="close-modal flex justify-content align-center" onClick={this.onBackBoard}><img className="img-icon" src="/assets/img/close.png" alt="" /></div>
                         </div>
 
-                        {card.timeEstimation && <CardShowTimeEstimation card={card} onApproveTimeEstimation={this.onApproveTimeEstimation} />}
+                        {card.timeEstimation && <CardShowTimeEstimation card={card} onApproveTimeEstimation={this.onApproveTimeEstimation} onFocusComment={this.onFocusComment} />}
                         <div className="card-container flex">
                             <aside className="card-content">
 
@@ -461,7 +463,7 @@ class CardDetails extends Component {
 
                                 {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} onRemoveImg={this.onRemoveImg} />}
                                 {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} onRemoveTodo={this.onRemoveTodo} onRemoveChecklist={this.onRemoveChecklist} />)}
-                                <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} removeComment={this.removeComment} />
+                                <CardComments isFocusComment={isFocusComment} comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} removeComment={this.removeComment} />
                                 {card.activities && <CardActivity activities={card.activities} getTwoChars={this.getTwoChars} />}
                             </aside>
                             <aside className="card-actions">
@@ -485,7 +487,6 @@ class CardDetails extends Component {
 
                                 </ul>
                                 {isOpenModalRemove && <RemoveCard onToggleRemoveCard={this.onToggleRemoveCard} onRemoveCard={this.onRemoveCard} />}
-
 
                             </aside>
 

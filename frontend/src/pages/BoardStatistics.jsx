@@ -123,7 +123,7 @@ class BoardStatistics extends React.Component {
             cardCount += stack.cards.length;
 
             stack.cards.forEach((card) => {
-                if (card.dueDate != '') {
+                if (card.dueDate !== '') {
                     if (+moment(card.dueDate).format('x') > Date.now()) workload['On Schedule'] += 1;
                     else workload.Delayed += 1;
                 }

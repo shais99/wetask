@@ -17,15 +17,13 @@ class AddContent extends React.Component {
         if (event.target.name.value === '' || event.target.name.value === undefined) return;
 
         const itemTitle = event.target.name.value;
-        const { loggedInUser } = this.props
-
-        switch (this.props.type) {
+        const { loggedInUser, type } = this.props
+        this.props.currBoard.activities.unshift({ id: makeId(), txt: `added new ${(type === 'stack') ? 'list' : type}: ${itemTitle}`, createdAt: Date.now(), byMember: loggedInUser })
+        switch (type) {
             case 'stack':
-                this.props.currBoard.activities.unshift({ id: makeId(), txt: `added new stack: ${itemTitle}`, createdAt: Date.now(), byMember: loggedInUser })
                 this.props.onStackAdd(itemTitle);
                 break;
             case 'card':
-                this.props.currBoard.activities.unshift({ id: makeId(), txt: `added new card: ${itemTitle}`, createdAt: Date.now(), byMember: loggedInUser })
                 const parentId = this.props.itemId;
                 this.props.onCardAdd(itemTitle, parentId);
                 break;
@@ -71,7 +69,7 @@ class AddContent extends React.Component {
                     <>
                         <form onSubmit={this.addItem} className="add-content flex column align-start">
                             <input name="name" autoComplete="off" onChange={this.handleChange}
-                                value={title} placeholder={`Enter ${type} title...`}
+                                value={title} placeholder={`Enter ${(type === 'stack') ? 'list' : type} title...`}
                                 className={`input ${(type === 'stack') ? 'stack-input' : 'card-input'}`} style={{ padding: '8px 12px' }} autoFocus={true} />
                             <span className="add-content-buttons flex space-between">
                                 <button className={`btn btn-${(type === 'stack') ? 'primary' : 'success'} btn-small`}>{`Add ${type}`}</button>
@@ -81,7 +79,7 @@ class AddContent extends React.Component {
                     </>
                     :
                     <>
-                        <Link to="#" onClick={this.toggleOpen} className="add-content-title">{`Add ${(type === 'stack') ? 'list' : 'card'}`}</Link>
+                        <Link to="#" onClick={this.toggleOpen} className="add-content-title">{`Add ${(type === 'stack') ? 'list' : type}`}</Link>
                     </>
                 }
             </div>
