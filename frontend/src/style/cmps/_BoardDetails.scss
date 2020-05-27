@@ -1,9 +1,13 @@
 .board-content {
-    // padding: 0 20px 0 0;
     margin: 0;
-    height: calc(100% - 60px);
+    height: calc(100vh - 130px);
     overflow-x: hidden;
-    margin-top: 60px;
+}
+
+@media (max-width: 500px) {
+    .board-content{
+        height: 74.5vh;
+    }
 }
 
 .stacks-content > * {
@@ -36,7 +40,6 @@
                 box-shadow: inset 0 0 0 2px #dfe1e6;
                 box-sizing: border-box;
                 padding-left: 15px;
-                
             }
         }
 
@@ -50,7 +53,7 @@
             font-family: openSansBold;
 
             &:hover {
-                background: lighten($color: #d5d5d5, $amount: 10) ;
+                background: lighten($color: #d5d5d5, $amount: 10);
                 border-radius: 5px;
             }
         }
@@ -60,7 +63,6 @@
         }
     }
 
-
     &:first-child {
         margin-left: 20px;
     }
@@ -68,16 +70,22 @@
 
 .stacks-section {
     width: 100%;
-    height: 100%;
     overflow-x: scroll;
+    padding-bottom: 20px;
 }
 
 .stack {
     overflow-y: auto;
     padding: 0px 8px 8px 8px;
     background: #ebecf0;
-    width: 250px;
+    width: 246px;
     // transition: ease-in-out 0.15s;
+}
+
+@media (max-width: 500px) {
+    .stack {
+        width: 275px;
+    }
 }
 
 // .stack-title {
@@ -180,8 +188,7 @@
 
 .stack-content {
     background: $clr6;
-    max-height: 72vh;
-
+    max-height: 100%;
     height: fit-content;
     user-select: none;
     padding-top: 0;
@@ -189,6 +196,11 @@
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.75);
 }
 
+@media (max-width: 500px) {
+    .stack-content {
+        width: 280px !important;
+    }
+}
 
 .close-add-icon {
     width: rem(16px);

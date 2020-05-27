@@ -6,7 +6,9 @@
 }
 
 .add-content-container {
-    height: fit-content;
+    &.add-card {
+        height: 40px;
+    }
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 }

@@ -93,7 +93,6 @@ class BoardStatistics extends React.Component {
                 if (card.byMember) {
                     if (!users[card.byMember.username]) users[card.byMember.username] = { tasks: 0, doneTasks: 0 };
 
-                    console.log(card);
                     let isDone = card.labels.some((label) => {
                         return label.title === 'done';
                     })
@@ -104,14 +103,12 @@ class BoardStatistics extends React.Component {
         })
         let userStatsData = Object.keys(users).map((username) => {
             const userInfo = users[username];
-            console.log(userInfo);
             return ({
                 member: username,
                 Tasks: userInfo.tasks - userInfo.doneTasks,
                 'Done Tasks': userInfo.doneTasks,
             });
         })
-        console.log(userStatsData);
         return userStatsData;
     }
 
@@ -140,7 +137,6 @@ class BoardStatistics extends React.Component {
 
         let dueDatesStatsData = Object.keys(workload).map((type) => {
 
-            // console.log(dueDatesInfo);
             return ({
                 id: type,
                 label: type,
@@ -161,7 +157,6 @@ class BoardStatistics extends React.Component {
         let byLabels = this.getStatsByLabels(board);
         let byUsers = this.getStatsByUsers(board);
         let byDueDate = this.getStatsByDueDates(board);
-        console.log(byDueDate);
         if (byDueDate === null) this.setState({ isNoCardsBoard: true })
         else {
             if (this.state.isNoCardsBoard) this.setState({ isNoCardsBoard: false })
@@ -182,11 +177,9 @@ class BoardStatistics extends React.Component {
         const { board, currView, cardCount } = this.state;
         const { } = this;
 
-        console.log(board);
         let boardStats = null;
         if (board) {
             boardStats = this.getBoardStats(board);
-            console.log(boardStats);
         }
 
         return ((!board) ? '' :
