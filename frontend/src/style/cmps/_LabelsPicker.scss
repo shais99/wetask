@@ -45,3 +45,16 @@
         }
     }
 }
+
+@media (max-width: 700px) {
+    .labels-container {
+        top: 70px;
+    }
+}
+
+@media (max-width: 350px) {
+    .labels-container {
+        margin: 0 auto;
+        right: unset;
+    }
+}

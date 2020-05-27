@@ -405,7 +405,7 @@ class CardDetails extends Component {
         return ((!card) ? 'Loading...' :
             <>
                 <div className="screen" onMouseDown={this.onBackBoard} >
-                    <div className="modal-container shadow-drop-2-center" onMouseDown={(ev) => ev.stopPropagation()}>
+                    <div className="modal-container shadow-drop-2-center card-details-modal" onMouseDown={(ev) => ev.stopPropagation()}>
                         <div className="modal-header flex align-center space-between">
                             <div className="flex align-center">
                                 <img className="img-icon" src="/assets/img/task.png" alt="" />
@@ -422,10 +422,11 @@ class CardDetails extends Component {
                                 {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} onRemoveImg={this.onRemoveImg} />}
                                 {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} onRemoveTodo={this.onRemoveTodo} onRemoveChecklist={this.onRemoveChecklist} />)}
                                 <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} removeComment={this.removeComment} />
-                                <CardActivity activities={card.activities} getTwoChars={this.getTwoChars} />
+                                {card.activities && <CardActivity activities={card.activities} getTwoChars={this.getTwoChars} />}
                             </aside>
                             <aside className="card-actions">
-                                <ul className="clean-list">
+                                <div className="actions-title">Actions:</div>
+                                <ul className="actions-list clean-list">
                                     <Link title="Edit Card Members" to="#" onClick={() => onToggleAction('members')}><li><img src="/assets/img/user-icon.png" alt="" />Members</li></Link>
                                     <Link title="Edit Card Labels" to="#" onClick={() => onToggleAction('label')}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
                                     <Link title="Add Checklist" to="#" onClick={this.onAddChecklist}><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
