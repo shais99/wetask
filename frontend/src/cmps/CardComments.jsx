@@ -29,7 +29,7 @@ export default class CardComments extends Component {
                                 </div>
                             </div>
                             <div className="comment-txt">{comment.txt}</div>
-                            <Link className="delete-comment" to="#" onClick={()=>this.props.removeComment(comment.id)}>Delete</Link>
+                            <Link className="delete-comment" to="#" onClick={()=>this.props.removeComment(comment)}>Delete</Link>
                         </div>)}
                     </div>
                 </div>

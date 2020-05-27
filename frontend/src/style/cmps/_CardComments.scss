@@ -1,7 +1,7 @@
 .comments-container {
     margin-top: 20px;
     .comment-title-fullname {
-        font-size: rem(14px);
+        font-size: rem(16px);
         font-family: openSansBold;
         margin-left: 10px;
     }
@@ -17,6 +17,14 @@
         margin: 0px 0px 5px 47px;
         box-shadow: inset 0 0 0 1px #dfe1e6;
         font-size: rem(12px);
+    }
+    .activity-txt{
+        margin-top: 3px;
+        margin-left: 8px;
+        font-size: rem(12px);
+    }
+    .activity-time{
+        margin-left: 49px;
     }
     .delete-comment{
         font-size: rem(12px);
