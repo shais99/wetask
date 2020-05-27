@@ -12,7 +12,7 @@ class BoardAdd extends React.Component {
             title: '',
             bg: '#122961'
         },
-        bgColors: ['blue', 'red', 'pink', 'black', 'yellow', '#122961', '#3867d6', '#fed330', '#eb3b5a'],
+        bgColors: ['#fd9644', '#fc5c65', '#fed330', '#26de81', '#2bcbba', '#45aaf2', '#4b7bec', '#a55eea', '#122961'],
         bgImgs: ['assets/img/bg-beach.jpg', 'assets/img/bg-flowers.jpg',
             'assets/img/bg-sunset.jpg', 'assets/img/bg-view.jpg',
             'assets/img/bg-view2.jpg', 'assets/img/bg-view3.jpg',
@@ -28,6 +28,7 @@ class BoardAdd extends React.Component {
     onHandleSubmit = (ev) => {
         ev.preventDefault()
         const { board } = this.state
+        if (!board.title) return;
         board.members = [this.props.loggedInUser];
         board.stacks = [];
         board.createdAt = Date.now();
@@ -62,7 +63,7 @@ class BoardAdd extends React.Component {
                                 </div>
 
                                 <input name="title" className="board-title" value={board.title}
-                                    placeholder="Add board title" onChange={this.handleChange} autoComplete="off" />
+                                    placeholder="Add board title" onChange={this.handleChange} autoComplete="off" required />
                                 <div className="bg-btns-container">
                                     <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('color')}>Background Color</Link>
                                     <Link className="clean-link bg-btn" to="#" onClick={() => this.onChangeBgBy('image')}>Background Image</Link>

@@ -18,15 +18,17 @@ class BoardStatistics extends React.Component {
     state = {
         board: {},
         currView: 'byUsers',
-        cardCount: -1
+        cardCount: -1, 
+        boardStats: null
     }
 
     componentDidMount() {
 
         if (this.props.currBoard) {
             this.statsTimeOut = setTimeout(() => {
-
-                this.setState({ board: this.props.currBoard });
+                const boardStats = this.getBoardStats(this.props.currBoard);
+                this.setState({ board: this.props.currBoard, boardStats }, () => {
+                });
             }, 250)
         }
 
@@ -34,8 +36,11 @@ class BoardStatistics extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.currBoard !== prevProps.currBoard) {
-            this.setState({ board: this.props.currBoard });
+            const boardStats = this.getBoardStats(this.props.currBoard);
+            this.setState({ board: this.props.currBoard, boardStats });
         }
+
+
     }
 
     componentWillUnmount() {
@@ -48,11 +53,6 @@ class BoardStatistics extends React.Component {
         const value = target.value
 
         this.setState(prevState => ({ card: { ...prevState.card, [field]: value } }))
-    }
-
-    onBackBoard = (ev) => {
-        const { boardId } = this.props.match.params
-        this.props.history.push(`/boards/${boardId}`)
     }
 
     getStatsByLabels = (board) => {
@@ -93,7 +93,6 @@ class BoardStatistics extends React.Component {
                 if (card.byMember) {
                     if (!users[card.byMember.username]) users[card.byMember.username] = { tasks: 0, doneTasks: 0 };
 
-                    console.log(card);
                     let isDone = card.labels.some((label) => {
                         return label.title === 'done';
                     })
@@ -104,14 +103,12 @@ class BoardStatistics extends React.Component {
         })
         let userStatsData = Object.keys(users).map((username) => {
             const userInfo = users[username];
-            console.log(userInfo);
             return ({
                 member: username,
                 Tasks: userInfo.tasks - userInfo.doneTasks,
                 'Done Tasks': userInfo.doneTasks,
             });
         })
-        console.log(userStatsData);
         return userStatsData;
     }
 
@@ -140,7 +137,6 @@ class BoardStatistics extends React.Component {
 
         let dueDatesStatsData = Object.keys(workload).map((type) => {
 
-            // console.log(dueDatesInfo);
             return ({
                 id: type,
                 label: type,
@@ -161,13 +157,14 @@ class BoardStatistics extends React.Component {
         let byLabels = this.getStatsByLabels(board);
         let byUsers = this.getStatsByUsers(board);
         let byDueDate = this.getStatsByDueDates(board);
-        console.log(byDueDate);
+
         if (byDueDate === null) this.setState({ isNoCardsBoard: true })
         else {
             if (this.state.isNoCardsBoard) this.setState({ isNoCardsBoard: false })
         }
         stats = { byLabels, byUsers, byDueDate };
 
+        console.log(stats);
         return stats;
     }
 
@@ -179,22 +176,19 @@ class BoardStatistics extends React.Component {
 
     render() {
 
-        const { board, currView, cardCount } = this.state;
-        const { } = this;
-
-        console.log(board);
-        let boardStats = null;
-        if (board) {
-            boardStats = this.getBoardStats(board);
-            console.log(boardStats);
-        }
+        const { board, currView, cardCount, boardStats } = this.state;
+        const { isShowingStatistics } = this.props;
+        // let boardStats = null;
+        // if (board) {
+        //     boardStats = this.getBoardStats(board);
+        // }
 
         return ((!board) ? '' :
 
             <>
-                <div className="screen stats" onMouseDown={this.onBackBoard}>
+                <div className="stats flex align-center justify-center">
 
-                    <section className="board-statistics modal-container flex column" onMouseDown={(ev) => ev.stopPropagation()}
+                    <section className={`board-statistics modal-container flex column ${(isShowingStatistics) ? '' : 'board-statistics-closed'}`} onMouseDown={(ev) => ev.stopPropagation()}
                         ref={this.elStats}>
                         <header className="board-statistics-header-span flex align-center justify-center">
                             <p className="board-statistics-header">' {board.title} '</p>

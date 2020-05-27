@@ -1,9 +1,13 @@
 .board-content {
-    // padding: 0 20px 0 0;
     margin: 0;
-    height: calc(100% - 60px);
+    height: calc(100vh - 130px);
     overflow-x: hidden;
-    margin-top: 60px;
+}
+
+@media (max-width: 500px) {
+    .board-content{
+        height: 74.5vh;
+    }
 }
 
 .stacks-content > * {
@@ -68,6 +72,7 @@
     width: 100%;
     height: 100%;
     overflow-x: scroll;
+    padding-bottom: 20px;
 
     .labels-container {
 
@@ -102,8 +107,15 @@
     overflow-y: auto;
     padding: 0px 8px 8px 8px;
     background: #ebecf0;
-    width: 250px;
+    width: 246px;
+    font-size: rem(14px);
     // transition: ease-in-out 0.15s;
+}
+
+@media (max-width: 500px) {
+    .stack {
+        width: 275px;
+    }
 }
 
 // .stack-title {
@@ -206,13 +218,18 @@
 
 .stack-content {
     background: $clr6;
-    max-height: 72vh;
-
+    max-height: 100%;
     height: fit-content;
     user-select: none;
     padding-top: 0;
     border-radius: 3px;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.75);
+}
+
+@media (max-width: 500px) {
+    .stack-content {
+        width: 280px !important;
+    }
 }
 
 .close-add-icon {

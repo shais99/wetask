@@ -79,7 +79,7 @@ export function CardPreview(props) {
                     ?
                     <div className="card-preview-info flex align-center space-start">
 
-                        {(card.dueDate && card.dueDate != '')
+                        {(card.dueDate && card.dueDate !== '')
                             ?
                             <span className={`preview-info-span flex align-center due-date ${dueDateClass}`}>
                                 <img className="preview-info-img" src="/assets/img/clock.png" alt=""/>

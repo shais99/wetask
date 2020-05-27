@@ -27,6 +27,8 @@ class AddContent extends React.Component {
                 const parentId = this.props.itemId;
                 this.props.onCardAdd(itemTitle, parentId);
                 break;
+            default:
+                
         }
 
         this.setState({ isOpen: false, title: '' });
@@ -54,7 +56,7 @@ class AddContent extends React.Component {
             <div className={`add-content-container flex align-start add-${type}`} style={{
 
                 // marginRight: (type === 'stack') ? '16px' : '0',
-                padding: (type === 'stack') ? '10px 20px' : '7.5px 15px',
+                padding: (type === 'stack') ? '10px 20px' : '10px 15px',
                 fontSize: (type === 'stack') ? 16 : 14,
                 color: (type === 'stack') ? '#ffffff' : '#888888',
                 // background: (type === 'stack') ? 'lightgreen' : 'cornflowerblue',
@@ -67,7 +69,7 @@ class AddContent extends React.Component {
                 {(isOpen)
                     ?
                     <>
-                        <form onSubmit={this.addItem} className="add-content flex column align-start">
+                        <form onSubmit={this.addItem} className={`add-content flex column align-start ${type === 'stack' ? '' : 'card-add-content'}`}>
                             <input name="name" autoComplete="off" onChange={this.handleChange}
                                 value={title} placeholder={`Enter ${(type === 'stack') ? 'list' : type} title...`}
                                 className={`input ${(type === 'stack') ? 'stack-input' : 'card-input'}`} style={{ padding: '8px 12px' }} autoFocus={true} />

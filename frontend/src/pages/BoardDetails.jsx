@@ -14,7 +14,7 @@ import BoardStatistics from '../pages/BoardStatistics'
 import { makeId } from '../services/utilService';
 import { reorder, move } from '../services/boardDetailsUtils';
 import ActionContainer from '../cmps/ActionContainer';
-import ScrollContainer from 'react-indiana-drag-scroll'
+// import ScrollContainer from 'react-indiana-drag-scroll'
 
 class BoardDetails extends React.Component {
 
@@ -25,6 +25,7 @@ class BoardDetails extends React.Component {
 
     state = {
         areLabelsOpen: false,
+        isShowingStatistics: false,
         stackTitles: {},
         stackMenus: {}
     }
@@ -36,7 +37,6 @@ class BoardDetails extends React.Component {
         socketService.setup();
         socketService.emit('setBoard', boardId);
         socketService.on('loadBoard', this.setBoard)
-        document.body.style.backgroundSize = 'cover'
 
         this.props.loadBoard(boardId);
     }
@@ -155,7 +155,8 @@ class BoardDetails extends React.Component {
             activities: [],
             byMember: this.props.loggedInUser,
             createdAt: Date.now(),
-            dueDate: ''
+            dueDate: '',
+            timeEstimation: ''
         });
 
         this.props.save(this.props.currBoard);
@@ -358,24 +359,26 @@ class BoardDetails extends React.Component {
         this.props.save(this.props.currBoard)
     }
 
+    toggleShowStatistics = () => {
+        this.setState(prevState => ({ isShowingStatistics: !prevState.isShowingStatistics }));
+    }
+
     render() {
         const { history, currBoard } = this.props;
-        const { areLabelsOpen, stackTitles } = this.state;
+        const { areLabelsOpen, stackTitles, isShowingStatistics } = this.state;
 
         if (!currBoard) return 'Loading...'
 
         return (
             <>
-                <BoardOptions history={history} board={currBoard} onSetBg={this.onSetBg} />
+                <BoardOptions isShowingStatistics={isShowingStatistics} history={history} board={currBoard} onSetBg={this.onSetBg} toggleShowStatistics={this.toggleShowStatistics} />
                 <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
-                <Route component={BoardStatistics} path="/boards/:boardId/statistics" />
-                {/* <ScrollContainer horizontal={true} className="scroll-container"> */}
+
                 <section className="board-content flex column align-start space-between">
 
-                    {(currBoard && stackTitles) ? this.stacks(areLabelsOpen, stackTitles) : null}
+                    {(isShowingStatistics) ? <BoardStatistics isShowingStatistics={isShowingStatistics} /> : (currBoard && stackTitles) ? this.stacks(areLabelsOpen, stackTitles) : null}
 
                 </section>
-                {/* </ScrollContainer> */}
             </>
         )
     }

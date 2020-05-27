@@ -1,23 +1,20 @@
 .board-options-container {
     background-color: rgba(255, 255, 255, 0.322);
     width: 100%;
-    height: 60px;
-    margin-top: -20px;
     margin-bottom: 20px;
-    padding: 20px;
-    position: fixed;
+    padding: 5px 18px;
 
     .board-title {
         font-family: openSansBold;
         background-color: $clr7;
-        padding: 10px;
+        padding: 3px 10px;
         border-radius: 5px;
     }
 
         .remove-member {
             width: 14px;
             position: absolute;
-            top: 6px;
+            top: 56px;
             visibility: hidden;
             opacity: 0;
             transition: 0.3s;
@@ -35,10 +32,9 @@
     .board-options {
         .option {
             background-color: $clr1;
-            padding: 8px;
+            padding: 5px;
             color: white;
             border-radius: 5px;
-            font-size: rem(14px);
             transition: 0.3s;
             opacity: 0.85;
             border: none;
@@ -46,7 +42,7 @@
             margin-left: 12px;
 
             & img {
-                width: 25px;
+                width: 22px;
                 background-color: $clr7;
                 padding: 3px;
                 border-radius: 5px;
@@ -58,11 +54,9 @@
             }
         }
     }
-}
 
-@media (max-width: 700px) {
-    .board-options-container {
-        margin-top: -24px;
+    &.stats-margin {
+        margin-bottom: 0;
     }
 }
 
@@ -79,8 +73,8 @@
               }
     
             .member {
-                min-width: 35px;
-                min-height: 35px;
+                min-width: 30px;
+                min-height: 30px;
             }
         }
 
@@ -93,8 +87,8 @@
 
 .member {
     border-radius: 50%;
-    width: 35px;
-    height: 35px;
+    width: 31px;
+    height: 31px;
     font-size: rem(13px);
     margin-right: 3px;
     background-size: 100%;
