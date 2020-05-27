@@ -43,7 +43,6 @@ export default class CardChecklist extends React.Component {
 
     calculateProgBarBgc = () => {
         const width = this.calculateProgBarWidth();
-            console.log(width);
         if (width === '100') return '#61bd4f'
         return '#0079bf'
     }

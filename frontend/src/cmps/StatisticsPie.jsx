@@ -36,7 +36,6 @@ export class StatisticsPie extends React.Component {
 
         const getSliceColor = slice => slice.color;
         const { data } = this.state;
-        console.log(data);
         return (
             // <span className="pie-content">
             <ResponsivePie
