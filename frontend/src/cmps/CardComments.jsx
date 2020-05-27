@@ -8,7 +8,7 @@ export default class CardComments extends Component {
         return (
             <>
                 <div className="card-mini-title flex align-center">
-                    <img src="/assets/img/comment.png" />
+                    <img src="/assets/img/comment.png" alt="" />
                     <label className="card-txt-title" htmlFor="cardComment">Comments:</label>
                 </div>
                 <div className="main-content-card-action">

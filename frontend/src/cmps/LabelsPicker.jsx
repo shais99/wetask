@@ -22,7 +22,7 @@ export default class LabelsPicker extends Component {
             {this.state.labels.map((label, idx) => {
                 return <div key={idx} className="label-item flex space-between" style={{ backgroundColor: label.color }}
                     onClick={() => addLabel({ title: label.title, color: label.color })}>
-                    {label.title.charAt(0).toUpperCase() + label.title.slice(1)} {isLabelChecked(label.title) ? <img src="/assets/img/icon-checked-white.png" /> : ''}
+                    {label.title.charAt(0).toUpperCase() + label.title.slice(1)} {isLabelChecked(label.title) ? <img src="/assets/img/icon-checked-white.png" alt="" /> : ''}
                 </div>
             })}
         </>
