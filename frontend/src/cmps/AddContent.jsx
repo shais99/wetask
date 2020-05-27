@@ -69,7 +69,7 @@ class AddContent extends React.Component {
                 {(isOpen)
                     ?
                     <>
-                        <form onSubmit={this.addItem} className="add-content flex column align-start">
+                        <form onSubmit={this.addItem} className={`add-content flex column align-start ${type === 'stack' ? '' : 'card-add-content'}`}>
                             <input name="name" autoComplete="off" onChange={this.handleChange}
                                 value={title} placeholder={`Enter ${type} title...`}
                                 className={`input ${(type === 'stack') ? 'stack-input' : 'card-input'}`} style={{ padding: '8px 12px' }} autoFocus={true} />
