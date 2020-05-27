@@ -36,7 +36,6 @@ class BoardDetails extends React.Component {
         socketService.setup();
         socketService.emit('setBoard', boardId);
         socketService.on('loadBoard', this.setBoard)
-        document.body.style.backgroundSize = 'cover'
 
         this.props.loadBoard(boardId);
     }

@@ -1,12 +1,17 @@
 .board-menu-container {
     background-color: #f3f3f3;
     width: 350px;
-    height: 82vh;
-    position: absolute;
+    height: calc(100vh - 60px);
+    position: fixed;
     right: 0px;
     top: 60px;
-    animation: slide-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.6);
+    transform: translateX(105%);
+    transition: transform 0.4s;
+
+    &.board-menu-open {
+        transform: translateX(0%);
+    }
 
     .board-menu-content {
         height: 90%;
@@ -77,6 +82,13 @@
     }
 }
 
+@media (max-width: 700px) {
+    .board-menu-container {
+        height: calc(100vh - 58px);
+        top: 56px;
+    }
+}
+
 @media (max-width: 500px) {
     .board-menu-container {
         width: 250px;
@@ -99,6 +111,10 @@
     .backgrounds-container {
         padding-top: 20px;
         max-height: 54vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        justify-items: center;
 
         .background {
             width: 140px;
@@ -139,6 +155,14 @@
 
     .color-choose {
         background: linear-gradient(to right, rgb(95, 44, 130), rgb(73, 160, 157));
+    }
+}
+
+@media (max-width: 500px) {
+    .board-styling-container{
+        .backgrounds-container {
+            grid-template-columns: 1fr;
+        }
     }
 }
 
@@ -184,14 +208,5 @@
         margin-left: 0;
         width: 220px;
         right: 13px;
-    }
-}
-
-@keyframes slide-left {
-    0% {
-        transform: translateX(200px);
-    }
-    100% {
-        transform: translateX(0px);
     }
 }

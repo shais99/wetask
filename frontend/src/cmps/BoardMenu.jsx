@@ -22,31 +22,30 @@ class BoardMenu extends Component {
     }
 
     render() {
-        const { onClose, onSetBg, board } = this.props
+        const { onClose, onSetBg, board, isOpen } = this.props
         const { isStylingShown, isRemoveBoardShown } = this.state
+
         return (
-            <OutsideClickHandler onOutsideClick={() => onClose()} display={'contents'}>
-                <div className="board-menu-container">
-                    
-                        <div className="board-menu-title flex space-between align-center">
-                            Board Managment
+            <div className={`board-menu-container ${isOpen ? 'board-menu-open' : ''}`}>
+
+                <div className="board-menu-title flex space-between align-center">
+                    Board Managment
                     <img src="/assets/img/close-white.png" className="close-icon" onClick={() => onClose()} alt="" />
-                        </div>
-
-                        <div className="board-menu-content">
-                            {!isStylingShown && <ul className="board-menu-list clean-list">
-                                <Link to="#" onClick={this.onToggleStyling}><li><img src="/assets/img/style.png" className="small-icon" alt="" />Board Styling</li></Link>
-                                <Link to={`/boards/${board._id}/statistics`} onClick={() => onClose()} ><li><img src="/assets/img/stats.png" className="small-icon" alt="" />Show Board Statistics</li></Link>
-                                <Link to="#" onClick={this.onToggleRemoveBoard}><li className="remove-board"><img src="/assets/img/trash.png" className="small-icon" alt="" />Remove Board</li></Link>
-                            </ul>}
-
-                            {isRemoveBoardShown && <RemoveBoard onToggleRemoveBoard={this.onToggleRemoveBoard} onRemoveBoard={this.onRemoveBoard} />}
-                            {!isStylingShown && <BoardActivities board={board} />}
-                            {isStylingShown && <BoardStyling onSetBg={onSetBg} onToggleStyling={this.onToggleStyling} />}
-                        </div>
-                    
                 </div>
-            </OutsideClickHandler>
+
+                <div className="board-menu-content">
+                    {!isStylingShown && <ul className="board-menu-list clean-list">
+                        <Link to="#" onClick={this.onToggleStyling}><li><img src="/assets/img/style.png" className="small-icon" alt="" />Board Styling</li></Link>
+                        <Link to={`/boards/${board._id}/statistics`} onClick={() => onClose()} ><li><img src="/assets/img/stats.png" className="small-icon" alt="" />Show Board Statistics</li></Link>
+                        <Link to="#" onClick={this.onToggleRemoveBoard}><li className="remove-board"><img src="/assets/img/trash.png" className="small-icon" alt="" />Remove Board</li></Link>
+                    </ul>}
+
+                    {isRemoveBoardShown && <RemoveBoard onToggleRemoveBoard={this.onToggleRemoveBoard} onRemoveBoard={this.onRemoveBoard} />}
+                    {!isStylingShown && <BoardActivities board={board} />}
+                    {isStylingShown && <BoardStyling onSetBg={onSetBg} onToggleStyling={this.onToggleStyling} />}
+                </div>
+
+            </div>
         )
     }
 }

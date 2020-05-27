@@ -39,8 +39,8 @@ class NavBar extends Component {
     }
 
     onLogout = async () => {
-        await this.props.logout()
         this.toggleMenu()
+        await this.props.logout()
 
         const userCred = {
             username: `Guest-${makeId(4)}`,
@@ -77,7 +77,7 @@ class NavBar extends Component {
                                 {user?.isGuest && <li><NavLink onClick={this.toggleMenu} to="/login">Login</NavLink></li>}
                                 {!user?.isGuest && <li><Link to="/" onClick={this.onLogout}>Logout</Link></li>}
                             </ul>
-                            <button onClick={() => this.toggleMenu()} className="btn-menu"></button>
+                            <button onClick={this.toggleMenu} className="btn-menu"></button>
                         </div>
                     </div>
                 </div>

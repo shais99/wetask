@@ -54,6 +54,7 @@ class BoardOptions extends Component {
     render() {
         const { board, onSetBg, history } = this.props
         const { isAddMemberShown, isBoardMenuShown } = this.state
+        
         return (
             <div className="board-options-container flex align-center space-between">
                 <div className="board-title">{board.title}</div>
@@ -71,7 +72,7 @@ class BoardOptions extends Component {
                     </button>
                 </div>
                 {isAddMemberShown && <AddMember onClose={this.onToggleAddMember} onAddMember={this.onAddMember} />}
-                {isBoardMenuShown && <BoardMenu history={history} onSetBg={onSetBg} board={board} onClose={this.onToggleBoardMenu} />}
+                {<BoardMenu isOpen={isBoardMenuShown} history={history} onSetBg={onSetBg} board={board} onClose={this.onToggleBoardMenu} />}
 
             </div>
         )

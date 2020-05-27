@@ -11,11 +11,9 @@ module.exports = {
 }
 
 async function query(filterBy = {}) {
-    const criteria = _buildCriteria(filterBy)
-
     const collection = await dbService.getCollection('board')
     try {
-        const boards = await collection.find({ 'members._id': filterBy.userId }).toArray();
+        const boards = await collection.find({ 'members._id': filterBy.userId }).sort({ 'createdAt': -1 }).toArray();
         return boards
     } catch (err) {
         console.log('ERROR: cannot find boards')
@@ -47,7 +45,7 @@ async function remove(boardId) {
 async function update(board) {
     const collection = await dbService.getCollection('board')
     board._id = ObjectId(board._id);
-    
+
     try {
         await collection.replaceOne({ "_id": board._id }, { $set: board })
         return board
@@ -66,12 +64,4 @@ async function add(board) {
         console.log(`ERROR: cannot insert board`)
         throw err;
     }
-}
-
-function _buildCriteria(filterBy) {
-    const criteria = {};
-    if (filterBy.userId) {
-        criteria.userId = filterBy.userId
-    }
-    return criteria;
 }

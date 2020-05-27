@@ -6,8 +6,8 @@ body {
     margin: 0;
     font-family: openSans, Arial, serif;
     color: $clr1;
-    background-size: cover;
     background: linear-gradient(to bottom, $clr2, darken($clr2, 10%));
+    padding-bottom: 5px;
     background-attachment: fixed;
 }
 
@@ -48,10 +48,6 @@ p {
     border: none;
 }
 
-.main-content {
-    height: 100vh;
-    padding-bottom: 5px;
-}
 /* Scrollbar */
 
 ::-webkit-scrollbar {
