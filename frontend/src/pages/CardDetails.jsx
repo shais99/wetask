@@ -12,6 +12,7 @@ import { uploadImg } from '../services/cloudinaryService'
 import CardImg from '../cmps/CardImg'
 import ReomveCard from '../cmps/RemoveCard'
 import moment from 'moment'
+import CardActivity from '../cmps/CardActivity'
 
 class CardDetails extends Component {
 
@@ -29,7 +30,8 @@ class CardDetails extends Component {
         },
         isUploadImg: false,
         isFinishUpload: false,
-        isOpenModalRemove: false
+        isOpenModalRemove: false,
+        dueDateNotSave: ''
     }
 
     componentDidMount() {
@@ -73,10 +75,24 @@ class CardDetails extends Component {
     }
 
     // @TODO: due date start from the DB, if got
+
     onChangeDate = (dueDate) => {
+        this.setState({ dueDateNotSave: dueDate })
+    }
+
+    onSubmitDate = () => {
         const { currBoard, loggedInUser } = this.props
-        currBoard.activities.unshift({ id: makeId(), txt: `set card due date to ${moment(dueDate).format("MMM DD")}`, createdAt: Date.now(), byMember: loggedInUser })
-        this.setState(prevState => ({ card: { ...prevState.card, dueDate } }), () => this.props.saveCard(this.state.card))
+        currBoard.activities.unshift({
+            id: makeId(), txt: `set card due date to 
+        ${moment(this.state.dueDateNotSave).format("MMM DD")}`, createdAt: Date.now(), byMember: loggedInUser
+        })
+        this.state.card.activities.unshift({
+            id: makeId(), txt: `set card due date to 
+        ${moment(this.state.dueDateNotSave).format("MMM DD")}`, createdAt: Date.now(), byMember: loggedInUser
+        })
+        this.setState(prevState => ({ card: { ...prevState.card, dueDate: this.state.dueDateNotSave } }), () => {
+            this.props.saveCard(this.state.card)
+        })
     }
 
     removeDueDate = () => {
@@ -87,7 +103,6 @@ class CardDetails extends Component {
     handleChange = ({ target }) => {
         const field = target.name
         const value = target.value
-
         this.setState(prevState => ({ card: { ...prevState.card, [field]: value } }))
     }
 
@@ -97,31 +112,44 @@ class CardDetails extends Component {
 
     onAddComment = (ev) => {
         ev.preventDefault();
-        const { comment } = this.state
+        const { comment, card } = this.state
         if (!comment.txt) return;
         comment.id = makeId();
         comment.createdAt = Date.now();
         comment.byMember = this.props.loggedInUser;
-        const currCard = this.getCurrCard()
-        currCard.comments.unshift(comment)
-        this.setState({ comment: { txt: '' } }, () => {
+        this.setState(prevState => ({ card: { ...prevState.card, comments: [comment, ...prevState.card.comments] } }), () => {
             this.props.saveCard(this.state.card)
         })
+        card.activities.unshift({
+            id: makeId(), txt: `set card comment to ${comment.txt}`,
+            createdAt: Date.now(), byMember: this.props.loggedInUser
+        })
+        this.setState({ comment: { txt: '' } })
+
+
     }
 
-    removeComment = (commentId) => {
+    removeComment = (comment) => {
         this.setState(prevState => ({
             card: {
                 ...prevState.card,
-                comments: prevState.card.comments.filter(comment => comment.id !== commentId)
+                comments: prevState.card.comments.filter(currComment => currComment.id !== comment.id)
             }
         }), () => {
             this.props.saveCard(this.state.card)
+        })
+        this.state.card.activities.unshift({
+            id: makeId(), txt: `removed card comment ${comment.txt}`,
+            createdAt: Date.now(), byMember: this.props.loggedInUser
         })
     }
 
     onEditTitle = ({ target }) => {
         this.setState(prevState => ({ card: { ...prevState.card, title: target.value } }), () => {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `edited card title to ${this.state.card.title}`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
             this.props.saveCard(this.state.card)
         })
     }
@@ -129,6 +157,10 @@ class CardDetails extends Component {
     onSaveDesc = (ev) => {
         ev.preventDefault()
         this.setState({ prevCardDesc: this.state.card.description }, () => {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `edited card description to ${this.state.card.description}`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
             this.props.saveCard(this.state.card)
             this.onDescShown(false)
         })
@@ -138,20 +170,48 @@ class CardDetails extends Component {
         let currCard = this.getCurrCard();
         const labelIdx = currCard.labels.findIndex(label => label.title === currLabel.title);
 
-        if (labelIdx === -1) currCard.labels.push(currLabel)
-        else currCard.labels.splice(labelIdx, 1)
-
-        this.setState({ card: currCard }, () => this.props.saveCard(this.state.card))
+        if (labelIdx === -1) {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `add label: ${currLabel.title} to the card`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
+            currCard.labels.push(currLabel)
+        }
+        else {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `removed label: ${currLabel.title} from the card`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
+            currCard.labels.splice(labelIdx, 1)
+        }
+        this.setState({ card: currCard }, () => {
+            this.props.saveCard(this.state.card)
+        })
     }
 
     onAddMember = (currMember) => {
         let currCard = this.getCurrCard();
         const memberIdx = currCard.members.findIndex(member => member._id === currMember._id);
 
-        if (memberIdx === -1) currCard.members.push(currMember)
-        else currCard.members.splice(memberIdx, 1)
+        if (memberIdx === -1) {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `add member:  ${currMember.username} to the card`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
+            currCard.members.push(currMember)
+        }
+        else {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `removed member:  ${currMember.username} from the card`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
+            currCard.members.splice(memberIdx, 1)
+        }
         console.log('members', this.state.card.members);
-        this.setState({ card: currCard }, () => this.props.saveCard(this.state.card))
+        this.setState({ card: currCard }, () => {
+
+            this.props.saveCard(this.state.card)
+        })
     }
 
     getTwoChars(str) {
@@ -174,6 +234,10 @@ class CardDetails extends Component {
                 checklists: [...prevState.card.checklists, newChecklist]
             }
         }), () => {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `added checklist to the card`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
             this.props.saveCard(this.state.card)
         })
     }
@@ -188,6 +252,10 @@ class CardDetails extends Component {
                 })
             }
         }), () => {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `has edited checklist title card to ${title}`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
             this.props.saveCard(this.state.card)
         })
     }
@@ -212,33 +280,45 @@ class CardDetails extends Component {
                 })
             }
         }), () => {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `added todo ${newTodo.title} to the card`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
             this.props.saveCard(this.state.card)
         })
     }
 
-    onRemoveTodo = (checklistId, todoId) => {
+    onRemoveTodo = (checklistId, todo) => {
         this.setState(prevState => ({
             card: {
                 ...prevState.card,
                 checklists: prevState.card.checklists.map(checklist => {
                     if (checklist.id === checklistId) {
-                        checklist.todos = checklist.todos.filter(todo => todo.id !== todoId)
+                        checklist.todos = checklist.todos.filter(currTodo => currTodo.id !== todo.id)
                     }
                     return checklist
                 })
             }
         }), () => {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `removed todo ${todo.title} from the card`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
             this.props.saveCard(this.state.card)
         })
     }
 
-    onRemoveChecklist = (checklistId) => {
+    onRemoveChecklist = (checklist) => {
         this.setState(prevState => ({
             card: {
                 ...prevState.card,
-                checklists: prevState.card.checklists.filter(checklist => checklist.id !== checklistId)
+                checklists: prevState.card.checklists.filter(currChecklist => currChecklist.id !== checklist.id)
             }
         }), () => {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `removed checklist ${checklist.title} from the card`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
             this.props.saveCard(this.state.card)
         })
     }
@@ -263,11 +343,23 @@ class CardDetails extends Component {
         this.setState({ isUploadImg: true })
         const imgUrl = await uploadImg(ev)
         this.setState({ isUploadImg: false, isFinishUpload: true })
-        this.setState(prevState => ({ card: { ...prevState.card, imgUrl } }), () => this.props.saveCard(this.state.card))
+        this.setState(prevState => ({ card: { ...prevState.card, imgUrl } }), () => {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `uploaded image to the card`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
+            this.props.saveCard(this.state.card)
+        })
     }
 
     onRemoveImg = () => {
-        this.setState(prevState => ({ card: { ...prevState.card, imgUrl: null } }), () => this.props.saveCard(this.state.card))
+        this.setState(prevState => ({ card: { ...prevState.card, imgUrl: null } }), () => {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `removed image from the card`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
+            this.props.saveCard(this.state.card)
+        })
     }
 
     moveCardToStack = (stackDest) => {
@@ -279,6 +371,10 @@ class CardDetails extends Component {
             if (stack.title === stackDest.title) {
                 stack.cards.push(this.state.card)
             }
+        })
+        this.state.card.activities.unshift({
+            id: makeId(), txt: `moved card to stack ${stackDest.title}`,
+            createdAt: Date.now(), byMember: this.props.loggedInUser
         })
         this.props.save(this.props.currBoard)
     }
@@ -310,9 +406,12 @@ class CardDetails extends Component {
             <>
                 <div className="screen" onMouseDown={this.onBackBoard} >
                     <div className="modal-container shadow-drop-2-center" onMouseDown={(ev) => ev.stopPropagation()}>
-                        <div className="modal-header flex space-between">
-                            <input type="text" name="title" className="card-title" onChange={this.onEditTitle} value={card.title} />
-                            <button className="close-modal" onClick={this.onBackBoard}></button>
+                        <div className="modal-header flex align-center space-between">
+                            <div className="flex align-center">
+                                <img className="img-icon" src="/assets/img/task.png" alt="" />
+                                <input type="text" name="title" className="card-title" onChange={this.onEditTitle} value={card.title} />
+                            </div>
+                            <div className="close-modal flex justify-content align-center" onClick={this.onBackBoard}><img className="img-icon" src="/assets/img/close.png" alt="" /></div>
                         </div>
 
                         <div className="card-container flex">
@@ -323,6 +422,7 @@ class CardDetails extends Component {
                                 {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} onRemoveImg={this.onRemoveImg} />}
                                 {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} onRemoveTodo={this.onRemoveTodo} onRemoveChecklist={this.onRemoveChecklist} />)}
                                 <CardComments comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} removeComment={this.removeComment} />
+                                <CardActivity activities={card.activities} getTwoChars={this.getTwoChars} />
                             </aside>
                             <aside className="card-actions">
                                 <ul className="clean-list">
@@ -333,9 +433,9 @@ class CardDetails extends Component {
                                     <Link title="Add Image" to="#" onClick={() => this.onOpenUpload()}><li><img src="/assets/img/style.png" alt="" />Add Image</li></Link>
                                     <input type="file" ref={input => this.inputElement = input} name="imgUrl" onChange={this.onUploadImg} hidden />
                                     <Link title="Move Card" to="#" onClick={() => this.onToggleAction('move')}><li><img src="/assets/img/back.png" className="img-rotate" alt="" />Move Card</li></Link>
-                                    <Link title="Remove Card" to="#" onClick={this.onToggleRemoveCard}><li className="li-last-child"><img src="/assets/img/trash.png" alt="" />Remove Card</li></Link>
+                                    <Link title="Remove Card" to="#" onClick={this.onToggleRemoveCard}><li className="li-last-child"><img src="/assets/img/trash-white.png" alt="" />Remove Card</li></Link>
 
-                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} onToggleAction={onToggleAction} value={card.dueDate} removeDueDate={this.removeDueDate} />}
+                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} onSubmitDate={this.onSubmitDate} onToggleAction={onToggleAction} value={card.dueDate} removeDuedate={this.removeDuedate} />}
                                     {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} addMember={this.onAddMember} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.move && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onToggleAction={onToggleAction} moveCardToStack={this.moveCardToStack} />}
