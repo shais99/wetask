@@ -56,13 +56,15 @@ export default class ActionContainer extends Component {
 
         return (
             <OutsideClickHandler onOutsideClick={() => onToggleAction(action)} display={'contents'}>
-                < div className="labels-container" >
-                    <div className="labels-header flex space-between align-center">
+                < div className="action-container" >
+                    <div className="action-header flex space-between align-center">
                         <h3>{this.titleToReturn(action)}</h3>
-                        <button className="close-label" onClick={() => onToggleAction(action)}>X</button>
+                        <button className="close-label" onClick={() => onToggleAction(action)}>
+                            <img src="/assets/img/close.png" alt=""/>
+                        </button>
                     </div>
                     {isShown.dueDate && <DueDate onChange={onChange} value={value} onToggleAction={onToggleAction} removeDueDate={removeDueDate} onSubmitDate={onSubmitDate} />}
-                    {isShown.label && <LabelsPicker addLabel={addLabel} getCurrCard={getCurrCard} />}
+                    {isShown.label && <LabelsPicker addLabel={addLabel} card={card} />}
                     {isShown.members && <CardMembers board={board} getCurrCard={getCurrCard} card={card} addMember={addMember} />}
                     {isShown.move && <CardMove board={board} card={card} moveCardToStack={moveCardToStack} />}
                     {isShown.timeEstimation && <CardTimeEstimation card={card} onToggleAction={onToggleAction}
