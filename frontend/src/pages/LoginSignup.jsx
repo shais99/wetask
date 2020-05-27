@@ -99,20 +99,23 @@ class LoginSignup extends Component {
                     {isLogin && <div className="signup-login-link"><Link to="/signup">Sign up for an account</Link></div>}
                     {!isLogin && <div className="signup-login-link"><Link to="/login">Already have an account? Sign in</Link></div>}
                     {isFinishUpload && <div className="img-uploaded-msg flex align-center space-between">Your image was uploaded successfully! <img src="assets/img/success.png" className="small-icon" alt="" /></div>}
-
-                    <form className="login-signup-form flex column align-start" onSubmit={this.handleUserSubmit}>
-                        <input type="text" onChange={this.handleChange} value={user.username} name="username" autoComplete="off" placeholder="Username" />
-                        {!isLogin && <input type="text" onChange={this.handleChange} value={user.fullname} name="fullname" autoComplete="off" placeholder="Full name" />}
-                        <input type="password" onChange={this.handleChange} value={user.password} name="password" placeholder="Password" />
-                        {!isLogin && <input type="password" onChange={this.handleChange} value={user.confirmPassword} name="confirmPassword" placeholder="Confirm password" />}
-                        {!isLogin && <input type="file" ref={input => this.inputElement = input} name="imgUrl" onChange={this.onUploadImg} hidden />}
-                        <div className="img-submit-container flex align-start space-between">
-                            {!isLogin && <span className="upload-img" onClick={() => this.onOpenUpload()}>Upload Profile Image</span>}
-                            <button className={`btn btn-success ${isUploadImg ? 'disable' : ''}`} disabled={isUploadImg}>{isLogin ? 'Login' : 'Signup'}</button>
-                        </div>
-                    </form>
+                    <div className="form-img-container flex">
+                        <form className="login-signup-form flex column align-start" onSubmit={this.handleUserSubmit}>
+                            <input type="text" onChange={this.handleChange} value={user.username} name="username" autoComplete="off" placeholder="Username" />
+                            {!isLogin && <input type="text" onChange={this.handleChange} value={user.fullname} name="fullname" autoComplete="off" placeholder="Full name" />}
+                            <input type="password" onChange={this.handleChange} value={user.password} name="password" placeholder="Password" />
+                            {!isLogin && <input type="password" onChange={this.handleChange} value={user.confirmPassword} name="confirmPassword" placeholder="Confirm password" />}
+                            {!isLogin && <input type="file" ref={input => this.inputElement = input} name="imgUrl" onChange={this.onUploadImg} hidden />}
+                            <div className="img-submit-container flex align-start space-between">
+                                {!isLogin && <span className="upload-img" onClick={() => this.onOpenUpload()}>Upload Profile Image</span>}
+                                <button className={`btn btn-success ${isUploadImg ? 'disable' : ''}`} disabled={isUploadImg}>{isLogin ? 'Login' : 'Signup'}</button>
+                            </div>
+                        </form>
+                        <img src="assets/img/login-signup.png" className="login-signup-img" alt="" />
+                    </div>
 
                     {msg && <div className="user-msg flex align-center space-between">{msg}<img src="assets/img/error-white.png" className="small-icon" alt="" /></div>}
+
                 </div>
             </div>
         )
