@@ -10,9 +10,10 @@ import CardChecklist from '../cmps/CardChecklist'
 import CardPreviewActions from '../cmps/CardPreviewActions'
 import { uploadImg } from '../services/cloudinaryService'
 import CardImg from '../cmps/CardImg'
-import ReomveCard from '../cmps/RemoveCard'
+import RemoveCard from '../cmps/RemoveCard'
 import moment from 'moment'
 import CardActivity from '../cmps/CardActivity'
+import CardShowTimeEstimation from '../cmps/CardShowTimeEstimation'
 
 class CardDetails extends Component {
 
@@ -398,6 +399,43 @@ class CardDetails extends Component {
         history.push(`/boards/${this.props.currBoard._id}`);
     }
 
+    onAddTimeEstimation = (timeEstimation) => {
+        timeEstimation.approve = false;
+        this.setState(prevState => ({ card: { ...prevState.card, timeEstimation } }), () => {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `added time estimation to card`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
+            this.props.saveCard(this.state.card)
+        })
+    }
+
+    removeCardEstimation = () => {
+        this.setState(prevState => ({ card: { ...prevState.card, timeEstimation: null } }), () => {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `removed time estimation from the card`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
+            this.props.saveCard(this.state.card)
+        })
+    }
+
+    onApproveTimeEstimation = () => {
+        this.setState(prevState => ({ card: { ...prevState.card, timeEstimation: { ...prevState.card.timeEstimation, approve: true } } }), () => {
+            this.state.card.activities.unshift({
+                id: makeId(), txt: `removed time estimation from the card`,
+                createdAt: Date.now(), byMember: this.props.loggedInUser
+            })
+            this.props.saveCard(this.state.card)
+            console.log(this.state.card);
+
+        })
+    }
+
+    onCommentTimeEstimation = () => {
+
+    }
+
 
     render() {
         const { card, isDescShown, comment, isShown, isUploadImg, isOpenModalRemove } = this.state
@@ -414,8 +452,10 @@ class CardDetails extends Component {
                             <div className="close-modal flex justify-content align-center" onClick={this.onBackBoard}><img className="img-icon" src="/assets/img/close.png" alt="" /></div>
                         </div>
 
+                        {card.timeEstimation && <CardShowTimeEstimation card={card} onApproveTimeEstimation={this.onApproveTimeEstimation} />}
                         <div className="card-container flex">
                             <aside className="card-content">
+
                                 <CardPreviewActions card={card} getTwoChars={this.getTwoChars} />
                                 <CardDescription description={card.description} onSaveDesc={this.onSaveDesc} handleChange={this.handleChange} isShown={this.onDescShown} isSubmitShown={isDescShown} />
 
@@ -441,9 +481,10 @@ class CardDetails extends Component {
                                     {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} addMember={this.onAddMember} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.move && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onToggleAction={onToggleAction} moveCardToStack={this.moveCardToStack} />}
+                                    {isShown.timeEstimation && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onToggleAction={onToggleAction} onAddTimeEstimation={this.onAddTimeEstimation} removeCardEstimation={this.removeCardEstimation} />}
 
                                 </ul>
-                                {isOpenModalRemove && <ReomveCard onToggleRemoveCard={this.onToggleRemoveCard} onRemoveCard={this.onRemoveCard} />}
+                                {isOpenModalRemove && <RemoveCard onToggleRemoveCard={this.onToggleRemoveCard} onRemoveCard={this.onRemoveCard} />}
 
 
                             </aside>

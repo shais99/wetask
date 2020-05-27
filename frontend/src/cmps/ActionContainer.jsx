@@ -3,6 +3,7 @@ import DueDate from './DueDate'
 import LabelsPicker from './LabelsPicker'
 import CardMembers from './CardMembers'
 import CardMove from './CardMove'
+import CardTimeEstimation from './CardTimeEstimation'
 import OutsideClickHandler from 'react-outside-click-handler';
 
 
@@ -32,16 +33,20 @@ export default class ActionContainer extends Component {
             case 'label':
                 return 'Labels'
             case 'members':
-                return 'Members'
+                return 'Add Members'
             case 'move':
-                return 'Move'
+                return 'Move Card'
+            case 'timeEstimation':
+                return 'Time Estimation'
             default:
                 break;
         }
     }
 
     render() {
-        const { isShown, card, onToggleAction, board, onChange, value, onSubmitDate, getCurrCard, addLabel, addMember, removeDueDate, moveCardToStack } = this.props;
+        const { isShown, card, onToggleAction, board, onChange, value, onSubmitDate, 
+            getCurrCard, addLabel, addMember, removeDueDate, moveCardToStack, 
+            onAddTimeEstimation, removeCardEstimation } = this.props;
 
         const { action } = this.state;
         return (
@@ -55,6 +60,8 @@ export default class ActionContainer extends Component {
                     {isShown.label && <LabelsPicker addLabel={addLabel} getCurrCard={getCurrCard} />}
                     {isShown.members && <CardMembers board={board} getCurrCard={getCurrCard} card={card} addMember={addMember} />}
                     {isShown.move && <CardMove board={board} card={card} moveCardToStack={moveCardToStack} />}
+                    {isShown.timeEstimation && <CardTimeEstimation card={card} onToggleAction={onToggleAction}
+                     onAddTimeEstimation={onAddTimeEstimation} removeCardEstimation={removeCardEstimation} />}
                 </div >
             </OutsideClickHandler>
         )

@@ -18,7 +18,7 @@
         padding: 5px 15px 20px;
 
         .modal-header {
-            margin-bottom: 25px;
+            margin-bottom: 17px;
             border-bottom: 1px solid darken($clr6, 10%);
             padding: 5px 5px 5px 0;
             .img-icon {
@@ -58,6 +58,25 @@
                 box-shadow: inset 0 0 0 2px #dfe1e6;
                 box-sizing: border-box;
                 padding-left: 15px;
+            }
+        }
+
+        .show-time-estimation {
+            background-color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: inset 0 0 0 1px #dfe1e6;
+            font-size: 0.75rem;
+            margin-bottom: 17px;
+            img {
+                width: 18px;
+                margin-left: 7px;
+                cursor: pointer;
+            }
+            span {
+                &:not(:last-of-type) {
+                    margin-right: 3px;
+                }
             }
         }
     }
