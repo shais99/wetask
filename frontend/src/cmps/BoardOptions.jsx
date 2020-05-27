@@ -41,12 +41,12 @@ class BoardOptions extends Component {
         this.onToggleAddMember()
     }
 
-    onRemoveMember = member => {
+    onRemoveMember = currMember => {
         const { loggedInUser, currBoard } = this.props
 
-        const memberIdx = currBoard.members.findIndex(member => member._id === member._id);
+        const memberIdx = currBoard.members.findIndex(member => currMember._id === member._id);
         currBoard.members.splice(memberIdx, 1)
-        currBoard.activities.unshift({ id: makeId(), txt: `removed ${member.username} from the board`, createdAt: Date.now(), byMember: loggedInUser })
+        currBoard.activities.unshift({ id: makeId(), txt: `removed ${currMember.username} from the board`, createdAt: Date.now(), byMember: loggedInUser })
         this.props.save(currBoard)
         this.setState({ currBoard })
     }

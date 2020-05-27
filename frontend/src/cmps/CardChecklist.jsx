@@ -1,5 +1,4 @@
 import React from 'react'
-import { makeId } from '../services/utilService'
 
 export default class CardChecklist extends React.Component {
     state = {
