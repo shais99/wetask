@@ -60,6 +60,12 @@
     }
 }
 
+@media (max-width: 700px) {
+    .board-options-container {
+        margin-top: -24px;
+    }
+}
+
 @media (max-width: 500px) {
     .board-options-container {
 

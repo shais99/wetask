@@ -46,7 +46,6 @@ export function CardPreview(props) {
     const showInfo = (card.comments.length || card.description !== '' || todosCount || card.dueDate !== '');
 
     function onCardClick() {
-
         props.history.push(props.link)
     }
 
@@ -83,7 +82,7 @@ export function CardPreview(props) {
                         {(card.dueDate && card.dueDate != '')
                             ?
                             <span className={`preview-info-span flex align-center due-date ${dueDateClass}`}>
-                                <img className="preview-info-img" src="/assets/img/clock.png" />
+                                <img className="preview-info-img" src="/assets/img/clock.png" alt=""/>
                                 <p className="preview-info-count">{moment(card.dueDate).format("MMM DD")}</p>
                             </span>
                             :
@@ -92,7 +91,7 @@ export function CardPreview(props) {
                         {(card.description !== '')
                             ?
                             <span className="preview-info-span flex align-center">
-                                <img className="preview-info-img" src="/assets/img/description.png" />
+                                <img className="preview-info-img" src="/assets/img/description.png" alt="" />
                             </span>
                             :
                             null
@@ -100,7 +99,7 @@ export function CardPreview(props) {
                         {(card.comments.length)
                             ?
                             <span className="preview-info-span flex align-center">
-                                <img className="preview-info-img" src="/assets/img/comment.png" />
+                                <img className="preview-info-img" src="/assets/img/comment.png" alt=""/>
                                 <p className="preview-info-count">{card.comments.length}</p>
                             </span>
                             :
@@ -109,7 +108,7 @@ export function CardPreview(props) {
                         {(card.checklists && todosCount)
                             ?
                             <span className="preview-info-span flex align-center">
-                                <img className="preview-info-img" src="/assets/img/todos.png" />
+                                <img className="preview-info-img" src="/assets/img/todos.png" alt="" />
                                 <p className="preview-info-count">{todosStatus}</p>
                             </span>
                             :

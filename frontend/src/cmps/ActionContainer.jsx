@@ -41,7 +41,7 @@ export default class ActionContainer extends Component {
     }
 
     render() {
-        const { isShown, card, onToggleAction, board, onChange, value, getCurrCard, addLabel, addMember, removeDueDate, moveCardToStack } = this.props;
+        const { isShown, card, onToggleAction, board, onChange, value, onSubmitDate, getCurrCard, addLabel, addMember, removeDueDate, moveCardToStack } = this.props;
 
         const { action } = this.state;
         return (
@@ -51,7 +51,7 @@ export default class ActionContainer extends Component {
                         <h3>{this.titleToReturn(action)}</h3>
                         <button className="close-label" onClick={() => onToggleAction(action)}>X</button>
                     </div>
-                    {isShown.dueDate && <DueDate onChange={onChange} value={value} onToggleAction={onToggleAction} removeDueDate={removeDueDate} />}
+                    {isShown.dueDate && <DueDate onChange={onChange} value={value} onToggleAction={onToggleAction} removeDueDate={removeDueDate} onSubmitDate={onSubmitDate} />}
                     {isShown.label && <LabelsPicker addLabel={addLabel} getCurrCard={getCurrCard} />}
                     {isShown.members && <CardMembers board={board} getCurrCard={getCurrCard} card={card} addMember={addMember} />}
                     {isShown.move && <CardMove board={board} card={card} moveCardToStack={moveCardToStack} />}

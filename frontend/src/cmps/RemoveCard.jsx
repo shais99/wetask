@@ -3,7 +3,7 @@ import React from 'react'
 export default function ReomveCard(props) {
     return (
         <div className="remove-board-container remove-card">
-            <div className="remove-board-title flex align-center space-between">
+            <div className="remove-board-title remove-card-title flex align-center space-between">
                 Remove card
                 <img src="/assets/img/close.png" className="close-icon" onClick={() => props.onToggleRemoveCard()} alt="" />
             </div>

@@ -4,10 +4,10 @@
 
 body {
     margin: 0;
-    font-family: openSans, serif;
+    font-family: openSans, Arial, serif;
     color: $clr1;
     background-size: cover;
-    background: linear-gradient(to bottom, $clr2, darken($clr2, 10%)) ;
+    background: linear-gradient(to bottom, $clr2, darken($clr2, 10%));
     background-attachment: fixed;
 }
 

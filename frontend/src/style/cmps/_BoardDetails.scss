@@ -180,7 +180,7 @@
 
 .stack-content {
     background: $clr6;
-    max-height: 98%;
+    max-height: 72vh;
 
     height: fit-content;
     user-select: none;
@@ -188,6 +188,7 @@
     border-radius: 3px;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.75);
 }
+
 
 .close-add-icon {
     width: rem(16px);

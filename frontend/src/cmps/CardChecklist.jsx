@@ -1,5 +1,4 @@
 import React from 'react'
-import { makeId } from '../services/utilService'
 
 export default class CardChecklist extends React.Component {
     state = {
@@ -44,7 +43,8 @@ export default class CardChecklist extends React.Component {
 
     calculateProgBarBgc = () => {
         const width = this.calculateProgBarWidth();
-        if (width === 100) return '#61bd4f'
+            console.log(width);
+        if (width === '100') return '#61bd4f'
         return '#0079bf'
     }
 
@@ -57,7 +57,7 @@ export default class CardChecklist extends React.Component {
                 <div className="card-checklist-title flex align-center">
                     <img src="/assets/img/todos.png" />
                     <input type="text" name="title" className="checklist-title" autoComplete="off" onChange={this.onEditChecklistTitle} value={title} />
-                    <button className="btn btn-delete" onClick={() => this.props.onRemoveChecklist(id)}>Delete</button>
+                    <button className="btn btn-delete" onClick={() => this.props.onRemoveChecklist(this.props.checklist)}>Delete</button>
                 </div>
                 <div className="checklist-main">
                     <div className="checklist-progress-bar-container"><span>{`${width}%`}</span>
@@ -74,7 +74,7 @@ export default class CardChecklist extends React.Component {
                                 <input name="title" className={`checklist-title todo-title ${todo.isDone ? 'done-decoration' : 'd'}`}
                                     value={todo.title} onChange={(event) => this.onUpdateTodo(event, todo)} />
                             </div>
-                            <div className="todo-delete-btn-container"><img className="todo-delete-btn" src="/assets/img/close.png" onClick={() => this.props.onRemoveTodo(id, todo.id)} /></div>
+                            <div className="todo-delete-btn-container"><img className="todo-delete-btn" src="/assets/img/close.png" onClick={() => this.props.onRemoveTodo(id, todo)} /></div>
                         </div>
                         )}
                         <form onSubmit={this.onAddTodo}>
