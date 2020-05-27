@@ -12,7 +12,7 @@ export default function BoardBackground(props) {
     if (type === 'image') {
         return (
             <div className="backgrounds-container flex even wrap">
-                {bgImgs.map((img, idx) => <div key={idx} className="background" onClick={() => onSetBg(img, 'img')} style={{ backgroundImage: `url(${img})`, backgroundSize: '100%' }}></div>)}
+                {bgImgs.map((img, idx) => <div key={idx} className="background" onClick={() => onSetBg(img, 'img')} style={{ backgroundImage: `url(${img})`, backgroundSize: '100%',backgroundPosition:'center' }}></div>)}
             </div>
         )
     } else {
