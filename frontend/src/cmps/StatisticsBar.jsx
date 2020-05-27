@@ -39,8 +39,6 @@ export class StatisticsBar extends React.Component {
     
         const keys = ['Tasks', 'Done Tasks'];
         const { data } = this.state;
-        console.log(data);
-        console.log(this.props.data);
         return (
     
             <ResponsiveBar
