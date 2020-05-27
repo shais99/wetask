@@ -3,6 +3,7 @@ import DueDate from './DueDate'
 import LabelsPicker from './LabelsPicker'
 import CardMembers from './CardMembers'
 import CardMove from './CardMove'
+import CardTimeEstimation from './CardTimeEstimation'
 import StackMenu from './StackMenu'
 import OutsideClickHandler from 'react-outside-click-handler';
 
@@ -33,9 +34,11 @@ export default class ActionContainer extends Component {
             case 'label':
                 return 'Labels'
             case 'members':
-                return 'Members'
+                return 'Add Members'
             case 'move':
-                return 'Move'
+                return 'Move Card'
+            case 'timeEstimation':
+                return 'Time Estimation'
             case 'stack':
                 return this.props.stackInfo.title
             default:
@@ -44,7 +47,10 @@ export default class ActionContainer extends Component {
     }
 
     render() {
-        const { isShown, card, onToggleAction, board, onChange, value, onSubmitDate, getCurrCard, addLabel, addMember, removeDueDate, moveCardToStack, stackInfo, onStackRemove } = this.props;
+        const { isShown, card, onToggleAction, board, onChange, value, onSubmitDate, 
+            getCurrCard, addLabel, addMember, removeDueDate, moveCardToStack, 
+            onAddTimeEstimation, removeCardEstimation,stackInfo,onStackRemove } = this.props;
+    
 
         const { action } = this.state;
 
@@ -59,6 +65,8 @@ export default class ActionContainer extends Component {
                     {isShown.label && <LabelsPicker addLabel={addLabel} getCurrCard={getCurrCard} />}
                     {isShown.members && <CardMembers board={board} getCurrCard={getCurrCard} card={card} addMember={addMember} />}
                     {isShown.move && <CardMove board={board} card={card} moveCardToStack={moveCardToStack} />}
+                    {isShown.timeEstimation && <CardTimeEstimation card={card} onToggleAction={onToggleAction}
+                     onAddTimeEstimation={onAddTimeEstimation} removeCardEstimation={removeCardEstimation} />}
                     {isShown.stack && <StackMenu board={board} stackId={stackInfo.id} onStackRemove={onStackRemove} />}
                 </div >
             </OutsideClickHandler>

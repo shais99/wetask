@@ -4,6 +4,17 @@ import { Link } from 'react-router-dom'
 
 
 export default class CardComments extends Component {
+    constructor(props) {
+        super(props);
+        this.myRef = React.createRef();
+    }
+
+    componentDidUpdate(prevProps){
+        if (this.props.isFocusComment !== prevProps.isFocusComment) {
+            this.myRef.current.focus();
+        }
+    }
+
     render() {
         return (
             <>
@@ -13,7 +24,9 @@ export default class CardComments extends Component {
                 </div>
                 <div className="main-content-card-action">
                     <form onSubmit={this.props.onAddComment}>
-                        <input name="comment" className="comment-input input" autoComplete="off" onChange={this.props.handleChange} id="cardComment" placeholder="Your comment..." value={this.props.comment} />
+                        <input ref={this.myRef} name="comment" className="comment-input input" autoComplete="off" 
+                        onChange={this.props.handleChange} id="cardComment" placeholder="Your comment..." 
+                        value={this.props.comment} />
                         <button className="btn-primary comment-btn">Add Comment</button>
                     </form>
                     <div className="comments-container">
@@ -29,7 +42,7 @@ export default class CardComments extends Component {
                                 </div>
                             </div>
                             <div className="comment-txt">{comment.txt}</div>
-                            <Link className="delete-comment" to="#" onClick={()=>this.props.removeComment(comment)}>Delete</Link>
+                            <Link className="delete-comment" to="#" onClick={() => this.props.removeComment(comment)}>Delete</Link>
                         </div>)}
                     </div>
                 </div>

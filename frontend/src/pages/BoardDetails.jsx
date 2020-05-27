@@ -147,7 +147,8 @@ class BoardDetails extends React.Component {
             activities: [],
             byMember: this.props.loggedInUser,
             createdAt: Date.now(),
-            dueDate: ''
+            dueDate: '',
+            timeEstimation: ''
         });
 
         this.props.save(this.props.currBoard);
