@@ -9,7 +9,7 @@ export function loadBoards(userId) {
 }
 export function loadBoard(id) {
   return dispatch => {
-    boardService.get(id)
+     boardService.get(id)
       .then(board => {
         dispatch({ type: 'SET_BOARD', board });
       })

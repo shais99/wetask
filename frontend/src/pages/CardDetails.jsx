@@ -444,7 +444,6 @@ class CardDetails extends Component {
                                 </ul>
                                 {isOpenModalRemove && <ReomveCard onToggleRemoveCard={this.onToggleRemoveCard} onRemoveCard={this.onRemoveCard} />}
 
-
                             </aside>
 
                         </div>

@@ -39,7 +39,7 @@ export function CardPreview(props) {
     }
 
     let dueDateClass = '';
-    if (card.dueDate && card.dueDate != '') {
+    if (card.dueDate && card.dueDate !== '') {
         dueDateClass = 'due-date-' + getDueDateType();
     }
 
