@@ -49,13 +49,38 @@
                 width: 25px;
                 background-color: $clr7;
                 padding: 3px;
-                border-radius: 50%;
+                border-radius: 5px;
             }
 
             &:hover {
                 background-color: $clr1;
                 opacity: 1;
             }
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .board-options-container {
+
+        .board-members {
+            overflow-x: scroll;
+            max-width: 114px;
+            margin-left: 10px;
+
+            &::-webkit-scrollbar {
+                display: none;
+              }
+    
+            .member {
+                min-width: 35px;
+                min-height: 35px;
+            }
+        }
+
+        .board-title {
+            font-size: rem(13px);
+            padding: 3px 5px;
         }
     }
 }

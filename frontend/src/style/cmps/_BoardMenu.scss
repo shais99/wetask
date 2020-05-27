@@ -1,6 +1,6 @@
 .board-menu-container {
     background-color: #f3f3f3;
-    width: 23%;
+    width: 350px;
     height: 82vh;
     position: absolute;
     right: 0px;
@@ -77,6 +77,12 @@
     }
 }
 
+@media (max-width: 500px) {
+    .board-menu-container {
+        width: 250px;
+    }
+}
+
 .board-styling-container {
     .board-styling-title {
         background-color: darken($clr6, 5%);
@@ -142,7 +148,7 @@
     height: 150px;
     position: absolute;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
-    border: 1px solid darken($clr6, 5%);
+    border-bottom: 1px solid darken($clr6, 5%);
     border-radius: 3px;
     margin-left: 30px;
     margin-top: -10px;
@@ -170,6 +176,14 @@
         width: 90%;
         text-transform: uppercase;
         font-family: openSansBold;
+    }
+}
+
+@media (max-width: 500px) {
+    .remove-board-container {
+        margin-left: 0;
+        width: 220px;
+        right: 13px;
     }
 }
 

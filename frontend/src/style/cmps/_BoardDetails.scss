@@ -13,7 +13,7 @@
 .stacks-content {
     .stack-header {
         margin-bottom: 10px;
-        padding: 0 5px;
+        padding: 5px 5px;
         transition: 0.3s;
         .stack-title-input {
             background: none;
@@ -44,10 +44,15 @@
             background: none;
             border: none;
             border-radius: 50%;
-            padding: 10px 12px;
+            padding: 5px 6px;
             color: darken($clr6, 40%);
             transition: 0.3s;
             font-family: openSansBold;
+
+            &:hover {
+                background: lighten($color: #d5d5d5, $amount: 10) ;
+                border-radius: 5px;
+            }
         }
 
         &:hover {
@@ -75,18 +80,18 @@
     // transition: ease-in-out 0.15s;
 }
 
-.stack-title {
-    font-family: openSansBold;
-    align-self: flex-start;
-    height: 2rem;
-    width: 100%;
-    padding: 20px 10px;
-    transition: ease-in-out 0.225s;
-    // font-size: rem(18px);
-    &:hover {
-        background: darken($color: $clr6, $amount: 7.5);
-    }
-}
+// .stack-title {
+//     font-family: openSansBold;
+//     align-self: flex-start;
+//     height: 2rem;
+//     width: 100%;
+//     padding: 20px 10px;
+//     transition: ease-in-out 0.225s;
+//     // font-size: rem(18px);
+//     &:hover {
+//         background: darken($color: $clr6, $amount: 7.5);
+//     }
+// }
 
 .secondary {
     opacity: 0.75;

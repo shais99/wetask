@@ -57,7 +57,7 @@ export default class CardChecklist extends React.Component {
                 <div className="card-checklist-title flex align-center">
                     <img src="/assets/img/todos.png" />
                     <input type="text" name="title" className="checklist-title" autoComplete="off" onChange={this.onEditChecklistTitle} value={title} />
-                    <button className="btn btn-delete-checklist" onClick={() => this.props.onRemoveChecklist(id)}>Delete</button>
+                    <button className="btn btn-delete" onClick={() => this.props.onRemoveChecklist(id)}>Delete</button>
                 </div>
                 <div className="checklist-main">
                     <div className="checklist-progress-bar-container"><span>{`${width}%`}</span>
@@ -67,11 +67,13 @@ export default class CardChecklist extends React.Component {
                         </div>
                     </div>
                     <div className="checklist-todos-container">
-                        {todos.map((todo) => <div className="flex align-center todo-item" key={todo.id}>
-                            <div className={todo.isDone ? "checkbox done" : "checkbox"} onClick={(event) => this.onUpdateTodo(event, todo, true)}>
+                        {todos.map((todo) => <div className="flex align-center todo-item space-between" key={todo.id}>
+                            <div className="flex align-center">
+                                <div className={todo.isDone ? "checkbox done" : "checkbox"} onClick={(event) => this.onUpdateTodo(event, todo, true)}>
+                                </div>
+                                <input name="title" className={`checklist-title todo-title ${todo.isDone ? 'done-decoration' : 'd'}`}
+                                    value={todo.title} onChange={(event) => this.onUpdateTodo(event, todo)} />
                             </div>
-                            <input name="title" className={`checklist-title todo-title ${todo.isDone ? 'done-decoration' : 'd'}`}
-                                value={todo.title} onChange={(event) => this.onUpdateTodo(event, todo)} />
                             <div className="todo-delete-btn-container"><img className="todo-delete-btn" src="/assets/img/close.png" onClick={() => this.props.onRemoveTodo(id, todo.id)} /></div>
                         </div>
                         )}

@@ -2,17 +2,29 @@
     background-color: #0000006b;
 }
 
+.screen {
+    display: none;
+}
+
 .nav-container {
     position: fixed;
     width: 100%;
-    transition: .5s;
+    transition: 0.5s;
 
     .nav-content {
         padding-left: 20px;
+
+        .btn-menu {
+            display: none;
+        }
     }
 
     .main-nav {
         margin: 10px 0;
+
+        .quit-menu {
+            display: none;
+        }
 
         & li a {
             padding: 9px 25px;
@@ -23,7 +35,7 @@
 
             &:hover:not(.active) {
                 color: darken($clr6, 7%);
-                transition: 1s;
+                transition: 0.3s;
             }
         }
 
@@ -31,6 +43,88 @@
             background-color: white;
             color: $clr1;
             border-radius: 20px;
+        }
+    }
+}
+
+@media (max-width: 700px) {
+    .screen {
+        cursor: pointer;
+        display: block;
+        z-index: 998;
+    }
+
+    .nav-container.menu-open .main-nav {
+        transform: translateX(0);
+    }
+
+    .nav-container {
+        margin-top: 0px !important;
+        z-index: 9999;
+
+        .nav-content {
+            padding: 10px 32px;
+
+            .btn-menu {
+                background: url("../img/menu-white.png");
+                width: 28px;
+                height: 21px;
+                display: inline-block;
+                cursor: pointer;
+                border: none;
+                outline: none;
+            }
+        }
+
+        .main-nav {
+            flex-direction: column;
+            position: fixed;
+            top: 10px;
+            right: 0;
+            transform: translateX(105%);
+            width: 200px;
+            min-height: 220px;
+            background-color: white;
+            margin: 0;
+            padding-inline-start: 0;
+            transition: transform 0.6s;
+            z-index: 99999;
+            border-bottom-left-radius: 7.5px;
+            border-top-left-radius: 7.5px;
+
+            .quit-menu {
+                align-self: flex-end;
+                margin: 8px;
+                display: block;
+                button {
+                    background: url("../img/small-close.png");
+                    width: 20px;
+                    height: 20px;
+                    border: none;
+                    outline: none;
+                }
+            }
+
+            & li a {
+                color: $clr1;
+                margin-left: 0;
+                width: 100%;
+                font-size: rem(18px);
+
+                &:hover:not(.active) {
+                    color: $clr2;
+                }
+            }
+
+            & li:last-of-type a {
+                    border-bottom-left-radius: 7.5px;
+            }
+
+            .active {
+                background-color: $clr1;
+                color: $clr7;
+                border-radius: unset;
+            }
         }
     }
 }

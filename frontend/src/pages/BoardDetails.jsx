@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { loadBoard, save, setBoard } from '../store/actions/boardActions';
-import { AddContent } from '../cmps/AddContent';
+import AddContent from '../cmps/AddContent';
 import { Route } from 'react-router-dom';
 import { CardPreview } from '../cmps/CardPreview.jsx';
 import { Stack } from '../cmps/Stack.jsx';
@@ -13,7 +13,7 @@ import socketService from '../services/socketService'
 import BoardStatistics from '../pages/BoardStatistics'
 import { makeId } from '../services/utilService';
 import { reorder, move } from '../services/boardDetailsUtils';
-
+import ScrollContainer from 'react-indiana-drag-scroll'
 
 class BoardDetails extends React.Component {
 
@@ -108,6 +108,7 @@ class BoardDetails extends React.Component {
             checklists: [],
             members: [],
             labels: [],
+            activities: [],
             byMember: this.props.loggedInUser,
             createdAt: Date.now(),
             dueDate: ''
@@ -118,6 +119,7 @@ class BoardDetails extends React.Component {
 
     onDragEnd = (result) => {
 
+        const { loggedInUser, currBoard } = this.props
         const { source, destination } = result;
 
         // Dropped outside the list
@@ -125,13 +127,18 @@ class BoardDetails extends React.Component {
             return;
         }
 
-        let stacks = [...this.props.currBoard.stacks];
-        const newState = { ...this.props.currBoard };
+        let stacks = [...currBoard.stacks];
+        const newState = { ...currBoard };
 
         // Changed Stacks order
         if ((source.droppableId === destination.droppableId) && source.droppableId === 'board') {
             const items = reorder(stacks, source.index, destination.index);
             newState.stacks = items;
+
+            const stackSourceTitle = currBoard.stacks[source.index].title;
+            const stackPlace = destination.index + 1
+            currBoard.activities.unshift({ id: makeId(), txt: `moved stack ${stackSourceTitle} to place number ${stackPlace}`, createdAt: Date.now(), byMember: loggedInUser })
+
 
             // Changed Cards order
         } else {
@@ -145,6 +152,11 @@ class BoardDetails extends React.Component {
 
                 // Changed Card between Stacks
             } else {
+                const sourceTitle = currBoard.stacks[+source.droppableId].title
+                const destTitle = currBoard.stacks[+destination.droppableId].title
+                const cardMovedTitle = currBoard.stacks[+source.droppableId].cards[source.index].title
+                currBoard.activities.unshift({ id: makeId(), txt: `moved card ${cardMovedTitle} from ${sourceTitle} to ${destTitle}`, createdAt: Date.now(), byMember: loggedInUser })
+
                 const result = move(stacks[sIndex].cards, stacks[dIndex].cards, source, destination);
                 newState.stacks[sIndex].cards = result[sIndex];
                 newState.stacks[dIndex].cards = result[dIndex];
@@ -154,7 +166,7 @@ class BoardDetails extends React.Component {
     }
 
     onStackTitleFocus = (index) => {
-        
+
         this.stackTitleFocus[index].focus();
     }
 
@@ -194,11 +206,11 @@ class BoardDetails extends React.Component {
                                                     className="stack-content flex column"
                                                 >
                                                     <div className="stack-header flex space-between" {...provided.dragHandleProps}>
-                                                        <input type="text" name="title" className="stack-title-input" data-idx={index} onChange={this.onEditTitle} 
-                                                        value={stack.title} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input}/>
+                                                        <input type="text" name="title" className="stack-title-input" data-idx={index} onChange={this.onEditTitle}
+                                                            value={stack.title} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input} />
                                                         <button className="stack-header-menu">. . .</button>
                                                     </div>
-                                                    
+
                                                     {/* <p className="stack-title flex align-center"  ></p> */}
 
                                                     <Droppable key={index}
@@ -291,11 +303,13 @@ class BoardDetails extends React.Component {
                 <BoardOptions history={history} board={currBoard} onSetBg={this.onSetBg} />
                 <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
                 <Route component={BoardStatistics} path="/boards/:boardId/statistics" />
-                <section className="board-content flex column align-start space-between">
+                {/* <ScrollContainer horizontal={true} className="scroll-container"> */}
+                    <section className="board-content flex column align-start space-between">
 
-                    {(currBoard) ? this.stacks(areLabelsOpen) : null}
+                        {(currBoard) ? this.stacks(areLabelsOpen) : null}
 
-                </section>
+                    </section>
+                {/* </ScrollContainer> */}
             </>
         )
     }
