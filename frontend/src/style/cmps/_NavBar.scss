@@ -2,7 +2,7 @@
     background-color: #0000006b;
 }
 
-.screen {
+.screen.main-nav-screen {
     display: none;
 }
 
@@ -48,7 +48,7 @@
 }
 
 @media (max-width: 700px) {
-    .screen {
+    .screen.main-nav-screen {
         cursor: pointer;
         display: block;
         z-index: 998;
@@ -117,7 +117,7 @@
             }
 
             & li:last-of-type a {
-                    border-bottom-left-radius: 7.5px;
+                border-bottom-left-radius: 7.5px;
             }
 
             .active {
