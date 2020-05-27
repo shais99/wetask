@@ -62,7 +62,7 @@ class NavBar extends Component {
 
         return (
             <>
-                {isMenuOpen && <div className="screen" onClick={this.toggleMenu}></div>}
+                {isMenuOpen && <div className="screen main-nav-screen" onClick={this.toggleMenu}></div>}
                 <div className={`nav-container ${(isScroll || !this.isHomepage) ? 'scrolled' : ''} ${(isMenuOpen) ? 'menu-open' : ''}`} style={(this.isHomepage) ? { marginTop: '10px' } : {}}>
                     <div className={`${(this.isHomepage) ? 'container' : ''}`}>
                         <div className="nav-content flex space-between align-center">

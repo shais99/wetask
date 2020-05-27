@@ -46,7 +46,6 @@ export function CardPreview(props) {
     const showInfo = (card.comments.length || card.description !== '' || todosCount || card.dueDate !== '');
 
     function onCardClick() {
-
         props.history.push(props.link)
     }
 

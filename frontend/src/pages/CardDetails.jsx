@@ -400,10 +400,8 @@ class CardDetails extends Component {
 
 
     render() {
-
         const { card, isDescShown, comment, isShown, isUploadImg, isOpenModalRemove } = this.state
         const { onToggleAction } = this;
-
         return ((!card) ? 'Loading...' :
             <>
                 <div className="screen" onMouseDown={this.onBackBoard} >
