@@ -81,7 +81,7 @@ class AddContent extends React.Component {
                     </>
                     :
                     <>
-                        <Link to="#" onClick={this.toggleOpen} className="add-content-title">{`Add ${type}`}</Link>
+                        <Link to="#" onClick={this.toggleOpen} className="add-content-title">{`Add ${(type === 'stack') ? 'list' : 'card'}`}</Link>
                     </>
                 }
             </div>

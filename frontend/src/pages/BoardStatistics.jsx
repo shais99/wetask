@@ -12,11 +12,13 @@ class BoardStatistics extends React.Component {
         super();
         this.elStats = React.createRef();
         this.statsTimeOut = null;
+        this.boardStats = null;
     }
 
     state = {
         board: {},
-        currView: 'byUsers'
+        currView: 'byUsers',
+        cardCount: -1
     }
 
     componentDidMount() {
@@ -91,24 +93,23 @@ class BoardStatistics extends React.Component {
         board.stacks.forEach((stack) => {
             stack.cards.forEach((card) => {
                 if (card.byMember) {
-                    console.log(card.byMember);
-                    if (users[card.byMember.fullname]) {
-                        users[card.byMember.fullname].tasks += 1;
-                        // users[card.byMember.fullname].doneTasks += 1;
-                    } else {
-                        users[card.byMember.fullname] = { tasks: 1 };
-                        // users[card.byMember.fullname] = { tasks: 1, doneTasks: label.color };
-                    }
+                    if (!users[card.byMember.username]) users[card.byMember.username] = { tasks: 0, doneTasks: 0 };
+
+                    console.log(card);
+                    let isDone = card.labels.some((label) => {
+                        return label.title === 'done';
+                    })
+
+                    users[card.byMember.username][(isDone) ? 'doneTasks' : 'tasks'] += 1;
                 }
             })
         })
         console.log(users);
-        let userStatsData = Object.keys(users).map((fullname) => {
-            const userInfo = users[fullname];
-            userInfo.doneTasks = (Math.floor(Math.random() * userInfo.tasks))
+        let userStatsData = Object.keys(users).map((username) => {
+            const userInfo = users[username];
             console.log(userInfo);
             return ({
-                member: fullname,
+                member: username,
                 Tasks: userInfo.tasks - userInfo.doneTasks,
                 'Done Tasks': userInfo.doneTasks,
             });
@@ -135,6 +136,11 @@ class BoardStatistics extends React.Component {
 
         if (!cardCount) return null;
 
+        if (this.state.cardCount !== cardCount) {
+            this.setState({ cardCount });
+        }
+
+
         let dueDatesStatsData = Object.keys(workload).map((type) => {
 
             // console.log(dueDatesInfo);
@@ -158,7 +164,11 @@ class BoardStatistics extends React.Component {
         let byLabels = this.getStatsByLabels(board);
         let byUsers = this.getStatsByUsers(board);
         let byDueDate = this.getStatsByDueDates(board);
-
+        console.log(byDueDate);
+        if (byDueDate === null) this.setState({ isNoCardsBoard: true })
+        else {
+            if (this.state.isNoCardsBoard) this.setState({ isNoCardsBoard: false })
+        }
         stats = { byLabels, byUsers, byDueDate };
 
         return stats;
@@ -172,7 +182,7 @@ class BoardStatistics extends React.Component {
 
     render() {
 
-        const { board, currView } = this.state;
+        const { board, currView, cardCount } = this.state;
         const { } = this;
 
         console.log(board);
@@ -182,10 +192,10 @@ class BoardStatistics extends React.Component {
             console.log(boardStats);
         }
 
-        return ((!board) ? 'Loading...' :
+        return ((!board) ? '' :
 
             <>
-                <div className="screen stats" onMouseDown={this.onBackBoard} >
+                <div className="screen stats" onMouseDown={this.onBackBoard}>
 
                     <section className="board-statistics modal-container flex column" onMouseDown={(ev) => ev.stopPropagation()}
                         ref={this.elStats}>
@@ -193,8 +203,51 @@ class BoardStatistics extends React.Component {
                             <p className="board-statistics-header">' {board.title} '</p>
                             {/* <p className="secondary">stats</p> */}
                         </header>
+                        <small className="board-statistics-info flex align-center space-evenly">
+                            {(board.createdBy) ?
+                                <span className="stat-created-at-span flex align-center">
+                                    <p className="secondary">created:</p>
+                                    <p className="statistics-info-p">{`${moment(board.createdAt).format('MMM Do YYYY')} [${board.createdBy.username}]`}</p></span>
+                                : null
+                            }
+                            {(board.members) ?
+                                <span className="stat-members-count flex align-center">
+                                    <p className="secondary">members:</p>
+                                    <p className="statistics-info-p">{board.members.length}</p></span>
+                                : null
+                            }
+                            {(board.stacks) ?
+                                <span className="stat-stacks-count flex align-center">
+                                    <p className="secondary">lists:</p>
+                                    <p className="statistics-info-p">{board.stacks.length}</p></span>
+                                : null
+                            }
+                            {(board.stacks && cardCount) ?
+                                <span className="stat-stacks-count flex align-center">
+                                    <p className="secondary">tasks:</p>
+                                    <p className="statistics-info-p">{cardCount}</p></span>
+                                : null
+                            }
+                            {(board.activities) ?
+                                <span className="stat-activities-count flex align-center">
+                                    <p className="secondary">activities:</p>
+                                    <p className="statistics-info-p">{board.activities.length}</p></span>
+                                : null
+                            }
+
+
+                        </small>
                         {(boardStats) ?
                             <section className="board-statistics-content flex">
+                                <aside className="statistics-controllers flex column align-center space-around">
+                                    <button className={`btn btn-primary stat-button ${(currView === 'byLabels') ? 'active-stat-btn' : ''}`}
+                                        onClick={() => this.toggleStatView('byLabels')}>By Labels</button>
+                                    <button className={`btn btn-primary stat-button ${(currView === 'byUsers') ? 'active-stat-btn' : ''}`}
+                                        onClick={() => this.toggleStatView('byUsers')}>By Members</button>
+                                    <button className={`btn btn-primary stat-button ${(currView === 'byDueDate') ? 'active-stat-btn' : ''}`}
+                                        onClick={() => this.toggleStatView('byDueDate')}>By Schedule</button>
+                                </aside>
+
                                 <div className="statistics-charts">
 
                                     {(boardStats.byLabels && currView === 'byLabels') ?
@@ -224,14 +277,7 @@ class BoardStatistics extends React.Component {
 
                                 </div>
 
-                                <aside className="statistics-controllers flex column align-center space-around">
-                                    <button className={`btn btn-primary stat-button ${(currView === 'byLabels') ? 'active-stat-btn' : ''}`}
-                                        onClick={() => this.toggleStatView('byLabels')}>By Labels</button>
-                                    <button className={`btn btn-primary stat-button ${(currView === 'byUsers') ? 'active-stat-btn' : ''}`}
-                                        onClick={() => this.toggleStatView('byUsers')}>By Members</button>
-                                    <button className={`btn btn-primary stat-button ${(currView === 'byDueDate') ? 'active-stat-btn' : ''}`}
-                                        onClick={() => this.toggleStatView('byDueDate')}>By Schedule</button>
-                                </aside>
+
                             </section>
                             : null
 
