@@ -120,14 +120,21 @@ class BoardDetails extends React.Component {
     onStackAdd = (newStackTitle) => {
 
         let currBoard = { ...this.props.currBoard };
+        let id = makeId();
 
         currBoard.stacks.push({
             bgColor: "#fefefe",
             cards: [],
-            id: makeId(),
+            id,
             title: newStackTitle,
         });
 
+        let stackTitles = { ...this.state.stackTitles };
+        let stackMenus = { ...this.state.stackMenus };
+
+        stackTitles[id] = newStackTitle;
+        stackMenus[id] = false;
+        this.setState({ stackTitles, stackMenus })
         this.props.save(currBoard);
     }
 
