@@ -462,7 +462,6 @@ class CardDetails extends Component {
                             <div className="close-modal flex justify-content align-center" onClick={this.onBackBoard}><img className="img-icon" src="/assets/img/close.png" alt="" /></div>
                         </div>
 
-                        {card.timeEstimation && <CardShowTimeEstimation card={card} onApproveTimeEstimation={this.onApproveTimeEstimation} onFocusComment={this.onFocusComment} />}
                         <div className="card-container flex">
                             <aside className="card-content">
                                 {card.timeEstimation && <CardShowTimeEstimation card={card} onApproveTimeEstimation={this.onApproveTimeEstimation} onFocusComment={this.onFocusComment} />}
@@ -475,10 +474,6 @@ class CardDetails extends Component {
                                 <CardComments isFocusComment={isFocusComment} comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} removeComment={this.removeComment} />
                                 {card.activities && <CardActivity activities={card.activities} getTwoChars={this.getTwoChars} />}
 
-                                {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} onRemoveImg={this.onRemoveImg} />}
-                                {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} onRemoveTodo={this.onRemoveTodo} onRemoveChecklist={this.onRemoveChecklist} />)}
-                                <CardComments isFocusComment={isFocusComment} comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} removeComment={this.removeComment} />
-                                {card.activities && <CardActivity activities={card.activities} getTwoChars={this.getTwoChars} />}
                             </aside>
                             <aside className="card-actions">
                                 <div className="actions-title">Actions:</div>
