@@ -91,15 +91,19 @@ class BoardStatistics extends React.Component {
 
         board.stacks.forEach((stack) => {
             stack.cards.forEach((card) => {
-                if (card.byMember) {
-                    // console.log(card.byMember);
-                    if (!users[card.byMember.username]) users[card.byMember.username] = { tasks: 0, doneTasks: 0, color: card.byMember.bgColor };
 
-                    let isDone = card.labels.some((label) => {
-                        return label.title === 'done';
+                if (card.members.length) {
+                    card.members.forEach(member => {
+
+                        if (!users[member.username]) users[member.username] = { tasks: 0, doneTasks: 0, color: member.bgColor };
+
+                        let isDone = card.labels.some((label) => {
+                            return label.title === 'done';
+                        })
+
+                        users[member.username][(isDone) ? 'doneTasks' : 'tasks'] += 1;
                     })
 
-                    users[card.byMember.username][(isDone) ? 'doneTasks' : 'tasks'] += 1;
                 }
             })
         })
@@ -171,20 +175,11 @@ class BoardStatistics extends React.Component {
         return stats;
     }
 
-    toggleStatView = (byType) => {
-        if (this.state.currView === byType) return;
-        this.setState({ currView: byType });
-    }
-
 
     render() {
 
-        const { board, currView, cardCount, boardStats } = this.state;
-        const { isShowingStatistics } = this.props;
-        // let boardStats = null;
-        // if (board) {
-        //     boardStats = this.getBoardStats(board);
-        // }
+        const { board, cardCount, boardStats } = this.state;
+        const { isShowingStatistics, toggleShowStatistics } = this.props;
 
         return ((!board) ? '' :
 
@@ -193,9 +188,12 @@ class BoardStatistics extends React.Component {
 
                     <section className={`board-statistics modal-container flex column ${(isShowingStatistics) ? '' : 'board-statistics-closed'}`} onMouseDown={(ev) => ev.stopPropagation()}
                         ref={this.elStats}>
-                        <header className="board-statistics-header-span flex align-center justify-center">
-                            <p className="board-statistics-header">{board.title}</p>
-                            <p className="secondary">statistics</p>
+                        <header className="board-statistics-header-span flex align-baseline justify-center">
+                            <div className="board-statistics-header-text flex align-baseline justify-center">
+                                <p className="board-statistics-header">{board.title}</p>
+                                <p className="secondary">statistics</p>
+                            </div>
+                            <img className="stats-back-btn" src="/assets/img/back.png" alt="" onClick={toggleShowStatistics} />
                         </header>
                         <small className="board-statistics-info flex align-center space-evenly wrap">
                             {(board.createdBy) ?
@@ -224,24 +222,24 @@ class BoardStatistics extends React.Component {
                         {(boardStats) ?
                             <section className="board-statistics-content grid">
 
-                                {(boardStats.byLabels) ?
-                                    < div className="stat-item flex column justify-center align-center">
-                                        <p className="board-stats-title">Most Popular Labels</p>
-                                        <StatisticsPie data={boardStats.byLabels} type="labels" />
-
-                                    </div>
-                                    : null
-                                }
                                 {(boardStats.byUsers) ?
-                                    < div className="stat-item flex column justify-center align-center">
+                                    < div className="stat-item by-users flex column justify-center align-center">
                                         <p className="board-stats-title">Weekly Members Workload</p>
                                         <StatisticsBar data={boardStats.byUsers} />
 
                                     </div>
                                     : null
                                 }
+                                {(boardStats.byLabels) ?
+                                    < div className="stat-item by-labels flex column justify-center align-center">
+                                        <p className="board-stats-title">Most Popular Labels</p>
+                                        <StatisticsPie data={boardStats.byLabels} type="labels" />
+
+                                    </div>
+                                    : null
+                                }
                                 {(boardStats.byDueDate) ?
-                                    < div className="stat-item flex column justify-center align-center">
+                                    < div className="stat-item by-due-date flex column justify-center align-center">
                                         <p className="board-stats-title">On-Time/Delayed Work</p>
                                         <StatisticsPie data={boardStats.byDueDate} type="dueDate" />
 

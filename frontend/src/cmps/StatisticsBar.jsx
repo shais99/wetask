@@ -18,7 +18,7 @@ export class StatisticsBar extends React.Component {
 
             this.setState({ data: this.props.data });
 
-        },250)
+        }, 250)
     }
 
     componentDidUpdate(prevProps) {
@@ -28,23 +28,19 @@ export class StatisticsBar extends React.Component {
     }
 
     componentWillUnmount() {
-        if(this.statsTimeOut) clearTimeout(this.statsTimeOut);
+        if (this.statsTimeOut) clearTimeout(this.statsTimeOut);
     }
 
     render() {
 
-        // const colors = { 'Tasks': getRandomColor(), 'Done Tasks': '#3f3f3f' };
         const getUserColor = user => {
             // console.log(user);
-            return (user.id === 'Done Tasks') ? '#3f3f3f' : (user.color) ? user.color : getRandomColor() ;
+            return (user.id === 'Done Tasks') ? '#525252' : (user.color) ? user.color : '#fed330';
         }
-        
-        
-    
-        // const keys = ['Tasks', 'Done Tasks'];
+
         const { data } = this.state;
         return (
-    
+
             <ResponsiveBar
                 data={data}
                 keys={['Tasks', 'Done Tasks']}
@@ -61,7 +57,7 @@ export class StatisticsBar extends React.Component {
                     tickRotation: 0,
                     legend: 'Users',
                     legendPosition: 'middle',
-                    legendOffset: 32
+                    legendOffset: 40
                 }}
                 axisLeft={{
                     tickSize: 5,
@@ -69,7 +65,7 @@ export class StatisticsBar extends React.Component {
                     tickRotation: 0,
                     legend: 'Tasks',
                     legendPosition: 'middle',
-                    legendOffset: -35
+                    legendOffset: -40
                 }}
                 labelSkipWidth={12}
                 labelSkipHeight={12}
@@ -101,9 +97,41 @@ export class StatisticsBar extends React.Component {
                 animate={true}
                 motionStiffness={90}
                 motionDamping={15}
+                theme={{
+                    axis: {
+                        legend: {
+                            text: {
+                                fontFamily: 'openSansBold',
+                                fontSize: 14
+                            }
+                        },
+                        ticks: {
+                            text: {
+                                fontFamily: 'openSans',
+                                fontSize: 14
+                            }
+                        }
+                    },
+                    labels: {
+                        text: {
+                            fontFamily: 'openSansBold',
+                            fontSize: 14,
+                            color: '#fff'
+                        },
+                        
+                    },
+                    legends: {
+                        text: {
+                            fontFamily: 'openSans',
+                            fontSize: 14
+                        }
+
+                    }
+
+                }}
             />
-    
-    
+
+
         )
     }
 };

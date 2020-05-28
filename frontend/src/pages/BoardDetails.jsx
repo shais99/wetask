@@ -234,14 +234,6 @@ class BoardDetails extends React.Component {
         this.setState({ isShown: actions });
     }
 
-    // stacks = (areLabelsOpen, stackTitles) => {
-    //     const board = this.props.currBoard;
-    //     const { isShown } = this.state;
-    //     return (
-    //         null
-    //     )
-    // }
-
     onSetBg = (bg, type) => {
         if (type === 'img') {
             const bgUrl = bg.slice(1, bg.length + 1)
@@ -281,7 +273,7 @@ class BoardDetails extends React.Component {
 
                     {(isShowingStatistics)
                         ?
-                        <BoardStatistics isShowingStatistics={isShowingStatistics} />
+                        <BoardStatistics isShowingStatistics={isShowingStatistics} toggleShowStatistics={this.toggleShowStatistics} />
                         : (currBoard && stackTitles)
                             ?
                             // this.stacks(areLabelsOpen, stackTitles) 

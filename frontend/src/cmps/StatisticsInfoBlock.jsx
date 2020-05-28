@@ -10,7 +10,7 @@ export function StatisticsInfoBlock(props) {
             </div>
             <div className="stat-info-details flex column align-center justify-content">
 
-                <p className="stats-info-p">{info}</p>
+                <p className={`stats-info-p ${(type === 'createdBy') ? 'first-stat-info' : '' }`}>{info}</p>
                 <p className="secondary">{(type === 'createdBy') ? 'created by' : type}</p>
             </div>
         </span>

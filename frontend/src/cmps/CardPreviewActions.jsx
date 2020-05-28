@@ -30,7 +30,7 @@ export default function CardPreviewActions(props) {
                 {card.dueDate &&
                     <div className="due-date-container">
                         <h3>Due date</h3>
-                        <div className="flex time-container">
+                        <div className="flex align-center justify-center time-container">
                             {moment(card.dueDate).format("MMM DD")}
                         </div>
                     </div>
