@@ -13,7 +13,6 @@ export default class LabelsPicker extends Component {
 
     isLabelChecked = (labelId) => {
         const currCard = this.props.card;
-        console.log(currCard);
         if (!currCard.labels) currCard.labels = [];
         if (currCard.labels.find(label => labelId === label.id)) return true
         return false
