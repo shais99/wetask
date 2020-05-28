@@ -20,7 +20,7 @@ export default function CardPreviewActions(props) {
                 {card.labels.length !== 0 &&
                     <div className="labels-card-container">
                         <h3>Labels</h3>
-                        <div className=" flex wrap">
+                        <div className="flex wrap">
                             {card.labels.map((label,idx) => <div key={idx} className="card-label-item" style={{ backgroundColor: `${label.color}` }}>
                                 {label.title}
                             </div>)}
@@ -31,7 +31,7 @@ export default function CardPreviewActions(props) {
                     <div className="due-date-container">
                         <h3>Due date</h3>
                         <div className="flex time-container">
-                            {moment(card.dueDate).format("MMM DD")} at {moment(card.dueDate).format("hh:mm")}
+                            {moment(card.dueDate).format("MMM DD")}
                         </div>
                     </div>
                 }

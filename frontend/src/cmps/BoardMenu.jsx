@@ -20,9 +20,14 @@ class BoardMenu extends Component {
         await this.props.removeBoard(this.props.board._id)
         this.props.history.push('/boards')
     }
+    
+    onToggleStatistics = () => {
+        this.props.onClose();
+        this.props.toggleShowStatistics();
+    }
 
     render() {
-        const { onClose, onSetBg, board, isOpen } = this.props
+        const { onClose, onSetBg, board, isOpen, isShowingStatistics } = this.props
         const { isStylingShown, isRemoveBoardShown } = this.state
 
         return (
@@ -36,7 +41,7 @@ class BoardMenu extends Component {
                 <div className="board-menu-content">
                     {!isStylingShown && <ul className="board-menu-list clean-list">
                         <Link to="#" onClick={this.onToggleStyling}><li><img src="/assets/img/style.png" className="small-icon" alt="" />Board Styling</li></Link>
-                        <Link to={`/boards/${board._id}/statistics`} onClick={() => onClose()} ><li><img src="/assets/img/stats.png" className="small-icon" alt="" />Show Board Statistics</li></Link>
+                        <div onClick={() => this.onToggleStatistics()} ><li className={`${(isShowingStatistics) ? 'active-stats' : ''}`}><img src="/assets/img/stats.png" className="small-icon" alt="" />Show Board Statistics</li></div>
                         <Link to="#" onClick={this.onToggleRemoveBoard}><li className="remove-board"><img src="/assets/img/trash.png" className="small-icon" alt="" />Remove Board</li></Link>
                     </ul>}
 

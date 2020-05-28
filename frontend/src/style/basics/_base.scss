@@ -8,6 +8,7 @@ body {
     color: $clr1;
     background: linear-gradient(to bottom, $clr2, darken($clr2, 10%));
     background-attachment: fixed;
+    background-size: cover;
 }
 
 h1,

@@ -25,7 +25,8 @@ class CardDetails extends Component {
             dueDate: false,
             members: false,
             move: false,
-            timeEstimation: false
+            timeEstimation: false,
+            bgColor: false
         },
         comment: {
             txt: ''
@@ -424,12 +425,10 @@ class CardDetails extends Component {
     onApproveTimeEstimation = () => {
         this.setState(prevState => ({ card: { ...prevState.card, timeEstimation: { ...prevState.card.timeEstimation, approve: true } } }), () => {
             this.state.card.activities.unshift({
-                id: makeId(), txt: `removed time estimation from the card`,
+                id: makeId(), txt: `confirmed the time estimate`,
                 createdAt: Date.now(), byMember: this.props.loggedInUser
             })
             this.props.saveCard(this.state.card)
-            console.log(this.state.card);
-
         })
     }
 
@@ -439,9 +438,14 @@ class CardDetails extends Component {
         })
     }
 
+    onChangeBgColor = (bgColor) => {
+        this.setState(prevState => ({ card: { ...prevState.card, bgColor } }), () => this.props.saveCard(this.state.card))
+    }
+
     render() {
         const { card, isDescShown, comment, isShown, isUploadImg, isOpenModalRemove, isFocusComment } = this.state
         const { onToggleAction } = this;
+
         return ((!card) ? 'Loading...' :
             <>
                 <div className="screen" onMouseDown={this.onBackBoard} >
@@ -475,6 +479,7 @@ class CardDetails extends Component {
                                     <Link title="Set Due Date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
                                     <Link title="Set Time Estimation" to="#" onClick={() => onToggleAction('timeEstimation')}><li><img src="/assets/img/clock-icon.png" alt="" />Time Estimation</li></Link>
                                     <Link title="Add Image" to="#" onClick={() => this.onOpenUpload()}><li><img src="/assets/img/style.png" alt="" />Add Image</li></Link>
+                                    <Link title="Change Card Background" to="#" onClick={() => this.onToggleAction('bgColor')}><li><img src="/assets/img/style.png" alt="" />Change Background</li></Link>
                                     <input type="file" ref={input => this.inputElement = input} name="imgUrl" onChange={this.onUploadImg} hidden />
                                     <Link title="Move Card" to="#" onClick={() => this.onToggleAction('move')}><li><img src="/assets/img/back.png" className="img-rotate" alt="" />Move Card</li></Link>
                                     <Link title="Remove Card" to="#" onClick={this.onToggleRemoveCard}><li className="li-last-child"><img src="/assets/img/trash-white.png" alt="" />Remove Card</li></Link>
@@ -482,6 +487,7 @@ class CardDetails extends Component {
                                     {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} onSubmitDate={this.onSubmitDate} onToggleAction={onToggleAction} value={card.dueDate} removeDuedate={this.removeDuedate} />}
                                     {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} addMember={this.onAddMember} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
+                                    {isShown.bgColor && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onChangeBgColor={this.onChangeBgColor} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.move && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onToggleAction={onToggleAction} moveCardToStack={this.moveCardToStack} />}
                                     {isShown.timeEstimation && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onToggleAction={onToggleAction} onAddTimeEstimation={this.onAddTimeEstimation} removeCardEstimation={this.removeCardEstimation} />}
 

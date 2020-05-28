@@ -27,6 +27,8 @@ class AddContent extends React.Component {
                 const parentId = this.props.itemId;
                 this.props.onCardAdd(itemTitle, parentId);
                 break;
+            default:
+                
         }
 
         this.setState({ isOpen: false, title: '' });
