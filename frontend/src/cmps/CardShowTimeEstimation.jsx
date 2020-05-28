@@ -17,8 +17,8 @@ export default class CardShowTimeEstimation extends React.Component {
                             {timeEstimation.minutes ? <span> {timeEstimation.minutes} minutes</span> : ''}
                         </div>
                         {!timeEstimation.approve && <div className="flex align-center justify-center" >
-                            <span onClick={this.props.onApproveTimeEstimation}><img src="/assets/img/approve.png" alt="" /></span>
-                            <span onClick={this.props.onFocusComment}><img src="/assets/img/small-comment.png" alt="" /></span>
+                            <span onClick={this.props.onApproveTimeEstimation}><img src="/assets/img/approve.png" title="Approve" alt="" /></span>
+                            <span onClick={this.props.onFocusComment}><img src="/assets/img/small-comment.png" title="Comment" alt="" /></span>
                         </div>
                         }
                     </div>

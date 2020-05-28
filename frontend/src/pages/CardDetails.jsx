@@ -162,7 +162,7 @@ class CardDetails extends Component {
         ev.preventDefault()
         this.setState({ prevCardDesc: this.state.card.description }, () => {
             this.state.card.activities.unshift({
-                id: makeId(), txt: `edited card description to ${this.state.card.description}`,
+                id: makeId(), txt: `edited card description`,
                 createdAt: Date.now(), byMember: this.props.loggedInUser
             })
             this.props.saveCard(this.state.card)
@@ -420,7 +420,6 @@ class CardDetails extends Component {
 
     onApproveTimeEstimation = () => {
         this.setState(prevState => ({ card: { ...prevState.card, timeEstimation: { ...prevState.card.timeEstimation, approve: true } } }), () => {
-            this.setState({ comment: { txt: '' } })
             this.state.card.activities.unshift({
                 id: makeId(), txt: `confirmed the time estimate`,
                 createdAt: Date.now(), byMember: this.props.loggedInUser
@@ -459,6 +458,7 @@ class CardDetails extends Component {
                             <div className="close-modal flex justify-content align-center" onClick={this.onBackBoard}><img className="img-icon" src="/assets/img/close.png" alt="" /></div>
                         </div>
 
+                        {card.timeEstimation && <CardShowTimeEstimation card={card} onApproveTimeEstimation={this.onApproveTimeEstimation} onFocusComment={this.onFocusComment} />}
                         <div className="card-container flex">
                             <aside className="card-content">
                                 {card.timeEstimation && <CardShowTimeEstimation card={card} onApproveTimeEstimation={this.onApproveTimeEstimation} onFocusComment={this.onFocusComment} />}
@@ -471,6 +471,10 @@ class CardDetails extends Component {
                                 <CardComments isFocusComment={isFocusComment} comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} removeComment={this.removeComment} />
                                 {card.activities && <CardActivity activities={card.activities} getTwoChars={this.getTwoChars} />}
 
+                                {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} onRemoveImg={this.onRemoveImg} />}
+                                {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} onRemoveTodo={this.onRemoveTodo} onRemoveChecklist={this.onRemoveChecklist} />)}
+                                <CardComments isFocusComment={isFocusComment} comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} removeComment={this.removeComment} />
+                                {card.activities && <CardActivity activities={card.activities} getTwoChars={this.getTwoChars} />}
                             </aside>
                             <aside className="card-actions">
                                 <div className="actions-title">Actions:</div>
@@ -478,10 +482,10 @@ class CardDetails extends Component {
                                     <Link title="Edit Card Members" to="#" onClick={() => onToggleAction('members')}><li><img src="/assets/img/user-icon.png" alt="" />Members</li></Link>
                                     <Link title="Edit Card Labels" to="#" onClick={() => onToggleAction('label')}><li><img src="/assets/img/label-icon.png" alt="" />Labels</li></Link>
                                     <Link title="Add Checklist" to="#" onClick={this.onAddChecklist}><li><img src="/assets/img/checklist-icon.png" alt="" />Checklist</li></Link>
-                                    <Link title="Set Due Date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/due-date.png" alt="" />Due Date</li></Link>
+                                    <Link title="Set Due Date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
                                     <Link title="Set Time Estimation" to="#" onClick={() => onToggleAction('timeEstimation')}><li><img src="/assets/img/clock-icon.png" alt="" />Time Estimation</li></Link>
                                     <Link title="Add Image" to="#" onClick={() => this.onOpenUpload()}><li><img src="/assets/img/style.png" alt="" />Add Image</li></Link>
-                                    <Link title="Change Card Background" to="#" onClick={() => this.onToggleAction('bgColor')}><li><img src="/assets/img/style.png" alt="" />Change Background</li></Link>
+                                    <Link title="Change Card Background" to="#" onClick={() => this.onToggleAction('bgColor')}><li><img src="/assets/img/palette.png" alt="" />Change Background</li></Link>
                                     <input type="file" ref={input => this.inputElement = input} name="imgUrl" onChange={this.onUploadImg} hidden />
                                     <Link title="Move Card" to="#" onClick={() => this.onToggleAction('move')}><li><img src="/assets/img/back.png" className="img-rotate" alt="" />Move Card</li></Link>
                                     <Link title="Remove Card" to="#" onClick={this.onToggleRemoveCard}><li className="li-last-child"><img src="/assets/img/trash-white.png" alt="" />Remove Card</li></Link>

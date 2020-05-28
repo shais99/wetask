@@ -13,3 +13,8 @@ Thu, 28 May 2020 09:31:03 GMT - Debug - Guest-wMCx, Guest-wMCx, 123456
 Thu, 28 May 2020 09:31:03 GMT - Debug - auth.service - signup with username: Guest-wMCx
 Thu, 28 May 2020 09:31:03 GMT - Debug - auth.route - new account created: {"username":"Guest-wMCx","password":"$2a$10$abmCroR2laYx1Q.1JIdgcO6/ZxgPY0cYhZFWFfbP54ocru8HwWeeC","fullname":"Guesty McGuest-yqv4","imgUrl":"https://res.cloudinary.com/shaishar9/image/upload/v1590398852/tgfntq8ghkaxjpo9seqa.jpg","bgColor":"#AB349B","isGuest":true,"_id":"5ecf84d7654fd02580e85203"}
 Thu, 28 May 2020 09:31:03 GMT - Debug - auth.service - login with username: Guest-wMCx
+Thu, 28 May 2020 10:36:38 GMT - Debug - Guest-6fYl, Guest-6fYl, 123456
+Thu, 28 May 2020 10:36:38 GMT - Debug - auth.service - signup with username: Guest-6fYl
+Thu, 28 May 2020 10:36:39 GMT - Debug - auth.route - new account created: {"username":"Guest-6fYl","password":"$2a$10$62cc6JfJfmdDh9jt4vjDy.3u0ynOYYbV9e9hER9FMX4/poxkWUifa","fullname":"Guesty McGuest-JYf0","imgUrl":"https://res.cloudinary.com/shaishar9/image/upload/v1590398852/tgfntq8ghkaxjpo9seqa.jpg","bgColor":"#EDE7B2","isGuest":true,"_id":"5ecf9437654fd02580e85205"}
+Thu, 28 May 2020 10:36:39 GMT - Debug - auth.service - login with username: Guest-6fYl
+Thu, 28 May 2020 10:36:42 GMT - Debug - []
