@@ -54,7 +54,7 @@ class BoardOptions extends Component {
         const { isAddMemberShown, isBoardMenuShown } = this.state;
 
         return (
-            <div className={`board-options-container flex align-center space-between ${(isShowingStatistics) ? 'stats-margin' : ''}`}>
+            <div className={`board-options-container ${(isShowingStatistics) ? 'stats-margin' : ''}`}>
                 <div className="board-title">{board.title}</div>
 
                 <div className="board-members flex">
