@@ -1,0 +1,6 @@
+Wed, 27 May 2020 16:37:02 GMT - Debug - Guest-lBnh, Guest-lBnh, 123456
+Wed, 27 May 2020 16:37:02 GMT - Debug - auth.service - signup with username: Guest-lBnh
+Wed, 27 May 2020 16:37:02 GMT - Debug - auth.route - new account created: {"username":"Guest-lBnh","password":"$2a$10$m.nksewiVPYLPV265v5DtOzA9V1GoKrCnpTBXNuPNxo3y4UwBH3K.","fullname":"Guesty McGuest-PX58","imgUrl":"https://res.cloudinary.com/shaishar9/image/upload/v1590398852/tgfntq8ghkaxjpo9seqa.jpg","bgColor":"#D97716","isGuest":true,"_id":"5ece972ef76e6721c48a5d5c"}
+Wed, 27 May 2020 16:37:02 GMT - Debug - auth.service - login with username: Guest-lBnh
+Wed, 27 May 2020 16:37:17 GMT - Debug - []
+Wed, 27 May 2020 16:37:31 GMT - Debug - []
