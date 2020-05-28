@@ -14,7 +14,7 @@ import BoardStatistics from '../pages/BoardStatistics'
 import { makeId } from '../services/utilService';
 import { reorder, move } from '../services/boardDetailsUtils';
 import ActionContainer from '../cmps/ActionContainer';
-import ScrollContainer from 'react-indiana-drag-scroll'
+// import ScrollContainer from 'react-indiana-drag-scroll'
 
 class BoardDetails extends React.Component {
 
@@ -25,6 +25,7 @@ class BoardDetails extends React.Component {
 
     state = {
         areLabelsOpen: false,
+        isShowingStatistics: false,
         stackTitles: {},
         stackMenus: {}
     }
@@ -100,7 +101,7 @@ class BoardDetails extends React.Component {
             // some basic styles to make the items look a bit nicer
             ...draggableStyle,
             // change background colour if dragging
-            background: isDragging ? 'rgb(219, 219, 219)' : '#ebecf0',
+            background: isDragging ? 'rgb(219, 219, 219)' : '#ebecf0'
         });
     }
 
@@ -119,14 +120,21 @@ class BoardDetails extends React.Component {
     onStackAdd = (newStackTitle) => {
 
         let currBoard = { ...this.props.currBoard };
+        let id = makeId();
 
         currBoard.stacks.push({
             bgColor: "#fefefe",
             cards: [],
-            id: makeId(),
+            id,
             title: newStackTitle,
         });
 
+        let stackTitles = { ...this.state.stackTitles };
+        let stackMenus = { ...this.state.stackMenus };
+
+        stackTitles[id] = newStackTitle;
+        stackMenus[id] = false;
+        this.setState({ stackTitles, stackMenus })
         this.props.save(currBoard);
     }
 
@@ -148,6 +156,7 @@ class BoardDetails extends React.Component {
             byMember: this.props.loggedInUser,
             createdAt: Date.now(),
             dueDate: '',
+            bgColor: 'white',
             timeEstimation: ''
         });
 
@@ -263,9 +272,11 @@ class BoardDetails extends React.Component {
                                                     className="stack-content flex column"
                                                 >
                                                     <div className="stack-header flex space-between" {...provided.dragHandleProps}>
+
                                                         <input autoComplete="off" type="text" name="title" className="stack-title-input" data-idx={index} onChange={this.onEditStackTitle}
-                                                            value={stackTitles[stack.id]} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input}
-                                                            onBlur={this.onNewStackTitle} />
+                                                            value={stackTitles[stack.id]} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input} onBlur={this.onNewStackTitle}
+                                                        />
+
                                                         <Link title="Options" to="#" onClick={() => this.onToggleAction(stack.id)}><button className="stack-header-menu">. . .</button></Link>
                                                         {(isShown && isShown[stack.id]) && <ActionContainer onStackRemove={this.onStackRemove} stackInfo={{ id: stack.id, title: stack.title }} isShown={{ stack: true }}
                                                             onToggleAction={this.onToggleAction} />}
@@ -302,7 +313,7 @@ class BoardDetails extends React.Component {
                                                                                     link={`/boards/${board._id}/card/${card.id}`}
                                                                                     style={this.getItemStyle(
                                                                                         snapshot.isDragging,
-                                                                                        provided.draggableProps.style,
+                                                                                        provided.draggableProps.style
                                                                                     )}
                                                                                     history={this.props.history}
                                                                                 >
@@ -330,7 +341,7 @@ class BoardDetails extends React.Component {
                         <AddContent type="stack" onStackAdd={this.onStackAdd} />
                     </div>
                 </DragDropContext>
-            </span>
+            </span >
         )
     }
 
@@ -351,24 +362,26 @@ class BoardDetails extends React.Component {
         this.props.save(this.props.currBoard)
     }
 
+    toggleShowStatistics = () => {
+        this.setState(prevState => ({ isShowingStatistics: !prevState.isShowingStatistics }));
+    }
+
     render() {
         const { history, currBoard } = this.props;
-        const { areLabelsOpen, stackTitles } = this.state;
+        const { areLabelsOpen, stackTitles, isShowingStatistics } = this.state;
 
         if (!currBoard) return 'Loading...'
 
         return (
             <>
-                <BoardOptions history={history} board={currBoard} onSetBg={this.onSetBg} />
+                <BoardOptions isShowingStatistics={isShowingStatistics} history={history} board={currBoard} onSetBg={this.onSetBg} toggleShowStatistics={this.toggleShowStatistics} />
                 <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
-                <Route component={BoardStatistics} path="/boards/:boardId/statistics" />
-                {/* <ScrollContainer horizontal={true} className="scroll-container"> */}
+
                 <section className="board-content flex column align-start space-between">
 
-                    {(currBoard && stackTitles) ? this.stacks(areLabelsOpen, stackTitles) : null}
+                    {(isShowingStatistics) ? <BoardStatistics isShowingStatistics={isShowingStatistics} /> : (currBoard && stackTitles) ? this.stacks(areLabelsOpen, stackTitles) : null}
 
                 </section>
-                {/* </ScrollContainer> */}
             </>
         )
     }

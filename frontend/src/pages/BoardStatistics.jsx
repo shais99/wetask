@@ -18,15 +18,17 @@ class BoardStatistics extends React.Component {
     state = {
         board: {},
         currView: 'byUsers',
-        cardCount: -1
+        cardCount: -1, 
+        boardStats: null
     }
 
     componentDidMount() {
 
         if (this.props.currBoard) {
             this.statsTimeOut = setTimeout(() => {
-
-                this.setState({ board: this.props.currBoard });
+                const boardStats = this.getBoardStats(this.props.currBoard);
+                this.setState({ board: this.props.currBoard, boardStats }, () => {
+                });
             }, 250)
         }
 
@@ -34,8 +36,11 @@ class BoardStatistics extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.currBoard !== prevProps.currBoard) {
-            this.setState({ board: this.props.currBoard });
+            const boardStats = this.getBoardStats(this.props.currBoard);
+            this.setState({ board: this.props.currBoard, boardStats });
         }
+
+
     }
 
     componentWillUnmount() {
@@ -48,11 +53,6 @@ class BoardStatistics extends React.Component {
         const value = target.value
 
         this.setState(prevState => ({ card: { ...prevState.card, [field]: value } }))
-    }
-
-    onBackBoard = (ev) => {
-        const { boardId } = this.props.match.params
-        this.props.history.push(`/boards/${boardId}`)
     }
 
     getStatsByLabels = (board) => {
@@ -157,12 +157,14 @@ class BoardStatistics extends React.Component {
         let byLabels = this.getStatsByLabels(board);
         let byUsers = this.getStatsByUsers(board);
         let byDueDate = this.getStatsByDueDates(board);
+
         if (byDueDate === null) this.setState({ isNoCardsBoard: true })
         else {
             if (this.state.isNoCardsBoard) this.setState({ isNoCardsBoard: false })
         }
         stats = { byLabels, byUsers, byDueDate };
 
+        console.log(stats);
         return stats;
     }
 
@@ -174,20 +176,19 @@ class BoardStatistics extends React.Component {
 
     render() {
 
-        const { board, currView, cardCount } = this.state;
-        const { } = this;
-
-        let boardStats = null;
-        if (board) {
-            boardStats = this.getBoardStats(board);
-        }
+        const { board, currView, cardCount, boardStats } = this.state;
+        const { isShowingStatistics } = this.props;
+        // let boardStats = null;
+        // if (board) {
+        //     boardStats = this.getBoardStats(board);
+        // }
 
         return ((!board) ? '' :
 
             <>
-                <div className="screen stats" onMouseDown={this.onBackBoard}>
+                <div className="stats flex align-center justify-center">
 
-                    <section className="board-statistics modal-container flex column" onMouseDown={(ev) => ev.stopPropagation()}
+                    <section className={`board-statistics modal-container flex column ${(isShowingStatistics) ? '' : 'board-statistics-closed'}`} onMouseDown={(ev) => ev.stopPropagation()}
                         ref={this.elStats}>
                         <header className="board-statistics-header-span flex align-center justify-center">
                             <p className="board-statistics-header">' {board.title} '</p>

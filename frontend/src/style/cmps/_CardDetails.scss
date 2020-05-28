@@ -378,6 +378,19 @@
     }
 }
 
+.card-bg-container {
+    margin-top: 15px;
+
+    .card-bg {
+        height: 70px;
+        width: 70px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+}
+
 @media (max-width: 660px) {
     .main-content-card-action {
         form {

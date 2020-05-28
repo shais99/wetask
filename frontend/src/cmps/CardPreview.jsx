@@ -53,7 +53,7 @@ export function CardPreview(props) {
         <>
             {/* <Link to={link}> */}
             <div className="card-preview flex column align-center justify-center" onClick={onCardClick} ref={innerRef} style={style}
-                {...provided.draggableProps} {...provided.dragHandleProps} >
+                {...provided.draggableProps} {...provided.dragHandleProps}>
                 {(card.labels.length)
                     ?
                     <div className={`card-labels flex wrap align-center`} onClick={(event) => onLabelsPress(event)}>
@@ -79,7 +79,7 @@ export function CardPreview(props) {
                     ?
                     <div className="card-preview-info flex align-center space-start">
 
-                        {(card.dueDate && card.dueDate != '')
+                        {(card.dueDate && card.dueDate !== '')
                             ?
                             <span className={`preview-info-span flex align-center due-date ${dueDateClass}`}>
                                 <img className="preview-info-img" src="/assets/img/clock.png" alt=""/>

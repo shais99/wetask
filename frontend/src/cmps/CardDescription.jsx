@@ -12,14 +12,14 @@ export default function CardDescription(props) {
             </div>
 
             <form className="main-content-card-action" onSubmit={props.onSaveDesc}>
-                <textarea name="description" value={props.description} onChange={props.handleChange} 
-                onFocus={() => props.isShown(true)} className="card-desc" id="cardDesc" placeholder="Add your card descriptaion...">
+                <textarea name="description" value={props.description} onChange={props.handleChange}
+                    onFocus={() => props.isShown(true)} className="card-desc" id="cardDesc" placeholder="Add your card description...">
                 </textarea>
                 {props.isSubmitShown && <div className="desc-btns-container flex align-center">
                     <button className="btn btn-primary btn-save-desc">Save Changes</button>
                     <Link to="#" className="cancel-changes" onClick={() => props.isShown(false, true)}>
-                            <img className="close-btn-desc" src="/assets/img/close.png" alt=""/>
-                        </Link>
+                        <img className="close-btn-desc" src="/assets/img/close.png" alt="" />
+                    </Link>
                 </div>}
             </form>
         </div>

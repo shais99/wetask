@@ -1,13 +1,19 @@
 .stats {
+
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+
     .board-statistics {
-        width: 75%;
-        height: fit-content;
-        min-height: 360px;
+        width: 95%;
+        height: 95%;
+        // min-height: 360px;
+        border-radius: 7.5px;
         top: 10vh;
-        animation: slide-up 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        animation: slide-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
         box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.6);
         overflow-y: auto;
-
+        background: $clr6;
         .board-statistics-header-span {
             .board-statistics-header {
                 font-family: openSansBold;
@@ -71,6 +77,10 @@
             border-radius: 10px;
             background: lighten($color: $clr3, $amount: 30);
         }
+
+        &.board-statistics-closed {
+            animation: slide-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
     }
 }
 
@@ -80,5 +90,24 @@
     }
     100% {
         transform: translateY(0);
+    }
+}
+
+@keyframes slide-left {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-right
+ {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
     }
 }

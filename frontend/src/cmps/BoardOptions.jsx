@@ -52,11 +52,11 @@ class BoardOptions extends Component {
     }
 
     render() {
-        const { board, onSetBg, history } = this.props
-        const { isAddMemberShown, isBoardMenuShown } = this.state
-        
+        const { board, onSetBg, history, toggleShowStatistics, isShowingStatistics } = this.props;
+        const { isAddMemberShown, isBoardMenuShown } = this.state;
+
         return (
-            <div className="board-options-container flex align-center space-between">
+            <div className={`board-options-container flex align-center space-between ${(isShowingStatistics) ? 'stats-margin' : ''}`}>
                 <div className="board-title">{board.title}</div>
 
                 <div className="board-members flex">
@@ -72,7 +72,8 @@ class BoardOptions extends Component {
                     </button>
                 </div>
                 {isAddMemberShown && <AddMember onClose={this.onToggleAddMember} onAddMember={this.onAddMember} />}
-                {<BoardMenu isOpen={isBoardMenuShown} history={history} onSetBg={onSetBg} board={board} onClose={this.onToggleBoardMenu} />}
+                {<BoardMenu toggleShowStatistics={toggleShowStatistics} isOpen={isBoardMenuShown} history={history}
+                    onSetBg={onSetBg} board={board} onClose={this.onToggleBoardMenu} isShowingStatistics={isShowingStatistics} />}
 
             </div>
         )

@@ -37,7 +37,7 @@ export class StatisticsBar extends React.Component {
         const getUserColor = user => colors[user.id];
         
     
-        const keys = ['Tasks', 'Done Tasks'];
+        // const keys = ['Tasks', 'Done Tasks'];
         const { data } = this.state;
         return (
     
@@ -103,7 +103,7 @@ export class StatisticsBar extends React.Component {
                 }}
                 labelSkipWidth={12}
                 labelSkipHeight={12}
-                labelTextColor={{ from: { getUserColor }, modifiers: [['darker', 1.6]] }}
+                labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
                 legends={[
                     {
                         dataFrom: "keys",

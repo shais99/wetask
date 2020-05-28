@@ -55,6 +55,10 @@
             &.remove-board {
                 color: darken($clr4, 10%);
             }
+
+            &.active-stats {
+                background: $clr3;
+            }
         }
     }
 
