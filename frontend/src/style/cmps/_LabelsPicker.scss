@@ -24,7 +24,7 @@
         cursor: pointer;
         font-size: rem(14px);
         font-family: openSansBold;
-        transition: .3s;
+        transition: 0.3s;
 
         &:hover {
             filter: brightness(90%);
@@ -34,16 +34,16 @@
             width: 16px;
         }
     }
-    .edit-icon{
+    .edit-icon {
         cursor: pointer;
         padding: 5px 6px;
         border-radius: 4px;
         margin-bottom: 3px;
         margin-left: 5px;
-        img{
-            width:20px;
+        img {
+            width: 20px;
         }
-        &:hover{
+        &:hover {
             background-color: #eeeeee;
         }
     }
@@ -57,8 +57,21 @@
         &:hover {
             background-color: #eeeeee;
         }
-        img{
+        img {
             width: 12px;
+        }
+    }
+    .label-color-item {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+
+        &:not(:nth-child(6n)) {
+            margin-right: 5px;
+        }
+        img{
+            width: 16px;
         }
     }
 }
