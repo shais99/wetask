@@ -162,7 +162,7 @@ class CardDetails extends Component {
         ev.preventDefault()
         this.setState({ prevCardDesc: this.state.card.description }, () => {
             this.state.card.activities.unshift({
-                id: makeId(), txt: `edited card description to ${this.state.card.description}`,
+                id: makeId(), txt: `edited card description`,
                 createdAt: Date.now(), byMember: this.props.loggedInUser
             })
             this.props.saveCard(this.state.card)
