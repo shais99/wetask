@@ -4,7 +4,6 @@ function connectSockets(io) {
     io.on('connection', socket => {
         console.log('CONNECTED');
 
-
         socket.on('setBoard', async boardId => {
             if (socket.myBoard) socket.leave(socket.myBoard)
 

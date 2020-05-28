@@ -59,12 +59,12 @@
 
         .filter-cards-container {
             position: absolute;
-            width: 205px;
+            max-width: 210px;
             top: 90px;
-            right: 102px;
+            right: 106px;
             padding-right: 3px;
             background-color: $clr1;
-            
+
             .filter-scroll-cards {
                 padding-right: 3px;
                 max-height: 250px;

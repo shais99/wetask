@@ -440,6 +440,7 @@ class CardDetails extends Component {
 
     onChangeBgColor = (bgColor) => {
         this.setState(prevState => ({ card: { ...prevState.card, bgColor } }), () => this.props.saveCard(this.state.card))
+        this.onToggleAction('bgColor')
     }
 
     onChagneLabelColor = (labelId, color) => {
