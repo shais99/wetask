@@ -16,6 +16,7 @@ export default function boardReducer(state = initialState, action) {
                 currBoard: action.board
             }
         case 'UPDATE_STACK_TITLE':
+
             return {
                 ...state,
                 currBoard: {
