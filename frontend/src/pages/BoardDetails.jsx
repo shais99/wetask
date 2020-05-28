@@ -2,7 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { loadBoard, save, setBoard } from '../store/actions/boardActions';
+import { loadBoard, save, setBoard, updateStackTitle } from '../store/actions/boardActions';
 import AddContent from '../cmps/AddContent';
 import { Route, Link } from 'react-router-dom';
 import { CardPreview } from '../cmps/CardPreview.jsx';
@@ -89,9 +89,6 @@ class BoardDetails extends React.Component {
 
     onNewStackTitle = ({ target }) => {
         let currBoard = { ...this.props.currBoard };
-        const { stackTitles } = this.state;
-
-        currBoard.stacks[target.dataset.idx].title = stackTitles[currBoard.stacks[target.dataset.idx].id];
         this.props.save(currBoard);
     }
 
@@ -109,6 +106,7 @@ class BoardDetails extends React.Component {
 
         // console.log(stackId);
         let currBoard = { ...this.props.currBoard };
+        if (currBoard.isPublic) return;
         let stackIdx = currBoard.stacks.findIndex(stack => {
             return stack.id === stackId;
         })
@@ -410,7 +408,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     loadBoard,
     save,
-    setBoard
+    setBoard,
+    updateStackTitle
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardDetails)

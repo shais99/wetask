@@ -17,17 +17,23 @@ class BoardMenu extends Component {
     onToggleStyling = () => this.setState(prevState => ({ isStylingShown: !prevState.isStylingShown }))
     onToggleRemoveBoard = () => this.setState(prevState => ({ isRemoveBoardShown: !prevState.isRemoveBoardShown }))
     onRemoveBoard = async () => {
+        if (this.props.board.isPublic) return
         await this.props.removeBoard(this.props.board._id)
         this.props.history.push('/boards')
     }
-    
+
     onToggleStatistics = () => {
         this.props.onClose();
         this.props.toggleShowStatistics();
     }
 
+    onCloseMenu = () => {
+        this.props.onClose()
+        this.setState({ isStylingShown: false, isRemoveBoardShown: false })
+    }
+
     render() {
-        const { onClose, onSetBg, board, isOpen, isShowingStatistics } = this.props
+        const { onSetBg, board, isOpen, isShowingStatistics } = this.props
         const { isStylingShown, isRemoveBoardShown } = this.state
 
         return (
@@ -35,7 +41,7 @@ class BoardMenu extends Component {
 
                 <div className="board-menu-title flex space-between align-center">
                     Board Managment
-                    <img src="/assets/img/close-white.png" className="close-icon" onClick={() => onClose()} alt="" />
+                    <img src="/assets/img/close-white.png" className="close-icon" onClick={this.onCloseMenu} alt="" />
                 </div>
 
                 <div className="board-menu-content">

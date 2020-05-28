@@ -40,10 +40,14 @@
             }
         }
 
+        .task-title-container {
+            width: 100%;
+        }
+
         .card-title {
             font-size: rem(20px);
             font-family: openSansBold;
-            width: 400px;
+            width: 90%;
             height: fit-content;
             border: none;
             padding: 6px;

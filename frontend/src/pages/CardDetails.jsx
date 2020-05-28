@@ -73,8 +73,9 @@ class CardDetails extends Component {
         this.setState(prevState => ({ card: { ...prevState.card, description: this.state.prevCardDesc } }))
     }
 
-    onBackBoard = (ev) => {
+    onBackBoard = () => {
         const { boardId } = this.props.match.params
+        this.onEditTitleFinish()
         this.props.history.push(`/boards/${boardId}`)
     }
 
@@ -149,13 +150,15 @@ class CardDetails extends Component {
     }
 
     onEditTitle = ({ target }) => {
-        this.setState(prevState => ({ card: { ...prevState.card, title: target.value } }), () => {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `edited card title to ${this.state.card.title}`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            this.props.saveCard(this.state.card)
+        this.setState(prevState => ({ card: { ...prevState.card, title: target.value } }))
+    }
+
+    onEditTitleFinish = () => {
+        this.state.card.activities.unshift({
+            id: makeId(), txt: `edited card title to ${this.state.card.title}`,
+            createdAt: Date.now(), byMember: this.props.loggedInUser
         })
+        this.props.saveCard(this.state.card)
     }
 
     onSaveDesc = (ev) => {
@@ -384,6 +387,7 @@ class CardDetails extends Component {
 
     onRemoveCard = () => {
         const { currBoard, save, history, loggedInUser } = this.props
+        if (currBoard.isPublic) return;
         currBoard.stacks.forEach(stack => {
             let cardIdx = stack.cards.findIndex(card => {
                 return card.id === this.state.card.id
@@ -451,9 +455,9 @@ class CardDetails extends Component {
                 <div className="screen" onMouseDown={this.onBackBoard} >
                     <div className="modal-container shadow-drop-2-center card-details-modal" onMouseDown={(ev) => ev.stopPropagation()}>
                         <div className="modal-header flex align-center space-between">
-                            <div className="flex align-center">
+                            <div className="task-title-container flex align-center">
                                 <img className="img-icon" src="/assets/img/task.png" alt="" />
-                                <input type="text" name="title" className="card-title" onChange={this.onEditTitle} value={card.title} />
+                                <input type="text" name="title" className="card-title" onChange={this.onEditTitle} onBlur={this.onEditTitleFinish} value={card.title} />
                             </div>
                             <div className="close-modal flex justify-content align-center" onClick={this.onBackBoard}><img className="img-icon" src="/assets/img/close.png" alt="" /></div>
                         </div>

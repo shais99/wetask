@@ -11,7 +11,7 @@ var io = require('socket.io')(http);
 
 // Express App Config
 app.use(cookieParser())
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb', extended: true }))
 app.use(session({
     secret: 'MyS@CR@TC0dE1908ItsoNlyMiNE',
     resave: false,
