@@ -1,4 +1,4 @@
-.labels-container {
+.action-container {
     position: fixed;
     border: 1px solid #d2d2d2;
     z-index: 999;
@@ -8,7 +8,7 @@
     background-color: white;
     top: 40px;
     right: 40px;
-    .labels-header {
+    .action-header {
         padding: 4px;
         border-bottom: 1px solid #d5d5d5;
         margin-bottom: 10px;
@@ -16,14 +16,15 @@
     }
     .label-item {
         padding: 8px 12px;
-        margin: 5px;
+        margin-bottom: 5px;
         border-radius: 5px;
         color: white;
-        height: 35px;
+        // height: 35px;
+        width: 88%;
         cursor: pointer;
         font-size: rem(14px);
         font-family: openSansBold;
-        transition: .3s;
+        transition: 0.3s;
 
         &:hover {
             filter: brightness(90%);
@@ -31,6 +32,19 @@
 
         & img {
             width: 16px;
+        }
+    }
+    .edit-icon {
+        cursor: pointer;
+        padding: 5px 6px;
+        border-radius: 4px;
+        margin-bottom: 3px;
+        margin-left: 5px;
+        img {
+            width: 20px;
+        }
+        &:hover {
+            background-color: #eeeeee;
         }
     }
     .close-label {
@@ -43,17 +57,33 @@
         &:hover {
             background-color: #eeeeee;
         }
+        img {
+            width: 12px;
+        }
+    }
+    .label-color-item {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+
+        &:not(:nth-child(6n)) {
+            margin-right: 5px;
+        }
+        img{
+            width: 16px;
+        }
     }
 }
 
 @media (max-width: 700px) {
-    .labels-container {
+    .action-container {
         top: 70px;
     }
 }
 
 @media (max-width: 350px) {
-    .labels-container {
+    .action-container {
         margin: 0 auto;
         right: unset;
     }

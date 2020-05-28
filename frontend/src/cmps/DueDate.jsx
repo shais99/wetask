@@ -8,12 +8,12 @@ export default function DueDate(props) {
     return <div>
         <Calendar onChange={props.onChange} calendarType="US" value={date} locale="en-GB" name="dueDate" />
         <div className="btns-container flex space-between">
-            <button className="btn btn-primary" onClick={()=>{
+            <button className="btn btn-primary" onClick={() => {
                 props.onSubmitDate()
                 props.onToggleAction('dueDate')
-                }}>Save</button>
-            <button className="btn btn-danger" onClick={()=>{
-                props.removeDuedate()
+            }}>Save</button>
+            <button className="btn btn-danger" onClick={() => {
+                props.removeDueDate()
                 props.onToggleAction('dueDate')
             }}>Remove</button>
         </div>

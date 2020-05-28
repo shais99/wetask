@@ -25,7 +25,8 @@ class CardDetails extends Component {
             dueDate: false,
             members: false,
             move: false,
-            timeEstimation: false
+            timeEstimation: false,
+            bgColor: false
         },
         comment: {
             txt: ''
@@ -161,7 +162,7 @@ class CardDetails extends Component {
         ev.preventDefault()
         this.setState({ prevCardDesc: this.state.card.description }, () => {
             this.state.card.activities.unshift({
-                id: makeId(), txt: `edited card description to ${this.state.card.description}`,
+                id: makeId(), txt: `edited card description`,
                 createdAt: Date.now(), byMember: this.props.loggedInUser
             })
             this.props.saveCard(this.state.card)
@@ -253,13 +254,7 @@ class CardDetails extends Component {
                     return checklist
                 })
             }
-        }), () => {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `has edited checklist title card to ${title}`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            this.props.saveCard(this.state.card)
-        })
+        }), () => { this.props.saveCard(this.state.card) })
     }
 
     onAddTodo = (checklistId, newTodo) => {
@@ -327,6 +322,8 @@ class CardDetails extends Component {
 
 
     onToggleAction = (action) => {
+        console.log('action', action);
+
         let actions = this.state.isShown;
         for (const key in actions) {
             if (key !== action) {
@@ -424,12 +421,10 @@ class CardDetails extends Component {
     onApproveTimeEstimation = () => {
         this.setState(prevState => ({ card: { ...prevState.card, timeEstimation: { ...prevState.card.timeEstimation, approve: true } } }), () => {
             this.state.card.activities.unshift({
-                id: makeId(), txt: `removed time estimation from the card`,
+                id: makeId(), txt: `confirmed the time estimate`,
                 createdAt: Date.now(), byMember: this.props.loggedInUser
             })
             this.props.saveCard(this.state.card)
-            console.log(this.state.card);
-
         })
     }
 
@@ -439,9 +434,18 @@ class CardDetails extends Component {
         })
     }
 
+    onChangeBgColor = (bgColor) => {
+        this.setState(prevState => ({ card: { ...prevState.card, bgColor } }), () => this.props.saveCard(this.state.card))
+    }
+
+    onChagneLabelColor = (labelId, color) => {
+        
+    }
+
     render() {
         const { card, isDescShown, comment, isShown, isUploadImg, isOpenModalRemove, isFocusComment } = this.state
         const { onToggleAction } = this;
+
         return ((!card) ? 'Loading...' :
             <>
                 <div className="screen" onMouseDown={this.onBackBoard} >
@@ -457,9 +461,15 @@ class CardDetails extends Component {
                         {card.timeEstimation && <CardShowTimeEstimation card={card} onApproveTimeEstimation={this.onApproveTimeEstimation} onFocusComment={this.onFocusComment} />}
                         <div className="card-container flex">
                             <aside className="card-content">
+                                {card.timeEstimation && <CardShowTimeEstimation card={card} onApproveTimeEstimation={this.onApproveTimeEstimation} onFocusComment={this.onFocusComment} />}
 
                                 <CardPreviewActions card={card} getTwoChars={this.getTwoChars} />
                                 <CardDescription description={card.description} onSaveDesc={this.onSaveDesc} handleChange={this.handleChange} isShown={this.onDescShown} isSubmitShown={isDescShown} />
+
+                                {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} onRemoveImg={this.onRemoveImg} />}
+                                {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} onRemoveTodo={this.onRemoveTodo} onRemoveChecklist={this.onRemoveChecklist} />)}
+                                <CardComments isFocusComment={isFocusComment} comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} removeComment={this.removeComment} />
+                                {card.activities && <CardActivity activities={card.activities} getTwoChars={this.getTwoChars} />}
 
                                 {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} onRemoveImg={this.onRemoveImg} />}
                                 {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} onRemoveTodo={this.onRemoveTodo} onRemoveChecklist={this.onRemoveChecklist} />)}
@@ -475,15 +485,18 @@ class CardDetails extends Component {
                                     <Link title="Set Due Date" to="#" onClick={() => onToggleAction('dueDate')}><li><img src="/assets/img/clock-icon.png" alt="" />Due Date</li></Link>
                                     <Link title="Set Time Estimation" to="#" onClick={() => onToggleAction('timeEstimation')}><li><img src="/assets/img/clock-icon.png" alt="" />Time Estimation</li></Link>
                                     <Link title="Add Image" to="#" onClick={() => this.onOpenUpload()}><li><img src="/assets/img/style.png" alt="" />Add Image</li></Link>
+                                    <Link title="Change Card Background" to="#" onClick={() => this.onToggleAction('bgColor')}><li><img src="/assets/img/palette.png" alt="" />Change Background</li></Link>
                                     <input type="file" ref={input => this.inputElement = input} name="imgUrl" onChange={this.onUploadImg} hidden />
                                     <Link title="Move Card" to="#" onClick={() => this.onToggleAction('move')}><li><img src="/assets/img/back.png" className="img-rotate" alt="" />Move Card</li></Link>
                                     <Link title="Remove Card" to="#" onClick={this.onToggleRemoveCard}><li className="li-last-child"><img src="/assets/img/trash-white.png" alt="" />Remove Card</li></Link>
 
-                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} onSubmitDate={this.onSubmitDate} onToggleAction={onToggleAction} value={card.dueDate} removeDuedate={this.removeDuedate} />}
-                                    {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
+                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} onSubmitDate={this.onSubmitDate} onToggleAction={onToggleAction} value={card.dueDate} removeDueDate={this.removeDueDate} />}
+                                    {isShown.label && <ActionContainer isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} card={card} onChagneLabelColor={this.onChagneLabelColor} />}
                                     {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} addMember={this.onAddMember} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
+                                    {isShown.bgColor && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onChangeBgColor={this.onChangeBgColor} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
                                     {isShown.move && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onToggleAction={onToggleAction} moveCardToStack={this.moveCardToStack} />}
                                     {isShown.timeEstimation && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onToggleAction={onToggleAction} onAddTimeEstimation={this.onAddTimeEstimation} removeCardEstimation={this.removeCardEstimation} />}
+                                    {isShown.changeLabel && <ActionContainer isShown={isShown} onToggleAction={onToggleAction} card={card} />}
 
                                 </ul>
                                 {isOpenModalRemove && <RemoveCard onToggleRemoveCard={this.onToggleRemoveCard} onRemoveCard={this.onRemoveCard} />}

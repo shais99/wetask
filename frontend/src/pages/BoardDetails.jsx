@@ -101,7 +101,7 @@ class BoardDetails extends React.Component {
             // some basic styles to make the items look a bit nicer
             ...draggableStyle,
             // change background colour if dragging
-            background: isDragging ? 'rgb(219, 219, 219)' : '#ebecf0',
+            background: isDragging ? 'rgb(219, 219, 219)' : '#ebecf0'
         });
     }
 
@@ -156,6 +156,7 @@ class BoardDetails extends React.Component {
             byMember: this.props.loggedInUser,
             createdAt: Date.now(),
             dueDate: '',
+            bgColor: 'white',
             timeEstimation: ''
         });
 
@@ -235,13 +236,13 @@ class BoardDetails extends React.Component {
         this.setState({ isShown: actions });
     }
 
-    stacks = (areLabelsOpen, stackTitles) => {
-        const board = this.props.currBoard;
-        const { isShown } = this.state;
-        return (
-            null
-        )
-    }
+    // stacks = (areLabelsOpen, stackTitles) => {
+    //     const board = this.props.currBoard;
+    //     const { isShown } = this.state;
+    //     return (
+    //         null
+    //     )
+    // }
 
     onSetBg = (bg, type) => {
         if (type === 'img') {
