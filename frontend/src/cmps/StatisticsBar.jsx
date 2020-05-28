@@ -33,8 +33,12 @@ export class StatisticsBar extends React.Component {
 
     render() {
 
-        const colors = { 'Tasks': getRandomColor(), 'Done Tasks': '#3f3f3f' };
-        const getUserColor = user => colors[user.id];
+        // const colors = { 'Tasks': getRandomColor(), 'Done Tasks': '#3f3f3f' };
+        const getUserColor = user => {
+            // console.log(user);
+            return (user.id === 'Done Tasks') ? '#3f3f3f' : (user.color) ? user.color : getRandomColor() ;
+        }
+        
         
     
         // const keys = ['Tasks', 'Done Tasks'];
@@ -48,40 +52,6 @@ export class StatisticsBar extends React.Component {
                 margin={{ top: 10, right: 130, bottom: 50, left: 60 }}
                 padding={0.3}
                 colors={getUserColor}
-                defs={[
-                    {
-                        id: 'admin',
-                        type: 'patternDots',
-                        background: 'inherit',
-                        color: '#38bcb2',
-                        size: 4,
-                        padding: 1,
-                        stagger: true
-                    },
-                    {
-                        id: 'lines',
-                        type: 'patternLines',
-                        background: 'inherit',
-                        color: '#eed312',
-                        rotation: -45,
-                        lineWidth: 6,
-                        spacing: 10
-                    }
-                ]}
-                fill={[
-                    {
-                        match: {
-                            id: 'admin'
-                        },
-                        id: 'dots'
-                    },
-                    {
-                        match: {
-                            id: 'sandwich'
-                        },
-                        id: 'lines'
-                    }
-                ]}
                 borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
                 axisTop={null}
                 axisRight={null}

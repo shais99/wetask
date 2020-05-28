@@ -48,75 +48,80 @@ export function CardPreview(props) {
     function onCardClick() {
         props.history.push(props.link)
     }
+    // console.log(style);
 
     return (
         <>
             {/* <Link to={link}> */}
             <div className="card-preview flex column align-center justify-center" onClick={onCardClick} ref={innerRef} style={style}
                 {...provided.draggableProps} {...provided.dragHandleProps} >
-                {(card.labels.length)
-                    ?
-                    <div className={`card-labels flex wrap align-center`} onClick={(event) => onLabelsPress(event)}>
-                        {
-                            card.labels.map(label => {
-                                return (
-                                    <div className={`card-label flex align-center justify-center ${(labelsOpen) ? 'label-expand' : ''}`}
-                                        key={label.title + card.id} style={{
-                                            background: label.color,
+                <div className="card-preview-content" style={{ background: style.background }}>
 
-                                        }}>{(labelsOpen) ? label.title : ''}</div>
-                                )
-                            })
-                        }
-                    </div>
-                    : null
 
-                }
-                {card.imgUrl && <img src={card.imgUrl} className="card-img" alt="" />}
-                <p className={`card-preview-title ${(card.labels.length) ? 'top-margin' : ''}`}>{props.title}</p>
+                    {(card.labels.length)
+                        ?
+                        <div className={`card-labels flex wrap align-center`} onClick={(event) => onLabelsPress(event)}>
+                            {
+                                card.labels.map(label => {
+                                    return (
+                                        <div className={`card-label flex align-center justify-center ${(labelsOpen) ? 'label-expand' : ''}`}
+                                            key={label.title + card.id} style={{
+                                                background: label.color,
 
-                {(showInfo)
-                    ?
-                    <div className="card-preview-info flex align-center space-start">
+                                            }}>{(labelsOpen) ? label.title : ''}</div>
+                                    )
+                                })
+                            }
+                        </div>
+                        : null
 
-                        {(card.dueDate && card.dueDate !== '')
-                            ?
-                            <span className={`preview-info-span flex align-center due-date ${dueDateClass}`}>
-                                <img className="preview-info-img" src="/assets/img/clock.png" alt=""/>
-                                <p className="preview-info-count">{moment(card.dueDate).format("MMM DD")}</p>
-                            </span>
-                            :
-                            null
-                        }
-                        {(card.description !== '')
-                            ?
-                            <span className="preview-info-span flex align-center">
-                                <img className="preview-info-img" src="/assets/img/description.png" alt="" />
-                            </span>
-                            :
-                            null
-                        }
-                        {(card.comments.length)
-                            ?
-                            <span className="preview-info-span flex align-center">
-                                <img className="preview-info-img" src="/assets/img/comment.png" alt=""/>
-                                <p className="preview-info-count">{card.comments.length}</p>
-                            </span>
-                            :
-                            null
-                        }
-                        {(card.checklists && todosCount)
-                            ?
-                            <span className="preview-info-span flex align-center">
-                                <img className="preview-info-img" src="/assets/img/todos.png" alt="" />
-                                <p className="preview-info-count">{todosStatus}</p>
-                            </span>
-                            :
-                            null
-                        }
+                    }
+                    {card.imgUrl && <img src={card.imgUrl} className="card-img" alt="" />}
+                    <p className={`card-preview-title ${(card.labels.length) ? 'top-margin' : ''}`} >{props.title}</p>
 
-                    </div>
-                    : null}
+                    {(showInfo)
+                        ?
+                        <div className="card-preview-info flex align-center space-start">
+
+                            {(card.dueDate && card.dueDate !== '')
+                                ?
+                                <span className={`preview-info-span flex align-center due-date ${dueDateClass}`}>
+                                    <img className="preview-info-img" src="/assets/img/clock.png" alt="" />
+                                    <p className="preview-info-count">{moment(card.dueDate).format("MMM DD")}</p>
+                                </span>
+                                :
+                                null
+                            }
+                            {(card.description !== '')
+                                ?
+                                <span className="preview-info-span flex align-center">
+                                    <img className="preview-info-img" src="/assets/img/description.png" alt="" />
+                                </span>
+                                :
+                                null
+                            }
+                            {(card.comments.length)
+                                ?
+                                <span className="preview-info-span flex align-center">
+                                    <img className="preview-info-img" src="/assets/img/comment.png" alt="" />
+                                    <p className="preview-info-count">{card.comments.length}</p>
+                                </span>
+                                :
+                                null
+                            }
+                            {(card.checklists && todosCount)
+                                ?
+                                <span className="preview-info-span flex align-center">
+                                    <img className="preview-info-img" src="/assets/img/todos.png" alt="" />
+                                    <p className="preview-info-count">{todosStatus}</p>
+                                </span>
+                                :
+                                null
+                            }
+
+                        </div>
+                        : null}
+                </div>
             </div>
             {/* </Link> */}
 
