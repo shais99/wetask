@@ -17,10 +17,11 @@ class BoardMenu extends Component {
     onToggleStyling = () => this.setState(prevState => ({ isStylingShown: !prevState.isStylingShown }))
     onToggleRemoveBoard = () => this.setState(prevState => ({ isRemoveBoardShown: !prevState.isRemoveBoardShown }))
     onRemoveBoard = async () => {
+        if (this.props.board.isPublic) return
         await this.props.removeBoard(this.props.board._id)
         this.props.history.push('/boards')
     }
-    
+
     onToggleStatistics = () => {
         this.props.onClose();
         this.props.toggleShowStatistics();

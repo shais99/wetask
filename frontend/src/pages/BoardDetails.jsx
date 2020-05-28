@@ -109,6 +109,7 @@ class BoardDetails extends React.Component {
 
         // console.log(stackId);
         let currBoard = { ...this.props.currBoard };
+        if (currBoard.isPublic) return;
         let stackIdx = currBoard.stacks.findIndex(stack => {
             return stack.id === stackId;
         })

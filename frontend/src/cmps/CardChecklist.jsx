@@ -69,7 +69,7 @@ export default class CardChecklist extends React.Component {
                     </div>
                     <div className="checklist-todos-container">
                         {todos.map((todo) => <div className="flex align-center todo-item space-between" key={todo.id}>
-                            <div className="flex align-center">
+                            <div className="todo-check-container flex align-center">
                                 <div className={todo.isDone ? "checkbox done" : "checkbox"} onClick={(event) => this.onUpdateTodo(event, todo, true)}>
                                 </div>
                                 <input name="title" className={`checklist-title todo-title ${todo.isDone ? 'done-decoration' : 'd'}`}

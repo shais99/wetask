@@ -4,7 +4,6 @@
             width: 16px;
             height: 16px;
         }
-      
     }
     .checklist-title {
         font-size: rem(16px);
@@ -42,6 +41,10 @@
     }
     .checklist-todos-container {
         margin-bottom: 30px;
+
+        .todo-check-container {
+            width: 93%;
+        }
         .checkbox {
             border-radius: 2px;
             box-shadow: inset 0 0 0 2px #dfe1e6;
@@ -59,7 +62,7 @@
 
             &:hover {
                 background-color: darken(#f4f5f7, 5%);
-                .todo-delete-btn-container{
+                .todo-delete-btn-container {
                     display: block;
                 }
             }

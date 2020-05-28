@@ -22,7 +22,7 @@ export default function HomePage() {
                 <div className="content ">
                     <div className="txt-title">Lorem ipsum dolor sit amet</div>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem facilis exercitationem veniam laboriosam quidem optio unde beatae quia, sed repellat blanditiis aspernatur consectetur quos placeat magni ipsa dolorem architecto tempora! Debitis beatae blanditiis tempore nesciunt dignissimos eius, minima harum sed, adipisci nihil, placeat fuga quos perspiciatis totam qui incidunt. Consectetur!
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem facilis exercitationemoptio unde beatae quia, sed repellat blanditiis aspernatur consectetur quos placeat magni ipsa dolorem architecto tempora! Debitis beatae blanditiis tempore nesciunt dignissimos eius, minima harum sed, adipisci nihil, placeat fuga quos perspiciatis totam qui incidunt. Consectetur!
                     </p>
                 </div>
             </section>

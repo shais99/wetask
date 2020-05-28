@@ -1,4 +1,3 @@
-const boardController = require('../board/board.controller')
 module.exports = connectSockets
 
 function connectSockets(io) {

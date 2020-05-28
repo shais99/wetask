@@ -3,7 +3,7 @@ import socketService from '../../services/socketService'
 
 export function loadBoards(userId) {
   return dispatch => {
-    boardService.query(userId)
+    return boardService.query(userId)
       .then(boards => dispatch({ type: 'SET_BOARDS', boards }))
   }
 }
@@ -27,7 +27,6 @@ export function removeBoard(boardId) {
     return boardService.remove(boardId)
       .then(() => {
         dispatch({ type: 'REMOVE_BOARD', boardId })
-        // return Promise.resolve()
       })
   }
 }
