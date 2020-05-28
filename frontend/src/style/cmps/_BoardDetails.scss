@@ -26,8 +26,9 @@
 
             transition: 0.3s;
             font-size: rem(16px);
-            font-family: openSansBold;
+            font-family: openSansBold, 'Arial';
             max-width: 197px;
+            color: $clr1;
             cursor: pointer;
 
             &:hover {
