@@ -13,7 +13,7 @@ export default function DueDate(props) {
                 props.onToggleAction('dueDate')
             }}>Save</button>
             <button className="btn btn-danger" onClick={() => {
-                props.removeDuedate()
+                props.removeDueDate()
                 props.onToggleAction('dueDate')
             }}>Remove</button>
         </div>

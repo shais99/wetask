@@ -7,9 +7,14 @@ export function loadBoards(userId) {
       .then(boards => dispatch({ type: 'SET_BOARDS', boards }))
   }
 }
+
+export function updateStackTitle(id, title) {
+  return dispatch => dispatch({ type: 'UPDATE_STACK_TITLE', stack: { id, title } })
+}
+
 export function loadBoard(id) {
   return dispatch => {
-     boardService.get(id)
+    boardService.get(id)
       .then(board => {
         dispatch({ type: 'SET_BOARD', board });
       })

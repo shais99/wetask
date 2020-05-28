@@ -7,6 +7,7 @@ import CardTimeEstimation from './CardTimeEstimation'
 import StackMenu from './StackMenu'
 import CardBgColor from './CardBgColor'
 import OutsideClickHandler from 'react-outside-click-handler';
+import CardChangeLabel from './CardChangeLabel'
 
 
 
@@ -52,10 +53,11 @@ export default class ActionContainer extends Component {
     render() {
         const { isShown, card, onToggleAction, board, onChange, value, onSubmitDate,
             getCurrCard, addLabel, addMember, removeDueDate, moveCardToStack,
-            onAddTimeEstimation, removeCardEstimation, stackInfo, onStackRemove, onChangeBgColor } = this.props;
+            onAddTimeEstimation, removeCardEstimation, stackInfo, onStackRemove,
+            onChangeBgColor, onChagneLabelColor } = this.props;
 
 
-        const { action } = this.state;
+        const { action, labelId } = this.state;
 
         return (
             <OutsideClickHandler onOutsideClick={() => onToggleAction(action)} display={'contents'}>
@@ -63,11 +65,11 @@ export default class ActionContainer extends Component {
                     <div className="action-header flex space-between align-center">
                         <h3>{this.titleToReturn(action)}</h3>
                         <button className="close-label" onClick={() => onToggleAction(action)}>
-                            <img src="/assets/img/close.png" alt=""/>
+                            <img src="/assets/img/close.png" alt="" />
                         </button>
                     </div>
+                    {isShown.label && <LabelsPicker onChagneLabelColor={onChagneLabelColor} addLabel={addLabel} card={card} onToggleAction={onToggleAction} />}
                     {isShown.dueDate && <DueDate onChange={onChange} value={value} onToggleAction={onToggleAction} removeDueDate={removeDueDate} onSubmitDate={onSubmitDate} />}
-                    {isShown.label && <LabelsPicker addLabel={addLabel} card={card} />}
                     {isShown.members && <CardMembers board={board} getCurrCard={getCurrCard} card={card} addMember={addMember} />}
                     {isShown.bgColor && <CardBgColor board={board} getCurrCard={getCurrCard} card={card} onChangeBgColor={onChangeBgColor} />}
                     {isShown.move && <CardMove board={board} card={card} moveCardToStack={moveCardToStack} />}

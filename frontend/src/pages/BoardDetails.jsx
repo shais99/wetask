@@ -2,7 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { loadBoard, save, setBoard } from '../store/actions/boardActions';
+import { loadBoard, save, setBoard, updateStackTitle } from '../store/actions/boardActions';
 import AddContent from '../cmps/AddContent';
 import { Route, Link } from 'react-router-dom';
 import { CardPreview } from '../cmps/CardPreview.jsx';
@@ -89,9 +89,6 @@ class BoardDetails extends React.Component {
 
     onNewStackTitle = ({ target }) => {
         let currBoard = { ...this.props.currBoard };
-        const { stackTitles } = this.state;
-
-        currBoard.stacks[target.dataset.idx].title = stackTitles[currBoard.stacks[target.dataset.idx].id];
         this.props.save(currBoard);
     }
 
@@ -255,7 +252,7 @@ class BoardDetails extends React.Component {
 
                                 {(board.stacks.length) ? board.stacks.map((stack, index) => (
                                     <Draggable key={stack.id}
-                                        draggableId={stack.id} disableInteractiveElementBlocking index={index} type="STACK" >
+                                        draggableId={stack.id} index={index} type="STACK" >
 
                                         {(provided, snapshot) => {
                                             return (
@@ -274,9 +271,11 @@ class BoardDetails extends React.Component {
                                                 >
                                                     <div className="stack-header flex space-between" {...provided.dragHandleProps}>
 
-                                                        <input autoComplete="off" type="text" name="title" className="stack-title-input" data-idx={index} onChange={this.onEditStackTitle}
-                                                            value={stackTitles[stack.id]} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input} onBlur={this.onNewStackTitle}
+                                                        <input autoComplete="off" type="text" name="title" className="stack-title-input" data-idx={index} onChange={(ev) => { this.props.updateStackTitle(stack.id, ev.target.value) }}
+                                                            value={stack.title} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input} onBlur={this.onNewStackTitle}
                                                         />
+
+                                                        {/* <div className="stack-title-input" contentEditable="true" data-idx={index} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input} onBlur={this.onNewStackTitle} onChange={(ev) => { this.props.updateStackTitle(stack.id, ev.target.value) }}>{stack.title}</div> */}
 
                                                         <Link title="Options" to="#" onClick={() => this.onToggleAction(stack.id)}><button className="stack-header-menu">. . .</button></Link>
                                                         {(isShown && isShown[stack.id]) && <ActionContainer onStackRemove={this.onStackRemove} stackInfo={{ id: stack.id, title: stack.title }} isShown={{ stack: true }}
@@ -398,7 +397,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     loadBoard,
     save,
-    setBoard
+    setBoard,
+    updateStackTitle
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardDetails)
