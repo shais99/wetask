@@ -89,6 +89,9 @@ class BoardDetails extends React.Component {
 
     onNewStackTitle = ({ target }) => {
         let currBoard = { ...this.props.currBoard };
+        const { stackTitles } = this.state;
+
+        currBoard.stacks[target.dataset.idx].title = stackTitles[currBoard.stacks[target.dataset.idx].id];
         this.props.save(currBoard);
     }
 
@@ -299,7 +302,7 @@ class BoardDetails extends React.Component {
 
                                                 {(currBoard.stacks.length) ? currBoard.stacks.map((stack, index) => (
                                                     <Draggable key={stack.id}
-                                                        draggableId={stack.id} disableInteractiveElementBlocking index={index} type="STACK" >
+                                                        draggableId={stack.id} index={index} type="STACK" >
 
                                                         {(provided, snapshot) => {
                                                             return (
