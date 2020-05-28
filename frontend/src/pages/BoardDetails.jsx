@@ -320,8 +320,8 @@ class BoardDetails extends React.Component {
                                                                     className="stack-content flex column"
                                                                 >
                                                                     <div className="stack-header flex space-between" {...provided.dragHandleProps}>
-                                                                        <input autoComplete="off" type="text" name="title" className="stack-title-input" data-idx={index} onChange={this.onEditStackTitle}
-                                                                            value={stackTitles[stack.id]} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input}
+                                                                        <input autoComplete="off" type="text" name="title" className="stack-title-input" data-idx={index} onChange={(ev) => { this.props.updateStackTitle(stack.id, ev.target.value) }}
+                                                                            value={stack.title} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input}
                                                                             onBlur={this.onNewStackTitle} />
                                                                         <Link title="Options" to="#" onClick={() => this.onToggleAction(stack.id)}><button className="stack-header-menu">. . .</button></Link>
                                                                         {(isShown && isShown[stack.id]) && <ActionContainer onStackRemove={this.onStackRemove} stackInfo={{ id: stack.id, title: stack.title }} isShown={{ stack: true }}
