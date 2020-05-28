@@ -40,10 +40,9 @@ export class StatisticsPie extends React.Component {
             // <span className="pie-content">
             <ResponsivePie
                 data={data}
-                className="pie-content"
                 margin={{ top: 10, right: 80, bottom: 80, left: 80 }}
-                innerRadius={Math.random() * 0.75}
-                padAngle={Math.floor(Math.random() * (10 - 1)) + 1}
+                innerRadius={0.6}
+                padAngle={0}
                 cornerRadius={5}
                 colors={getSliceColor}
                 borderWidth={2}
@@ -61,77 +60,7 @@ export class StatisticsPie extends React.Component {
                 animate={true}
                 motionStiffness={90}
                 motionDamping={15}
-                defs={[
-                    {
-                        id: 'error',
-                        type: 'patternError',
-                        background: '#f2d600',
-                        color: 'rgba(255, 255, 255, 0.3)',
-                        rotation: -45,
-                        lineWidth: 6,
-                        spacing: 10
-                        // stagger: true
-                    },
-                    {
-                        id: 'lines',
-                        type: 'patternLines',
-                        background: 'inherit',
-                        color: 'rgba(255, 255, 255, 0.3)',
-                        rotation: -45,
-                        lineWidth: 6,
-                        spacing: 10
-                    }
-                ]}
-                fill={[
-                    {
-                        match: {
-                            id: 'error'
-                        },
-                        id: 'error'
-                    },
-                    {
-                        match: {
-                            id: 'c'
-                        },
-                        id: 'dots'
-                    },
-                    {
-                        match: {
-                            id: 'go'
-                        },
-                        id: 'dots'
-                    },
-                    {
-                        match: {
-                            id: 'python'
-                        },
-                        id: 'dots'
-                    },
-                    {
-                        match: {
-                            id: 'scala'
-                        },
-                        id: 'lines'
-                    },
-                    {
-                        match: {
-                            id: 'lisp'
-                        },
-                        id: 'lines'
-                    },
-                    {
-                        match: {
-                            id: 'elixir'
-                        },
-                        id: 'lines'
-                    },
-                    {
-                        match: {
-                            id: 'javascript'
-                        },
-                        id: 'lines'
-                    }
-                ]}
+                
                 legends={[
                     // {
                     //     anchor: 'bottom',

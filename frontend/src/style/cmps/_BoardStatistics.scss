@@ -2,7 +2,7 @@
 
     width: 100%;
     height: 100%;
-    z-index: -1;
+    // z-index: -1;
 
     .board-statistics {
         width: 95%;
@@ -13,25 +13,30 @@
         animation: slide-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
         box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.6);
         overflow-y: auto;
-        background: $clr6;
+        background: #FCFCFC;
         .board-statistics-header-span {
+            margin-top: 10px;
             .board-statistics-header {
                 font-family: openSansBold;
                 font-size: rem(30px);
                 margin-bottom: 10px;
-                // margin-right: 10px;
+                margin-right: 5px;
+                
             }
 
             .secondary {
                 opacity: 0.75;
+                font-size: rem(20px);
+                margin-right: 0;
             }
         }
 
         .board-statistics-content {
-            // height: 100%;
-            // overflow-x: hidden;
-            height: 355px;
-            min-width: 780px;
+            
+            grid-template-columns: 1fr 1fr;
+            padding-top: 35px;
+            overflow-x: hidden;
+            overflow-y: auto;
             .board-stats-title {
                 margin-bottom: 10px;
                 background: $clr7;
@@ -43,9 +48,9 @@
                 box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
             }
 
-            .statistics-charts {
-                width: 100%;
-            }
+            // .statistics-charts {
+            //     width: 100%;
+            // }
 
             .statistics-controllers {
 
@@ -75,7 +80,38 @@
         .board-statistics-info {
             padding: 10px;
             border-radius: 10px;
-            background: lighten($color: $clr3, $amount: 30);
+            // background: lighten($color: $clr3, $amount: 30);
+
+            .stat-img {
+                width: 50px;
+                margin-right: 10px;
+                padding: 9px;
+
+                &.createdBy { background-color: lighten($color: $clr4, $amount: 10) }
+                &.members { background-color: lighten($color: $clr5, $amount: 10) }
+                &.stacks { background-color: lighten($color: $clr2, $amount: 10) }
+                &.cards { background-color: lighten($color: $clr3, $amount: 10) }
+                &.activities { background-color: darken($color: $clr6, $amount: 10) }
+            }
+
+            
+
+            .stat-info-block {
+                background: white;
+                border: 2px solid darken($color: $clr6, $amount: 10);
+                // padding: 10px;
+                padding: 2px 5px 2px 2px;
+                margin-bottom: 5px;
+                .stat-info-details {
+                    
+                    .stats-info-p {
+                        font-size: rem(20px);
+                        font-family: openSansBold;
+
+                    }
+
+                }
+            }
         }
 
         &.board-statistics-closed {
