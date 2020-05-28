@@ -3,12 +3,17 @@
     width: 100%;
     margin-bottom: 20px;
     padding: 5px 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    justify-items: center;
 
     .board-title {
         font-family: openSansBold;
         background-color: $clr7;
         padding: 3px 10px;
         border-radius: 5px;
+        justify-self: flex-start;
     }
 
     .remove-member {
@@ -29,6 +34,8 @@
     }
 
     .board-options {
+        justify-self: flex-end;
+
         .search-container {
             width: 30px;
             background: url("../img/search.png") no-repeat;
@@ -52,12 +59,12 @@
 
         .filter-cards-container {
             position: absolute;
-            width: 205px;
+            max-width: 210px;
             top: 90px;
-            right: 102px;
+            right: 106px;
             padding-right: 3px;
             background-color: $clr1;
-            
+
             .filter-scroll-cards {
                 padding-right: 3px;
                 max-height: 250px;
@@ -106,6 +113,12 @@
 
     &.stats-margin {
         margin-bottom: 0;
+    }
+}
+
+@media (max-width: 930px) {
+    .search-container {
+        display: none;
     }
 }
 
