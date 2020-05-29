@@ -276,7 +276,15 @@
 }
 
 .btns-container {
-    margin: 10px;
+    margin: 20px 0 10px 0;
+    padding-top: 10px;
+    border-top: 1px solid #d5d5d5;;
+    .btn-save{
+        padding: 8px 15px;
+    }
+    .btn-remove{
+        padding: 8px 10px;
+    }
 }
 
 .loading-container {

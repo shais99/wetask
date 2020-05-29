@@ -4,9 +4,9 @@ import CardChangeLabel from './CardChangeLabel';
 
 export default class LabelsPicker extends Component {
     state = {
-        labels: [{ id: '101', title: 'done', color: '#61bd4f' }, { id: '102', title: 'error', color: '#f2d600' },
-        { id: '103', title: 'design', color: '#ff9f1a' }, { id: '104', title: 'feature', color: '#eb5a46' },
-        { id: '105', title: 'bug', id: '106', color: '#c377e0' }, { id: '107', title: 'warning', color: '#0079bf' }],
+        // labels: [{ id: '101', title: 'done', color: '#61bd4f' }, { id: '102', title: 'error', color: '#f2d600' },
+        // { id: '103', title: 'design', color: '#ff9f1a' }, { id: '104', title: 'feature', color: '#eb5a46' },
+        // { id: '105', title: 'bug', id: '106', color: '#c377e0' }, { id: '107', title: 'warning', color: '#0079bf' }],
         isChangeShown: false,
         labelSelected: ''
     }
@@ -20,14 +20,18 @@ export default class LabelsPicker extends Component {
     }
 
     onEditLabel = (labelId) => {
-        this.setState({ isChangeShown: true, labelSelected: labelId });
+        this.setState(prevState => ({ isChangeShown: !prevState.isChangeShown, labelSelected: labelId }));
+    }
+
+    onBackToLabels = () =>{
+        this.setState(prevState => ({ isChangeShown: !prevState.isChangeShown }));
     }
 
     render() {
-        const { addLabel, onChagneLabelColor } = this.props
+        const { addLabel, onChagneLabelColor, board } = this.props
         const { labelSelected, isChangeShown } = this.state
         return <>
-            {!isChangeShown && this.state.labels.map((label, idx) => {
+            {!isChangeShown && board.boardLabels.map((label, idx) => {
                 return <div key={idx} className="flex align-center space-between">
                     <div className="label-item flex align-center space-between"
                         style={{ backgroundColor: label.color }} onClick={() => addLabel(label)}>
@@ -39,7 +43,7 @@ export default class LabelsPicker extends Component {
                     </div>
                 </div>
             })}
-            {/* {isChangeShown && <CardChangeLabel labelSelected={labelSelected} onChagneLabelColor={onChagneLabelColor} />} */}
+            {isChangeShown && labelSelected && <CardChangeLabel labelSelected={labelSelected} onChagneLabelColor={onChagneLabelColor} onBackToLabels={this.onBackToLabels}/>}
         </>
     }
 }

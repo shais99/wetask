@@ -24,9 +24,7 @@ export default class CardMove extends React.Component {
                     })}
                 </div>}
             </div>
-
         )
     }
-
 }
 
