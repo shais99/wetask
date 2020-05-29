@@ -67,7 +67,8 @@ class NavBar extends Component {
                 <div className={`nav-container ${(isScroll || !this.isHomepage) ? 'scrolled' : ''} ${(isMenuOpen) ? 'menu-open' : ''}`} style={(this.isHomepage) ? { marginTop: '10px' } : {}}>
                     <div className={`${(this.isHomepage) ? 'container' : ''}`}>
                         <div className="nav-content flex space-between align-center">
-                            <Link to="/"><h1 className="logo"><span className="logo-we">we</span>task</h1></Link>
+                            <Link to="/"><img src="/assets/img/logomain2.svg" className="logo-img" alt=""/></Link>
+                            {/* <Link to="/"><h1 className="logo"><span className="logo-we">we</span>task</h1></Link> */}
                             <ul className="main-nav clean-list flex">
                                 <li className="quit-menu"><button onClick={() => this.toggleMenu()}></button></li>
                                 <li><NavLink onClick={this.toggleMenu} exact to="/">Home</NavLink></li>

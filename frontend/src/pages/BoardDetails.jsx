@@ -210,17 +210,6 @@ class BoardDetails extends React.Component {
         this.props.save(newState)
     }
 
-    // onWheel = (e) => {
-    //     e.preventDefault()
-    //     var container = document.querySelector('.board-content')
-    //     var containerScrollPosition = document.querySelector('.board-content').scrollLeft
-    //     container.scrollTo({
-    //         top: 0,
-    //         left: containerScrollPosition + e.deltaY,
-    //         behaviour: 'smooth' //if you want smooth scrolling
-    //     })
-    // }
-
     onStackTitleFocus = (index) => this.stackTitleFocus[index].focus();
 
     onToggleAction = (action) => {

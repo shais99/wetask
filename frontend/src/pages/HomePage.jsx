@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom'
 export default function HomePage() {
     return (
         <>
-            <section className="home-container hero-container">
+            <section className="home-container hero-container flex align-center">
                 <div className="hero-cta flex space-between align-center">
                     <div className="hero-content">
-                        <div className="hero-txt">With wetask - You Can Start Working - With Confidence!</div>
+                        <div className="hero-txt">Work made easy</div>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam dolorem molestias qui? Voluptates provident ratione harum architecto saepe nisi eligendi.
+                            Using cutting edge technologies and a great understanding of positive work principles, wework balances the best of both worlds for your team's success!
                         </p>
                         <Link to="/boards/5ece0b6d695f8047ac641f74" className="hero-btn">Try now</Link>
                     </div>
@@ -20,9 +20,10 @@ export default function HomePage() {
             <section className="home-container second-container flex align-center">
                 <img src="assets/img/home-second-img.svg" alt="" className="hero-img" />
                 <div className="content ">
-                    <div className="txt-title">Lorem ipsum dolor sit amet</div>
+                    <div className="txt-title">A work community like never before</div>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem facilis exercitationemoptio unde beatae quia, sed repellat blanditiis aspernatur consectetur quos placeat magni ipsa dolorem architecto tempora! Debitis beatae blanditiis tempore nesciunt dignissimos eius, minima harum sed, adipisci nihil, placeat fuga quos perspiciatis totam qui incidunt. Consectetur!
+                        Getting a lot of great information upfront is great - but its what information you get that counts.
+                        With features like our 'Time Estimation' system for better development financial tracking, you can feel safe your seeing it all - and with 20/20 vision.
                     </p>
                 </div>
             </section>
