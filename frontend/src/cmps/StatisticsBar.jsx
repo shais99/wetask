@@ -38,7 +38,6 @@ export class StatisticsBar extends React.Component {
         }
 
         const { data, maxTasks } = this.state;
-        console.log(data);
         return (
 
             <ResponsiveBar
@@ -109,7 +108,7 @@ export class StatisticsBar extends React.Component {
                         ticks: {
                             text: {
                                 fontFamily: 'openSans',
-                                fontSize: 14
+                                fontSize: 12
                             }
                         }
                     },
