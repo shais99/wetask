@@ -27,11 +27,13 @@ export default class CardChangeLabel extends Component {
     }
 
     changeLabel = (labelId) => {
-        if (!this.state.colorChecked) return null
-        this.props.onChagneLabelColor(labelId, this.state.colorChecked, this.state.title);
+        let color = this.state.colorChecked ? this.state.colorChecked : '';
+        let title = this.state.title ? this.state.title : '';
+        console.log('title', title, 'color', color);
+        this.props.onChagneLabelColor(labelId, color, title);
     }
 
-    onChangeTitle = (ev) =>{
+    onChangeTitle = (ev) => {
         let { value } = ev.target;
         this.setState(({ title: value }))
     }
@@ -45,8 +47,8 @@ export default class CardChangeLabel extends Component {
                 <h4>EDIT LABEL</h4>
             </div>
             <div>
-                <input type="text" class="input label-title" autocomplete="off" placeholder="Change title"
-                value={this.state.title} onChange={this.onChangeTitle}/>
+                <input type="text" className="input label-title" autocomplete="off" placeholder="Change title"
+                    value={this.state.title} onChange={this.onChangeTitle} />
             </div>
             <div className="flex wrap align-center justify-center">
                 {this.state.colors.map((color, idx) => {

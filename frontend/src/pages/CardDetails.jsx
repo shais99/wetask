@@ -175,7 +175,7 @@ class CardDetails extends Component {
 
     onAddLabel = (currLabel) => {
         let currCard = this.getCurrCard();
-        const labelIdx = currCard.labels.findIndex(label => label.title === currLabel.title);
+        const labelIdx = currCard.labels.findIndex(label => label.id === currLabel.id);
 
         if (labelIdx === -1) {
             this.state.card.activities.unshift({
@@ -269,6 +269,10 @@ class CardDetails extends Component {
                         if (!newTodo.id) {
                             checklist.todos.push(newTodo)
                             newTodo.id = makeId();
+                            this.state.card.activities.unshift({
+                                id: makeId(), txt: `added todo ${newTodo.title} to the card`,
+                                createdAt: Date.now(), byMember: this.props.loggedInUser
+                            })
                         } else {
                             checklist.todos = checklist.todos.map(todo => {
                                 if (todo.id === newTodo.id) return newTodo
@@ -280,10 +284,6 @@ class CardDetails extends Component {
                 })
             }
         }), () => {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `added todo ${newTodo.title} to the card`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
             this.props.saveCard(this.state.card)
         })
     }
@@ -325,8 +325,6 @@ class CardDetails extends Component {
 
 
     onToggleAction = (action) => {
-        console.log('action', action);
-
         let actions = this.state.isShown;
         for (const key in actions) {
             if (key !== action) {
@@ -444,10 +442,18 @@ class CardDetails extends Component {
     }
 
     onChagneLabelColor = (labelId, color, title) => {
+        console.log('title',title);
+        
         this.props.currBoard.boardLabels.find(label => {
             if (label.id === labelId) {
-                if(color) label.color = color;
-                if(title) label.title = title;
+                if (color) label.color = color;
+                if (title) label.title = title;
+            }
+        })
+        this.state.card.labels.find(label => {
+            if (label.id === labelId) {
+                if (color) label.color = color;
+                if (title) label.title = title;
             }
         })
         this.props.save(this.props.currBoard)

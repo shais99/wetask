@@ -25,7 +25,7 @@ export default class CardDescription extends Component {
 
                 <div className="card-mini-title flex align-center">
                     <img src="/assets/img/description.png" alt=""></img>
-                    <label className="card-txt-title" htmlFor="cardDesc">Description:</label>
+                    <label className="card-txt-title" htmlFor="cardDesc">Description</label>
                 </div>
 
                 <form className="main-content-card-action" onSubmit={this.props.onSaveDesc}>

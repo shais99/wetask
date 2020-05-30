@@ -6,7 +6,7 @@ export default function CardImg(props) {
             <div className="card-mini-title flex align-center space-between">
                 <div>
                     <img src="/assets/img/style.png"></img>
-                    <label className="card-txt-title">Image:</label>
+                    <label className="card-txt-title">Image</label>
                 </div>
                 <button className="btn btn-delete" onClick={() => props.onRemoveImg()}>Delete</button>
             </div>
