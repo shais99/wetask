@@ -71,7 +71,7 @@ export default class ActionContainer extends Component {
                     {isShown.label && <LabelsPicker board={this.props.board} onChagneLabelColor={onChagneLabelColor} addLabel={addLabel} card={card} onToggleAction={onToggleAction} />}
                     {isShown.dueDate && <DueDate onChange={onChange} value={value} onToggleAction={onToggleAction} removeDueDate={removeDueDate} onSubmitDate={onSubmitDate} />}
                     {isShown.members && <CardMembers board={board} getCurrCard={getCurrCard} card={card} addMember={addMember} />}
-                    {isShown.bgColor && <CardBgColor board={board} getCurrCard={getCurrCard} card={card} onChangeBgColor={onChangeBgColor} />}
+                    {isShown.bgColor && <CardBgColor board={board} onToggleAction={onToggleAction} getCurrCard={getCurrCard} card={card} onChangeBgColor={onChangeBgColor} />}
                     {isShown.move && <CardMove board={board} card={card} moveCardToStack={moveCardToStack} />}
                     {isShown.timeEstimation && <CardTimeEstimation card={card} onToggleAction={onToggleAction}
                         onAddTimeEstimation={onAddTimeEstimation} removeCardEstimation={removeCardEstimation} />}

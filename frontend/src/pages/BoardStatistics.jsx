@@ -4,6 +4,7 @@ import { save, loadBoard } from '../store/actions/boardActions'
 import { connect } from 'react-redux'
 import { StatisticsPie } from '../cmps/StatisticsPie';
 import { StatisticsBar } from '../cmps/StatisticsBar';
+import { StatisticsInfoBlock } from '../cmps/StatisticsInfoBlock';
 import moment from 'moment'
 
 class BoardStatistics extends React.Component {
@@ -18,7 +19,7 @@ class BoardStatistics extends React.Component {
     state = {
         board: {},
         currView: 'byUsers',
-        cardCount: -1, 
+        cardCount: -1,
         boardStats: null
     }
 
@@ -90,14 +91,19 @@ class BoardStatistics extends React.Component {
 
         board.stacks.forEach((stack) => {
             stack.cards.forEach((card) => {
-                if (card.byMember) {
-                    if (!users[card.byMember.username]) users[card.byMember.username] = { tasks: 0, doneTasks: 0 };
 
-                    let isDone = card.labels.some((label) => {
-                        return label.title === 'done';
+                if (card.members.length) {
+                    card.members.forEach(member => {
+
+                        if (!users[member.username]) users[member.username] = { tasks: 0, doneTasks: 0, color: member.bgColor };
+
+                        let isDone = card.labels.some((label) => {
+                            return label.title === 'done';
+                        })
+
+                        users[member.username][(isDone) ? 'doneTasks' : 'tasks'] += 1;
                     })
 
-                    users[card.byMember.username][(isDone) ? 'doneTasks' : 'tasks'] += 1;
                 }
             })
         })
@@ -107,6 +113,7 @@ class BoardStatistics extends React.Component {
                 member: username,
                 Tasks: userInfo.tasks - userInfo.doneTasks,
                 'Done Tasks': userInfo.doneTasks,
+                color: userInfo.color
             });
         })
         return userStatsData;
@@ -168,20 +175,11 @@ class BoardStatistics extends React.Component {
         return stats;
     }
 
-    toggleStatView = (byType) => {
-        if (this.state.currView === byType) return;
-        this.setState({ currView: byType });
-    }
-
 
     render() {
 
-        const { board, currView, cardCount, boardStats } = this.state;
-        const { isShowingStatistics } = this.props;
-        // let boardStats = null;
-        // if (board) {
-        //     boardStats = this.getBoardStats(board);
-        // }
+        const { board, cardCount, boardStats } = this.state;
+        const { isShowingStatistics, toggleShowStatistics } = this.props;
 
         return ((!board) ? '' :
 
@@ -190,84 +188,64 @@ class BoardStatistics extends React.Component {
 
                     <section className={`board-statistics modal-container flex column ${(isShowingStatistics) ? '' : 'board-statistics-closed'}`} onMouseDown={(ev) => ev.stopPropagation()}
                         ref={this.elStats}>
-                        <header className="board-statistics-header-span flex align-center justify-center">
-                            <p className="board-statistics-header">' {board.title} '</p>
-                            {/* <p className="secondary">stats</p> */}
+                        <header className="board-statistics-header-span flex align-baseline justify-center">
+                            <div className="board-statistics-header-text flex align-baseline justify-center">
+                                <p className="board-statistics-header">{board.title}</p>
+                                <p className="secondary">statistics</p>
+                            </div>
+                            <img className="stats-back-btn" src="/assets/img/back.png" alt="" onClick={toggleShowStatistics} />
                         </header>
-                        <small className="board-statistics-info flex align-center space-evenly">
+                        <small className="board-statistics-info flex align-center space-evenly wrap">
                             {(board.createdBy) ?
-                                <span className="stat-created-at-span flex align-center">
-                                    <p className="secondary">created:</p>
-                                    <p className="statistics-info-p">{`${moment(board.createdAt).format('MMM Do YYYY')} [${board.createdBy.username}]`}</p></span>
+                                <StatisticsInfoBlock info={moment(board.createdAt).format('MMM Do YYYY') + ` [${board.createdBy.username}]`} type='createdBy' />
                                 : null
                             }
                             {(board.members) ?
-                                <span className="stat-members-count flex align-center">
-                                    <p className="secondary">members:</p>
-                                    <p className="statistics-info-p">{board.members.length}</p></span>
+                                <StatisticsInfoBlock info={board.members.length} type='members' />
                                 : null
                             }
                             {(board.stacks) ?
-                                <span className="stat-stacks-count flex align-center">
-                                    <p className="secondary">lists:</p>
-                                    <p className="statistics-info-p">{board.stacks.length}</p></span>
+                                <StatisticsInfoBlock info={board.stacks.length} type='stacks' />
                                 : null
                             }
                             {(board.stacks && cardCount) ?
-                                <span className="stat-stacks-count flex align-center">
-                                    <p className="secondary">tasks:</p>
-                                    <p className="statistics-info-p">{cardCount}</p></span>
+                                <StatisticsInfoBlock info={cardCount} type='cards' />
                                 : null
                             }
                             {(board.activities) ?
-                                <span className="stat-activities-count flex align-center">
-                                    <p className="secondary">activities:</p>
-                                    <p className="statistics-info-p">{board.activities.length}</p></span>
+                                <StatisticsInfoBlock info={board.activities.length} type='activities' />
                                 : null
                             }
 
 
                         </small>
                         {(boardStats) ?
-                            <section className="board-statistics-content flex">
-                                <aside className="statistics-controllers flex column align-center space-around">
-                                    <button className={`btn btn-primary stat-button ${(currView === 'byLabels') ? 'active-stat-btn' : ''}`}
-                                        onClick={() => this.toggleStatView('byLabels')}>By Labels</button>
-                                    <button className={`btn btn-primary stat-button ${(currView === 'byUsers') ? 'active-stat-btn' : ''}`}
-                                        onClick={() => this.toggleStatView('byUsers')}>By Members</button>
-                                    <button className={`btn btn-primary stat-button ${(currView === 'byDueDate') ? 'active-stat-btn' : ''}`}
-                                        onClick={() => this.toggleStatView('byDueDate')}>By Schedule</button>
-                                </aside>
+                            <section className="board-statistics-content grid">
 
-                                <div className="statistics-charts">
+                                {(boardStats.byUsers) ?
+                                    < div className="stat-item by-users flex column justify-center align-center">
+                                        <p className="board-stats-title">Weekly Members Workload</p>
+                                        <StatisticsBar data={boardStats.byUsers} />
 
-                                    {(boardStats.byLabels && currView === 'byLabels') ?
-                                        < div className="stat-item flex column justify-center align-center">
-                                            <p className="board-stats-title">Most Popular Labels</p>
-                                            <StatisticsPie data={boardStats.byLabels} type="labels" />
+                                    </div>
+                                    : null
+                                }
+                                {(boardStats.byLabels) ?
+                                    < div className="stat-item by-labels flex column justify-center align-center">
+                                        <p className="board-stats-title">Most Popular Labels</p>
+                                        <StatisticsPie data={boardStats.byLabels} type="labels" />
 
-                                        </div>
-                                        : null
-                                    }
-                                    {(boardStats.byUsers && currView === 'byUsers') ?
-                                        < div className="stat-item flex column justify-center align-center">
-                                            <p className="board-stats-title">Weekly Members Workload</p>
-                                            <StatisticsBar data={boardStats.byUsers} />
+                                    </div>
+                                    : null
+                                }
+                                {(boardStats.byDueDate) ?
+                                    < div className="stat-item by-due-date flex column justify-center align-center">
+                                        <p className="board-stats-title">On-Time/Delayed Work</p>
+                                        <StatisticsPie data={boardStats.byDueDate} type="dueDate" />
 
-                                        </div>
-                                        : null
-                                    }
-                                    {(boardStats.byDueDate && currView === 'byDueDate') ?
-                                        < div className="stat-item flex column justify-center align-center">
-                                            <p className="board-stats-title">On-Time/Delayed Work</p>
-                                            <StatisticsPie data={boardStats.byDueDate} type="dueDate" />
-
-                                        </div>
-                                        : null
-                                    }
-
-                                </div>
-
+                                    </div>
+                                    : null
+                                }
 
                             </section>
                             : null

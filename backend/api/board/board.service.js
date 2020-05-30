@@ -13,7 +13,7 @@ module.exports = {
 async function query(filterBy = {}) {
     const collection = await dbService.getCollection('board')
     try {
-        const boards = await collection.find({ 'members._id': filterBy.userId }).sort({ 'createdAt': -1 }).toArray();
+        const boards = await collection.find({ $or: [{ 'members._id': filterBy.userId }, { 'isPublic': true }] }).sort({ 'createdAt': -1 }).toArray();
         return boards
     } catch (err) {
         console.log('ERROR: cannot find boards')
@@ -45,6 +45,8 @@ async function remove(boardId) {
 async function update(board) {
     const collection = await dbService.getCollection('board')
     board._id = ObjectId(board._id);
+    console.log(board.stacks[0].title);
+    
 
     try {
         await collection.replaceOne({ "_id": board._id }, { $set: board })

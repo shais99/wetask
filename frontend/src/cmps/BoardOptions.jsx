@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { save, loadBoard } from '../store/actions/boardActions'
-import AddMember from '../cmps/AddMember'
-import BoardMenu from '../cmps/BoardMenu'
+import { save } from '../store/actions/boardActions'
+import AddMember from './AddMember'
+import BoardMenu from './BoardMenu'
+import BoardFilter from './BoardFilter'
 import { makeId } from '../services/utilService'
 
 
@@ -26,11 +27,8 @@ class BoardOptions extends Component {
         return twoChars
     }
 
-
-    // @TODO: MAKE IT ONE FUNCTION!!!
     onToggleAddMember = () => this.setState(prevState => ({ isAddMemberShown: !prevState.isAddMemberShown }))
     onToggleBoardMenu = () => this.setState(prevState => ({ isBoardMenuShown: !prevState.isBoardMenuShown }))
-    // ***********
 
     onAddMember = member => {
         const { loggedInUser, currBoard } = this.props
@@ -56,7 +54,7 @@ class BoardOptions extends Component {
         const { isAddMemberShown, isBoardMenuShown } = this.state;
 
         return (
-            <div className={`board-options-container flex align-center space-between ${(isShowingStatistics) ? 'stats-margin' : ''}`}>
+            <div className={`board-options-container ${(isShowingStatistics) ? 'stats-margin' : ''}`}>
                 <div className="board-title">{board.title}</div>
 
                 <div className="board-members flex">
@@ -64,6 +62,8 @@ class BoardOptions extends Component {
                 </div>
 
                 <div className="board-options flex">
+                    <BoardFilter history={history} />
+
                     <button className="option flex align-center" onClick={() => this.onToggleAddMember()}>
                         <img src="/assets/img/add-user.png" alt="" />
                     </button>
@@ -81,8 +81,7 @@ class BoardOptions extends Component {
 }
 
 const mapDispatchToProps = {
-    save,
-    loadBoard
+    save
 }
 const mapStateToProps = (state) => {
     return {

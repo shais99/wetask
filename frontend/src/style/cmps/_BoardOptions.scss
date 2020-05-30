@@ -3,33 +3,89 @@
     width: 100%;
     margin-bottom: 20px;
     padding: 5px 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    justify-items: center;
 
     .board-title {
         font-family: openSansBold;
         background-color: $clr7;
         padding: 3px 10px;
         border-radius: 5px;
+        justify-self: flex-start;
     }
 
-        .remove-member {
-            width: 14px;
-            position: absolute;
-            top: 56px;
-            visibility: hidden;
-            opacity: 0;
-            transition: 0.3s;
-            background-color: $clr7;
-            padding: 3px;
-            border-radius: 50%;
-            cursor: pointer;
+    .remove-member {
+        width: 14px;
+        position: absolute;
+        top: 53px;
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.3s;
+        background-color: $clr7;
+        padding: 3px;
+        border-radius: 50%;
+        cursor: pointer;
 
-            &:hover {
-                background-color: darken($clr4, 5%);
-            }
+        &:hover {
+            background-color: darken($clr4, 5%);
         }
-    
+    }
 
     .board-options {
+        justify-self: flex-end;
+
+        .search-container {
+            width: 30px;
+            background: url("../img/search.png") no-repeat;
+            background-position: 4px 6px;
+            transition: 0.4s;
+            background-color: $clr1;
+            border: none;
+            outline: none;
+            color: $clr7;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            &:focus {
+                border-bottom-left-radius: unset;
+                border-bottom-right-radius: unset;
+                padding-left: 35px;
+                width: 210px;
+            }
+        }
+
+        .filter-cards-container {
+            position: absolute;
+            max-width: 210px;
+            top: 90px;
+            right: 106px;
+            padding-right: 3px;
+            background-color: $clr1;
+
+            .filter-scroll-cards {
+                padding-right: 3px;
+                max-height: 250px;
+                overflow-y: auto;
+            }
+
+            .filter-card {
+                cursor: pointer;
+                padding: 7px;
+                font-size: rem(14px);
+
+                &:nth-of-type(even) {
+                    background-color: darken($clr6, 5%);
+                }
+                &:nth-of-type(odd) {
+                    background-color: $clr1;
+                    color: $clr7;
+                }
+            }
+        }
+
         .option {
             background-color: $clr1;
             padding: 5px;
@@ -60,9 +116,14 @@
     }
 }
 
+@media (max-width: 930px) {
+    .search-container {
+        display: none;
+    }
+}
+
 @media (max-width: 500px) {
     .board-options-container {
-
         .board-members {
             overflow-x: scroll;
             max-width: 114px;
@@ -70,8 +131,8 @@
 
             &::-webkit-scrollbar {
                 display: none;
-              }
-    
+            }
+
             .member {
                 min-width: 30px;
                 min-height: 30px;
@@ -94,7 +155,7 @@
     background-size: 100%;
     font-family: openSansBold;
     text-transform: uppercase;
-    
+
     &:hover .remove-member {
         opacity: 1;
         visibility: visible;
