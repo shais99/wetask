@@ -11,7 +11,7 @@ export default function HomePage() {
                         <p>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam dolorem molestias qui? Voluptates provident ratione harum architecto saepe nisi eligendi.
                         </p>
-                        <Link to="/boards/5ece0b6d695f8047ac641f74" className="hero-btn">Try now</Link>
+                        <Link to="/boards/5ecf72e3145b296860281f54" className="hero-btn">Try now</Link>
                     </div>
                     <img src="assets/img/hero-img.svg" alt="" className="hero-img" />
                 </div>

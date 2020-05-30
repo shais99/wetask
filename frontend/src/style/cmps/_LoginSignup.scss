@@ -96,7 +96,6 @@
 }
 @media (max-width: 500px) {
     .form-container {
-        text-align: center;
         .login-signup-form {
             margin-left: 0;
             align-items: center;
@@ -117,6 +116,7 @@
                 width: 60%;
                 margin: auto;
                 margin-bottom: 15px;
+                text-align: center;
             }
 
             .btn-success {

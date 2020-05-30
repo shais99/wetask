@@ -9,6 +9,12 @@
     height: 85px;
 }
 
+@media (max-width: 500px) {
+    .card-add-content {
+        height: 135px;
+    }
+}
+
 .add-content-container {
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;

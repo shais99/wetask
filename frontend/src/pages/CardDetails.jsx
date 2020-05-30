@@ -458,7 +458,7 @@ class CardDetails extends Component {
                         <div className="modal-header flex align-center space-between">
                             <div className="task-title-container flex align-center">
                                 <img className="img-icon" src="/assets/img/task.png" alt="" />
-                                <input type="text" name="title" className="card-title" onChange={this.onEditTitle} onBlur={this.onEditTitleFinish} value={card.title} />
+                                <input type="text" name="title" autoComplete="off" className="card-title" onChange={this.onEditTitle} onBlur={this.onEditTitleFinish} value={card.title} />
                             </div>
                             <div className="close-modal flex justify-content align-center" onClick={this.onBackBoard}><img className="img-icon" src="/assets/img/close.png" alt="" /></div>
                         </div>

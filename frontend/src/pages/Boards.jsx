@@ -16,7 +16,7 @@ class Boards extends React.Component {
         const { loggedInUser, boards } = this.props
         return ((!loggedInUser) ? 'Loading...' :
             <div className="container flex justify-center">
-                <div className="form-container boards-page  align-center column">
+                <div className="form-container boards-page">
                     <header className="boards-header wrap flex space-between">
                         <h2 className="boards-title">My Boards</h2>
                         <Link to="/profile" className="hello-btn">Hello {loggedInUser.username}</Link>
