@@ -227,8 +227,8 @@ class BoardDetails extends React.Component {
     onSetBg = (bg, type) => {
         if (type === 'img') {
             const bgUrl = bg.slice(1, bg.length + 1)
-            document.body.style.backgroundImage = `url(/${bgUrl})`
-            document.body.style.backgroundColor = ''
+            document.body.style.backgroundImage = `url(/${bgUrl})`;
+            document.body.style.backgroundColor = '';
             this.props.currBoard.bg = bgUrl
         } else {
             document.body.style.backgroundImage = ''
