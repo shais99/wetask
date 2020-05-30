@@ -12,7 +12,7 @@ export default function CardPreviewActions(props) {
                         <div className="flex wrap">
                             {card.members.map((member, idx) => <div key={idx} className="member flex justify-center align-center"
                                 style={{ backgroundImage: `url(${member.imgUrl})`, backgroundColor: member.bgColor }}>
-                                {getTwoChars(member.fullname)}
+                                <span className="member-two-chars">{getTwoChars(member.fullname)}</span>
                             </div>)}
                         </div>
 
