@@ -5,10 +5,8 @@ import { Link } from 'react-router-dom'
 export default function BoardPreview({ board }) {
 
     return (
-        <Link to={`/boards/${board._id}`}>
-            <section style={{ backgroundColor: board.bg, backgroundImage: `url(${board.bg})`} } className="board-item" >
-                <h3>{board.title}</h3>
-            </section>
+        <Link to={`/boards/${board._id}`} className="board-item" style={{ backgroundColor: board.bg, backgroundImage: `url(${board.bg})` }}>
+            <h3>{board.title}</h3>
         </Link>
     )
 }

@@ -29,16 +29,56 @@
     }
 }
 
+@media (max-width: 1200px) {
+    .boards-page {
+        .boards-list {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+}
+
+@media (max-width: 900px) {
+    .boards-page {
+        .boards-list {
+            grid-template-columns: 1fr 1fr;
+
+            .board-item {
+                width: 96%;
+            }
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .boards-page {
+        .boards-list{
+            grid-template-columns: 1fr;
+
+            .board-item {
+                width: 100%;
+            }
+        }
+    }
+}
+
 .boards-list {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    justify-items: center;
+
     .board-item {
-        width: 225px;
-        height: 140px;
+        width: 86%;
+        height: 120px;
         border-radius: 5px;
         cursor: pointer;
-        margin-right: 10px;
         margin-bottom: 20px;
         transition: 0.3s;
         background-size: 100%;
+        background-position: center;
+    }
+
+    & a {
+        justify-self: center;
     }
 
     h3 {
@@ -48,16 +88,16 @@
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         color: white;
-        font-size: rem(15px);
+        font-size: rem(14px);
     }
 
     .add-new-board {
+        width: 86%;
         outline: none;
         background-color: darken($clr6, 10%);
         border: none;
         color: $clr1;
         font-family: openSansBold;
-        min-width: 225px;
         &:hover {
             background-color: darken($clr6, 15%);
         }
@@ -98,7 +138,7 @@
         }
 
         .bg-btn {
-            background-color: darken($clr6,5%);
+            background-color: darken($clr6, 5%);
             color: black;
             border-radius: 5px;
             padding: 5px 10px;

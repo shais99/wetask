@@ -17,7 +17,7 @@ export default class BoardList extends React.Component {
         return (
             <>
                 {this.state.isAddOpen && <BoardAdd onClose={this.toggleAddShown} />}
-                <div className="boards-list justify-center flex wrap">
+                <div className="boards-list">
                     {this.props.boards.map(board => <BoardPreview key={board._id} board={board} />)}
                     <button className="add-new-board board-item" onClick={this.toggleAddShown}>Create new board</button>
                 </div>

@@ -1,3 +1,9 @@
+@media (max-width: 700px) {
+    .board-options-container {
+        margin-top: 27px;
+    }
+}
+
 .board-options-container {
     background-color: rgba(255, 255, 255, 0.322);
     width: 100%;
@@ -14,6 +20,7 @@
         padding: 3px 10px;
         border-radius: 5px;
         justify-self: flex-start;
+        align-self: center;
     }
 
     .remove-member {
@@ -38,7 +45,7 @@
 
         .search-container {
             width: 30px;
-            background: url("../img/search-white.png") no-repeat;
+            background: url("../img/search.png") no-repeat;
             background-position: 3px 4px;
             transition: 0.4s;
             background-color: $clr1;
@@ -69,19 +76,21 @@
                 padding-right: 3px;
                 max-height: 250px;
                 overflow-y: auto;
+                overflow-x: hidden;
             }
 
             .filter-card {
                 cursor: pointer;
                 padding: 7px;
                 font-size: rem(14px);
+                width: 205px;
+                color: $clr7;
 
                 &:nth-of-type(even) {
-                    background-color: darken($clr6, 5%);
+                    background-color: lighten($clr1, 5);
                 }
                 &:nth-of-type(odd) {
                     background-color: $clr1;
-                    color: $clr7;
                 }
             }
         }
@@ -152,7 +161,7 @@
     height: 31px;
     font-size: rem(13px);
     margin-right: 3px;
-    background-size: 100%;
+    background-size: cover;
     font-family: openSansBold;
     text-transform: uppercase;
 

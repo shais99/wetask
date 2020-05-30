@@ -60,7 +60,7 @@
 
 @media (max-width: 700px) {
     .top-p {
-        padding-top: 53px;
+        padding-top: 25px;
     }
 }
 
@@ -70,6 +70,10 @@
 
 .grid {
     display: grid;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 
