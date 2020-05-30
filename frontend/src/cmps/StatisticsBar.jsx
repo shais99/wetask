@@ -1,6 +1,5 @@
 import React from 'react'
 import { ResponsiveBar } from '@nivo/bar'
-import { getRandomColor } from '../services/utilService';
 
 export class StatisticsBar extends React.Component {
 
@@ -16,14 +15,14 @@ export class StatisticsBar extends React.Component {
     componentDidMount() {
         this.statsTimeOut = setTimeout(() => {
 
-            this.setState({ data: this.props.data });
+            this.setState({ data: this.props.data, maxTasks: this.props.maxTasks });
 
         }, 250)
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.data !== prevProps.data) {
-            this.setState({ data: this.props.data });
+            this.setState({ data: this.props.data, maxTasks: this.props.maxTasks });
         }
     }
 
@@ -34,11 +33,11 @@ export class StatisticsBar extends React.Component {
     render() {
 
         const getUserColor = user => {
-            // console.log(user);
-            return (user.id === 'Done Tasks') ? '#525252' : (user.color) ? user.color : '#fed330';
+            return (user.id === 'Done Tasks') ? '#525252' : '#1ee76f';
+            // return (user.id === 'Done Tasks') ? '#525252' : (user.data.color) ? user.data.color : '#39EA80';
         }
 
-        const { data } = this.state;
+        const { data, maxTasks } = this.state;
         return (
 
             <ResponsiveBar
@@ -57,9 +56,10 @@ export class StatisticsBar extends React.Component {
                     tickRotation: 0,
                     legend: 'Users',
                     legendPosition: 'middle',
-                    legendOffset: 40
+                    legendOffset: 40,
                 }}
                 axisLeft={{
+                    tickValues: maxTasks,
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
@@ -108,21 +108,23 @@ export class StatisticsBar extends React.Component {
                         ticks: {
                             text: {
                                 fontFamily: 'openSans',
-                                fontSize: 14
+                                fontSize: 12
                             }
                         }
                     },
                     labels: {
                         text: {
-                            fontFamily: 'openSansBold',
+                            fontFamily: 'openSans',
                             fontSize: 14,
-                            color: '#fff'
+                            stroke: '#fff',
+                            fill: '#fff',
+                            strokeWidth: 1.5,
                         },
                         
                     },
                     legends: {
                         text: {
-                            fontFamily: 'openSans',
+                            fontFamily: 'openSansBold',
                             fontSize: 14
                         }
 

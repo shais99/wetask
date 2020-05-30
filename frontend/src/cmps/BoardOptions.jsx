@@ -55,7 +55,7 @@ class BoardOptions extends Component {
 
         return (
             <div className={`board-options-container ${(isShowingStatistics) ? 'stats-margin' : ''}`}>
-                <div className="board-title">{board.title}</div>
+                <div className="board-title flex align-center justify-center">{board.title}</div>
 
                 <div className="board-members flex">
                     {board.members.map((member, idx) => <div key={idx} className="member flex justify-center align-center" style={{ backgroundImage: `url(${member.imgUrl})`, backgroundColor: member.bgColor }}><img onClick={() => this.onRemoveMember(member)} src="/assets/img/close.png" className="remove-member" alt="" />{this.getTwoChars(member.fullname)}</div>)}
