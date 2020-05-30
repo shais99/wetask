@@ -57,8 +57,7 @@ class CardChecklist extends React.Component {
     onUpdateTodo = (todo, click = false) => {
         if (click) todo.isDone = !todo.isDone;
 
-        const newTodo = this.state.checklist.todos.find(currTodo => currTodo.id === todo.id)
-        this.props.addTodo(this.props.checklist.id, newTodo)
+        this.props.addTodo(this.props.checklist.id, todo)
     }
 
     calculateProgBarWidth = () => {
@@ -100,7 +99,7 @@ class CardChecklist extends React.Component {
                         </div>
                     </div>
                     <div className="checklist-todos-container">
-                        {this.state.checklist.todos.map((todo) => <div className="flex align-center todo-item space-between" key={todo.id}>
+                        {todos.map((todo) => <div className="flex align-center todo-item space-between" key={todo.id}>
                             <div className="todo-check-container flex align-center">
                                 <div className={todo.isDone ? "checkbox done" : "checkbox"} onClick={() => this.onUpdateTodo(todo, true)}>
                                 </div>
