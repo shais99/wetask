@@ -9,10 +9,13 @@ export class StatisticsBar extends React.Component {
     }
 
     state = {
-        data: [{ member: '', Tasks: 0, 'Done Tasks': 0 }]
+        data: [{ member: '', Tasks: 0, 'Done Tasks': 0 }],
+        width: 0
     }
 
     componentDidMount() {
+
+        window.addEventListener('resize', this.updateDimensions);
         this.statsTimeOut = setTimeout(() => {
 
             this.setState({ data: this.props.data, maxTasks: this.props.maxTasks });
@@ -28,12 +31,18 @@ export class StatisticsBar extends React.Component {
 
     componentWillUnmount() {
         if (this.statsTimeOut) clearTimeout(this.statsTimeOut);
+
+        window.removeEventListener('resize', this.updateDimensions);
     }
+
+    updateDimensions = () => {
+        this.setState({ width: window.innerWidth });
+      };
 
     render() {
 
         const getUserColor = user => {
-            return (user.id === 'Done Tasks') ? '#525252' : '#1ee76f';
+            return (user.id === 'Done Tasks') ? '#a8a8a8' : '#3867d6';
             // return (user.id === 'Done Tasks') ? '#525252' : (user.data.color) ? user.data.color : '#39EA80';
         }
 
