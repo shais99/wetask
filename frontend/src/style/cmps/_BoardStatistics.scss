@@ -12,7 +12,7 @@
         animation: slide-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
         box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.6);
         overflow-y: auto;
-        background: #fcfcfc;
+        background: white;
 
         .board-statistics-header-span {
             margin-top: 10px;
@@ -21,17 +21,11 @@
 
             .stats-back-btn {
                 width: 25px;
-                transform: rotate(180deg);
                 position: fixed;
                 top: 20px;
-                right: 20px;
+                left: 20px;
                 cursor: pointer;
-                transition: ease-in-out 0.15s;
                 border-radius: 5px;
-
-                &:hover {
-                    background-color: tomato;
-                }
             }
 
             .board-statistics-header {
@@ -52,9 +46,6 @@
             grid-template-areas:
                 "byUsers byUsers"
                 "byLabels byDueDate";
-
-            overflow-x: hidden;
-            overflow-y: auto;
 
             .board-stats-title {
                 margin-bottom: 15px;
@@ -125,6 +116,9 @@
                 &.createdBy {
                     background-color: lighten($color: $clr4, $amount: 10);
                 }
+                &.timeEstimation {
+                    background-color: lighten($color: $clr4, $amount: 10);
+                }
                 &.members {
                     background-color: lighten($color: $clr5, $amount: 10);
                 }
@@ -142,18 +136,28 @@
             .stat-info-block {
                 background: white;
                 border: 2px solid darken($color: $clr6, $amount: 10);
-                // padding: 10px;
+                width: 262px;
                 padding: 2px 5px 2px 2px;
                 margin-bottom: 5px;
                 .stat-info-details {
-                    padding: 0 30px;
+
+                    padding: 0 20px;
+                    margin: auto;
+
                     .stats-info-p {
                         font-size: rem(20px);
                         font-family: openSansBold;
 
-                        &.first-stat-info {
+                        &.last-stat-info {
                             font-size: rem(16px);
                         }
+                    }
+                }
+
+                &:first-of-type {
+
+                    .stat-info-details {
+                        padding: 0 5px;
                     }
                 }
             }

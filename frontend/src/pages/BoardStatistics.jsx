@@ -88,6 +88,7 @@ class BoardStatistics extends React.Component {
     getStatsByUsers = (board) => {
 
         let users = {};
+        let maxTasks = 0;
 
         board.stacks.forEach((stack) => {
             stack.cards.forEach((card) => {
@@ -102,11 +103,15 @@ class BoardStatistics extends React.Component {
                         })
 
                         users[member.username][(isDone) ? 'doneTasks' : 'tasks'] += 1;
+                        if(maxTasks < users[member.username]['tasks']) {
+                            maxTasks = users[member.username]['tasks'];
+                        }
                     })
 
                 }
             })
         })
+
         let userStatsData = Object.keys(users).map((username) => {
             const userInfo = users[username];
             return ({
@@ -116,7 +121,8 @@ class BoardStatistics extends React.Component {
                 color: userInfo.color
             });
         })
-        return userStatsData;
+
+        return {userStatsData, maxTasks};
     }
 
     getStatsByDueDates = (board) => {
@@ -164,15 +170,43 @@ class BoardStatistics extends React.Component {
         let byLabels = this.getStatsByLabels(board);
         let byUsers = this.getStatsByUsers(board);
         let byDueDate = this.getStatsByDueDates(board);
+        let totalTimeEstimation = this.getTotalTimeEstimation(board);
 
         if (byDueDate === null) this.setState({ isNoCardsBoard: true })
         else {
             if (this.state.isNoCardsBoard) this.setState({ isNoCardsBoard: false })
         }
-        stats = { byLabels, byUsers, byDueDate };
+        stats = { byLabels, byUsers: byUsers.userStatsData, byDueDate, maxTasks: byUsers.maxTasks, totalTimeEstimation };
 
         console.log(stats);
         return stats;
+    }
+
+    getTotalTimeEstimation = (board) => {
+
+        let timeEstimation = { days: 0, hours: 0, minutes: 0 };
+
+        board.stacks.forEach(stack => {
+
+            stack.cards.forEach(card => {
+                const estimate = card.timeEstimation;
+ 
+                if(estimate !== '') {
+                    timeEstimation.days += +estimate.days;
+                    timeEstimation.hours += +estimate.hours;
+                    timeEstimation.minutes += +estimate.minutes;
+                }
+            })
+        })
+
+        if(!(timeEstimation.days + timeEstimation.hours + timeEstimation.minutes)) {
+            return null;
+        }
+        let daysLabel = (!timeEstimation.days) ? '' : (timeEstimation.days > 1) ? timeEstimation.days + ' days,' : timeEstimation.days + ' day,';
+        let hoursLabel = (!timeEstimation.hours) ? '' : (timeEstimation.hours > 1) ? timeEstimation.hours + ' hours,' : timeEstimation.hours + ' hour,';
+        let minutesLabel = (!timeEstimation.minutes) ? '' : timeEstimation.minutes + ' min';
+
+        return daysLabel + ' ' + hoursLabel + ' ' + minutesLabel;
     }
 
 
@@ -196,8 +230,15 @@ class BoardStatistics extends React.Component {
                             <img className="stats-back-btn" src="/assets/img/back.png" alt="" onClick={toggleShowStatistics} />
                         </header>
                         <small className="board-statistics-info flex align-center space-evenly wrap">
-                            {(board.createdBy) ?
-                                <StatisticsInfoBlock info={moment(board.createdAt).format('MMM Do YYYY') + ` [${board.createdBy.username}]`} type='createdBy' />
+                            
+                            {/* {(board.createdBy) ?
+                                // <StatisticsInfoBlock info={moment(board.createdAt).format('MMM Do YYYY') + ` [${board.createdBy.username}]`} type='createdBy' />
+                                <StatisticsInfoBlock info={moment(board.createdAt).format('MMM Do YYYY')} type='createdBy' />
+                                : null
+                            } */}
+                            {(boardStats && boardStats.totalTimeEstimation) ?
+                                // <StatisticsInfoBlock info={moment(board.createdAt).format('MMM Do YYYY') + ` [${board.createdBy.username}]`} type='createdBy' />
+                                <StatisticsInfoBlock info={boardStats.totalTimeEstimation} type='timeEstimation' />
                                 : null
                             }
                             {(board.members) ?
@@ -225,7 +266,7 @@ class BoardStatistics extends React.Component {
                                 {(boardStats.byUsers) ?
                                     < div className="stat-item by-users flex column justify-center align-center">
                                         <p className="board-stats-title">Weekly Members Workload</p>
-                                        <StatisticsBar data={boardStats.byUsers} />
+                                        <StatisticsBar data={boardStats.byUsers} maxTasks={boardStats.maxTasks} />
 
                                     </div>
                                     : null
