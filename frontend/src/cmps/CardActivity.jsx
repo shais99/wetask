@@ -15,7 +15,7 @@ export default function CardActivity(props) {
                         <div className="flex align-center">
                             <div className="member flex justify-center align-center"
                                 style={{ backgroundImage: `url(${activity.byMember.imgUrl})`, backgroundColor: activity.byMember.bgColor }}>
-                                {props.getTwoChars(activity.byMember.fullname)}
+                                <span className="member-two-chars">{props.getTwoChars(activity.byMember.fullname)}</span>
                             </div>
                             <div className="flex align-center">
                                 <span className="comment-title-fullname">{activity.byMember.fullname}</span>

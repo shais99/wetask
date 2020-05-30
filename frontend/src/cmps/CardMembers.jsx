@@ -52,7 +52,7 @@ export default class CardMembers extends React.Component {
                                         backgroundImage: `url(${member.imgUrl})`,
                                         backgroundColor: member.bgColor
                                     }}>
-                                        {this.getTwoChars(member.fullname)}
+                                        <span className="member-two-chars">{this.getTwoChars(member.fullname)}</span>
                                     </div>
                                     <span className="members-card-title">{member.username}</span>
                                 </div>
