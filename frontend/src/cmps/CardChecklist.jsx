@@ -19,7 +19,6 @@ class CardChecklist extends React.Component {
         this.setState({ checklist: { title: this.props.checklist.title, todos: this.props.checklist.todos } })
     }
 
-
     onEditChecklistTitle = (ev) => {
         let { value } = ev.target;
         this.setState({ checklist: { title: value } })
@@ -40,26 +39,6 @@ class CardChecklist extends React.Component {
         this.setState({ newTodo: { title: '', isDone: false } })
     }
 
-    updateTodo = (ev, todo) => {
-        let { name, value } = ev.target;
-
-        const newTodo = { ...todo, [name]: value }
-        this.setState(prevState => ({
-            checklist: {
-                ...prevState.checklist, todos: prevState.checklist.todos.map(currTodo => {
-                    if (currTodo.id === todo.id) return newTodo
-                    return currTodo
-                })
-            }
-        }))
-    }
-
-    onUpdateTodo = (todo, click = false) => {
-        if (click) todo.isDone = !todo.isDone;
-
-        this.props.addTodo(this.props.checklist.id, todo)
-    }
-
     calculateProgBarWidth = () => {
         let countIsDone = 0;
         this.props.checklist.todos.forEach(todo => {
@@ -76,10 +55,11 @@ class CardChecklist extends React.Component {
     }
 
     render() {
+        const { todos, id } = this.props.checklist
         const { card } = this.props
-        const { title, todos, id, } = this.props.checklist
         const width = this.calculateProgBarWidth();
         const bgc = this.calculateProgBarBgc();
+
         return (
             <div className="card-checklist-container">
                 <div className="card-checklist-title flex align-center space-between">
@@ -99,12 +79,12 @@ class CardChecklist extends React.Component {
                         </div>
                     </div>
                     <div className="checklist-todos-container">
-                        {todos.map((todo) => <div className="flex align-center todo-item space-between" key={todo.id}>
+                        {todos.map(todo => <div className="flex align-center todo-item space-between" key={todo.id}>
                             <div className="todo-check-container flex align-center">
-                                <div className={todo.isDone ? "checkbox done" : "checkbox"} onClick={() => this.onUpdateTodo(todo, true)}>
+                                <div className={todo.isDone ? "checkbox done" : "checkbox"} onClick={(ev) => this.props.onUpdateTodo(ev, todo, this.props.checklist, true)}>
                                 </div>
-                                <input name="title" className={`checklist-title todo-title ${todo.isDone ? 'done-decoration' : 'd'}`}
-                                    value={todo.title} onChange={(event) => this.updateTodo(event, todo)} onBlur={(event) => this.onUpdateTodo(todo)} />
+                                <input name="title" autoComplete="off" className={`checklist-title todo-title ${todo.isDone ? 'done-decoration' : 'd'}`}
+                                    value={todo.title} onChange={(ev) => this.props.onUpdateTodo(ev, todo, this.props.checklist)} onBlur={() => this.props.saveCard(card)} />
                             </div>
                             <div className="todo-delete-btn-container"><img className="todo-delete-btn" src="/assets/img/close.png" onClick={() => this.props.onRemoveTodo(id, todo)} /></div>
                         </div>

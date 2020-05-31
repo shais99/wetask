@@ -236,7 +236,7 @@ class BoardDetails extends React.Component {
                         <BoardStatistics isShowingStatistics={isShowingStatistics} toggleShowStatistics={this.toggleShowStatistics} />
                         : (currBoard)
                             ?
-                            // <HorizontalScroll>
+                            <HorizontalScroll>
                                 <div className="stacks-section flex" ref={scroll => this.elStacksSection = scroll}>
 
                                     <DragDropContext
@@ -344,7 +344,7 @@ class BoardDetails extends React.Component {
                                     </DragDropContext>
 
                                 </div>
-                            // </HorizontalScroll>
+                            </HorizontalScroll>
                             : null
                     }
                 </section>
