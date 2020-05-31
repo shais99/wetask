@@ -154,7 +154,7 @@ class CardDetails extends Component {
     }
 
     onEditTitleFinish = () => {
-        
+
         this.state.card.activities.unshift({
             id: makeId(), txt: `edited card title to ${this.state.card.title}`,
             createdAt: Date.now(), byMember: this.props.loggedInUser
@@ -249,7 +249,7 @@ class CardDetails extends Component {
         })
     }
 
-    onEditChecklistTitle = (checklistId, title) => {        
+    onEditChecklistTitle = (checklistId, title) => {
         this.setState(prevState => ({
             card: {
                 ...prevState.card,
@@ -261,32 +261,29 @@ class CardDetails extends Component {
         }), () => { this.props.saveCard(this.state.card) })
     }
 
-    onAddTodo = (checklistId, newTodo) => {
-        this.setState(prevState => ({
-            card: {
-                ...prevState.card,
-                checklists: prevState.card.checklists.map(checklist => {
-                    if (checklist.id === checklistId) {
-                        if (!newTodo.id) {
-                            checklist.todos.push(newTodo)
-                            newTodo.id = makeId();
-                            this.state.card.activities.unshift({
-                                id: makeId(), txt: `added todo ${newTodo.title} to the card`,
-                                createdAt: Date.now(), byMember: this.props.loggedInUser
-                            })
-                        } else {
-                            checklist.todos = checklist.todos.map(todo => {
-                                if (todo.id === newTodo.id) return newTodo
-                                return todo
-                            })
-                        }
-                    }
-                    return checklist
-                })
-            }
-        }), () => {
-            this.props.saveCard(this.state.card)
-        })
+    onAddTodo = (checklistId, newTodo, newTitle, click) => {
+        const newCard = JSON.parse(JSON.stringify(this.state.card))
+        const checklist = newCard.checklists.find(check => check.id === checklistId)
+        if (!newTodo.id) {
+            newTodo.id = makeId();
+            checklist.todos.unshift(newTodo)
+            this.props.saveCard(newCard)
+        } else {
+            if (click) return this.props.saveCard(newCard)
+            const todo = checklist.todos.find(todo => todo.id === newTodo.id)
+            todo.title = newTitle
+        }
+        this.setState({ card: newCard })
+    }
+
+    onUpdateTodo = (ev, todo, checklist, click = false) => {
+        let { value } = ev.target;
+        if (click) {
+            todo.isDone = !todo.isDone
+            return this.onAddTodo(checklist.id, todo, value, true)
+        }
+
+        this.onAddTodo(checklist.id, todo, value)
     }
 
     onRemoveTodo = (checklistId, todo) => {
@@ -443,8 +440,8 @@ class CardDetails extends Component {
     }
 
     onChagneLabelColor = (labelId, color, title) => {
-        console.log('title',title);
-        
+        console.log('title', title);
+
         this.props.currBoard.boardLabels.find(label => {
             if (label.id === labelId) {
                 if (color) label.color = color;
@@ -471,8 +468,8 @@ class CardDetails extends Component {
                         <div className="modal-header flex align-center space-between">
                             <div className="task-title-container flex align-center">
                                 <img className="img-icon" src="/assets/img/task.png" alt="" />
-                                <input type="text" name="title" className="card-title" onChange={this.onEditTitle} 
-                                onBlur={this.onEditTitleFinish} value={card.title} autoComplete="off" />
+                                <input type="text" name="title" className="card-title" onChange={this.onEditTitle}
+                                    onBlur={this.onEditTitleFinish} value={card.title} autoComplete="off" />
                             </div>
                             <div className="close-modal flex justify-content align-center" onClick={this.onBackBoard}><img className="img-icon" src="/assets/img/close.png" alt="" /></div>
                         </div>
@@ -483,7 +480,7 @@ class CardDetails extends Component {
                                 <CardPreviewActions card={card} getTwoChars={this.getTwoChars} />
                                 <CardDescription description={card.description} onSaveDesc={this.onSaveDesc} handleChange={this.handleChange} isShown={this.onDescShown} isSubmitShown={isDescShown} />
                                 {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} onRemoveImg={this.onRemoveImg} />}
-                                {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} onRemoveTodo={this.onRemoveTodo} onRemoveChecklist={this.onRemoveChecklist} />)}
+                                {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} card={card} onUpdateTodo={this.onUpdateTodo} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} onRemoveTodo={this.onRemoveTodo} onRemoveChecklist={this.onRemoveChecklist} />)}
                                 <CardComments isFocusComment={isFocusComment} comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} removeComment={this.removeComment} />
                                 {card.activities && <CardActivity activities={card.activities} getTwoChars={this.getTwoChars} />}
                             </aside>
