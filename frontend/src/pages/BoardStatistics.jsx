@@ -222,7 +222,7 @@ class BoardStatistics extends React.Component {
 
                     <section className={`board-statistics modal-container flex column ${(isShowingStatistics) ? '' : 'board-statistics-closed'}`} onMouseDown={(ev) => ev.stopPropagation()}
                         ref={this.elStats}>
-                        <header className="board-statistics-header-span flex align-baseline justify-center">
+                        <header className="board-statistics-header-span flex align-center justify-center">
                             <div className="board-statistics-header-text flex align-baseline justify-center">
                                 <p className="board-statistics-header">{board.title}</p>
                                 <p className="secondary">statistics</p>

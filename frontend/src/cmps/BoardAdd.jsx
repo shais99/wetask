@@ -34,6 +34,9 @@ class BoardAdd extends React.Component {
         board.createdAt = Date.now();
         board.createdBy = this.props.loggedInUser;
         board.activities = [];
+        board.boardLabels = [{ id: '101', title: 'done', color: '#61bd4f' }, { id: '102', title: 'error', color: '#f2d600' },
+        { id: '103', title: 'design', color: '#ff9f1a' }, { id: '104', title: 'feature', color: '#eb5a46' },
+        { id: '105', title: 'bug', id: '106', color: '#c377e0' }, { id: '107', title: 'warning', color: '#0079bf' }];
         this.props.addBoard(board)
         this.setState({ board: '' })
         this.props.onClose()

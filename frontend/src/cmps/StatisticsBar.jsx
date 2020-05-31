@@ -10,7 +10,7 @@ export class StatisticsBar extends React.Component {
 
     state = {
         data: [{ member: '', Tasks: 0, 'Done Tasks': 0 }],
-        width: 0
+        width: 1000
     }
 
     componentDidMount() {
@@ -37,16 +37,13 @@ export class StatisticsBar extends React.Component {
 
     updateDimensions = () => {
         this.setState({ width: window.innerWidth });
-      };
+    };
 
     render() {
 
-        const getUserColor = user => {
-            return (user.id === 'Done Tasks') ? '#a8a8a8' : '#3867d6';
-            // return (user.id === 'Done Tasks') ? '#525252' : (user.data.color) ? user.data.color : '#39EA80';
-        }
+        const getUserColor = user => (user.id === 'Done Tasks') ? '#a8a8a8' : '#3867d6';
 
-        const { data, maxTasks } = this.state;
+        const { data, maxTasks, width } = this.state;
         return (
 
             <ResponsiveBar
@@ -60,10 +57,11 @@ export class StatisticsBar extends React.Component {
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
+                    format: value => `${(width < 550) ? value.slice(0, 3) : value.slice(0, 8)}`,
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'Users',
+                    legend: (width < 700) ? '' : 'Users',
                     legendPosition: 'middle',
                     legendOffset: 40,
                 }}
@@ -117,7 +115,7 @@ export class StatisticsBar extends React.Component {
                         ticks: {
                             text: {
                                 fontFamily: 'openSans',
-                                fontSize: 12
+                                fontSize: (width < 550) ? 8 : (width < 700) ? 12 : 14,
                             }
                         }
                     },
@@ -129,7 +127,7 @@ export class StatisticsBar extends React.Component {
                             fill: '#fff',
                             strokeWidth: 1.5,
                         },
-                        
+
                     },
                     legends: {
                         text: {

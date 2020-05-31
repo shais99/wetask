@@ -8,6 +8,16 @@
     margin-top: -55px;
 }
 
+@media (max-width: 700px) {
+    .home-container:first-of-type {
+        margin-top: -27px;
+    }
+
+    .home-container {
+        padding-top: 15px;
+    }
+}
+
 .hero-container {
     background: linear-gradient(to bottom, $clr2, darken($clr2, 10%));
     padding-right: 110px;
@@ -68,7 +78,6 @@
 
 @media (max-width: 1020px) {
     .hero-container {
-        height: unset;
 
         .hero-cta {
             flex-direction: column;

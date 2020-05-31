@@ -11,7 +11,7 @@ export default function HomePage() {
                         <p>
                             Using cutting edge technologies and a great understanding of positive work principles, wework balances the best of both worlds for your team's success!
                         </p>
-                        <Link to="/boards/5ece0b6d695f8047ac641f74" className="hero-btn">Try now</Link>
+                        <Link to="/boards/5ecf72e3145b296860281f54" className="hero-btn">Try now</Link>
                     </div>
                     <img src="assets/img/hero-img.svg" alt="" className="hero-img" />
                 </div>

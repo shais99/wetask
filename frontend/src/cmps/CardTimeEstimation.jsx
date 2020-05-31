@@ -39,11 +39,11 @@ export default class CardTimeEstimation extends React.Component {
                     placeholder={`${card.timeEstimation ? card.timeEstimation.minutes : '00'}`} />
                 </div>
                 <div className="btns-container flex space-between">
-                    <button className="btn btn-primary" onClick={() => {
+                    <button className="btn btn-primary btn-save" onClick={() => {
                         onAddTimeEstimation(this.state.timeEstimation);
                         onToggleAction('timeEstimation');
                     }}>Save</button>
-                    <button className="btn btn-danger" onClick={() => {
+                    <button className="btn btn-danger btn-remove" onClick={() => {
                         removeCardEstimation()
                         onToggleAction('timeEstimation');
                     }}>Remove</button>

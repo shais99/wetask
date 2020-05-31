@@ -1,16 +1,32 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { saveCard } from '../store/actions/boardActions'
 
-export default class CardChecklist extends React.Component {
+
+class CardChecklist extends React.Component {
     state = {
         newTodo: {
             title: '',
             isDone: false
+        },
+        checklist: {
+            title: '',
+            todos: []
         }
     }
 
+    componentDidMount() {
+        this.setState({ checklist: { title: this.props.checklist.title, todos: this.props.checklist.todos } })
+    }
+
+
     onEditChecklistTitle = (ev) => {
         let { value } = ev.target;
-        this.props.onEditChecklistTitle(this.props.checklist.id, value)
+        this.setState({ checklist: { title: value } })
+    }
+
+    onSaveChecklistTitle = () => {
+        this.props.onEditChecklistTitle(this.props.checklist.id, this.state.checklist.title)
     }
 
     handleChange = (ev) => {
@@ -24,11 +40,24 @@ export default class CardChecklist extends React.Component {
         this.setState({ newTodo: { title: '', isDone: false } })
     }
 
-    onUpdateTodo = (ev, todo, click = false) => {
+    updateTodo = (ev, todo) => {
         let { name, value } = ev.target;
-        if (click) todo.isDone = !todo.isDone;
 
         const newTodo = { ...todo, [name]: value }
+        this.setState(prevState => ({
+            checklist: {
+                ...prevState.checklist, todos: prevState.checklist.todos.map(currTodo => {
+                    if (currTodo.id === todo.id) return newTodo
+                    return currTodo
+                })
+            }
+        }))
+    }
+
+    onUpdateTodo = (todo, click = false) => {
+        if (click) todo.isDone = !todo.isDone;
+
+        const newTodo = this.state.checklist.todos.find(currTodo => currTodo.id === todo.id)
         this.props.addTodo(this.props.checklist.id, newTodo)
     }
 
@@ -48,15 +77,18 @@ export default class CardChecklist extends React.Component {
     }
 
     render() {
+        const { card } = this.props
         const { title, todos, id, } = this.props.checklist
         const width = this.calculateProgBarWidth();
         const bgc = this.calculateProgBarBgc();
         return (
             <div className="card-checklist-container">
                 <div className="card-checklist-title flex align-center space-between">
-                    <div>
+                    <div className="checklist-title flex align-center">
                         <img src="/assets/img/todos.png" />
-                        <input type="text" name="title" className="checklist-title" autoComplete="off" onChange={this.onEditChecklistTitle} value={title} />
+                        <input type="text" name="title" className="checklist-title" autoComplete="off"
+                            onChange={this.onEditChecklistTitle}
+                            onBlur={this.onSaveChecklistTitle} value={this.state.checklist.title} />
                     </div>
                     <button className="btn btn-delete" onClick={() => this.props.onRemoveChecklist(this.props.checklist)}>Delete</button>
                 </div>
@@ -68,12 +100,12 @@ export default class CardChecklist extends React.Component {
                         </div>
                     </div>
                     <div className="checklist-todos-container">
-                        {todos.map((todo) => <div className="flex align-center todo-item space-between" key={todo.id}>
+                        {this.state.checklist.todos.map((todo) => <div className="flex align-center todo-item space-between" key={todo.id}>
                             <div className="todo-check-container flex align-center">
-                                <div className={todo.isDone ? "checkbox done" : "checkbox"} onClick={(event) => this.onUpdateTodo(event, todo, true)}>
+                                <div className={todo.isDone ? "checkbox done" : "checkbox"} onClick={() => this.onUpdateTodo(todo, true)}>
                                 </div>
                                 <input name="title" className={`checklist-title todo-title ${todo.isDone ? 'done-decoration' : 'd'}`}
-                                    value={todo.title} onChange={(event) => this.onUpdateTodo(event, todo)} />
+                                    value={todo.title} onChange={(event) => this.updateTodo(event, todo)} onBlur={(event) => this.onUpdateTodo(todo)} />
                             </div>
                             <div className="todo-delete-btn-container"><img className="todo-delete-btn" src="/assets/img/close.png" onClick={() => this.props.onRemoveTodo(id, todo)} /></div>
                         </div>
@@ -87,3 +119,9 @@ export default class CardChecklist extends React.Component {
         )
     }
 }
+
+const mapDispatchToProps = {
+    saveCard
+}
+
+export default connect(null, mapDispatchToProps)(CardChecklist);

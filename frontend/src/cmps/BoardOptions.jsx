@@ -58,7 +58,7 @@ class BoardOptions extends Component {
                 <div className="board-title flex align-center justify-center">{board.title}</div>
 
                 <div className="board-members flex">
-                    {board.members.map((member, idx) => <div key={idx} className="member flex justify-center align-center" style={{ backgroundImage: `url(${member.imgUrl})`, backgroundColor: member.bgColor }}><img onClick={() => this.onRemoveMember(member)} src="/assets/img/close.png" className="remove-member" alt="" />{this.getTwoChars(member.fullname)}</div>)}
+                    {board.members.map((member, idx) => <div key={idx} className="member flex justify-center align-center" style={{ backgroundImage: `url(${member.imgUrl})`, backgroundColor: member.bgColor }}><img onClick={() => this.onRemoveMember(member)} src="/assets/img/close.png" className="remove-member" alt="" /><span className="member-two-chars">{this.getTwoChars(member.fullname)}</span></div>)}
                 </div>
 
                 <div className="board-options flex">

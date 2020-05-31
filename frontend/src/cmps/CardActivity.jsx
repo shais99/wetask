@@ -7,7 +7,7 @@ export default function CardActivity(props) {
         <>
             <div className="card-mini-title flex align-center">
                 <img src="/assets/img/activity.png" />
-                <span className="card-txt-title" htmlFor="cardComment">Activity:</span>
+                <span className="card-txt-title" htmlFor="cardComment">Activity</span>
             </div>
             <div className="main-content-card-action">
                 <div className="comments-container">
@@ -15,7 +15,7 @@ export default function CardActivity(props) {
                         <div className="flex align-center">
                             <div className="member flex justify-center align-center"
                                 style={{ backgroundImage: `url(${activity.byMember.imgUrl})`, backgroundColor: activity.byMember.bgColor }}>
-                                {props.getTwoChars(activity.byMember.fullname)}
+                                <span className="member-two-chars">{props.getTwoChars(activity.byMember.fullname)}</span>
                             </div>
                             <div className="flex align-center">
                                 <span className="comment-title-fullname">{activity.byMember.fullname}</span>

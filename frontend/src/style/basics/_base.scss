@@ -9,6 +9,7 @@ body {
     background: linear-gradient(to bottom, $clr2, darken($clr2, 10%));
     background-attachment: fixed;
     background-size: cover;
+    background-position: center;
 }
 
 h1,
@@ -34,6 +35,7 @@ textarea,
 input,
 button {
     font-family: openSans, Arial, sans-serif;
+    outline: none;
 }
 
 p {
@@ -50,6 +52,13 @@ p {
 
 .main-content {
     height: 97vh;
+}
+
+@media (max-width: 500px) {
+    .main-content {
+        height: 84vh;
+        max-height: 84vh;
+    }
 }
 
 /* Scrollbar */

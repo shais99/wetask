@@ -68,7 +68,7 @@ export default class ActionContainer extends Component {
                             <img src="/assets/img/close.png" alt="" />
                         </button>
                     </div>
-                    {isShown.label && <LabelsPicker onChagneLabelColor={onChagneLabelColor} addLabel={addLabel} card={card} onToggleAction={onToggleAction} />}
+                    {isShown.label && <LabelsPicker card={card} board={this.props.board} onChagneLabelColor={onChagneLabelColor} addLabel={addLabel} card={card} onToggleAction={onToggleAction} />}
                     {isShown.dueDate && <DueDate onChange={onChange} value={value} onToggleAction={onToggleAction} removeDueDate={removeDueDate} onSubmitDate={onSubmitDate} />}
                     {isShown.members && <CardMembers board={board} getCurrCard={getCurrCard} card={card} addMember={addMember} />}
                     {isShown.bgColor && <CardBgColor board={board} onToggleAction={onToggleAction} getCurrCard={getCurrCard} card={card} onChangeBgColor={onChangeBgColor} />}

@@ -20,7 +20,7 @@ export default class CardComments extends Component {
             <>
                 <div className="card-mini-title flex align-center">
                     <img src="/assets/img/comment.png" alt="" />
-                    <label className="card-txt-title" htmlFor="cardComment">Comments:</label>
+                    <label className="card-txt-title" htmlFor="cardComment">Comments</label>
                 </div>
                 <div className="main-content-card-action">
                     <form onSubmit={this.props.onAddComment}>
@@ -34,7 +34,7 @@ export default class CardComments extends Component {
                             <div className="flex align-center">
                                 <div className="member flex justify-center align-center"
                                     style={{ backgroundImage: `url(${comment.byMember.imgUrl})`, backgroundColor: comment.byMember.bgColor }}>
-                                    {this.props.getTwoChars(comment.byMember.fullname)}
+                                    <span className="member-two-chars">{this.props.getTwoChars(comment.byMember.fullname)}</span>
                                 </div>
                                 <div>
                                     <span className="comment-title-fullname">{comment.byMember.fullname}</span>

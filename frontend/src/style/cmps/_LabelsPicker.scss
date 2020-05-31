@@ -61,17 +61,43 @@
             width: 12px;
         }
     }
-    .label-color-item {
-        width: 40px;
-        height: 40px;
-        margin-bottom: 5px;
-        border-radius: 5px;
 
-        &:not(:nth-child(6n)) {
-            margin-right: 5px;
+    .change-label-container {
+        .header-container {
+            margin-bottom: 20px;
+
+            h4 {
+                font-size: rem(12px);
+                font-family: openSansBold;
+                letter-spacing: 0.04em;
+                margin-left: 80px;
+            }
         }
-        img{
+        .label-title {
+            padding: 8px 12px;
+            background-color: #fafbfc;
+            box-shadow: inset 0 0 0 2px #dfe1e6;
+            color: #172b4d;
+        }
+        .label-color-item {
+            width: 48px;
+            height: 32px;
+            margin-bottom: 7px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+
+            &:not(:nth-child(5n)) {
+                margin-right: 7px;
+            }
+            &:hover {
+                filter: brightness(90%);
+            }
+        }
+        img {
             width: 16px;
+            margin-top: 2px;
+            cursor: pointer;
         }
     }
 }
