@@ -191,7 +191,7 @@ class BoardStatistics extends React.Component {
             stack.cards.forEach(card => {
                 const estimate = card.timeEstimation;
  
-                if(estimate !== '') {
+                if(estimate && estimate !== '') {
                     timeEstimation.days += +estimate.days;
                     timeEstimation.hours += +estimate.hours;
                     timeEstimation.minutes += +estimate.minutes;

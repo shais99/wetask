@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { update, login } from '../store/actions/userActions';
 import { uploadImg } from '../services/cloudinaryService'
+import Loader from '../cmps/Loader'
 
 class UserProfile extends Component {
 
@@ -74,7 +75,7 @@ class UserProfile extends Component {
 
         const msgStyle = (isErrorMsg) ? { backgroundColor: '#dd1739' } : { backgroundColor: '#17d965' }
 
-        if (!user) return 'Loading...'
+        if (!user) return <Loader />
         return (
             <div className="container flex justify-center">
                 <div className="form-container">
