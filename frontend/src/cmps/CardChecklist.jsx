@@ -42,6 +42,7 @@ class CardChecklist extends React.Component {
 
     updateTodo = (ev, todo) => {
         let { name, value } = ev.target;
+        console.log('todo', todo);
 
         const newTodo = { ...todo, [name]: value }
         this.setState(prevState => ({
@@ -51,13 +52,16 @@ class CardChecklist extends React.Component {
                     return currTodo
                 })
             }
-        }))
+        }), () => console.log(this.state.checklist.todos)
+        )
+        // this.props.addTodo(this.props.checklist.id, this.state.newTodo)
     }
 
-    onUpdateTodo = (todo, click = false) => {
+    onUpdateTodo = (ev, todo, click = false) => {
+        let { name, value } = ev.target;
         if (click) todo.isDone = !todo.isDone;
-
-        this.props.addTodo(this.props.checklist.id, todo)
+        const newTodo = { ...todo, [name]: value }
+        this.props.addTodo(this.props.checklist.id, newTodo)
     }
 
     calculateProgBarWidth = () => {
@@ -101,10 +105,10 @@ class CardChecklist extends React.Component {
                     <div className="checklist-todos-container">
                         {todos.map((todo) => <div className="flex align-center todo-item space-between" key={todo.id}>
                             <div className="todo-check-container flex align-center">
-                                <div className={todo.isDone ? "checkbox done" : "checkbox"} onClick={() => this.onUpdateTodo(todo, true)}>
+                                <div className={todo.isDone ? "checkbox done" : "checkbox"} onClick={(ev) => this.onUpdateTodo(ev, todo, true)}>
                                 </div>
                                 <input name="title" className={`checklist-title todo-title ${todo.isDone ? 'done-decoration' : 'd'}`}
-                                    value={todo.title} onChange={(event) => this.updateTodo(event, todo)} onBlur={(event) => this.onUpdateTodo(todo)} />
+                                    value={todo.title} onChange={(ev) => this.onUpdateTodo(ev, todo)} onBlur={(ev) => this.onUpdateTodo(ev, todo)} />
                             </div>
                             <div className="todo-delete-btn-container"><img className="todo-delete-btn" src="/assets/img/close.png" onClick={() => this.props.onRemoveTodo(id, todo)} /></div>
                         </div>
