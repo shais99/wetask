@@ -14,6 +14,7 @@ import RemoveCard from '../cmps/RemoveCard'
 import moment from 'moment'
 import CardActivity from '../cmps/CardActivity'
 import CardShowTimeEstimation from '../cmps/CardShowTimeEstimation'
+import Loader from '../cmps/Loader'
 
 class CardDetails extends Component {
 
@@ -463,7 +464,7 @@ class CardDetails extends Component {
         const { card, isDescShown, comment, isShown, isUploadImg, isOpenModalRemove, isFocusComment } = this.state
         const { onToggleAction } = this;
 
-        return ((!card) ? 'Loading...' :
+        return ((!card) ? <Loader /> :
             <>
                 <div className="screen" onMouseDown={this.onBackBoard} >
                     <div className="modal-container shadow-drop-2-center card-details-modal" onMouseDown={(ev) => ev.stopPropagation()}>

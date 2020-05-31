@@ -51,10 +51,10 @@ p {
 }
 
 .main-content {
-    height: 97vh;
+    height: 95vh;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 700px) {
     .main-content {
         height: 84vh;
         max-height: 84vh;

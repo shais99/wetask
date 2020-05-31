@@ -49,7 +49,7 @@ export class StatisticsPie extends React.Component {
                 radialLabelsSkipAngle={10}
                 radialLabelsTextXOffset={6}
                 radialLabelsTextColor={getSliceColor}
-                radialLabelsLinkOffset={-20}
+                radialLabelsLinkOffset={-10}
                 radialLabelsLinkDiagonalLength={16}
                 radialLabelsLinkHorizontalLength={24}
                 radialLabelsLinkStrokeWidth={1}

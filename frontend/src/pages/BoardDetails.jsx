@@ -14,19 +14,14 @@ import BoardStatistics from '../pages/BoardStatistics'
 import { makeId } from '../services/utilService';
 import { reorder, move } from '../services/boardDetailsUtils';
 import ActionContainer from '../cmps/ActionContainer';
-// import ScrollContainer from 'react-indiana-drag-scroll'
+import Loader from '../cmps/Loader'
+import HorizontalScroll from 'react-scroll-horizontal'
 
 class BoardDetails extends React.Component {
-
-    constructor() {
-        super();
-        this.stackTitleFocus = [];
-    }
 
     state = {
         areLabelsOpen: false,
         isShowingStatistics: false,
-        stackTitles: {},
         stackMenus: {}
     }
 
@@ -42,17 +37,9 @@ class BoardDetails extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { stackTitles } = this.state;
-
         if (prevProps.currBoard !== this.props.currBoard) {
-            // this.setState({ currBoard: this.props.currBoard });
             document.body.style.backgroundImage = `url(/${this.props.currBoard.bg})`;
             document.body.style.backgroundColor = this.props.currBoard.bg;
-        }
-
-        if (this.props.currBoard && this.props.currBoard.stacks.length &&
-            !Object.keys(stackTitles).length && stackTitles.constructor === Object) {
-            this.populateStacksInfo(this.props.currBoard);
         }
     }
 
@@ -64,13 +51,11 @@ class BoardDetails extends React.Component {
     }
 
     populateStacksInfo = (board) => {
-        let stackTitles = {};
         let stackMenus = {};
         board.stacks.forEach((stack) => {
-            stackTitles[stack.id] = stack.title;
             stackMenus[stack.id] = false;
         });
-        this.setState({ stackTitles, stackMenus });
+        this.setState({ stackMenus });
     }
 
     setBoard = (currBoard) => this.props.setBoard(currBoard)
@@ -78,19 +63,6 @@ class BoardDetails extends React.Component {
     onToggleLabels = () => {
 
         this.setState(({ areLabelsOpen }) => ({ areLabelsOpen: !areLabelsOpen }));
-    }
-
-    onEditStackTitle = ({ target }) => {
-        let currBoard = { ...this.props.currBoard };
-        this.setState({ stackTitles: { [currBoard.stacks[target.dataset.idx].id]: target.value } });
-    }
-
-    onNewStackTitle = ({ target }) => {
-        let currBoard = { ...this.props.currBoard };
-        const { stackTitles } = this.state;
-
-        currBoard.stacks[target.dataset.idx].title = stackTitles[currBoard.stacks[target.dataset.idx].id];
-        this.props.save(currBoard);
     }
 
     getItemStyle = (isDragging, draggableStyle) => {
@@ -105,7 +77,6 @@ class BoardDetails extends React.Component {
 
     onStackRemove = (stackId) => {
 
-        // console.log(stackId);
         let currBoard = { ...this.props.currBoard };
         if (currBoard.isPublic) return;
         let stackIdx = currBoard.stacks.findIndex(stack => {
@@ -128,13 +99,13 @@ class BoardDetails extends React.Component {
             title: newStackTitle,
         });
 
-        let stackTitles = { ...this.state.stackTitles };
         let stackMenus = { ...this.state.stackMenus };
 
-        stackTitles[id] = newStackTitle;
         stackMenus[id] = false;
-        this.setState({ stackTitles, stackMenus })
-        this.props.save(currBoard);
+        this.setState({ stackMenus }, () => {
+            this.elStacksSection.scrollTo(9999, 0)
+            this.props.save(currBoard);
+        })
     }
 
     onCardAdd = (newCardTitle, stackId) => {
@@ -210,8 +181,6 @@ class BoardDetails extends React.Component {
         this.props.save(newState)
     }
 
-    onStackTitleFocus = (index) => this.stackTitleFocus[index].focus();
-
     onToggleAction = (action) => {
 
         let actions = this.state.stackMenus;
@@ -247,9 +216,9 @@ class BoardDetails extends React.Component {
 
     render() {
         const { history, currBoard } = this.props;
-        const { areLabelsOpen, stackTitles, isShowingStatistics, isShown } = this.state;
+        const { areLabelsOpen, isShowingStatistics, isShown } = this.state;
 
-        if (!currBoard) return 'Loading...'
+        if (!currBoard) return <Loader />
         // console.log(currBoard);
         return (
             <>
@@ -261,119 +230,123 @@ class BoardDetails extends React.Component {
                 {/* Board content: showing stacks OR statistics */}
                 <section className="board-content flex column align-start space-between">
 
+
                     {(isShowingStatistics)
                         ?
                         <BoardStatistics isShowingStatistics={isShowingStatistics} toggleShowStatistics={this.toggleShowStatistics} />
-                        : (currBoard && stackTitles)
+                        : (currBoard)
                             ?
-                            // this.stacks(areLabelsOpen, stackTitles) 
-                            <span className="stacks-section flex">
-                                <DragDropContext
-                                    onDragEnd={this.onDragEnd}
-                                >
-                                    <Droppable droppableId="board" isCombineEnabled={false} type="STACK" direction='horizontal'>
-                                        {(provided, snapshot) => (
-                                            <div
-                                                ref={provided.innerRef}
-                                                {...provided.droppableProps}
-                                                className="stacks-content flex"
-                                            >
+                            // <HorizontalScroll>
+                                <div className="stacks-section flex" ref={scroll => this.elStacksSection = scroll}>
 
-                                                {(currBoard.stacks.length) ? currBoard.stacks.map((stack, index) => (
-                                                    <Draggable key={stack.id}
-                                                        draggableId={stack.id} index={index} type="STACK" >
+                                    <DragDropContext
+                                        onDragEnd={this.onDragEnd}
+                                    >
 
-                                                        {(provided, snapshot) => {
-                                                            return (
-                                                                <div
-                                                                    ref={provided.innerRef}
-                                                                    {...provided.draggableProps}
-                                                                    style={{
-                                                                        ...this.getItemStyle(
-                                                                            snapshot.isDragging,
-                                                                            provided.draggableProps.style,
-                                                                        ),
-                                                                        width: 250,
+                                        <Droppable droppableId="board" isCombineEnabled={false} type="STACK" direction='horizontal'>
+                                            {(provided, snapshot) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.droppableProps}
+                                                    className="stacks-content flex"
+                                                >
 
-                                                                    }}
-                                                                    className="stack-content flex column"
-                                                                >
-                                                                    <div className="stack-header flex space-between" {...provided.dragHandleProps}>
-                                                                        <input autoComplete="off" type="text" name="title" className="stack-title-input" data-idx={index} onChange={this.onEditStackTitle}
-                                                                            value={stackTitles[stack.id]} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input}
-                                                                            onBlur={this.onNewStackTitle} />
-                                                                        <Link title="Options" to="#" onClick={() => this.onToggleAction(stack.id)}><button className="stack-header-menu">. . .</button></Link>
-                                                                        {(isShown && isShown[stack.id]) && <ActionContainer onStackRemove={this.onStackRemove} stackInfo={{ id: stack.id, title: stack.title }} isShown={{ stack: true }}
-                                                                            onToggleAction={this.onToggleAction} />}
+                                                    {(currBoard.stacks.length) ? currBoard.stacks.map((stack, index) => (
+                                                        <Draggable key={stack.id}
+                                                            draggableId={stack.id} index={index} type="STACK" >
+
+                                                            {(provided, snapshot) => {
+                                                                return (
+                                                                    <div
+                                                                        ref={provided.innerRef}
+                                                                        {...provided.draggableProps}
+                                                                        style={{
+                                                                            ...this.getItemStyle(
+                                                                                snapshot.isDragging,
+                                                                                provided.draggableProps.style,
+                                                                            ),
+                                                                            width: 250,
+
+                                                                        }}
+                                                                        className="stack-content flex column"
+                                                                    >
+                                                                        <div className="stack-header flex space-between" {...provided.dragHandleProps}>
+                                                                            <div className="stack-title">{stack.title}</div>
+                                                                            <Link title="Options" to="#" onClick={() => this.onToggleAction(stack.id)}><button className="stack-header-menu">. . .</button></Link>
+                                                                            {(isShown && isShown[stack.id]) && <ActionContainer onStackRemove={this.onStackRemove} stack={stack} isShown={{ stack: true }}
+                                                                                onToggleAction={this.onToggleAction} />}
+                                                                        </div>
+
+                                                                        {/* <p className="stack-title flex align-center"  ></p> */}
+
+                                                                        <Droppable key={index}
+                                                                            droppableId={`${index}`} isCombineEnabled={false}
+                                                                            type="CARD">
+                                                                            {(provided, snapshot) => (
+                                                                                <Stack
+                                                                                    innerRef={provided.innerRef}
+                                                                                    provided={provided}
+                                                                                >
+
+                                                                                    {stack.cards.map((card, index) => (
+                                                                                        <Draggable
+                                                                                            key={card.id}
+                                                                                            draggableId={card.id}
+                                                                                            index={index}
+                                                                                            type="CARD"
+                                                                                        >
+                                                                                            {(provided, snapshot) => (
+
+                                                                                                <div>
+                                                                                                    <CardPreview
+                                                                                                        title={card.title}
+                                                                                                        innerRef={provided.innerRef}
+                                                                                                        provided={provided}
+                                                                                                        card={card}
+                                                                                                        labelsOpen={areLabelsOpen}
+                                                                                                        onToggleLabels={this.onToggleLabels}
+                                                                                                        link={`/boards/${currBoard._id}/card/${card.id}`}
+                                                                                                        style={{
+                                                                                                            ...this.getItemStyle(
+                                                                                                                snapshot.isDragging,
+                                                                                                                provided.draggableProps.style,
+                                                                                                            ),
+                                                                                                            background: card.bgColor,
+
+                                                                                                        }}
+                                                                                                        history={this.props.history}
+                                                                                                    >
+                                                                                                    </CardPreview>
+                                                                                                </div>
+
+                                                                                            )}
+                                                                                        </Draggable>
+                                                                                    ))}
+                                                                                    {provided.placeholder}
+                                                                                </Stack>
+                                                                            )}
+                                                                        </Droppable>
+                                                                        <AddContent type="card" onCardAdd={this.onCardAdd} itemId={stack.id} />
                                                                     </div>
+                                                                )
+                                                            }}
+                                                        </Draggable>
+                                                    )) : null}
+                                                    {provided.placeholder}
+                                                </div>
 
-                                                                    {/* <p className="stack-title flex align-center"  ></p> */}
+                                            )}
+                                        </Droppable>
 
-                                                                    <Droppable key={index}
-                                                                        droppableId={`${index}`} isCombineEnabled={false}
-                                                                        type="CARD">
-                                                                        {(provided, snapshot) => (
-                                                                            <Stack
-                                                                                innerRef={provided.innerRef}
-                                                                                provided={provided}
-                                                                            >
+                                        <div className="add-stack-container">
+                                            <AddContent type="stack" onStackAdd={this.onStackAdd} />
+                                        </div>
+                                    </DragDropContext>
 
-                                                                                {stack.cards.map((card, index) => (
-                                                                                    <Draggable
-                                                                                        key={card.id}
-                                                                                        draggableId={card.id}
-                                                                                        index={index}
-                                                                                        type="CARD"
-                                                                                    >
-                                                                                        {(provided, snapshot) => (
-
-                                                                                            <span>
-                                                                                                <CardPreview
-                                                                                                    title={card.title}
-                                                                                                    innerRef={provided.innerRef}
-                                                                                                    provided={provided}
-                                                                                                    card={card}
-                                                                                                    labelsOpen={areLabelsOpen}
-                                                                                                    onToggleLabels={this.onToggleLabels}
-                                                                                                    link={`/boards/${currBoard._id}/card/${card.id}`}
-                                                                                                    style={{
-                                                                                                        ...this.getItemStyle(
-                                                                                                            snapshot.isDragging,
-                                                                                                            provided.draggableProps.style,
-                                                                                                        ),
-                                                                                                        background: card.bgColor,
-
-                                                                                                    }}
-                                                                                                    history={this.props.history}
-                                                                                                >
-                                                                                                </CardPreview>
-                                                                                            </span>
-
-                                                                                        )}
-                                                                                    </Draggable>
-                                                                                ))}
-                                                                                {provided.placeholder}
-                                                                            </Stack>
-                                                                        )}
-                                                                    </Droppable>
-                                                                    <AddContent type="card" onCardAdd={this.onCardAdd} itemId={stack.id} />
-                                                                </div>
-                                                            )
-                                                        }}
-                                                    </Draggable>
-                                                )) : null}
-                                                {provided.placeholder}
-                                            </div>
-                                        )}
-                                    </Droppable>
-                                    <div className="add-stack-container">
-                                        <AddContent type="stack" onStackAdd={this.onStackAdd} />
-                                    </div>
-                                </DragDropContext>
-                            </span>
+                                </div>
+                            // </HorizontalScroll>
                             : null
                     }
-
                 </section>
             </>
         )
