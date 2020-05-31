@@ -19,7 +19,6 @@ class CardChecklist extends React.Component {
         this.setState({ checklist: { title: this.props.checklist.title, todos: this.props.checklist.todos } })
     }
 
-
     onEditChecklistTitle = (ev) => {
         let { value } = ev.target;
         this.setState({ checklist: { title: value } })

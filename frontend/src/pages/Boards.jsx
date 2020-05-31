@@ -3,6 +3,7 @@ import BoardList from '../cmps/BoardList'
 import { loadBoards } from '../store/actions/boardActions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Loader from '../cmps/Loader'
 
 
 class Boards extends React.Component {
@@ -14,7 +15,7 @@ class Boards extends React.Component {
 
     render() {
         const { loggedInUser, boards } = this.props
-        return ((!loggedInUser) ? 'Loading...' :
+        return ((!loggedInUser) ? <Loader /> :
             <div className="container flex justify-center">
                 <div className="form-container boards-page">
                     <header className="boards-header wrap flex space-between">

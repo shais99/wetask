@@ -14,19 +14,14 @@ import BoardStatistics from '../pages/BoardStatistics'
 import { makeId } from '../services/utilService';
 import { reorder, move } from '../services/boardDetailsUtils';
 import ActionContainer from '../cmps/ActionContainer';
+import Loader from '../cmps/Loader'
 // import ScrollContainer from 'react-indiana-drag-scroll'
 
 class BoardDetails extends React.Component {
 
-    constructor() {
-        super();
-        this.stackTitleFocus = [];
-    }
-
     state = {
         areLabelsOpen: false,
         isShowingStatistics: false,
-        stackTitles: {},
         stackMenus: {}
     }
 
@@ -42,17 +37,9 @@ class BoardDetails extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { stackTitles } = this.state;
-
         if (prevProps.currBoard !== this.props.currBoard) {
-            // this.setState({ currBoard: this.props.currBoard });
             document.body.style.backgroundImage = `url(/${this.props.currBoard.bg})`;
             document.body.style.backgroundColor = this.props.currBoard.bg;
-        }
-
-        if (this.props.currBoard && this.props.currBoard.stacks.length &&
-            !Object.keys(stackTitles).length && stackTitles.constructor === Object) {
-            this.populateStacksInfo(this.props.currBoard);
         }
     }
 
@@ -64,13 +51,11 @@ class BoardDetails extends React.Component {
     }
 
     populateStacksInfo = (board) => {
-        let stackTitles = {};
         let stackMenus = {};
         board.stacks.forEach((stack) => {
-            stackTitles[stack.id] = stack.title;
             stackMenus[stack.id] = false;
         });
-        this.setState({ stackTitles, stackMenus });
+        this.setState({ stackMenus });
     }
 
     setBoard = (currBoard) => this.props.setBoard(currBoard)
@@ -78,19 +63,6 @@ class BoardDetails extends React.Component {
     onToggleLabels = () => {
 
         this.setState(({ areLabelsOpen }) => ({ areLabelsOpen: !areLabelsOpen }));
-    }
-
-    onEditStackTitle = ({ target }) => {
-        let currBoard = { ...this.props.currBoard };
-        this.setState({ stackTitles: { [currBoard.stacks[target.dataset.idx].id]: target.value } });
-    }
-
-    onNewStackTitle = ({ target }) => {
-        let currBoard = { ...this.props.currBoard };
-        const { stackTitles } = this.state;
-
-        currBoard.stacks[target.dataset.idx].title = stackTitles[currBoard.stacks[target.dataset.idx].id];
-        this.props.save(currBoard);
     }
 
     getItemStyle = (isDragging, draggableStyle) => {
@@ -128,13 +100,13 @@ class BoardDetails extends React.Component {
             title: newStackTitle,
         });
 
-        let stackTitles = { ...this.state.stackTitles };
         let stackMenus = { ...this.state.stackMenus };
 
-        stackTitles[id] = newStackTitle;
         stackMenus[id] = false;
-        this.setState({ stackTitles, stackMenus })
-        this.props.save(currBoard);
+        this.setState({ stackMenus }, () => {
+            this.elStacksSection.scrollTo(9999, 0)
+            this.props.save(currBoard);
+        })
     }
 
     onCardAdd = (newCardTitle, stackId) => {
@@ -210,8 +182,6 @@ class BoardDetails extends React.Component {
         this.props.save(newState)
     }
 
-    onStackTitleFocus = (index) => this.stackTitleFocus[index].focus();
-
     onToggleAction = (action) => {
 
         let actions = this.state.stackMenus;
@@ -247,9 +217,9 @@ class BoardDetails extends React.Component {
 
     render() {
         const { history, currBoard } = this.props;
-        const { areLabelsOpen, stackTitles, isShowingStatistics, isShown } = this.state;
+        const { areLabelsOpen, isShowingStatistics, isShown } = this.state;
 
-        if (!currBoard) return 'Loading...'
+        if (!currBoard) return <Loader />
         // console.log(currBoard);
         return (
             <>
@@ -264,10 +234,9 @@ class BoardDetails extends React.Component {
                     {(isShowingStatistics)
                         ?
                         <BoardStatistics isShowingStatistics={isShowingStatistics} toggleShowStatistics={this.toggleShowStatistics} />
-                        : (currBoard && stackTitles)
+                        : (currBoard)
                             ?
-                            // this.stacks(areLabelsOpen, stackTitles) 
-                            <span className="stacks-section flex">
+                            <div className="stacks-section flex" ref={scroll => this.elStacksSection = scroll}>
                                 <DragDropContext
                                     onDragEnd={this.onDragEnd}
                                 >
@@ -299,11 +268,9 @@ class BoardDetails extends React.Component {
                                                                     className="stack-content flex column"
                                                                 >
                                                                     <div className="stack-header flex space-between" {...provided.dragHandleProps}>
-                                                                        <input autoComplete="off" type="text" name="title" className="stack-title-input" data-idx={index} onChange={this.onEditStackTitle}
-                                                                            value={stackTitles[stack.id]} onClick={() => this.onStackTitleFocus(index)} ref={input => this.stackTitleFocus[index] = input}
-                                                                            onBlur={this.onNewStackTitle} />
+                                                                        <div className="stack-title">{stack.title}</div>
                                                                         <Link title="Options" to="#" onClick={() => this.onToggleAction(stack.id)}><button className="stack-header-menu">. . .</button></Link>
-                                                                        {(isShown && isShown[stack.id]) && <ActionContainer onStackRemove={this.onStackRemove} stackInfo={{ id: stack.id, title: stack.title }} isShown={{ stack: true }}
+                                                                        {(isShown && isShown[stack.id]) && <ActionContainer onStackRemove={this.onStackRemove} stack={stack} isShown={{ stack: true }}
                                                                             onToggleAction={this.onToggleAction} />}
                                                                     </div>
 
@@ -327,7 +294,7 @@ class BoardDetails extends React.Component {
                                                                                     >
                                                                                         {(provided, snapshot) => (
 
-                                                                                            <span>
+                                                                                            <div>
                                                                                                 <CardPreview
                                                                                                     title={card.title}
                                                                                                     innerRef={provided.innerRef}
@@ -347,7 +314,7 @@ class BoardDetails extends React.Component {
                                                                                                     history={this.props.history}
                                                                                                 >
                                                                                                 </CardPreview>
-                                                                                            </span>
+                                                                                            </div>
 
                                                                                         )}
                                                                                     </Draggable>
@@ -370,7 +337,7 @@ class BoardDetails extends React.Component {
                                         <AddContent type="stack" onStackAdd={this.onStackAdd} />
                                     </div>
                                 </DragDropContext>
-                            </span>
+                            </div>
                             : null
                     }
 

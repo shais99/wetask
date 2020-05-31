@@ -42,7 +42,7 @@ export default class ActionContainer extends Component {
             case 'timeEstimation':
                 return 'Time Estimation'
             case 'stack':
-                return this.props.stackInfo.title
+                return this.props.stack.title
             case 'bgColor':
                 return 'Change Background Color'
             default:
@@ -53,7 +53,7 @@ export default class ActionContainer extends Component {
     render() {
         const { isShown, card, onToggleAction, board, onChange, value, onSubmitDate,
             getCurrCard, addLabel, addMember, removeDueDate, moveCardToStack,
-            onAddTimeEstimation, removeCardEstimation, stackInfo, onStackRemove,
+            onAddTimeEstimation, removeCardEstimation, stack, onStackRemove,
             onChangeBgColor, onChagneLabelColor } = this.props;
 
 
@@ -61,7 +61,7 @@ export default class ActionContainer extends Component {
 
         return (
             <OutsideClickHandler onOutsideClick={() => onToggleAction(action)} display={'contents'}>
-                < div className="action-container" >
+                <div className="action-container">
                     <div className="action-header flex space-between align-center">
                         <h3>{this.titleToReturn(action)}</h3>
                         <button className="close-label" onClick={() => onToggleAction(action)}>
@@ -75,7 +75,7 @@ export default class ActionContainer extends Component {
                     {isShown.move && <CardMove board={board} card={card} moveCardToStack={moveCardToStack} />}
                     {isShown.timeEstimation && <CardTimeEstimation card={card} onToggleAction={onToggleAction}
                         onAddTimeEstimation={onAddTimeEstimation} removeCardEstimation={removeCardEstimation} />}
-                    {isShown.stack && <StackMenu board={board} stackId={stackInfo.id} onStackRemove={onStackRemove} />}
+                    {isShown.stack && <StackMenu board={board} onToggleAction={onToggleAction} stack={stack} onStackRemove={onStackRemove} />}
                 </div >
             </OutsideClickHandler>
         )

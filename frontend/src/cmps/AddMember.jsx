@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { loadUsers } from '../store/actions/userActions'
+import Loader from './Loader'
 import OutsideClickHandler from 'react-outside-click-handler';
 
 class AddMember extends Component {
@@ -30,7 +31,7 @@ class AddMember extends Component {
         const { users, onClose, onAddMember } = this.props
         const { filterBy } = this.state
 
-        return ((!users) ? 'Loading...' :
+        return ((!users) ? <Loader /> :
             <OutsideClickHandler onOutsideClick={() => onClose()} display={'contents'}>
                 <div className="add-member-container slide-bottom">
                     <div className="add-member-title flex space-between align-center">
