@@ -3,7 +3,7 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 
 function CardPreviewActions(props) {
-    const { currCard, getTwoChars } = props
+    const { currCard, getTwoChars, currBoard } = props
     return (
         <>
             {(currCard.members.length !== 0 || currCard.labels.length !== 0 || currCard.dueDate) && <div className="members-labels-container flex wrap">
@@ -22,9 +22,14 @@ function CardPreviewActions(props) {
                     <div className="labels-card-container">
                         <h3>Labels</h3>
                         <div className="flex wrap">
-                            {currCard.labels.map((label, idx) => <div key={idx} className="card-label-item" style={{ backgroundColor: `${label.color}` }}>
-                                {label.title}
-                            </div>)}
+                            {currCard.labels.map((label, idx) => {
+                                const foundLabel = currBoard.boardLabels.find(currLabel => currLabel.id === label.id)
+                                if (foundLabel) {
+                                    return <div key={idx} className="card-label-item" style={{ backgroundColor: `${foundLabel.color}` }}>
+                                        {foundLabel.title}
+                                    </div>
+                                }
+                            })}
                         </div>
 
                     </div>}
@@ -43,6 +48,7 @@ function CardPreviewActions(props) {
 
 const mapStateToProps = (state) => {
     return {
+        currBoard: state.board.currBoard,
         currCard: state.board.currCard
     }
 }
