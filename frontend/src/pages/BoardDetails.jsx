@@ -15,7 +15,6 @@ import { makeId } from '../services/utilService';
 import { reorder, move } from '../services/boardDetailsUtils';
 import ActionContainer from '../cmps/ActionContainer';
 import Loader from '../cmps/Loader'
-import HorizontalScroll from 'react-scroll-horizontal'
 
 class BoardDetails extends React.Component {
 
@@ -236,7 +235,7 @@ class BoardDetails extends React.Component {
                         <BoardStatistics isShowingStatistics={isShowingStatistics} toggleShowStatistics={this.toggleShowStatistics} />
                         : (currBoard)
                             ?
-                            <HorizontalScroll>
+                           
                                 <div className="stacks-section flex" ref={scroll => this.elStacksSection = scroll}>
 
                                     <DragDropContext
@@ -344,7 +343,7 @@ class BoardDetails extends React.Component {
                                     </DragDropContext>
 
                                 </div>
-                            </HorizontalScroll>
+                           
                             : null
                     }
                 </section>
