@@ -1,26 +1,23 @@
 import React, { Component } from 'react'
-import CardDescription from '../cmps/CardDescription'
-import CardComments from '../cmps/CardComments'
-import { save, loadBoard, saveCard } from '../store/actions/boardActions'
+import CardDescription from '../cmps/card/CardDescription'
+import CardComments from '../cmps/card/CardComments'
+import { save, loadBoard, saveCard, loadCard } from '../store/actions/boardActions'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { makeId } from '../services/utilService'
-import ActionContainer from '../cmps/ActionContainer'
-import CardChecklist from '../cmps/CardChecklist'
-import CardPreviewActions from '../cmps/CardPreviewActions'
+import ActionContainer from '../cmps/card/ActionContainer'
+import CardChecklist from '../cmps/card/CardChecklist'
+import CardPreviewActions from '../cmps/card/CardPreviewActions'
+import CardImg from '../cmps/card/CardImg'
+import RemoveCard from '../cmps/card/RemoveCard'
+import CardActivity from '../cmps/card/CardActivity'
+import CardShowTimeEstimation from '../cmps/card/CardShowTimeEstimation'
+import Loader from '../cmps/general/Loader'
 import { uploadImg } from '../services/cloudinaryService'
-import CardImg from '../cmps/CardImg'
-import RemoveCard from '../cmps/RemoveCard'
-import moment from 'moment'
-import CardActivity from '../cmps/CardActivity'
-import CardShowTimeEstimation from '../cmps/CardShowTimeEstimation'
-import Loader from '../cmps/Loader'
 
 class CardDetails extends Component {
 
     state = {
-        card: null,
-        prevCardDesc: '',
         isShown: {
             label: false,
             dueDate: false,
@@ -29,49 +26,21 @@ class CardDetails extends Component {
             timeEstimation: false,
             bgColor: false
         },
-        comment: {
-            txt: ''
-        },
-        isUploadImg: false,
-        isFinishUpload: false,
         isOpenModalRemove: false,
         dueDateNotSave: '',
-        isFocusComment: false
+        isFocusComment: false,
+        isUploadImg: false,
+        isFinishUpload: false
     }
 
     componentDidMount() {
-        if (this.props.currBoard) this.loadCard()
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.currBoard !== prevProps.currBoard) {
-            this.loadCard()
+        if (this.props.currBoard) {
+            this.props.loadCard(this.props.match.params.cardId)
         }
     }
 
-    loadCard = () => {
-        const currCard = this.getCurrCard();
-        this.setState({ card: currCard }, () => this.setState({ prevCardDesc: this.state.card.description }))
-    }
-
-    getCurrCard = () => {
-        const cardId = this.props.match.params.cardId
-        let card;
-        this.props.currBoard.stacks.some(stack => {
-            card = stack.cards.find(card => card.id === cardId)
-            return card
-        })
-        if (!card) return this.props.history.push('/boards')
-        return card
-    }
-
-    onDescShown = (isShown, isPrevDesc) => {
-        this.setState({ isDescShown: isShown })
-        if (!isShown && isPrevDesc) this.setPrevDesc()
-    }
-
-    setPrevDesc = () => {
-        this.setState(prevState => ({ card: { ...prevState.card, description: this.state.prevCardDesc } }))
+    componentDidUpdate(prevProps) {
+        if (this.props.currBoard !== prevProps.currBoard) this.props.loadCard(this.props.match.params.cardId)
     }
 
     onBackBoard = () => {
@@ -85,140 +54,19 @@ class CardDetails extends Component {
         this.setState({ dueDateNotSave: dueDate })
     }
 
-    onSubmitDate = () => {
-        const { currBoard, loggedInUser } = this.props
-        currBoard.activities.unshift({
-            id: makeId(), txt: `set card due date to 
-        ${moment(this.state.dueDateNotSave).format("MMM DD")}`, createdAt: Date.now(), byMember: loggedInUser
-        })
-        this.state.card.activities.unshift({
-            id: makeId(), txt: `set card due date to 
-        ${moment(this.state.dueDateNotSave).format("MMM DD")}`, createdAt: Date.now(), byMember: loggedInUser
-        })
-        this.setState(prevState => ({ card: { ...prevState.card, dueDate: this.state.dueDateNotSave } }), () => {
-            this.props.saveCard(this.state.card)
-        })
-    }
-
-    removeDueDate = () => {
-        const dueDate = '';
-        this.setState(prevState => ({ card: { ...prevState.card, dueDate } }), () => this.props.saveCard(this.state.card))
-    }
-
-    handleChange = ({ target }) => {
-        const field = target.name
-        const value = target.value
-        this.setState(prevState => ({ card: { ...prevState.card, [field]: value } }))
-    }
-
-    handleCommentChange = ({ target }) => {
-        this.setState(prevState => ({ comment: { ...prevState.comment, txt: target.value } }))
-    }
-
-    onAddComment = (ev) => {
-        ev.preventDefault();
-        const { comment, card } = this.state
-        if (!comment.txt) return;
-        comment.id = makeId();
-        comment.createdAt = Date.now();
-        comment.byMember = this.props.loggedInUser;
-        this.setState(prevState => ({ card: { ...prevState.card, comments: [comment, ...prevState.card.comments] } }), () => {
-            this.props.saveCard(this.state.card)
-        })
-        card.activities.unshift({
-            id: makeId(), txt: `set card comment to ${comment.txt}`,
-            createdAt: Date.now(), byMember: this.props.loggedInUser
-        })
-        this.setState({ comment: { txt: '' } })
-
-
-    }
-
-    removeComment = (comment) => {
-        this.setState(prevState => ({
-            card: {
-                ...prevState.card,
-                comments: prevState.card.comments.filter(currComment => currComment.id !== comment.id)
-            }
-        }), () => {
-            this.props.saveCard(this.state.card)
-        })
-        this.state.card.activities.unshift({
-            id: makeId(), txt: `removed card comment ${comment.txt}`,
-            createdAt: Date.now(), byMember: this.props.loggedInUser
-        })
-    }
-
     onEditTitle = ({ target }) => {
-        this.setState(prevState => ({ card: { ...prevState.card, title: target.value } }))
+        const newCard = { ...this.props.currCard }
+        newCard.title = target.value
+        this.props.saveCard(newCard)
     }
 
     onEditTitleFinish = () => {
-
-        this.state.card.activities.unshift({
-            id: makeId(), txt: `edited card title to ${this.state.card.title}`,
+        const newCard = { ...this.props.currCard }
+        newCard.activities.unshift({
+            id: makeId(), txt: `edited card title to ${newCard.title}`,
             createdAt: Date.now(), byMember: this.props.loggedInUser
         })
-        this.props.saveCard(this.state.card)
-    }
-
-    onSaveDesc = (ev) => {
-        ev.preventDefault()
-        this.setState({ prevCardDesc: this.state.card.description }, () => {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `edited card description`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            this.props.saveCard(this.state.card)
-            this.onDescShown(false)
-        })
-    }
-
-    onAddLabel = (currLabel) => {
-        let currCard = this.getCurrCard();
-        const labelIdx = currCard.labels.findIndex(label => label.id === currLabel.id);
-
-        if (labelIdx === -1) {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `add label: ${currLabel.title} to the card`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            currCard.labels.push(currLabel)
-        }
-        else {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `removed label: ${currLabel.title} from the card`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            currCard.labels.splice(labelIdx, 1)
-        }
-        this.setState({ card: currCard }, () => {
-            this.props.saveCard(this.state.card)
-        })
-    }
-
-    onAddMember = (currMember) => {
-        let currCard = this.getCurrCard();
-        const memberIdx = currCard.members.findIndex(member => member._id === currMember._id);
-
-        if (memberIdx === -1) {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `add member:  ${currMember.username} to the card`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            currCard.members.push(currMember)
-        }
-        else {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `removed member:  ${currMember.username} from the card`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            currCard.members.splice(memberIdx, 1)
-        }
-        this.setState({ card: currCard }, () => {
-
-            this.props.saveCard(this.state.card)
-        })
+        this.props.saveCard(newCard)
     }
 
     getTwoChars(str) {
@@ -230,97 +78,19 @@ class CardDetails extends Component {
     }
 
     onAddChecklist = () => {
-        let newChecklist = {
+        const newChecklist = {
             id: makeId(),
             title: 'Checklist',
             todos: []
         }
-        this.setState(prevState => ({
-            card: {
-                ...prevState.card,
-                checklists: [...prevState.card.checklists, newChecklist]
-            }
-        }), () => {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `added checklist to the card`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            this.props.saveCard(this.state.card)
+        const newCard = { ...this.props.currCard }
+        newCard.checklists.unshift(newChecklist)
+        newCard.activities.unshift({
+            id: makeId(), txt: `added checklist to the card`,
+            createdAt: Date.now(), byMember: this.props.loggedInUser
         })
+        this.props.saveCard(newCard)
     }
-
-    onEditChecklistTitle = (checklistId, title) => {
-        this.setState(prevState => ({
-            card: {
-                ...prevState.card,
-                checklists: prevState.card.checklists.map(checklist => {
-                    if (checklist.id === checklistId) checklist.title = title
-                    return checklist
-                })
-            }
-        }), () => { this.props.saveCard(this.state.card) })
-    }
-
-    onAddTodo = (checklistId, newTodo, newTitle, click) => {
-        const newCard = JSON.parse(JSON.stringify(this.state.card))
-        const checklist = newCard.checklists.find(check => check.id === checklistId)
-        if (!newTodo.id) {
-            newTodo.id = makeId();
-            checklist.todos.unshift(newTodo)
-            this.props.saveCard(newCard)
-        } else {
-            if (click) return this.props.saveCard(newCard)
-            const todo = checklist.todos.find(todo => todo.id === newTodo.id)
-            todo.title = newTitle
-        }
-        this.setState({ card: newCard })
-    }
-
-    onUpdateTodo = (ev, todo, checklist, click = false) => {
-        let { value } = ev.target;
-        if (click) {
-            todo.isDone = !todo.isDone
-            return this.onAddTodo(checklist.id, todo, value, true)
-        }
-
-        this.onAddTodo(checklist.id, todo, value)
-    }
-
-    onRemoveTodo = (checklistId, todo) => {
-        this.setState(prevState => ({
-            card: {
-                ...prevState.card,
-                checklists: prevState.card.checklists.map(checklist => {
-                    if (checklist.id === checklistId) {
-                        checklist.todos = checklist.todos.filter(currTodo => currTodo.id !== todo.id)
-                    }
-                    return checklist
-                })
-            }
-        }), () => {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `removed todo ${todo.title} from the card`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            this.props.saveCard(this.state.card)
-        })
-    }
-
-    onRemoveChecklist = (checklist) => {
-        this.setState(prevState => ({
-            card: {
-                ...prevState.card,
-                checklists: prevState.card.checklists.filter(currChecklist => currChecklist.id !== checklist.id)
-            }
-        }), () => {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `removed checklist ${checklist.title} from the card`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            this.props.saveCard(this.state.card)
-        })
-    }
-
 
     onToggleAction = (action) => {
         let actions = this.state.isShown;
@@ -337,131 +107,42 @@ class CardDetails extends Component {
         this.inputElement.click();
     }
 
-    onUploadImg = async ev => {
-        this.setState({ isUploadImg: true })
-        const imgUrl = await uploadImg(ev)
-        this.setState({ isUploadImg: false, isFinishUpload: true })
-        this.setState(prevState => ({ card: { ...prevState.card, imgUrl } }), () => {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `uploaded image to the card`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            this.props.saveCard(this.state.card)
-        })
-    }
-
-    onRemoveImg = () => {
-        this.setState(prevState => ({ card: { ...prevState.card, imgUrl: null } }), () => {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `removed image from the card`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            this.props.saveCard(this.state.card)
-        })
-    }
-
-    moveCardToStack = (stackDest) => {
-        this.props.currBoard.stacks.forEach(stack => {
-            let cardIdx = stack.cards.findIndex(card => card.id === this.state.card.id)
-            if (cardIdx !== -1) {
-                stack.cards.splice(cardIdx, 1);
-            }
-            if (stack.title === stackDest.title) {
-                stack.cards.push(this.state.card)
-            }
-        })
-        this.state.card.activities.unshift({
-            id: makeId(), txt: `moved card to stack ${stackDest.title}`,
-            createdAt: Date.now(), byMember: this.props.loggedInUser
-        })
-        this.props.save(this.props.currBoard)
-    }
-
     onToggleRemoveCard = () => {
         this.setState(prevState => ({ isOpenModalRemove: !prevState.isOpenModalRemove }))
     }
 
-    onRemoveCard = () => {
-        const { currBoard, save, history, loggedInUser } = this.props
-        if (currBoard.isPublic) return;
-        currBoard.stacks.forEach(stack => {
-            let cardIdx = stack.cards.findIndex(card => {
-                return card.id === this.state.card.id
-            })
-            if (cardIdx !== -1) {
-                stack.cards.splice(cardIdx, 1);
-            }
-        })
-        currBoard.activities.unshift({ id: makeId(), txt: `has removed a card`, createdAt: Date.now(), byMember: loggedInUser })
-        save(this.props.currBoard);
-        history.push(`/boards/${this.props.currBoard._id}`);
-    }
-
-    onAddTimeEstimation = (timeEstimation) => {
-        timeEstimation.approved = false;
-        this.setState(prevState => ({ card: { ...prevState.card, timeEstimation } }), () => {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `added time estimation to card`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            this.props.saveCard(this.state.card)
-        })
-    }
-
-    removeCardEstimation = () => {
-        this.setState(prevState => ({ card: { ...prevState.card, timeEstimation: null } }), () => {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `removed time estimation from the card`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            this.props.saveCard(this.state.card)
-        })
-    }
-
-    onApproveTimeEstimation = () => {
-        this.setState(prevState => ({ card: { ...prevState.card, timeEstimation: { ...prevState.card.timeEstimation, approved: true } } }), () => {
-            this.state.card.activities.unshift({
-                id: makeId(), txt: `confirmed the time estimate`,
-                createdAt: Date.now(), byMember: this.props.loggedInUser
-            })
-            this.props.saveCard(this.state.card)
-        })
-    }
-
     onFocusComment = () => {
-        this.setState(prevState => ({ isFocusComment: !prevState.isFocusComment }), () => {
-            this.setState({ comment: { txt: 'Comment on time estimation: ' } })
+        this.setState(prevState => ({ isFocusComment: !prevState.isFocusComment }))
+    }
+    onUploadImg = async ev => {
+        this.setState({ isUploadImg: true })
+        const imgUrl = await uploadImg(ev)
+        this.setState({ isUploadImg: false, isFinishUpload: true })
+        const newCard = { ...this.props.currCard }
+        newCard.imgUrl = imgUrl
+        newCard.activities.unshift({
+            id: makeId(), txt: `uploaded image to the card`,
+            createdAt: Date.now(), byMember: this.props.loggedInUser
         })
+        this.props.saveCard(newCard)
     }
 
-    onChangeBgColor = (bgColor) => {
-        this.setState(prevState => ({ card: { ...prevState.card, bgColor } }), () => this.props.saveCard(this.state.card))
-        this.onToggleAction('bgColor')
-    }
-
-    onChagneLabelColor = (labelId, color, title) => {
-        console.log('title', title);
-
-        this.props.currBoard.boardLabels.find(label => {
-            if (label.id === labelId) {
-                if (color) label.color = color;
-                if (title) label.title = title;
-            }
+    onRemoveImg = () => {
+        const newCard = { ...this.props.currCard }
+        newCard.imgUrl = null
+        newCard.activities.unshift({
+            id: makeId(), txt: `removed image from the card`,
+            createdAt: Date.now(), byMember: this.props.loggedInUser
         })
-        this.state.card.labels.find(label => {
-            if (label.id === labelId) {
-                if (color) label.color = color;
-                if (title) label.title = title;
-            }
-        })
-        this.props.save(this.props.currBoard)
+        this.props.saveCard(newCard)
     }
 
     render() {
-        const { card, isDescShown, comment, isShown, isUploadImg, isOpenModalRemove, isFocusComment } = this.state
+        const { isShown, isOpenModalRemove, isFocusComment, dueDateNotSave, isUploadImg } = this.state
+        const { currCard, saveCard, loggedInUser, history, currBoard, save } = this.props
         const { onToggleAction } = this;
 
-        return ((!card) ? <Loader /> :
+        return ((!currCard) ? <Loader /> :
             <>
                 <div className="screen" onMouseDown={this.onBackBoard} >
                     <div className="modal-container shadow-drop-2-center card-details-modal" onMouseDown={(ev) => ev.stopPropagation()}>
@@ -469,20 +150,23 @@ class CardDetails extends Component {
                             <div className="task-title-container flex align-center">
                                 <img className="img-icon" src="/assets/img/task.png" alt="" />
                                 <input type="text" name="title" className="card-title" onChange={this.onEditTitle}
-                                    onBlur={this.onEditTitleFinish} value={card.title} autoComplete="off" />
+                                    onBlur={this.onEditTitleFinish} value={currCard.title} autoComplete="off" />
                             </div>
                             <div className="close-modal flex justify-content align-center" onClick={this.onBackBoard}><img className="img-icon" src="/assets/img/close.png" alt="" /></div>
                         </div>
 
                         <div className="card-container flex">
                             <aside className="card-content">
-                                {card.timeEstimation && <CardShowTimeEstimation card={card} onApproveTimeEstimation={this.onApproveTimeEstimation} onFocusComment={this.onFocusComment} />}
-                                <CardPreviewActions card={card} getTwoChars={this.getTwoChars} />
-                                <CardDescription description={card.description} onSaveDesc={this.onSaveDesc} handleChange={this.handleChange} isShown={this.onDescShown} isSubmitShown={isDescShown} />
-                                {(isUploadImg || card.imgUrl) && <CardImg card={card} isUploadImg={isUploadImg} onRemoveImg={this.onRemoveImg} />}
-                                {card.checklists && card.checklists.map(checklist => <CardChecklist key={checklist.id} card={card} onUpdateTodo={this.onUpdateTodo} checklist={checklist} addTodo={this.onAddTodo} onEditChecklistTitle={this.onEditChecklistTitle} onRemoveTodo={this.onRemoveTodo} onRemoveChecklist={this.onRemoveChecklist} />)}
-                                <CardComments isFocusComment={isFocusComment} comments={card.comments} onAddComment={this.onAddComment} handleChange={this.handleCommentChange} comment={comment.txt} getTwoChars={this.getTwoChars} removeComment={this.removeComment} />
-                                {card.activities && <CardActivity activities={card.activities} getTwoChars={this.getTwoChars} />}
+                                {currCard.timeEstimation && <CardShowTimeEstimation saveCard={saveCard} loggedInUser={loggedInUser} card={currCard} onFocusComment={this.onFocusComment} />}
+                                <CardPreviewActions getTwoChars={this.getTwoChars} />
+                                <CardDescription card={currCard} saveCard={saveCard} loggedInUser={loggedInUser} />
+
+                                {(currCard.imgUrl || isUploadImg) && <CardImg imgUrl={currCard.imgUrl} isUploadImg={isUploadImg} onRemoveImg={this.onRemoveImg} />}
+
+                                {currCard.checklists && currCard.checklists.map(checklist => <CardChecklist key={checklist.id} saveCard={saveCard} loggedInUser={loggedInUser} card={currCard} checklist={checklist} />)}
+
+                                <CardComments card={currCard} saveCard={saveCard} loggedInUser={loggedInUser} isFocusComment={isFocusComment} getTwoChars={this.getTwoChars} />
+                                {currCard.activities && <CardActivity activities={currCard.activities} getTwoChars={this.getTwoChars} />}
                             </aside>
                             <aside className="card-actions">
                                 <div className="actions-title">Actions:</div>
@@ -498,16 +182,16 @@ class CardDetails extends Component {
                                     <Link title="Move Card" to="#" onClick={() => this.onToggleAction('move')}><li><img src="/assets/img/back.png" className="img-rotate" alt="" />Move Card</li></Link>
                                     <Link title="Remove Card" to="#" onClick={this.onToggleRemoveCard}><li className="li-last-child"><img src="/assets/img/trash-white.png" alt="" />Remove Card</li></Link>
 
-                                    {isShown.dueDate && <ActionContainer isShown={isShown} onChange={this.onChangeDate} onSubmitDate={this.onSubmitDate} onToggleAction={onToggleAction} value={card.dueDate} removeDueDate={this.removeDueDate} />}
-                                    {isShown.label && <ActionContainer card={card} board={this.props.currBoard} isShown={isShown} addLabel={this.onAddLabel} onToggleAction={onToggleAction} card={card} onChagneLabelColor={this.onChagneLabelColor} />}
-                                    {isShown.members && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} addMember={this.onAddMember} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
-                                    {isShown.bgColor && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onChangeBgColor={this.onChangeBgColor} onToggleAction={onToggleAction} getCurrCard={this.getCurrCard} />}
-                                    {isShown.move && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onToggleAction={onToggleAction} moveCardToStack={this.moveCardToStack} />}
-                                    {isShown.timeEstimation && <ActionContainer board={this.props.currBoard} isShown={isShown} card={card} onToggleAction={onToggleAction} onAddTimeEstimation={this.onAddTimeEstimation} removeCardEstimation={this.removeCardEstimation} />}
-                                    {isShown.changeLabel && <ActionContainer isShown={isShown} onToggleAction={onToggleAction} card={card} />}
+                                    {isShown.dueDate && <ActionContainer dueDateNotSave={dueDateNotSave} isShown={isShown} onChange={this.onChangeDate} onSubmitDate={this.onSubmitDate} onToggleAction={onToggleAction} value={currCard.dueDate} removeDueDate={this.removeDueDate} />}
+                                    {isShown.label && <ActionContainer isShown={isShown} onToggleAction={onToggleAction} />}
+                                    {isShown.members && <ActionContainer isShown={isShown} onToggleAction={onToggleAction} />}
+                                    {isShown.bgColor && <ActionContainer isShown={isShown} onToggleAction={onToggleAction} />}
+                                    {isShown.move && <ActionContainer isShown={isShown} onToggleAction={onToggleAction} />}
+                                    {isShown.timeEstimation && <ActionContainer isShown={isShown} onToggleAction={onToggleAction} />}
+                                    {isShown.changeLabel && <ActionContainer isShown={isShown} onToggleAction={onToggleAction} />}
 
                                 </ul>
-                                {isOpenModalRemove && <RemoveCard onToggleRemoveCard={this.onToggleRemoveCard} onRemoveCard={this.onRemoveCard} />}
+                                {isOpenModalRemove && <RemoveCard history={history} board={currBoard} card={currCard} save={save} loggedInUser={loggedInUser} onToggleRemoveCard={this.onToggleRemoveCard} />}
 
                             </aside>
 
@@ -522,12 +206,14 @@ class CardDetails extends Component {
 const mapDispatchToProps = {
     save,
     loadBoard,
-    saveCard
+    saveCard,
+    loadCard
 }
 const mapStateToProps = (state) => {
     return {
         currBoard: state.board.currBoard,
-        loggedInUser: state.user.loggedInUser
+        loggedInUser: state.user.loggedInUser,
+        currCard: state.board.currCard
     }
 }
 

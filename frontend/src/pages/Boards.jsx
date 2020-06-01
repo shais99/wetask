@@ -1,9 +1,9 @@
 import React from 'react'
-import BoardList from '../cmps/BoardList'
+import BoardList from '../cmps/board/BoardList'
 import { loadBoards } from '../store/actions/boardActions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import Loader from '../cmps/Loader'
+import Loader from '../cmps/general/Loader'
 
 
 class Boards extends React.Component {

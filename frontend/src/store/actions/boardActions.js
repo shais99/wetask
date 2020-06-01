@@ -12,6 +12,12 @@ export function updateStackTitle(id, title) {
   return dispatch => dispatch({ type: 'UPDATE_STACK_TITLE', stack: { id, title } })
 }
 
+export function loadCard(id) {
+  return dispatch => {
+    dispatch({ type: 'LOAD_CARD', id });
+  }
+}
+
 export function loadBoard(id) {
   return dispatch => {
     boardService.get(id)

@@ -2,9 +2,9 @@ import React from 'react'
 
 import { save, loadBoard } from '../store/actions/boardActions'
 import { connect } from 'react-redux'
-import { StatisticsPie } from '../cmps/StatisticsPie';
-import { StatisticsBar } from '../cmps/StatisticsBar';
-import { StatisticsInfoBlock } from '../cmps/StatisticsInfoBlock';
+import { StatisticsPie } from '../cmps/side_menu/StatisticsPie';
+import { StatisticsBar } from '../cmps/side_menu/StatisticsBar';
+import { StatisticsInfoBlock } from '../cmps/side_menu/StatisticsInfoBlock';
 import moment from 'moment'
 
 class BoardStatistics extends React.Component {
