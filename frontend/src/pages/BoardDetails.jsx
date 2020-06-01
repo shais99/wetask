@@ -19,9 +19,9 @@ import Loader from '../cmps/general/Loader'
 
 class BoardDetails extends React.Component {
 
-    initialX = 0;
-    deltaX = 0;
-    offset = this.initialX + this.deltaX;
+    // initialX = 0;
+    // deltaX = 0;
+    // offset = this.initialX + this.deltaX;
 
     state = {
         areLabelsOpen: false,
