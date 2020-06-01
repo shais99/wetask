@@ -1,6 +1,11 @@
 @media (max-width: 700px) {
     .board-options-container {
         margin-top: 23px;
+        .member {
+            .remove-member {
+                top: 48px;
+            }
+        }
     }
 }
 
@@ -104,7 +109,7 @@
             opacity: 0.85;
             border: none;
             outline: none;
-            margin-left: 12px;
+            margin-left: 7px;
 
             & img {
                 width: 22px;
@@ -135,8 +140,7 @@
     .board-options-container {
         .board-members {
             overflow-x: scroll;
-            max-width: 114px;
-            margin-left: 10px;
+            max-width: 90px;
 
             &::-webkit-scrollbar {
                 display: none;
@@ -168,7 +172,7 @@
         background-color: rgba(255, 255, 255, 0.35);
         border-radius: 50%;
         padding: 3px;
-        font-size: rem(11px)
+        font-size: rem(11px);
     }
 
     &:hover .remove-member {

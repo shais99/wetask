@@ -7,7 +7,7 @@ export default function CardActivity(props) {
         <>
             <div className="card-mini-title flex align-center">
                 <img src="/assets/img/activity.png" />
-                <span className="card-txt-title" htmlFor="cardComment">Activity</span>
+                <span className="card-txt-title" htmlFor="cardComment">Activities</span>
             </div>
             <div className="main-content-card-action">
                 <div className="comments-container">

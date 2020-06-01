@@ -1,22 +1,15 @@
 .board-content {
     margin: 0;
-    height: 93%;
-    overflow-x: hidden;
+    width: 100%;
+    height: 83vh;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding-bottom: 20px;
 }
 
 @media (max-width: 500px) {
-    .board-content {
-        height: 74.5vh;
-    }
-
     .stack-header {
         min-height: 38px;
-    }
-}
-
-@media (max-width: 700px) {
-    .board-content {
-        height: 89%;
     }
 }
 
@@ -83,39 +76,32 @@
     }
 }
 
-.stacks-section {
-    width: 100%;
-    height: 100%;
-    overflow-x: scroll;
-    padding-bottom: 20px;
+.action-container {
+    top: unset;
+    right: unset;
+    width: 280px;
+    font-size: rem(13px);
 
-    .action-container {
-        top: unset;
-        right: unset;
-        width: 280px;
-        font-size: rem(13px);
+    .stack-menu-remove {
+        text-align: center;
+    }
+    .stack-menu-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 10px;
+        li {
+            padding: 5px;
+            border-radius: 5px;
+            transition: 0.3s;
+            margin-bottom: 10px;
+            cursor: pointer;
 
-        .stack-menu-remove {
-            text-align: center;
-        }
-        .stack-menu-list {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 10px;
-            li {
-                padding: 5px;
-                border-radius: 5px;
-                transition: 0.3s;
-                margin-bottom: 10px;
-                cursor: pointer;
-
-                &:last-of-type {
-                    background-color: $clr4;
-                    color: white;
-                    font-family: openSansBold;
-                    &:hover {
-                        background-color: darken($clr4, 10%);
-                    }
+            &:last-of-type {
+                background-color: $clr4;
+                color: white;
+                font-family: openSansBold;
+                &:hover {
+                    background-color: darken($clr4, 10%);
                 }
             }
         }
@@ -243,11 +229,12 @@
 
 .stack-content {
     background: $clr6;
-    max-height: 100%;
+    max-height: 79vh;
     height: fit-content;
     user-select: none;
     padding-top: 0;
     border-radius: 3px;
+    overflow-y: auto;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.75);
 }
 
