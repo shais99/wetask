@@ -102,10 +102,18 @@ class BoardStatistics extends React.Component {
                             return label.title === 'done';
                         })
 
-                        users[member.username][(isDone) ? 'doneTasks' : 'tasks'] += 1;
+                        if(isDone) {
+                            users[member.username].tasks += 1;
+                            users[member.username].doneTasks += 1;
+                        } else {
+                            users[member.username].tasks += 1;
+                        }
+
                         if(maxTasks < users[member.username]['tasks']) {
                             maxTasks = users[member.username]['tasks'];
                         }
+
+                        console.log(users);
                     })
 
                 }
@@ -202,9 +210,40 @@ class BoardStatistics extends React.Component {
         if(!(timeEstimation.days + timeEstimation.hours + timeEstimation.minutes)) {
             return null;
         }
-        let daysLabel = (!timeEstimation.days) ? '' : (timeEstimation.days > 1) ? timeEstimation.days + ' days,' : timeEstimation.days + ' day,';
-        let hoursLabel = (!timeEstimation.hours) ? '' : (timeEstimation.hours > 1) ? timeEstimation.hours + ' hours,' : timeEstimation.hours + ' hour,';
-        let minutesLabel = (!timeEstimation.minutes) ? '' : timeEstimation.minutes + ' min';
+
+
+        if(timeEstimation.minutes >= 60) {
+
+            timeEstimation.hours += timeEstimation.minutes / 60;
+            timeEstimation.minutes = timeEstimation.minutes % 60;
+
+            if(timeEstimation.minutes === 30) {
+                timeEstimation.hours += 0.5;
+                timeEstimation.minutes = 0;
+            } else if (timeEstimation.minutes === 15) {
+                timeEstimation.hours += 0.25;
+                timeEstimation.minutes = 0;
+            }
+        } 
+
+        if(timeEstimation.hours >= 24) {
+
+            timeEstimation.days += timeEstimation.hours / 24;
+            timeEstimation.hours = timeEstimation.hours % 24;
+
+            if(timeEstimation.hours === 12) {
+                timeEstimation.days += 0.5;
+                timeEstimation.hours = 0;
+            } else if (timeEstimation.hours === 6) {
+                timeEstimation.days += 0.25;
+                timeEstimation.hours = 0;
+            }
+        } 
+
+
+        let daysLabel = (!timeEstimation.days) ? '' : (timeEstimation.days > 1) ? timeEstimation.days + ' days' : timeEstimation.days + ' day';
+        let hoursLabel = (!timeEstimation.hours) ? '' : (timeEstimation.hours > 1) ? '| ' + timeEstimation.hours + ' hours' : '| ' + timeEstimation.hours + ' hour';
+        let minutesLabel = (!timeEstimation.minutes) ? '' : '| ' + timeEstimation.minutes + ' min';
 
         return daysLabel + ' ' + hoursLabel + ' ' + minutesLabel;
     }
@@ -222,7 +261,7 @@ class BoardStatistics extends React.Component {
 
                     <section className={`board-statistics modal-container flex column ${(isShowingStatistics) ? '' : 'board-statistics-closed'}`} onMouseDown={(ev) => ev.stopPropagation()}
                         ref={this.elStats}>
-                        <header className="board-statistics-header-span flex align-baseline justify-center">
+                        <header className="board-statistics-header-span flex align-center justify-center">
                             <div className="board-statistics-header-text flex align-baseline justify-center">
                                 <p className="board-statistics-header">{board.title}</p>
                                 <p className="secondary">statistics</p>
@@ -237,7 +276,7 @@ class BoardStatistics extends React.Component {
                                 : null
                             } */}
                             {(boardStats && boardStats.totalTimeEstimation) ?
-                                // <StatisticsInfoBlock info={moment(board.createdAt).format('MMM Do YYYY') + ` [${board.createdBy.username}]`} type='createdBy' />
+                                
                                 <StatisticsInfoBlock info={boardStats.totalTimeEstimation} type='timeEstimation' />
                                 : null
                             }

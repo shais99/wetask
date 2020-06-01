@@ -59,10 +59,6 @@
                 box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
             }
 
-            // .statistics-charts {
-            //     width: 100%;
-            // }
-
             .statistics-controllers {
                 .stat-button {
                     min-width: 120px;
@@ -114,33 +110,32 @@
                 padding: 9px;
 
                 &.createdBy {
-                    background-color: lighten($color: $clr4, $amount: 10);
+                    background-color: lighten($color: $clr4, $amount: 0);
                 }
                 &.timeEstimation {
-                    background-color: lighten($color: $clr4, $amount: 10);
+                    background-color: lighten($color: $clr4, $amount: 0);
                 }
                 &.members {
-                    background-color: lighten($color: $clr5, $amount: 10);
+                    background-color: lighten($color: $clr5, $amount: 0);
                 }
                 &.stacks {
-                    background-color: lighten($color: $clr2, $amount: 10);
+                    background-color: lighten($color: $clr2, $amount: 0);
                 }
                 &.cards {
-                    background-color: lighten($color: $clr3, $amount: 10);
+                    background-color: lighten($color: $clr3, $amount: 0);
                 }
                 &.activities {
-                    background-color: darken($color: $clr6, $amount: 10);
+                    background-color: darken($color: $clr6, $amount: 30);
                 }
             }
 
             .stat-info-block {
                 background: white;
                 border: 2px solid darken($color: $clr6, $amount: 10);
-                width: 262px;
+                width: 300px;
                 padding: 2px 5px 2px 2px;
                 margin-bottom: 5px;
                 .stat-info-details {
-
                     padding: 0 20px;
                     margin: auto;
 
@@ -155,7 +150,6 @@
                 }
 
                 &:first-of-type {
-
                     .stat-info-details {
                         padding: 0 5px;
                     }
@@ -177,6 +171,28 @@
                     "byUsers byUsers"
                     "byLabels byLabels"
                     "byDueDate byDueDate";
+            }
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    .stats {
+        .board-statistics {
+            .board-statistics-header-span {
+                .board-statistics-header-text {
+                    .board-statistics-header {
+                        font-size: rem(20px);
+                    }
+
+                    .secondary {
+                        font-size: rem(12px);
+                    }
+                }
+
+                .stats-back-btn {
+                    width: 20px;
+                }
             }
         }
     }
