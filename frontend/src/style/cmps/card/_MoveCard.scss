@@ -1,0 +1,48 @@
+.card-move-container {
+    h4 {
+        font-size: 0.75rem;
+        font-weight: 500;
+        font-family: openSansBold;
+        letter-spacing: 0.04em;
+        line-height: 16px;
+        margin-top: 4px;
+        margin-bottom: 10px;
+    }
+
+    .select-stack {
+        padding: 8px 12px;
+        background-color: #fafbfc;
+        box-shadow: inset 0 0 0 2px #dfe1e6;
+        color: #172b4d;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .selection-container {
+            // padding: 5px;
+            color: #172b4d;
+            border-radius: 5px;
+            border: 2px solid #dfe1e6;
+            border-top: none;
+
+            .option-stack-name {
+                padding: 5px;
+                padding-left: 16px;
+                cursor: pointer;
+                font-size: rem(12px);
+                &:hover {
+                    background-color: #e5e8ec;
+                }
+                &:first-child {
+                    border-top-right-radius: 5px;
+                    border-top-left-radius: 5px;
+                }
+                &:last-child {
+                    border-bottom-right-radius: 5px;
+                    border-bottom-left-radius: 5px;
+                }
+            }
+        }
+    
+}

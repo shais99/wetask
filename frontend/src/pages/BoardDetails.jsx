@@ -3,18 +3,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { loadBoard, save, setBoard, updateStackTitle } from '../store/actions/boardActions';
-import AddContent from '../cmps/AddContent';
+import AddContent from '../cmps/board/AddContent';
 import { Route, Link } from 'react-router-dom';
-import { CardPreview } from '../cmps/CardPreview.jsx';
-import { Stack } from '../cmps/Stack.jsx';
-import CardDetails from '../pages/CardDetails.jsx';
-import BoardOptions from '../cmps/BoardOptions'
+import { CardPreview } from '../cmps/card/CardPreview';
+import { Stack } from '../cmps/stack/Stack';
+import CardDetails from '../pages/CardDetails';
+import BoardOptions from '../cmps/board/BoardOptions'
 import socketService from '../services/socketService'
 import BoardStatistics from '../pages/BoardStatistics'
 import { makeId } from '../services/utilService';
 import { reorder, move } from '../services/boardDetailsUtils';
-import ActionContainer from '../cmps/ActionContainer';
-import Loader from '../cmps/Loader'
+import ActionContainer from '../cmps/card/ActionContainer';
+import Loader from '../cmps/general/Loader'
 
 class BoardDetails extends React.Component {
 
@@ -57,7 +57,10 @@ class BoardDetails extends React.Component {
         this.setState({ stackMenus });
     }
 
-    setBoard = (currBoard) => this.props.setBoard(currBoard)
+    setBoard = (currBoard) => {
+        this.props.setBoard(currBoard)
+        if (this.props.match.params.cardId) this.props.setCard()
+    }
 
     onToggleLabels = () => {
 
@@ -227,7 +230,7 @@ class BoardDetails extends React.Component {
                 <Route component={CardDetails} path="/boards/:boardId/card/:cardId" />
 
                 {/* Board content: showing stacks OR statistics */}
-                <section className="board-content flex align-start space-between">
+                <section className="board-content flex align-start" ref={scroll => this.elStacksSection = scroll}>
 
 
                     {(isShowingStatistics)

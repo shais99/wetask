@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { update, login } from '../store/actions/userActions';
 import { uploadImg } from '../services/cloudinaryService'
-import Loader from '../cmps/Loader'
+import Loader from '../cmps/general/Loader'
 
 class UserProfile extends Component {
 

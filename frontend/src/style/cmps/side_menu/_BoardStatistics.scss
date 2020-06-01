@@ -1,0 +1,226 @@
+.stats {
+    width: 100%;
+    height: 100%;
+    // z-index: -1;
+
+    .board-statistics {
+        width: 95%;
+        height: 95%;
+        // min-height: 360px;
+        border-radius: 7.5px;
+        top: 10vh;
+        animation: slide-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.6);
+        overflow-y: auto;
+        background: white;
+
+        .board-statistics-header-span {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            position: relative;
+
+            .stats-back-btn {
+                width: 25px;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+            .board-statistics-header {
+                font-family: openSansBold;
+                font-size: rem(30px);
+                margin-right: 5px;
+            }
+            .secondary {
+                opacity: 0.75;
+                font-size: rem(18px);
+                margin-right: 0;
+            }
+        }
+
+        .board-statistics-content {
+            grid-template-columns: 1fr 1fr;
+
+            grid-template-areas:
+                "byUsers byUsers"
+                "byLabels byDueDate";
+
+            .board-stats-title {
+                margin-bottom: 15px;
+                background: $clr7;
+                color: rgba($color: #000000, $alpha: 0.75);
+                border-radius: 3px;
+                padding: 2.5px 5px;
+                font-family: openSansBold;
+                -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+                -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+                box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+            }
+
+            .statistics-controllers {
+                .stat-button {
+                    min-width: 120px;
+
+                    &.active-stat-btn {
+                        background: darken($color: $clr3, $amount: 5);
+                        color: $clr1;
+                    }
+                }
+            }
+        }
+
+        .board-statistics-content > * {
+            &:not(:last-child) {
+                margin-bottom: 30px;
+            }
+        }
+
+        .stat-item {
+            height: 300px;
+            width: 90%;
+            margin: auto;
+            margin-top: 0;
+            &:first-of-type {
+                margin-top: 30px;
+            }
+
+            &.by-users {
+                grid-area: byUsers;
+                margin-bottom: 50px;
+            }
+            &.by-labels {
+                grid-area: byLabels;
+            }
+            &.by-due-date {
+                grid-area: byDueDate;
+            }
+        }
+
+        .board-statistics-info {
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            // background: lighten($color: $clr3, $amount: 30);
+
+            .stat-img {
+                width: 50px;
+                margin-right: 10px;
+                padding: 9px;
+
+                &.createdBy {
+                    background-color: lighten($color: $clr4, $amount: 0);
+                }
+                &.timeEstimation {
+                    background-color: lighten($color: $clr4, $amount: 0);
+                }
+                &.members {
+                    background-color: lighten($color: $clr5, $amount: 0);
+                }
+                &.stacks {
+                    background-color: lighten($color: $clr2, $amount: 0);
+                }
+                &.cards {
+                    background-color: lighten($color: $clr3, $amount: 0);
+                }
+                &.activities {
+                    background-color: darken($color: $clr6, $amount: 30);
+                }
+            }
+
+            .stat-info-block {
+                background: white;
+                border: 2px solid darken($color: $clr6, $amount: 10);
+                width: 300px;
+                padding: 2px 5px 2px 2px;
+                margin-bottom: 5px;
+                .stat-info-details {
+                    padding: 0 20px;
+                    margin: auto;
+
+                    .stats-info-p {
+                        font-size: rem(20px);
+                        font-family: openSansBold;
+
+                        &.last-stat-info {
+                            font-size: rem(16px);
+                        }
+                    }
+                }
+
+                &:first-of-type {
+                    .stat-info-details {
+                        padding: 0 5px;
+                    }
+                }
+            }
+        }
+
+        &.board-statistics-closed {
+            animation: slide-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+    }
+}
+
+@media (max-width: 700px) {
+    .stats {
+        .board-statistics {
+            .board-statistics-content {
+                grid-template-areas:
+                    "byUsers byUsers"
+                    "byLabels byLabels"
+                    "byDueDate byDueDate";
+            }
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    .stats {
+        .board-statistics {
+            .board-statistics-header-span {
+                .board-statistics-header-text {
+                    .board-statistics-header {
+                        font-size: rem(20px);
+                    }
+
+                    .secondary {
+                        font-size: rem(12px);
+                    }
+                }
+
+                .stats-back-btn {
+                    width: 20px;
+                }
+            }
+        }
+    }
+}
+
+@keyframes slide-up {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-left {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-right {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
