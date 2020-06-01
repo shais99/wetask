@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.13.0",
     "@nivo/bar": "^0.61.1",
     "@nivo/line": "^0.61.1",
     "@nivo/pie": "^0.61.1",
