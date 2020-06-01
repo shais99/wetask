@@ -99,7 +99,8 @@ class BoardStatistics extends React.Component {
                         if (!users[member.username]) users[member.username] = { tasks: 0, doneTasks: 0, color: member.bgColor };
 
                         let isDone = card.labels.some((label) => {
-                            return label.title === 'done';
+                            const labelTitle = label.title.toLowerCase();
+                            return labelTitle === 'done' || labelTitle === 'finished';
                         })
 
                         if(isDone) {
@@ -113,7 +114,6 @@ class BoardStatistics extends React.Component {
                             maxTasks = users[member.username]['tasks'];
                         }
 
-                        console.log(users);
                     })
 
                 }
@@ -210,42 +210,9 @@ class BoardStatistics extends React.Component {
         if(!(timeEstimation.days + timeEstimation.hours + timeEstimation.minutes)) {
             return null;
         }
+        
 
-
-        if(timeEstimation.minutes >= 60) {
-
-            timeEstimation.hours += timeEstimation.minutes / 60;
-            timeEstimation.minutes = timeEstimation.minutes % 60;
-
-            if(timeEstimation.minutes === 30) {
-                timeEstimation.hours += 0.5;
-                timeEstimation.minutes = 0;
-            } else if (timeEstimation.minutes === 15) {
-                timeEstimation.hours += 0.25;
-                timeEstimation.minutes = 0;
-            }
-        } 
-
-        if(timeEstimation.hours >= 24) {
-
-            timeEstimation.days += timeEstimation.hours / 24;
-            timeEstimation.hours = timeEstimation.hours % 24;
-
-            if(timeEstimation.hours === 12) {
-                timeEstimation.days += 0.5;
-                timeEstimation.hours = 0;
-            } else if (timeEstimation.hours === 6) {
-                timeEstimation.days += 0.25;
-                timeEstimation.hours = 0;
-            }
-        } 
-
-
-        let daysLabel = (!timeEstimation.days) ? '' : (timeEstimation.days > 1) ? timeEstimation.days + ' days' : timeEstimation.days + ' day';
-        let hoursLabel = (!timeEstimation.hours) ? '' : (timeEstimation.hours > 1) ? '| ' + timeEstimation.hours + ' hours' : '| ' + timeEstimation.hours + ' hour';
-        let minutesLabel = (!timeEstimation.minutes) ? '' : '| ' + timeEstimation.minutes + ' min';
-
-        return daysLabel + ' ' + hoursLabel + ' ' + minutesLabel;
+        return moment.duration(timeEstimation).asHours() + ' hours';
     }
 
 

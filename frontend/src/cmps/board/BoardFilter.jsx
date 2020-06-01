@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import FilterCardList from '../card/FilterCardsList'
+import FilterCardsList from '../card/FilterCardsList'
 
 class BoardFilter extends Component {
 
@@ -29,7 +29,7 @@ class BoardFilter extends Component {
     clearFilter = () => {
         setTimeout(() => {
             this.setState({ cards: [], filterBy: '' })
-        }, 100);
+        }, 150);
     }
 
     render() {
@@ -39,7 +39,7 @@ class BoardFilter extends Component {
         return (
             <>
                 <input className={`search-container flex align-center`} autoComplete="off" name="filterBy" value={filterBy} onBlur={this.clearFilter} onChange={this.onSetFilterBy} />
-                {cards.length > 0 && <FilterCardList cards={cards} history={history} boardId={currBoard._id} />}
+                {cards.length > 0 && <FilterCardsList stacks={currBoard.stacks} cards={cards} history={history} boardId={currBoard._id} />}
             </>
         )
     }

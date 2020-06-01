@@ -15,8 +15,13 @@ import { makeId } from '../services/utilService';
 import { reorder, move } from '../services/boardDetailsUtils';
 import ActionContainer from '../cmps/card/ActionContainer';
 import Loader from '../cmps/general/Loader'
+// import Hammer from 'hammerjs'
 
 class BoardDetails extends React.Component {
+
+    initialX = 0;
+    deltaX = 0;
+    offset = this.initialX + this.deltaX;
 
     state = {
         areLabelsOpen: false,
@@ -39,6 +44,22 @@ class BoardDetails extends React.Component {
         if (prevProps.currBoard !== this.props.currBoard) {
             document.body.style.backgroundImage = `url(/${this.props.currBoard.bg})`;
             document.body.style.backgroundColor = this.props.currBoard.bg;
+
+            // if (!this.hammer) this.hammer = Hammer(this.elStacksSection)
+            // this.hammer.on('panleft panright', ev => {
+            //     console.log(ev);
+            //     // if ()
+            //     this.deltaX = ev.deltaX
+            //     this.offset = this.initialX + this.deltaX
+
+
+            //     this.elStacksSection.scroll(-this.offset, 0)
+
+            // })
+
+            // Hammer.on(this.elStacksSection, 'mouseup', ev => {
+            //     this.initialX = this.offset
+            // })
         }
     }
 
@@ -277,8 +298,6 @@ class BoardDetails extends React.Component {
                                                                         onToggleAction={this.onToggleAction} />}
                                                                 </div>
 
-                                                                {/* <p className="stack-title flex align-center"  ></p> */}
-
                                                                 <Droppable key={index}
                                                                     droppableId={`${index}`} isCombineEnabled={false}
                                                                     type="CARD">
@@ -303,6 +322,7 @@ class BoardDetails extends React.Component {
                                                                                                 innerRef={provided.innerRef}
                                                                                                 provided={provided}
                                                                                                 card={card}
+                                                                                                board={currBoard}
                                                                                                 labelsOpen={areLabelsOpen}
                                                                                                 onToggleLabels={this.onToggleLabels}
                                                                                                 link={`/boards/${currBoard._id}/card/${card.id}`}

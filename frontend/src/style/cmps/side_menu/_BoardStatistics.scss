@@ -132,11 +132,11 @@
             .stat-info-block {
                 background: white;
                 border: 2px solid darken($color: $clr6, $amount: 10);
-                width: 300px;
+                width: 200px;
                 padding: 2px 5px 2px 2px;
                 margin-bottom: 5px;
                 .stat-info-details {
-                    padding: 0 20px;
+                    // padding: 0 20px;
                     margin: auto;
 
                     .stats-info-p {
@@ -146,6 +146,10 @@
                         &.last-stat-info {
                             font-size: rem(16px);
                         }
+                    }
+
+                    .secondary {
+                        text-transform: uppercase;
                     }
                 }
 

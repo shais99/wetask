@@ -41,7 +41,7 @@ export class StatisticsBar extends React.Component {
 
     render() {
 
-        const getUserColor = user => (user.id === 'Done Tasks') ? '#a8a8a8' : '#3867d6';
+        const getUserColor = user => (user.id === 'Done Tasks') ? '#39EA80' : '#a8a8a8';
 
         const { data, maxTasks, width } = this.state;
         return (

@@ -62,14 +62,17 @@ export function CardPreview(props) {
                         <div className={`card-labels flex wrap align-center`} onClick={(event) => onLabelsPress(event)}>
                             {
                                 card.labels.map(label => {
-                                    return (
-                                        <div className={`card-label flex align-center justify-center ${(labelsOpen) ? 'label-expand' : ''}`}
-                                            key={label.title + card.id} style={{
-                                                background: label.color,
+                                    const foundLabel = props.board.boardLabels.find(currLabel => currLabel.id === label.id)
+                                    if (foundLabel) {
+                                        return (
+                                            <div className={`card-label flex align-center justify-center ${(labelsOpen) ? 'label-expand' : ''}`}
+                                                key={label.title + card.id} style={{
+                                                    background: foundLabel.color,
 
-                                            }}>{(labelsOpen) ? label.title : ''}</div>
-                                    )
-                                })
+                                                }}>{(labelsOpen) ? foundLabel.title : ''}</div>
+                                        )
+                                        }
+                                    })
                             }
                         </div>
                         : null
