@@ -67,13 +67,16 @@ class BoardOptions extends Component {
                     <button className="option flex align-center" onClick={() => this.onToggleAddMember()}>
                         <img src="/assets/img/add-user.png" alt="" />
                     </button>
+                    <button className="option flex align-center" onClick={() => toggleShowStatistics()}>
+                        <img src="/assets/img/stats.png" alt="" />
+                    </button>
                     <button className="option flex align-center" onClick={() => this.onToggleBoardMenu()}>
                         <img src="/assets/img/menu.png" alt="" />
                     </button>
                 </div>
                 {isAddMemberShown && <AddMember onClose={this.onToggleAddMember} onAddMember={this.onAddMember} />}
-                {<BoardMenu toggleShowStatistics={toggleShowStatistics} isOpen={isBoardMenuShown} history={history}
-                    onSetBg={onSetBg} board={board} onClose={this.onToggleBoardMenu} isShowingStatistics={isShowingStatistics} />}
+                {<BoardMenu isOpen={isBoardMenuShown} history={history}
+                    onSetBg={onSetBg} board={board} onClose={this.onToggleBoardMenu} />}
 
             </div>
         )
