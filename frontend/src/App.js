@@ -6,7 +6,7 @@ import LoginSignup from './pages/LoginSignup'
 import Boards from './pages/Boards'
 import BoardDetails from './pages/BoardDetails'
 import UserProfile from './pages/UserProfile'
-import NavBar from './cmps/NavBar'
+import NavBar from './cmps/general/NavBar'
 import { signup } from './store/actions/userActions';
 import { connect } from 'react-redux'
 import { makeId, getRandomColor } from './services/utilService'

@@ -1,0 +1,111 @@
+.card-checklist-container {
+    .card-checklist-title {
+        img {
+            width: 16px;
+            height: 16px;
+        }
+        .checklist-title{
+            width: 90%;
+        }
+    }
+    .checklist-title {
+        font-size: rem(16px);
+        width: 80%;
+        border: none;
+        padding: 6px;
+        transition: 0.3s;
+        outline: none;
+        border-radius: 5px;
+        height: 30px;
+        background-color: transparent;
+        color: $clr1;
+        &:focus {
+            margin-left: 5px;
+            background-color: #fffbfb;
+            box-shadow: inset 0 0 0 2px #dfe1e6;
+            color: #122961b5;
+            padding-left: 15px;
+        }
+    }
+
+    .checklist-main {
+        margin-left: 10px;
+    }
+
+    .todo-title {
+        font-family: openSans, serif;
+        font-size: rem(14px);
+        &:focus {
+            background-color: #fffbfb;
+            box-shadow: inset 0 0 0 2px #dfe1e6;
+            color: #122961b5;
+            padding-left: 15px;
+        }
+    }
+    .checklist-todos-container {
+        margin-bottom: 30px;
+
+        .todo-check-container {
+            width: 93%;
+        }
+        .checkbox {
+            border-radius: 2px;
+            box-shadow: inset 0 0 0 2px #dfe1e6;
+            height: 20px;
+            width: 20px;
+            background-color: #fafbfc;
+            transition: 0.2s;
+            &.done {
+                background: url("../../img/checked.png");
+            }
+        }
+        .todo-item {
+            padding-left: 12px;
+            margin-bottom: 5px;
+
+            &:hover {
+                background-color: darken(#f4f5f7, 5%);
+                .todo-delete-btn-container {
+                    display: block;
+                }
+            }
+            .done-decoration {
+                text-decoration: line-through;
+            }
+            .todo-delete-btn-container {
+                cursor: pointer;
+                padding: 3px 9px;
+                border-radius: 2px;
+                display: none;
+                .todo-delete-btn {
+                    width: 10px;
+                }
+            }
+        }
+        .add-todo {
+            margin-left: 8px;
+        }
+    }
+    .checklist-progress-bar-container {
+        display: flex;
+        padding-left: 6px;
+        align-items: center;
+        margin: 6px;
+        span {
+            margin-right: 6px;
+            font-size: rem(12px);
+        }
+        .checklist-progress-bar {
+            background-color: #e2e4e9;
+            width: 100%;
+            height: 8px;
+            border-radius: 3px;
+
+            .progress-bar {
+                transition: 0.3s;
+                height: 8px;
+                border-radius: 3px;
+            }
+        }
+    }
+}
