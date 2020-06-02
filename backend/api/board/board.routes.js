@@ -5,8 +5,6 @@ const { requireAuth } = require('../../middlewares/requireAuth.middleware')
 const { getBoard, getBoards, deleteBoard, updateBoard, addBoard } = require('./board.controller')
 const router = express.Router()
 
-// @SHAI: REMOVED THE requireAuth, need to set them!
-
 router.get('/', getBoards)
 router.get('/:id', getBoard)
 router.post('/', addBoard)

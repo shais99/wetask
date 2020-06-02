@@ -22,12 +22,13 @@
         // height: 35px;
         width: 88%;
         cursor: pointer;
-        font-size: rem(14px);
+        font-size: rem(13px);
         font-family: openSansBold;
         transition: 0.3s;
 
         &:hover {
             filter: brightness(90%);
+            border-left: 8px solid rgba(0, 0, 0, 0.24);
         }
 
         & img {

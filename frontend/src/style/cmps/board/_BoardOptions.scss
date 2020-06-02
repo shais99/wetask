@@ -61,12 +61,14 @@
             border-top-right-radius: 5px;
             border-bottom-right-radius: 5px;
             border-bottom-left-radius: 5px;
+            cursor: pointer;
             &:focus {
                 border-bottom-left-radius: unset;
                 border-bottom-right-radius: unset;
                 padding-left: 35px;
                 width: 300px;
                 background-color: $clr7;
+                cursor: text;
             }
         }
 

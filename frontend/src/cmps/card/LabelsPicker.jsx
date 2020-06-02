@@ -74,7 +74,7 @@ export default class LabelsPicker extends Component {
                     return <div key={idx} className="flex align-center space-between">
                         <div className="label-item flex align-center space-between"
                             style={{ backgroundColor: label.color }} onClick={() => this.onToggleLabel(label)}>
-                            {label.title.charAt(0).toUpperCase() + label.title.slice(1)}
+                            {label.title}
                             {this.isLabelChecked(label.id) ? <img src="/assets/img/icon-checked-white.png" alt="" /> : ''}
                         </div>
                         <div className="edit-icon" onClick={() => this.onEditLabel(label.id)}>
@@ -82,7 +82,7 @@ export default class LabelsPicker extends Component {
                         </div>
                     </div>
                 })}
-                {isChangeShown && labelSelected && <CardChangeLabel labelSelected={labelSelected} onChangeLabelColor={this.onChangeLabelColor} onBackToLabels={this.onBackToLabels} />}
+                {isChangeShown && labelSelected && <CardChangeLabel board={board} labelSelected={labelSelected} onChangeLabelColor={this.onChangeLabelColor} onBackToLabels={this.onBackToLabels} />}
             </>
         )
     }

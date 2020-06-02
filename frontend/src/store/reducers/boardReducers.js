@@ -21,7 +21,6 @@ export default function boardReducer(state = initialState, action) {
             return {
                 ...state,
                 currBoard: action.board,
-                // currCard: (newCard) ? newCard : null
             }
         case 'LOAD_CARD':
             let foundCard;

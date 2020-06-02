@@ -186,7 +186,6 @@ class BoardStatistics extends React.Component {
         }
         stats = { byLabels, byUsers: byUsers.userStatsData, byDueDate, maxTasks: byUsers.maxTasks, totalTimeEstimation };
 
-        console.log(stats);
         return stats;
     }
 

@@ -15,8 +15,8 @@ export default function FilterCardsList(props) {
     return (
         <div className="filter-cards-container">
             <div className="filter-scroll-cards">
-                {props.cards.map((card, idx) => {
-                    return <div className="filter-card" onClick={() => onClickCard(card.id)} key={idx}>
+                {props.cards.map(card => {
+                    return <div className="filter-card" onClick={() => onClickCard(card.id)} key={card.id}>
                         <div className="filter-card-title">{card.title}</div>
                         <div className="filter-card-details">List: {getStackByCard(card).title}{(card.dueDate) ? `, Due date: ${moment(card.dueDate).format("MMM DD")}` : ''}</div>
                     </div>

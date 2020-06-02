@@ -10,8 +10,6 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { saveCard, save } from '../../store/actions/boardActions'
 import { connect } from 'react-redux'
 
-
-
 class ActionContainer extends Component {
     state = {
         action: null
@@ -52,9 +50,8 @@ class ActionContainer extends Component {
     }
 
     render() {
-        const { isShown, currCard, onToggleAction, currBoard, onChange, value, moveCardToStack,
-            onAddTimeEstimation, removeCardEstimation, stack, onStackRemove,
-            onChangeBgColor, dueDateNotSave, saveCard, loggedInUser, save } = this.props;
+        const { isShown, currCard, onToggleAction, currBoard, onChange, value, onAddTimeEstimation, removeCardEstimation, stack, onStackRemove,
+            dueDateNotSave, saveCard, loggedInUser, save } = this.props;
 
         const { action } = this.state;
 
@@ -75,7 +72,7 @@ class ActionContainer extends Component {
                     {isShown.timeEstimation && <CardTimeEstimation saveCard={saveCard} loggedInUser={loggedInUser} card={currCard} onToggleAction={onToggleAction}
                         onAddTimeEstimation={onAddTimeEstimation} removeCardEstimation={removeCardEstimation} />}
                     {isShown.stack && <StackMenu board={currBoard} onToggleAction={onToggleAction} stack={stack} onStackRemove={onStackRemove} />}
-                </div >
+                </div>
             </OutsideClickHandler>
         )
     }

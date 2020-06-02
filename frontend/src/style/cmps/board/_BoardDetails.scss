@@ -12,10 +12,19 @@
     .stack-header {
         min-height: 38px;
     }
+    .board-content {
+        height: 72vh;
+    }
 }
 
 .stacks-content > * {
     margin-right: 16px;
+}
+
+@media (max-width: 500px) {
+    .stacks-content {
+        height: 75vh;
+    }
 }
 
 .stacks-content {
@@ -125,7 +134,7 @@
 }
 
 .add-stack {
-    background: $clr1;
+    background: rgba($clr7, 0.3);
 }
 .add-card {
     // background-color: $clr6;
@@ -143,7 +152,6 @@
     box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 0px;
     display: block;
     margin-bottom: 8px;
-    width: 225px;
     min-height: 20px;
     text-decoration: none;
 
@@ -217,13 +225,14 @@
     user-select: none;
     padding-top: 0;
     border-radius: 3px;
-    overflow-y: auto;
+    // overflow-y: auto;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.75);
 }
 
 @media (max-width: 500px) {
     .stack-content {
         width: 280px !important;
+        max-height: 68vh;
     }
 }
 

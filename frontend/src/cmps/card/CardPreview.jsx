@@ -47,7 +47,6 @@ export function CardPreview(props) {
     function onCardClick() {
         props.history.push(props.link)
     }
-    // console.log(style);
 
     return (
         <>
