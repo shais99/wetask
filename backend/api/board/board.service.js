@@ -11,8 +11,6 @@ module.exports = {
     add
 }
 
-
-
 async function query(filterBy = {}) {
     const collection = await dbService.getCollection(COLLECTION_NAME)
     try {
@@ -23,8 +21,6 @@ async function query(filterBy = {}) {
         throw err;
     }
 }
-
-
 
 async function getById(boardId) {
     const collection = await dbService.getCollection(COLLECTION_NAME)
