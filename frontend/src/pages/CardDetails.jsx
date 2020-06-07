@@ -41,16 +41,14 @@ class CardDetails extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (!this.state.cardTitle) this.setState({ cardTitle: this.props.currCard.title })
         if (this.props.currBoard !== prevProps.currBoard) this.props.loadCard(this.props.match.params.cardId)
+        if (this.props.currCard !== prevProps.currCard) this.setState({ cardTitle: this.props.currCard.title })
     }
 
     onBackBoard = () => {
         const { boardId } = this.props.match.params
         this.props.history.push(`/boards/${boardId}`)
     }
-
-    // @TODO: due date start from the DB, if got
 
     onChangeDate = (dueDate) => {
         this.setState({ dueDateNotSave: dueDate })
