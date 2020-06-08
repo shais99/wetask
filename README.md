@@ -16,7 +16,8 @@ async function query(filterBy = {}) {
     const collection = await dbService.getCollection('board')
     try {
         // Getting the boards after filter by member id and public boards. sort the board by createdAt
-        const boards = await collection.find({ $or: [{ 'members._id': filterBy.userId }, { 'isPublic': true }] }).sort({ 'createdAt': -1 }).toArray();
+        const boards = await collection.find({ $or: [{ 'members._id': filterBy.userId }, { 'isPublic': true }] })
+        .sort({ 'createdAt': -1 }).toArray();
         return boards
     } catch (err) {
         // Catching the error if no boards
