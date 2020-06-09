@@ -47,13 +47,12 @@ export function CardPreview(props) {
     function onCardClick() {
         props.history.push(props.link)
     }
-    // console.log(style);
 
     return (
         <>
             {/* <Link to={link}> */}
-            <div className="card-preview flex column align-center justify-center" onClick={onCardClick} ref={innerRef} style={style}
-                {...provided.draggableProps} {...provided.dragHandleProps} >
+            <div className="card-preview flex column align-center justify-center" onClick={onCardClick} ref={innerRef}
+                {...provided.draggableProps} {...provided.dragHandleProps} style={style}>
                 <div className="card-preview-content" style={{ background: style.background }}>
 
 
