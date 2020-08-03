@@ -9,7 +9,7 @@ export default function HomePage() {
                     <div className="hero-content">
                         <div className="hero-txt">Work made easy</div>
                         <p>
-                            Using cutting edge technologies and a great understanding of positive work principles, wework balances the best of both worlds for your team's success!
+                            Using cutting edge technologies and a great understanding of positive work principles, wetask balances the best of both worlds for your team's success!
                         </p>
                         <Link to="/boards/5ecf72e3145b296860281f54" className="hero-btn">Try now</Link>
                     </div>
