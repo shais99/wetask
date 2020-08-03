@@ -23,7 +23,7 @@ export default function HomePage() {
                     <div className="txt-title">A work community like never before</div>
                     <p>
                         Getting a lot of great information upfront is great - but its what information you get that counts.
-                        With features like our 'Time Estimation' system for better development financial tracking, you can feel safe your seeing it all - and with 20/20 vision.
+                        With features like our 'Time Estimation' system for better development financial tracking, you can feel safe you're seeing it all - and with 20/20 vision.
                     </p>
                 </div>
             </section>
