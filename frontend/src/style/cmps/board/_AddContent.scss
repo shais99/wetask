@@ -11,13 +11,19 @@
 
 @media (max-width: 500px) {
     .card-add-content {
-        height: 135px;
+        height: 235px;
     }
 }
 
 .add-content-container {
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
+}
+
+@media (max-width: 500px) {
+    .add-content-container{
+        min-height: 45px;
+    }
 }
 
 .add-content-buttons {

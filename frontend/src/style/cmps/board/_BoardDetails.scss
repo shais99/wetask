@@ -5,16 +5,26 @@
     overflow-x: scroll;
     overflow-y: hidden;
     padding-bottom: 20px;
+    touch-action: pan-x;
 }
 
 @media (max-width: 500px) {
     .stack-header {
         min-height: 38px;
     }
+    .board-content {
+        height: 72vh;
+    }
 }
 
 .stacks-content > * {
     margin-right: 16px;
+}
+
+@media (max-width: 500px) {
+    .stacks-content {
+        height: 75vh;
+    }
 }
 
 .stacks-content {
@@ -70,12 +80,6 @@
     }
 }
 
-@media (max-width: 1300px) {
-    .stack-header-menu {
-        display: none;
-    }
-}
-
 .action-container {
     top: unset;
     right: unset;
@@ -112,7 +116,7 @@
     overflow-y: auto;
     padding: 0px 8px 8px 8px;
     background: #ebecf0;
-    width: 246px;
+    width: 245px;
     font-size: rem(14px);
     // transition: ease-in-out 0.15s;
 }
@@ -123,26 +127,8 @@
     }
 }
 
-// .stack-title {
-//     font-family: openSansBold;
-//     align-self: flex-start;
-//     height: 2rem;
-//     width: 100%;
-//     padding: 20px 10px;
-//     transition: ease-in-out 0.225s;
-//     // font-size: rem(18px);
-//     &:hover {
-//         background: darken($color: $clr6, $amount: 7.5);
-//     }
-// }
-
-// .secondary {
-//     opacity: 0.75;
-//     margin-right: 5px;
-// }
-
 .add-stack {
-    background: $clr1;
+    background: rgba($clr7, 0.3);
 }
 .add-card {
     // background-color: $clr6;
@@ -160,7 +146,6 @@
     box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 0px;
     display: block;
     margin-bottom: 8px;
-    max-width: 300px;
     min-height: 20px;
     text-decoration: none;
 
@@ -234,13 +219,14 @@
     user-select: none;
     padding-top: 0;
     border-radius: 3px;
-    overflow-y: auto;
+    // overflow-y: auto;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.75);
 }
 
 @media (max-width: 500px) {
     .stack-content {
         width: 280px !important;
+        max-height: 68vh;
     }
 }
 

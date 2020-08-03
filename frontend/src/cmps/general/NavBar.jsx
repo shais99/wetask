@@ -21,7 +21,7 @@ class NavBar extends Component {
     }
 
     scrollEvent() {
-        window.document.addEventListener('scroll', this.handleScroll)
+        window.document.addEventListener('scroll', this.handleScroll, { passive: true })
     }
 
     get isHomepage() {
@@ -30,12 +30,11 @@ class NavBar extends Component {
 
     handleScroll = () => {
         let body = document.body
-        let theDocument;
-        theDocument = document.documentElement
+        let theDocument = document.documentElement
         theDocument = (theDocument.clientHeight) ? theDocument : body;
 
         if (theDocument.scrollTop === 0) this.setState({ isScroll: false })
-        else this.setState({ isScroll: true })
+        else if (!this.state.isScroll) this.setState({ isScroll: true })
     }
 
     onLogout = async () => {
@@ -67,7 +66,7 @@ class NavBar extends Component {
                 <div className={`nav-container ${(isScroll || !this.isHomepage) ? 'scrolled' : ''} ${(isMenuOpen) ? 'menu-open' : ''}`} style={(this.isHomepage) ? { marginTop: '10px' } : {}}>
                     <div className={`${(this.isHomepage) ? 'container' : ''}`}>
                         <div className="nav-content flex space-between align-center">
-                            <Link to="/"><img src="/assets/img/logomain-white.png" className="logo-img" alt=""/></Link>
+                            <Link to="/"><img src="/assets/img/logomain-white.png" className="logo-img" alt="" /></Link>
                             {/* <Link to="/"><h1 className="logo"><span className="logo-we">we</span>task</h1></Link> */}
                             <ul className="main-nav clean-list flex">
                                 <li className="quit-menu"><button onClick={() => this.toggleMenu()}></button></li>

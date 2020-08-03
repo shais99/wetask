@@ -14,6 +14,12 @@ export default class CardChangeLabel extends Component {
         title: ''
     }
 
+    componentDidMount() {
+        const foundLabel = this.props.board.boardLabels.find(label => label.id === this.props.labelSelected)
+        this.setState({ title: foundLabel.title })
+    }
+
+
     isColorChecked = (color) => {
         this.setState(prevState => ({
             colorChecked: color,
@@ -28,7 +34,6 @@ export default class CardChangeLabel extends Component {
     changeLabel = (labelId) => {
         let color = this.state.colorChecked ? this.state.colorChecked : '';
         let title = this.state.title ? this.state.title : '';
-        console.log('title', title, 'color', color);
         this.props.onChangeLabelColor(labelId, color, title);
     }
 

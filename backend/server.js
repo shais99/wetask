@@ -35,20 +35,10 @@ const userRoutes = require('./api/user/user.routes')
 const connectSockets = require('./api/socket/socket.routes')
 
 
-
 app.use('/api/auth', authRoutes)
 app.use('/api/boards', boardRoutes)
 app.use('/api/users', userRoutes)
 connectSockets(io)
-
-
-
-
-
-
-
-
-
 
 
 const logger = require('./services/logger.service')

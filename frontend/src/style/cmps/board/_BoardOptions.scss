@@ -53,74 +53,93 @@
             background: url("../../img/search.png") no-repeat;
             background-position: 3px 4px;
             transition: 0.4s;
-            background-color: $clr1;
+            background-color: rgba($clr7, 0.5);
             border: none;
             outline: none;
-            color: $clr7;
+            color: $clr1;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
             border-bottom-right-radius: 5px;
             border-bottom-left-radius: 5px;
+            cursor: pointer;
             &:focus {
                 border-bottom-left-radius: unset;
                 border-bottom-right-radius: unset;
                 padding-left: 35px;
-                width: 210px;
+                width: 300px;
+                background-color: $clr7;
+                cursor: text;
             }
         }
 
         .filter-cards-container {
             position: absolute;
-            max-width: 210px;
+            width: 301px;
             top: 90px;
-            right: 106px;
+            right: 135px;
             padding-right: 3px;
-            background-color: $clr1;
+            background-color: darken($clr6, 4%);
+            border: 1px solid darken($clr6, 15%);
+            border-top: none;
 
             .filter-scroll-cards {
                 padding-right: 3px;
                 max-height: 250px;
                 overflow-y: auto;
                 overflow-x: hidden;
+
+                .filter-card-title {
+                    padding-bottom: 3px;
+                    font-size: rem(13px);
+                    font-family: openSansBold;
+                }
+
+                .filter-card-details {
+                    color: rgba($clr1, 0.7);
+                    font-size: rem(11px);
+                }
             }
 
             .filter-card {
                 cursor: pointer;
-                padding: 7px;
-                font-size: rem(14px);
-                width: 205px;
-                color: $clr7;
+                padding: 10px;
+                font-size: rem(13px);
+                transition: 0.3s;
 
                 &:nth-of-type(even) {
-                    background-color: lighten($clr1, 5);
+                    background-color: $clr6;
+
+                    &:hover {
+                        background-color: darken($clr6, 4%);
+                    }
                 }
                 &:nth-of-type(odd) {
-                    background-color: $clr1;
+                    background-color: $clr7;
+
+                    &:hover {
+                        background-color: darken($clr7, 4%);
+                    }
                 }
             }
         }
 
         .option {
-            background-color: $clr1;
+            background-color: rgba($clr7, 0.5);
+
             padding: 5px;
             color: white;
-            border-radius: 5px;
+            border-radius: 3px;
             transition: 0.3s;
-            opacity: 0.85;
             border: none;
             outline: none;
             margin-left: 7px;
 
             & img {
                 width: 22px;
-                background-color: $clr7;
-                padding: 3px;
-                border-radius: 5px;
             }
 
             &:hover {
-                background-color: $clr1;
-                opacity: 1;
+                background-color: $clr7;
             }
         }
     }

@@ -30,7 +30,8 @@ class CardDetails extends Component {
         dueDateNotSave: '',
         isFocusComment: false,
         isUploadImg: false,
-        isFinishUpload: false
+        isFinishUpload: false,
+        cardTitle: ''
     }
 
     componentDidMount() {
@@ -41,6 +42,7 @@ class CardDetails extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.currBoard !== prevProps.currBoard) this.props.loadCard(this.props.match.params.cardId)
+        if (this.props.currCard !== prevProps.currCard) this.setState({ cardTitle: this.props.currCard.title })
     }
 
     onBackBoard = () => {
@@ -48,22 +50,19 @@ class CardDetails extends Component {
         this.props.history.push(`/boards/${boardId}`)
     }
 
-    // @TODO: due date start from the DB, if got
-
     onChangeDate = (dueDate) => {
         this.setState({ dueDateNotSave: dueDate })
     }
 
     onEditTitle = ({ target }) => {
-        const newCard = { ...this.props.currCard }
-        newCard.title = target.value
-        this.props.saveCard(newCard)
+        this.setState({ cardTitle: target.value })
     }
 
     onEditTitleFinish = () => {
         const newCard = { ...this.props.currCard }
+        newCard.title = this.state.cardTitle
         newCard.activities.unshift({
-            id: makeId(), txt: `edited card title to ${newCard.title}`,
+            id: makeId(), txt: `edited card title`,
             createdAt: Date.now(), byMember: this.props.loggedInUser
         })
         this.props.saveCard(newCard)
@@ -138,7 +137,7 @@ class CardDetails extends Component {
     }
 
     render() {
-        const { isShown, isOpenModalRemove, isFocusComment, dueDateNotSave, isUploadImg } = this.state
+        const { isShown, isOpenModalRemove, isFocusComment, dueDateNotSave, isUploadImg, cardTitle } = this.state
         const { currCard, saveCard, loggedInUser, history, currBoard, save } = this.props
         const { onToggleAction } = this;
 
@@ -150,7 +149,7 @@ class CardDetails extends Component {
                             <div className="task-title-container flex align-center">
                                 <img className="img-icon" src="/assets/img/task.png" alt="" />
                                 <input type="text" name="title" className="card-title" onChange={this.onEditTitle}
-                                    onBlur={this.onEditTitleFinish} value={currCard.title} autoComplete="off" />
+                                    onBlur={this.onEditTitleFinish} value={cardTitle} autoComplete="off" />
                             </div>
                             <div className="close-modal flex justify-content align-center" onClick={this.onBackBoard}><img className="img-icon" src="/assets/img/close.png" alt="" /></div>
                         </div>

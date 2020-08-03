@@ -1,6 +1,7 @@
 
 const dbService = require('../../services/db.service')
 const ObjectId = require('mongodb').ObjectId
+const COLLECTION_NAME = 'board'
 
 module.exports = {
     query,
@@ -11,7 +12,7 @@ module.exports = {
 }
 
 async function query(filterBy = {}) {
-    const collection = await dbService.getCollection('board')
+    const collection = await dbService.getCollection(COLLECTION_NAME)
     try {
         const boards = await collection.find({ $or: [{ 'members._id': filterBy.userId }, { 'isPublic': true }] }).sort({ 'createdAt': -1 }).toArray();
         return boards
@@ -22,7 +23,7 @@ async function query(filterBy = {}) {
 }
 
 async function getById(boardId) {
-    const collection = await dbService.getCollection('board')
+    const collection = await dbService.getCollection(COLLECTION_NAME)
     try {
         const board = await collection.findOne({ '_id': ObjectId(boardId) })
         return board
@@ -33,7 +34,7 @@ async function getById(boardId) {
 }
 
 async function remove(boardId) {
-    const collection = await dbService.getCollection('board')
+    const collection = await dbService.getCollection(COLLECTION_NAME)
     try {
         await collection.deleteOne({ "_id": ObjectId(boardId) })
     } catch (err) {
@@ -43,7 +44,7 @@ async function remove(boardId) {
 }
 
 async function update(board) {
-    const collection = await dbService.getCollection('board')
+    const collection = await dbService.getCollection(COLLECTION_NAME)
     board._id = ObjectId(board._id);
 
     try {
@@ -56,7 +57,7 @@ async function update(board) {
 }
 
 async function add(board) {
-    const collection = await dbService.getCollection('board')
+    const collection = await dbService.getCollection(COLLECTION_NAME)
     try {
         await collection.insertOne(board);
         return board;
